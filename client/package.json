@@ -1,0 +1,43 @@
+{
+  "name": "client",
+  "version": "1.0.0",
+  "description": "",
+  "main": "index.js",
+  "scripts": {
+    "dev": "webpack serve --config webpack.dev.js --progress",
+    "build": "webpack --mode production",
+    "prestart": "npm build",
+    "start": "webpack --mode development"
+  },
+  "keywords": [],
+  "author": "",
+  "dependencies": {
+    "@babel/cli": "^7.14.5",
+    "@babel/core": "^7.14.6",
+    "@babel/preset-env": "^7.14.7",
+    "@babel/preset-react": "^7.14.5",
+    "@babel/preset-typescript": "^7.14.5",
+    "babel-loader": "^8.2.2",
+    "clean-webpack-plugin": "^4.0.0-alpha.0",
+    "css-loader": "^5.2.6",
+    "css-minimizer-webpack-plugin": "^3.0.2",
+    "dotenv": "^10.0.0",
+    "file-loader": "^6.2.0",
+    "html-webpack-plugin": "^5.3.2",
+    "mini-css-extract-plugin": "^1.6.0",
+    "react": "^17.0.2",
+    "react-dom": "^17.0.2",
+    "style-loader": "^3.0.0",
+    "ts-loader": "^9.2.4",
+    "typescript": "^4.3.5",
+    "webpack-cli": "^4.7.2"
+  },
+  "devDependencies": {
+    "@types/react": "^17.0.16",
+    "@types/react-dom": "^17.0.9",
+    "typescript": "^4.3.5",
+    "webpack": "5.44.0",
+    "webpack-dev-server": "3.11.2",
+    "webpack-merge": "^5.8.0"
+  }
+}
