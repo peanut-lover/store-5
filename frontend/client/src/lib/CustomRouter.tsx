@@ -1,11 +1,4 @@
-import React, {
-  useCallback,
-  useMemo,
-  useEffect,
-  useState,
-  useContext,
-  createContext,
-} from "react";
+import React, { useCallback, useMemo, useEffect, useState, useContext, createContext } from 'react';
 
 interface RouterContextType {
   location: string;
@@ -16,7 +9,7 @@ interface RouterContextType {
  * Routing을 위한 location 상태와 상태 업데이트 함수(Push)를 관리하는 Context
  */
 const RouterContext = createContext<RouterContextType>({
-  location: "",
+  location: '',
   push: (location: string) => {},
 });
 
@@ -27,7 +20,7 @@ export const Router: React.FC = ({ children }) => {
   const [location, setLocation] = useState(window.location.pathname);
 
   const handlePush = useCallback((newLocation) => {
-    window.history.pushState({}, "", newLocation);
+    window.history.pushState({}, '', newLocation);
     setLocation(newLocation);
   }, []);
 
@@ -36,17 +29,15 @@ export const Router: React.FC = ({ children }) => {
   }, []);
 
   useEffect(() => {
-    window.addEventListener("popstate", handleHashChange);
-    return () => window.removeEventListener("popstate", handleHashChange);
+    window.addEventListener('popstate', handleHashChange);
+    return () => window.removeEventListener('popstate', handleHashChange);
   }, [handleHashChange]);
 
   const value = useMemo(() => {
     return { location, push: handlePush };
   }, [location, handlePush]);
 
-  return (
-    <RouterContext.Provider value={value}>{children}</RouterContext.Provider>
-  );
+  return <RouterContext.Provider value={value}>{children}</RouterContext.Provider>;
 };
 
 interface LinkProps {
@@ -96,12 +87,12 @@ function compilePath(path: string) {
 
   path = path.replace(/:(\w+)/g, (_, key) => {
     keys.push(key);
-    return "([^\\/]+)";
+    return '([^\\/]+)';
   });
 
   const source = `^(${path})`;
 
-  const regex = new RegExp(source, "i");
+  const regex = new RegExp(source, 'i');
   return { regex, keys };
 }
 
@@ -145,10 +136,7 @@ const RouteContext = createContext<RouteContextType>({
 export const Routes: React.FC = ({ children }) => {
   const { location } = useContext(RouterContext);
 
-  const match: Match = useMemo(
-    () => matchRoutes(children as Route[], location),
-    [children, location]
-  );
+  const match: Match = useMemo(() => matchRoutes(children as Route[], location), [children, location]);
   const value = useMemo(() => {
     return { params: match.params };
   }, [match]);
@@ -157,9 +145,7 @@ export const Routes: React.FC = ({ children }) => {
     return null;
   }
 
-  return (
-    <RouteContext.Provider value={value}>{match.route}</RouteContext.Provider>
-  );
+  return <RouteContext.Provider value={value}>{match.route}</RouteContext.Provider>;
 };
 
 /**

@@ -3,13 +3,13 @@ import GlobalStyles from './GlobalStyles';
 import { ThemeProvider } from 'styled-components';
 import { Routes, Route } from './lib/CustomRouter';
 import Main from './pages/Main/Main';
-import theme from './theme/theme';
+import Header from './components/Header/Header';
 
 export default function App() {
   return (
     <ThemeProvider theme={theme}>
       {/* TODO: Change Header Component */}
-      <div>Header</div>
+      <Header></Header>
       <div>
         <Routes>
           <Route path='/'>
