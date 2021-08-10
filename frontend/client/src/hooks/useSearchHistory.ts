@@ -7,6 +7,7 @@ const useSearchHistory = () => {
   const setHistory = useCallback((value: string) => {
     setSearchHistory((prev: string[]) => {
       const updated = Array.from(new Set([value, ...prev]));
+      if (updated.length > 10) updated.pop();
       localStorage.setItem('searchHistory', JSON.stringify(updated));
       return updated;
     });
