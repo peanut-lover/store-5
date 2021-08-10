@@ -8,7 +8,7 @@ export default function App() {
   return (
     <ThemeProvider theme={theme}>
       {/* TODO: Change Header Component */}
-      <div>Header</div>
+      <Header />
       <div>
         <Routes>
           <Route path='/'>
