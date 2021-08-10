@@ -4,7 +4,9 @@ import HeaderBottom from './HeaderBottom/HeaderBottom';
 import HeaderTop from './HeaderTop/HeaderTop';
 
 const Head = styled.header`
-  width: 70%;
+  position: relative;
+  width: 100%;
+  height: 10vh;
   margin: auto;
 `;
 const Header = () => {

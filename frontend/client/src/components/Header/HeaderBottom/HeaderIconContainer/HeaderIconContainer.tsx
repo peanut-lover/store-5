@@ -31,15 +31,15 @@ const HeaderIconContainer = () => {
   return (
     <Container>
       <IconContainer>
-        <AiOutlineShoppingCart size="1.7em" />
+        <AiOutlineShoppingCart size="1.5em" />
         <IconTitle>장바구니</IconTitle>
       </IconContainer>
       <IconContainer>
-        <BsSearch size="1.7em" />
+        <BsSearch size="1.5em" />
         <IconTitle>상품검색</IconTitle>
       </IconContainer>
       <IconContainer>
-        <CgProfile size="1.7em" />
+        <CgProfile size="1.5em" />
         <IconTitle>마이페이지</IconTitle>
       </IconContainer>
     </Container>
