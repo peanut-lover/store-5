@@ -3,6 +3,17 @@ import styled from 'styled-components';
 import CategoryToggle from './CategoryToggle/CategoryToggle';
 import HeaderIconContainer from './HeaderIconContainer/HeaderIconContainer';
 
+const HeaderBottom = () => {
+  return (
+    <Bottom>
+      <CategoryToggle />
+      <div>
+        <span>로고</span>
+      </div>
+      <HeaderIconContainer />
+    </Bottom>
+  );
+};
 const Bottom = styled.div`
   box-sizing: border-box;
   display: flex;
@@ -14,19 +25,5 @@ const Bottom = styled.div`
   border-bottom: 1px solid lightgray;
   border-top: 1px solid lightgray;
 `;
-
-const HeaderBottom = () => {
-  return (
-    <div>
-      <Bottom>
-        <CategoryToggle />
-        <div>
-          <span>로고</span>
-        </div>
-        <HeaderIconContainer />
-      </Bottom>
-    </div>
-  );
-};
 
 export default HeaderBottom;

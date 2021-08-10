@@ -3,6 +3,16 @@ import { GiHamburgerMenu } from 'react-icons/gi';
 import Category from '@src/components/Header/HeaderBottom/Category/Category';
 import styled from 'styled-components';
 
+const CategoryToggle = () => {
+  return (
+    <Toggle>
+      <GiHamburgerMenu size='1.7em' />
+      <Title>전체 카테고리</Title>
+      <Category />
+    </Toggle>
+  );
+};
+
 const Toggle = styled.div`
   display: flex;
   align-items: center;
@@ -16,15 +26,5 @@ const Title = styled.h3`
   line-height: 2em;
   font-size: 20px;
 `;
-
-const CategoryToggle = () => {
-  return (
-    <Toggle>
-      <GiHamburgerMenu size='1.7em' />
-      <Title>전체 카테고리</Title>
-      <Category />
-    </Toggle>
-  );
-};
 
 export default CategoryToggle;
