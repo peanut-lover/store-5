@@ -9,7 +9,7 @@
     "prestart": "npm build",
     "start": "npm run dev",
     "test": "jest",
-    "test:coverage": "jest --converage"
+    "test:coverage": "jest --coverage"
   },
   "keywords": [],
   "author": "",
