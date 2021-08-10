@@ -12,6 +12,34 @@ const Top = styled.div`
   width: 100%;
   height: 35%;
   padding: 0 15% 0 15%;
+  color: gray;
+`;
+
+const Container = styled.div`
+  box-sizing: border-box;
+  display: flex;
+`;
+
+const UserContainer = styled.div`
+  box-sizing: border-box;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  padding-right: 1em;
+  margin-right: 1em;
+  :not(:last-child) {
+    border-right: 1px solid lightgray;
+  }
+`;
+
+const UserName = styled.span`
+  font-weight: 800;
+`;
+
+const Button = styled.button`
+  background-color: transparent;
+  border: none;
+  color: gray;
 `;
 
 const HeaderTop: React.FC<{ userName: string }> = ({ userName }) => {
