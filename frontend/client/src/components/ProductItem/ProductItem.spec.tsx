@@ -31,5 +31,10 @@ describe('ProductItem Component', () => {
     expect(wrapper.getByText('NEW')).toBeInTheDocument();
   });
 
+  it('should render with discount rate', () => {
+    const wrapper = render(<ProductItem title='test' isNew price={1000} discountRate={10}></ProductItem>);
+    expect(wrapper.getByText('10 %')).toBeInTheDocument();
+  });
+
   afterAll(cleanup);
 });

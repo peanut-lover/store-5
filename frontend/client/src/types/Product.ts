@@ -7,4 +7,5 @@ export interface Product {
   isGreen?: boolean;
   isNew?: boolean;
   isSale?: boolean;
+  discountRate?: number;
 }
