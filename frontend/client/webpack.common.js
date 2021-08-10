@@ -1,12 +1,8 @@
 const webpack = require("webpack");
 const path = require("path");
 const HtmlWebpackPlugin = require("html-webpack-plugin");
-const prod = process.env.NODE_ENV === "production";
 
 module.exports = {
-  mode: prod ? "production" : "development",
-  devtool: prod ? "hidden-source-map" : "eval",
-
   entry: "./src/index.tsx",
 
   resolve: {
@@ -16,7 +12,7 @@ module.exports = {
   module: {
     rules: [
       {
-        test: /\.tsx?$/,
+        test: /\.ts(x)?$/,
         use: ["babel-loader", "ts-loader"],
       },
     ],
