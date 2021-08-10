@@ -82,8 +82,12 @@
     "allowSyntheticDefaultImports": true,
     "baseUrl": "./",
     "outDir": "./dist",
-    "moduleResolution": "node"
+    "moduleResolution": "node",
+    "paths": {
+      "src": ["src/*"]
+    }
   },
+
   "exclude": ["node_modules"],
   "include": ["**/*.ts", "**/*.tsx"]
 }
