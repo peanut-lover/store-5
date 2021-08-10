@@ -78,7 +78,7 @@
     "esModuleInterop": true,
     "module": "commonjs",
     "isolatedModules": true,
-    "jsx": "preserve",
+    "jsx": "react", // Babel에서 처리하지 않고 Typescript 수준에서 JSX를 React Element로 변환하도록 수정.(Jest 설정을 위해)
     "allowSyntheticDefaultImports": true,
     "baseUrl": "./",
     "outDir": "./dist",
