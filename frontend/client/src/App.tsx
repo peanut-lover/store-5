@@ -1,6 +1,7 @@
-import React from "react";
+import React from 'react';
 
-import { Routes, Router, Route, Link, useParams } from "./lib/CustomRouter";
+import { Routes, Router, Route, Link, useParams } from './lib/CustomRouter';
+import TestModal from './portal/TestModal/TestModal';
 
 function Products() {
   return (
@@ -37,6 +38,7 @@ export default function App() {
       <Routes>
         <Route path="/products/:id">
           <Product />
+          <TestModal />
         </Route>
         <Route path="/">
           <Products />
