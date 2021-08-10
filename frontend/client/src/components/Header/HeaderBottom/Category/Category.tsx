@@ -1,5 +1,6 @@
 import React, { useState } from 'react';
 import { useCallback } from 'react';
+import { debounce, debounceClear } from 'src/utils/debounce';
 import styled from 'styled-components';
 
 const MAIN_CATEGORY = ['문구', '리빙', '책', '배민그린', '을지로에디션'];
@@ -37,7 +38,9 @@ const Category = () => {
   const onHover = useCallback((e) => {
     const category = e.target.dataset.category;
     if (!category) return;
-    setHovered(e.target.dataset.category);
+    debounce(() => {
+      setHovered(e.target.dataset.category);
+    }, 100);
   }, []);
   return (
     <Container>
@@ -48,7 +51,7 @@ const Category = () => {
           </li>
         ))}
       </MainList>
-      <SubList>
+      <SubList onMouseEnter={debounceClear}>
         {SUB_CATEGORY[hovered].map((category, i) => (
           <li key={i}>{category}</li>
         ))}
