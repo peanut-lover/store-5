@@ -3,6 +3,10 @@ import styled from 'styled-components';
 import HeaderBottom from './HeaderBottom/HeaderBottom';
 import HeaderTop from './HeaderTop/HeaderTop';
 
+const Head = styled.header`
+  width: 70%;
+  margin: auto;
+`;
 const Header = () => {
   return (
     <Head>
