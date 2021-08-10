@@ -1,5 +1,4 @@
 import React from 'react';
-<<<<<<< HEAD
 import styled from 'styled-components';
 import { AiOutlineShoppingCart } from 'react-icons/ai';
 import { BsSearch } from 'react-icons/bs';
@@ -47,11 +46,6 @@ const HeaderIconContainer = () => {
       <SearchContainer />
     </Container>
   );
-=======
-
-const HeaderIconContainer = () => {
-  return <div>hi</div>;
->>>>>>> 7eda423 (add: 헤더 아웃라인)
 };
 
 export default HeaderIconContainer;
