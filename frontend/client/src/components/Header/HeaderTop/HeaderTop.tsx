@@ -4,6 +4,16 @@ import { Link } from '../../../lib/CustomRouter';
 
 const HELLO = '안녕하세요!';
 
+const Top = styled.div`
+  box-sizing: border-box;
+  display: flex;
+  justify-content: flex-end;
+  align-items: center;
+  width: 100%;
+  height: 35%;
+  padding: 0 15% 0 15%;
+`;
+
 const HeaderTop: React.FC<{ userName: string }> = ({ userName }) => {
   const [openLoginModal, setOpenLoginModal] = useState(false);
   const [openLogoutModal, setOpenLogoutModal] = useState(false);
