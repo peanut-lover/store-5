@@ -1,11 +1,13 @@
 import React from 'react';
 import { GiHamburgerMenu } from 'react-icons/gi';
+import Category from 'src/components/Header/HeaderBottom/Category/Category';
 import styled from 'styled-components';
 
-const Category = styled.div`
+const Toggle = styled.div`
   display: flex;
   align-items: center;
   color: rgb(115, 103, 92);
+  cursor: pointer;
 `;
 
 const Title = styled.h3`
@@ -15,10 +17,11 @@ const Title = styled.h3`
 
 const CategoryToggle = () => {
   return (
-    <Category>
-      <GiHamburgerMenu size="1.7em" />
+    <Toggle>
+      <GiHamburgerMenu size='1.7em' />
       <Title>전체 카테고리</Title>
-    </Category>
+      <Category />
+    </Toggle>
   );
 };
 
