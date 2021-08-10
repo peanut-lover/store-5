@@ -18,7 +18,8 @@ const ProductItemList: React.FC<Props> = ({ products }) => {
 const ProductItemListContainer = styled.div`
   display: flex;
   flex-direction: row;
-  justify-content: space-around;
+  justify-content: flex-start;
+  flex-wrap: wrap;
 `;
 
 export default ProductItemList;
