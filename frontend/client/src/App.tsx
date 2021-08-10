@@ -1,49 +1,20 @@
 import React from 'react';
 
 import { Routes, Router, Route, Link, useParams } from './lib/CustomRouter';
-import TestModal from './portal/TestModal/TestModal';
-
-function Products() {
-  return (
-    <>
-      <h4>Example Products</h4>
-      <ul>
-        <li>
-          <Link to="/products/1">Product One</Link>
-        </li>
-        <li>
-          <Link to="/products/2">Product Two</Link>
-        </li>
-        <li>
-          <Link to="/dsfsdf">NOT PAGE</Link>
-        </li>
-      </ul>
-    </>
-  );
-}
-
-function Product() {
-  const { id } = useParams();
-  return (
-    <>
-      <h4>Viewing product {id}</h4>
-      <Link to="/">Back to all products</Link>
-    </>
-  );
-}
+import Main from './pages/Main/Main';
 
 export default function App() {
   return (
-    <Router>
-      <Routes>
-        <Route path="/products/:id">
-          <Product />
-          <TestModal />
-        </Route>
-        <Route path="/">
-          <Products />
-        </Route>
-      </Routes>
-    </Router>
+    <div>
+      {/* TODO: Change Header Component */}
+      <div>Header</div>
+      <div>
+        <Routes>
+          <Route path='/'>
+            <Main />
+          </Route>
+        </Routes>
+      </div>
+    </div>
   );
 }
