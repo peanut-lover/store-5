@@ -1,4 +1,5 @@
 import React from 'react';
+<<<<<<< HEAD
 import styled from 'styled-components';
 import CategoryToggle from './CategoryToggle/CategoryToggle';
 import HeaderIconContainer from './HeaderIconContainer/HeaderIconContainer';
@@ -18,12 +19,23 @@ const Bottom = styled.div`
 const HeaderBottom = () => {
   return (
     <Bottom>
+=======
+import CategoryToggle from './CategoryToggle/CategoryToggle';
+import HeaderIconContainer from './HeaderIconContainer/HeaderIconContainer';
+const HeaderBottom = () => {
+  return (
+    <div>
+>>>>>>> 7eda423 (add: 헤더 아웃라인)
       <CategoryToggle />
       <div>
         <span>로고</span>
       </div>
       <HeaderIconContainer />
+<<<<<<< HEAD
     </Bottom>
+=======
+    </div>
+>>>>>>> 7eda423 (add: 헤더 아웃라인)
   );
 };
 

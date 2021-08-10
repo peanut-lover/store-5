@@ -1,9 +1,13 @@
 import React, { useCallback, useState } from 'react';
+<<<<<<< HEAD
 import styled from 'styled-components';
+=======
+>>>>>>> 7eda423 (add: 헤더 아웃라인)
 import { Link } from '../../../lib/CustomRouter';
 
 const HELLO = '안녕하세요!';
 
+<<<<<<< HEAD
 const Top = styled.div`
   box-sizing: border-box;
   display: flex;
@@ -42,6 +46,8 @@ const Button = styled.button`
   color: gray;
 `;
 
+=======
+>>>>>>> 7eda423 (add: 헤더 아웃라인)
 const HeaderTop: React.FC<{ userName: string }> = ({ userName }) => {
   const [openLoginModal, setOpenLoginModal] = useState(false);
   const [openLogoutModal, setOpenLogoutModal] = useState(false);
@@ -53,6 +59,7 @@ const HeaderTop: React.FC<{ userName: string }> = ({ userName }) => {
   }, []);
 
   return (
+<<<<<<< HEAD
     <Top>
       {!userName ? (
         <Container>
@@ -69,6 +76,24 @@ const HeaderTop: React.FC<{ userName: string }> = ({ userName }) => {
       {/* {openLoginModal && } */}
       {/* {openLogoutModal &&} */}
     </Top>
+=======
+    <div>
+      {userName ? (
+        <div>
+          <div>
+            <span>{`${userName}님,`}</span>
+            <span>{HELLO}</span>
+          </div>
+          <Link to="/admin">관리자페이지</Link>
+          <button onClick={onClickLogout}>로그아웃</button>
+        </div>
+      ) : (
+        <button onClick={onClickLogin}>로그인</button>
+      )}
+      {/* {openLoginModal && } */}
+      {/* {openLogoutModal &&} */}
+    </div>
+>>>>>>> 7eda423 (add: 헤더 아웃라인)
   );
 };
 

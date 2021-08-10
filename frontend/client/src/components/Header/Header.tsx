@@ -1,4 +1,5 @@
 import React from 'react';
+<<<<<<< HEAD
 import styled from 'styled-components';
 import HeaderBottom from './HeaderBottom/HeaderBottom';
 import HeaderTop from './HeaderTop/HeaderTop';
@@ -16,6 +17,17 @@ const Header = () => {
       <HeaderTop userName={''} />
       <HeaderBottom />
     </Head>
+=======
+import HeaderBottom from './HeaderBottom/HeaderBottom';
+import HeaderTop from './HeaderTop/HeaderTop';
+
+const Header = () => {
+  return (
+    <header>
+      <HeaderTop userName={''} />
+      <HeaderBottom />
+    </header>
+>>>>>>> 7eda423 (add: 헤더 아웃라인)
   );
 };
 
