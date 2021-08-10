@@ -12,7 +12,7 @@ const useSearchHistory = () => {
     });
   }, []);
 
-  return [searchHistory, setHistory];
+  return [searchHistory, setHistory] as const;
 };
 
 export default useSearchHistory;
