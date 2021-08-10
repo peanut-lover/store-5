@@ -3,7 +3,6 @@ name: Bug Report
 about: 버그 제보
 title: ""
 labels: bug
-assignees: HobinLee, kowoohyuk
 ---
 
 ## ⚠️ 버그 설명
