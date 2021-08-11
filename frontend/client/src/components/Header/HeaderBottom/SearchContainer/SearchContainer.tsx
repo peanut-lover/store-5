@@ -52,6 +52,13 @@ const SearchContainer = () => {
     }, 200);
   }, []);
 
+  const handleAddHistory = useCallback(
+    (keyword) => {
+      setSearchHistory([keyword, ...searchHistory]);
+    },
+    [searchHistory]
+  );
+
   const handleDeleteHistory = useCallback(
     (name: string) => {
       const updated = searchHistory.filter((keyword) => keyword !== name);
@@ -83,7 +90,9 @@ const SearchContainer = () => {
             <BsSearch size='1.3em' />
           </Button>
         </Form>
-        {autoSearchList.length > 0 && inputFocused && <AutoSearchList autoSearchList={autoSearchList} />}
+        {autoSearchList.length > 0 && inputFocused && (
+          <AutoSearchList onAddHistory={handleAddHistory} autoSearchList={autoSearchList} />
+        )}
       </FormContainer>
       <Line />
       <ContentContainer>

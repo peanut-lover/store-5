@@ -11,9 +11,6 @@ export default function App() {
       {/* TODO: Change Header Component */}
       <Header />
       <Routes>
-        <Route path='/goods'>
-          <div>hihi</div>
-        </Route>
         <Route path='/'>
           <Main />
         </Route>

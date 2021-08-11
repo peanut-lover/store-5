@@ -15,7 +15,8 @@ const SearchHistoryList: React.FC<Props> = ({ searchHistory, onDeleteHistory, on
           <SearchItem key={i}>
             <Keyword>{keyword}</Keyword>
             <Button
-              onClick={() => {
+              onClick={(e) => {
+                e.stopPropagation();
                 onDeleteHistory(keyword);
               }}
             >
@@ -24,7 +25,14 @@ const SearchHistoryList: React.FC<Props> = ({ searchHistory, onDeleteHistory, on
           </SearchItem>
         ))}
       </Container>
-      <Footer onClick={onResetHistory}>전체 삭제</Footer>
+      <Footer
+        onClick={(e) => {
+          e.stopPropagation();
+          onResetHistory();
+        }}
+      >
+        전체 삭제
+      </Footer>
     </>
   );
 };

@@ -4,14 +4,15 @@ import { Link } from '@src/lib/CustomRouter';
 
 type Props = {
   autoSearchList: string[];
+  onAddHistory: (keyword: string) => void;
 };
 
-const AutoSearchList: React.FC<Props> = ({ autoSearchList }) => {
+const AutoSearchList: React.FC<Props> = ({ autoSearchList, onAddHistory }) => {
   return (
     <Container onMouseDown={(e) => e.preventDefault()}>
       {autoSearchList.map((keyword, i) => (
         <Link key={i} to={`/goods?keyword=${keyword}`}>
-          <Keyword>{keyword}</Keyword>
+          <Keyword onClick={() => onAddHistory(keyword)}>{keyword}</Keyword>
         </Link>
       ))}
     </Container>
