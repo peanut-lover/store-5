@@ -74,7 +74,7 @@ const CartGoodsListItem: React.FC<Props> = ({ cartGoods, onChangeAmount, onDelet
         </DeleteButton>
         {/* TODO: 모달 */}
         <CartGoodsAmountInput value={amount} onChangeAmount={handleChangeAmount} />
-        <PriceText>{price}원</PriceText>
+        <PriceText>{price * amount}원</PriceText>
         {/* TODO: discountRate를 적용하기 */}
       </FlexColumn>
     </Wrapper>

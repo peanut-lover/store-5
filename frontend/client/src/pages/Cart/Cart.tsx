@@ -1,4 +1,5 @@
 import React from 'react';
+import { useState } from 'react';
 import { CartGoods } from 'src/types/CartGoods';
 import CartGoodsListContainer from './CartGoodsListContainer/CartGoodsListContainer';
 import CartNoData from './CartNoData/CartNoData';
@@ -28,9 +29,31 @@ const mock: CartGoods[] = [
 ];
 
 const Cart: React.FC = () => {
-  const cartGoodsList: CartGoods[] = mock;
+  const [cartGoodsList, setCartGoodsList] = useState(mock);
 
-  const handleDeleteCartGoods = () => {};
+  // TODO: localStorage, API 분기 처리하는 계층을 두기
+  const handleDeleteCartGoodsAll = (ids: number[]) => {
+    setCartGoodsList(cartGoodsList.filter(({ id }) => !ids.includes(id)));
+  };
+  const handleChangeAmount = (id: number, amount: number) => {
+    setCartGoodsList(
+      cartGoodsList.map((cartGoods) => {
+        if (cartGoods.id === id) return { ...cartGoods, amount };
+        return cartGoods;
+      })
+    );
+  };
+  const handleChangeAllIsSelected = (isSelected: boolean) => {
+    setCartGoodsList(cartGoodsList.map((cartGoods) => ({ ...cartGoods, isSelected })));
+  };
+  const handleChangeIsSelected = (id: number, isSelected: boolean) => {
+    setCartGoodsList(
+      cartGoodsList.map((cartGoods) => {
+        if (cartGoods.id === id) return { ...cartGoods, isSelected };
+        return cartGoods;
+      })
+    );
+  };
 
   if (cartGoodsList.length === 0) {
     return <CartNoData />;
@@ -38,7 +61,13 @@ const Cart: React.FC = () => {
 
   return (
     <>
-      <CartGoodsListContainer cartGoodsList={cartGoodsList} />
+      <CartGoodsListContainer
+        cartGoodsList={cartGoodsList}
+        onDeleteCartGoodsAll={handleDeleteCartGoodsAll}
+        onChangeAllIsSelected={handleChangeAllIsSelected}
+        onChangeIsSelected={handleChangeIsSelected}
+        onChangeAmount={handleChangeAmount}
+      />
       <CartOrder cartGoodsList={cartGoodsList} />
     </>
   );
