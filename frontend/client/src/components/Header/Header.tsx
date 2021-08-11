@@ -19,12 +19,4 @@ const Head = styled.header`
   margin: auto;
 `;
 
-const Head = styled.header`
-  position: relative;
-  width: 100%;
-  min-width: 1080px;
-  height: 10vh;
-  margin: auto;
-`;
-
 export default Header;

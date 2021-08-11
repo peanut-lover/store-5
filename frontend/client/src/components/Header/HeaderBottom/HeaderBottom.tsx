@@ -26,16 +26,4 @@ const Bottom = styled.div`
   border-top: 1px solid lightgray;
 `;
 
-const Bottom = styled.div`
-  box-sizing: border-box;
-  display: flex;
-  justify-content: space-between;
-  align-items: center;
-  width: 100%;
-  height: 65%;
-  padding: 0 15% 0 15%;
-  border-bottom: 1px solid lightgray;
-  border-top: 1px solid lightgray;
-`;
-
 export default HeaderBottom;
