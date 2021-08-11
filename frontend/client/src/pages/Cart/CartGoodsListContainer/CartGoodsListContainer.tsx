@@ -5,6 +5,11 @@ import { CartGoods } from 'src/types/CartGoods';
 import CartGoodsListItem from './CartGoodsListItem/CartGoodsListItem';
 import CheckButtonWithLabel from 'src/components/CheckButtonWithLabel/CheckButtonWithLabel';
 
+const Wrapper = styled.div`
+  display: flex;
+  flex-direction: column;
+`;
+
 const StrongText = styled.h2`
   margin: 0;
   padding: 0;
@@ -36,14 +41,6 @@ const Button = styled.button`
     border: 1px solid #ddd;
     color: #ddd;
   }
-`;
-
-const Wrapper = styled.div`
-  display: flex;
-  flex-direction: column;
-
-  margin-top: 4rem;
-  margin-bottom: 4rem;
 `;
 
 const FlexRow = styled.div`
