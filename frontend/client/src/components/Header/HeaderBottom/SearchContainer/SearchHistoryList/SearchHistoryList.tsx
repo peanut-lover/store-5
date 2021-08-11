@@ -4,8 +4,8 @@ import styled from 'styled-components';
 const SearchHistoryList: React.FC<{ searchHistory: string[] }> = ({ searchHistory }) => {
   return (
     <Container>
-      {searchHistory.map((keyword) => (
-        <SearchItem>
+      {searchHistory.map((keyword, i) => (
+        <SearchItem key={i}>
           <Keyword>{keyword}</Keyword>
           <Button>x</Button>
         </SearchItem>

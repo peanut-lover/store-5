@@ -1,14 +1,37 @@
-import React, { useCallback } from 'react';
+import React, { useCallback, useReducer } from 'react';
 import { BsSearch } from 'react-icons/bs';
 import styled from 'styled-components';
 import SearchHistoryEmpty from './SearchHistoryEmpty/SearchHistoryEmpty';
 import SearchHistoryList from './SearchHistoryList/SearchHistoryList';
 import useInput from 'src/hooks/useInput';
 import useSearchHistory from 'src/hooks/useSearchHistory';
+import { debounce } from 'src/utils/debounce';
+import AutoSearchList from './AutoSearchList/AutoSearchList';
+
+const reducer = (state: string[], action: { type: string; keyword: string }) => {
+  switch (action.type) {
+    case 'SEARCH':
+      // TODO: API 호출 연동
+      if (action.keyword === '맛') {
+        const res = ['자동', '검색', '기능'];
+        return res;
+      } else if (action.keyword === '맛집') {
+        const res = ['으악', '악으', '으아'];
+        return res;
+      } else {
+        return [];
+      }
+
+    default:
+      return state;
+  }
+};
 
 const SearchContainer = () => {
   const [searchHistory, setSearchHistory] = useSearchHistory();
   const [searchInput, onChangeSearchInput, setSearchInput] = useInput('');
+  const [autoSearchList, dispatch] = useReducer(reducer, ['맛집', '테스트', '입니다']);
+
   const onSearch = useCallback(
     (e) => {
       e.preventDefault();
@@ -18,20 +41,27 @@ const SearchContainer = () => {
     },
     [searchInput]
   );
+  const onAutoSearch = useCallback((e) => {
+    const keyword = e.target.value;
+    debounce(() => {
+      dispatch({ type: 'SEARCH', keyword });
+    }, 500);
+  }, []);
   return (
     <Container>
       <FormContainer>
         <Form onSubmit={onSearch}>
-          <Input value={searchInput} onChange={onChangeSearchInput} />
+          <Input value={searchInput} onChange={onChangeSearchInput} onInput={onAutoSearch} />
           <Button>
             <BsSearch size='1.3em' />
           </Button>
         </Form>
+        {autoSearchList.length > 0 && <AutoSearchList autoSearchList={autoSearchList} />}
       </FormContainer>
       <Line />
       <ContentContainer>
         <ContentTitle>최근검색어</ContentTitle>
-        {searchHistory ? <SearchHistoryList searchHistory={searchHistory} /> : <SearchHistoryEmpty />}
+        {searchHistory.length > 0 ? <SearchHistoryList searchHistory={searchHistory} /> : <SearchHistoryEmpty />}
       </ContentContainer>
     </Container>
   );
@@ -70,7 +100,7 @@ const Input = styled.input`
   margin: 0px;
   outline: none;
   box-shadow: none;
-  border-radius: 0px;
+  border-radius: 6px;
   -webkit-tap-highlight-color: rgb(0, 0, 0);
   appearance: none;
   display: flex;
