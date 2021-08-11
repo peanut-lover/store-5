@@ -3,6 +3,7 @@ import styled from 'styled-components';
 import { AiOutlineShoppingCart } from 'react-icons/ai';
 import { BsSearch } from 'react-icons/bs';
 import { CgProfile } from 'react-icons/cg';
+import SearchContainer from 'src/components/Header/HeaderBottom/SearchContainer/SearchContainer';
 
 const Container = styled.div`
   display: flex;
@@ -31,17 +32,18 @@ const HeaderIconContainer = () => {
   return (
     <Container>
       <IconContainer>
-        <AiOutlineShoppingCart size="1.5em" />
+        <AiOutlineShoppingCart size='1.5em' />
         <IconTitle>장바구니</IconTitle>
       </IconContainer>
       <IconContainer>
-        <BsSearch size="1.5em" />
+        <BsSearch size='1.5em' />
         <IconTitle>상품검색</IconTitle>
       </IconContainer>
       <IconContainer>
-        <CgProfile size="1.5em" />
+        <CgProfile size='1.5em' />
         <IconTitle>마이페이지</IconTitle>
       </IconContainer>
+      <SearchContainer />
     </Container>
   );
 };

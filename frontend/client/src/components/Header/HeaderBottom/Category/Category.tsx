@@ -41,19 +41,26 @@ type MainCategory = '문구' | '리빙' | '책' | '배민그린' | '을지로에
 
 const Category = () => {
   const [hovered, setHovered] = useState<MainCategory>(MAIN_CATEGORY[0] as MainCategory);
+  const onDebounceHover = useCallback(
+    (target, time) => {
+      debounce(() => {
+        setHovered(target);
+      }, time);
+    },
+    [setHovered]
+  );
   const onHover = useCallback((e) => {
     const category = e.target.dataset.category;
     if (!category) return;
-    debounce(() => {
-      setHovered(e.target.dataset.category);
-    }, 100);
+    onDebounceHover(category, 100);
   }, []);
+
   return (
     <Container>
       <MainListContainer>
         <MainList onMouseOver={onHover}>
           {MAIN_CATEGORY.map((category, i) => (
-            <MainCategory key={i} data-category={category}>
+            <MainCategory key={i} active={category === hovered} data-category={category}>
               <MainCategoryTitle>{category}</MainCategoryTitle>
             </MainCategory>
           ))}

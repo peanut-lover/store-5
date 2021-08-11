@@ -1,4 +1,29 @@
-import styled from 'styled-components';
+import styled, { css } from 'styled-components';
+
+type CategoryProp = {
+  active?: boolean;
+};
+
+const ActiveCategory = css`
+  color: rgb(51, 51, 51);
+  font-weight: bold;
+  background: rgb(255, 255, 255);
+  border-bottom: none;
+  span {
+    ::before {
+      display: block;
+      position: absolute;
+      content: ' ';
+      background: rgb(42, 193, 188);
+      width: calc(100% + 4px);
+      height: 10px;
+      opacity: 0.4;
+      left: -2px;
+      bottom: -1px;
+      z-index: -1;
+    }
+  }
+`;
 
 export const Container = styled.div`
   display: flex;
@@ -11,7 +36,6 @@ export const Container = styled.div`
   min-height: 396px;
   min-width: 280px;
   max-width: 1080px;
-  border: 1px solid rgb(51, 51, 51);
   box-shadow: rgb(0 0 0 / 10%) 0px 4px 12px 0px;
   flex-direction: row;
   -webkit-box-pack: start;
@@ -45,7 +69,7 @@ export const MainList = styled.ul`
   font-size: 16px;
 `;
 
-export const MainCategory = styled.li`
+export const MainCategory = styled.li<CategoryProp>`
   box-sizing: border-box;
   position: relative;
   display: flex;
@@ -63,26 +87,7 @@ export const MainCategory = styled.li`
   font-weight: 500;
   background: rgb(89, 80, 72);
   border-bottom: 1px solid rgba(51, 51, 51, 0.25);
-  :hover {
-    color: rgb(51, 51, 51);
-    font-weight: bold;
-    background: rgb(255, 255, 255);
-    border-bottom: none;
-    span {
-      ::before {
-        display: block;
-        position: absolute;
-        content: ' ';
-        background: rgb(42, 193, 188);
-        width: calc(100% + 4px);
-        height: 10px;
-        opacity: 0.4;
-        left: -2px;
-        bottom: -1px;
-        z-index: -1;
-      }
-    }
-  }
+  ${(props) => (props.active ? ActiveCategory : '')};
 `;
 
 export const MainCategoryTitle = styled.span`
