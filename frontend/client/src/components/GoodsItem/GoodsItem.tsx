@@ -31,10 +31,10 @@ const GoodsItem: React.FC<Props> = ({
         {isNew && <NewTag />}
         {isSale && <SaleTag />}
       </TagContainer>
-      {thumbnailImg ? <ProductImage src={thumbnailImg} /> : <ProductEmptyImage />}
-      {discountRate && discountRate > 0 ? <ProductDiscountLabel> {discountRate} % </ProductDiscountLabel> : ''}
-      <ProductTitle>{title}</ProductTitle>
-      <ProductPriceLabel>{price} 원</ProductPriceLabel>
+      {thumbnailImg ? <GoodsImage src={thumbnailImg} /> : <GoodsEmptyImage />}
+      {discountRate && discountRate > 0 ? <GoodsDiscountLabel> {discountRate} % </GoodsDiscountLabel> : ''}
+      <GoodsTitle>{title}</GoodsTitle>
+      <GoodsPriceLabel>{price} 원</GoodsPriceLabel>
     </GoodsItemContainer>
   );
 };
@@ -63,30 +63,30 @@ const GoodsItemContainer = styled.div`
   flex-direction: column;
 `;
 
-const ProductEmptyImage = styled.div`
+const GoodsEmptyImage = styled.div`
   width: 100%;
   height: 350px;
   background-color: #c0c0c0; // TODO: change const color
   // TODO: backgrond-img;
 `;
 
-const ProductImage = styled.img`
+const GoodsImage = styled.img`
   width: 100%;
   height: 350px;
   object-fit: cover;
 `;
 
-const ProductTitle = styled.strong`
+const GoodsTitle = styled.strong`
   margin-top: 10px;
   font-size: 16px;
 `;
 
-const ProductPriceLabel = styled.span`
+const GoodsPriceLabel = styled.span`
   margin-top: 5px;
   font-size: 16px;
 `;
 
-const ProductDiscountLabel = styled.span`
+const GoodsDiscountLabel = styled.span`
   margin-top: 10px;
   font-size: 20px;
   font-weight: 800;
