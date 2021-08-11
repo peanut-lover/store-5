@@ -1,6 +1,6 @@
 import React from 'react';
-import GoodsItemList from 'src/components/GoodsItemList/GoodsItemList';
-import { Goods } from 'src/types/Goods';
+import GoodsItemList from '@src/components/GoodsItemList/GoodsItemList';
+import { Goods } from '@src/types/Goods';
 import styled from 'styled-components';
 
 interface Props {
