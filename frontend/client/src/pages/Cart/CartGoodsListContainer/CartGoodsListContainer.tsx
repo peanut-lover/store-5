@@ -102,7 +102,9 @@ const CartGoodsListContainer: React.FC<Props> = ({
           value={isAllGoodsSelected}
           onClick={handleClickMasterCheckButton}
         ></CheckButtonWithLabel>
-        <Button onClick={handleDeleteSelectedCartGoods}>상품삭제</Button>
+        <Button disabled={selectedCartGoodsIds.length === 0} onClick={handleDeleteSelectedCartGoods}>
+          상품삭제
+        </Button>
         {/* TODO: 모달 */}
       </FlexRow>
       <Divider />

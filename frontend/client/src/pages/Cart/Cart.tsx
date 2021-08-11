@@ -1,6 +1,7 @@
 import React from 'react';
 import { useState } from 'react';
 import { CartGoods } from 'src/types/CartGoods';
+import styled from 'styled-components';
 import CartGoodsListContainer from './CartGoodsListContainer/CartGoodsListContainer';
 import CartNoData from './CartNoData/CartNoData';
 import CartOrder from './CartOrder/CartOrder';
@@ -14,7 +15,7 @@ const mock: CartGoods[] = [
     discountRate: 20,
     amount: 2,
     stock: 5,
-    isSelected: true,
+    isSelected: false,
   },
   {
     id: 2,
@@ -55,6 +56,9 @@ const Cart: React.FC = () => {
     );
   };
 
+  // TODO: 결제 페이지로 이동
+  const handleClickOrderButton = () => {};
+
   if (cartGoodsList.length === 0) {
     return <CartNoData />;
   }
@@ -68,7 +72,7 @@ const Cart: React.FC = () => {
         onChangeIsSelected={handleChangeIsSelected}
         onChangeAmount={handleChangeAmount}
       />
-      <CartOrder cartGoodsList={cartGoodsList} />
+      <CartOrder cartGoodsList={cartGoodsList} onClickOrderButton={handleClickOrderButton} />
     </>
   );
 };
