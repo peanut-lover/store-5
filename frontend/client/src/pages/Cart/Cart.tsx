@@ -3,7 +3,7 @@ import { useState } from 'react';
 import styled from 'styled-components';
 import { CartGoods } from '@src/types/CartGoods';
 import CartGoodsListContainer from './CartGoodsListContainer/CartGoodsListContainer';
-import CartNoData from './CartNoData/CartNoData';
+import EmptyCart from './EmptyCart/EmptyCart';
 import CartOrder from './CartOrder/CartOrder';
 
 const mock: CartGoods[] = [
@@ -61,7 +61,7 @@ const Cart: React.FC = () => {
   const handleClickOrderButton = () => {};
 
   if (cartGoodsList.length === 0) {
-    return <CartNoData />;
+    return <EmptyCart />;
   }
 
   return (

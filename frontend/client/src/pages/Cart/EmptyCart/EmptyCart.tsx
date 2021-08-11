@@ -1,7 +1,7 @@
 import React from 'react';
 import styled from 'styled-components';
 
-const CartNoData: React.FC = () => {
+const EmptyCart: React.FC = () => {
   return (
     <Wrapper>
       {/* TODO: import asset이 안되는 이유 찾기 */}
@@ -51,4 +51,4 @@ const Wrapper = styled.div`
   margin-bottom: 4rem;
 `;
 
-export default CartNoData;
+export default EmptyCart;
