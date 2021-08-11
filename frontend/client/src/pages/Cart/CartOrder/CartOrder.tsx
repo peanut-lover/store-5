@@ -1,5 +1,5 @@
 import React from 'react';
-import { CartGoods } from 'src/types/CartGoods';
+import { CartGoods } from '@src/types/CartGoods';
 import styled from 'styled-components';
 
 const Wrapper = styled.div`
@@ -81,6 +81,7 @@ interface Props {
   onClickOrderButton: () => void;
 }
 
+// TODO: 배송비 정책 결정하고 대응 수정하기
 const CartOrder: React.FC<Props> = ({ cartGoodsList, onClickOrderButton }) => {
   const selectedCartGoodsList = cartGoodsList.filter(({ isSelected }) => isSelected);
   const reducedPrice = selectedCartGoodsList.reduce((prev, cartGoods) => prev + cartGoods.amount * cartGoods.price, 0);

@@ -1,5 +1,5 @@
 import React from 'react';
-import CheckButton from 'src/components/CheckButton/CheckButton';
+import CheckButton from '@src/components/CheckButton/CheckButton';
 import styled from 'styled-components';
 
 const Label = styled.label`

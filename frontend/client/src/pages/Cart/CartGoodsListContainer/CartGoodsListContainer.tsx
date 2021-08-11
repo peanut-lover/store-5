@@ -1,9 +1,9 @@
 import React from 'react';
 import styled from 'styled-components';
 
-import { CartGoods } from 'src/types/CartGoods';
+import { CartGoods } from '@src/types/CartGoods';
 import CartGoodsListItem from './CartGoodsListItem/CartGoodsListItem';
-import CheckButtonWithLabel from 'src/components/CheckButtonWithLabel/CheckButtonWithLabel';
+import CheckButtonWithLabel from '@src/components/CheckButtonWithLabel/CheckButtonWithLabel';
 
 const Wrapper = styled.div`
   display: flex;

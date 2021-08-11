@@ -1,7 +1,7 @@
 import React from 'react';
 import styled from 'styled-components';
-import CheckButton from 'src/components/CheckButton/CheckButton';
-import { CartGoods } from 'src/types/CartGoods';
+import CheckButton from '@src/components/CheckButton/CheckButton';
+import { CartGoods } from '@src/types/CartGoods';
 import { BiTrash } from 'react-icons/bi';
 import CartGoodsAmountInput from './CartGoodsAmountInput/CartGoodsAmountInput';
 
@@ -75,7 +75,6 @@ const CartGoodsListItem: React.FC<Props> = ({ cartGoods, onChangeAmount, onDelet
         {/* TODO: 모달 */}
         <CartGoodsAmountInput value={amount} onChangeAmount={handleChangeAmount} />
         <PriceText>{price * amount}원</PriceText>
-        {/* TODO: discountRate를 적용하기 */}
       </FlexColumn>
     </Wrapper>
   );

@@ -1,6 +1,6 @@
 import React from 'react';
 import { useState } from 'react';
-import { CartGoods } from 'src/types/CartGoods';
+import { CartGoods } from '@src/types/CartGoods';
 import styled from 'styled-components';
 import CartGoodsListContainer from './CartGoodsListContainer/CartGoodsListContainer';
 import CartNoData from './CartNoData/CartNoData';
@@ -63,6 +63,7 @@ const mock: CartGoods[] = [
   },
 ];
 
+// TODO: discountRate를 적용하기
 const Cart: React.FC = () => {
   const [cartGoodsList, setCartGoodsList] = useState(mock);
 
