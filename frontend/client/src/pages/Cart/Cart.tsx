@@ -35,26 +35,26 @@ const Cart: React.FC = () => {
 
   // TODO: localStorage, API 분기 처리하는 계층을 두기
   const handleDeleteCartGoodsAll = (ids: number[]) => {
-    setCartGoodsList(cartGoodsList.filter(({ id }) => !ids.includes(id)));
+    const filteredCartGoodsList = cartGoodsList.filter(({ id }) => !ids.includes(id));
+    setCartGoodsList(filteredCartGoodsList);
   };
   const handleChangeAmount = (id: number, amount: number) => {
-    setCartGoodsList(
-      cartGoodsList.map((cartGoods) => {
-        if (cartGoods.id === id) return { ...cartGoods, amount };
-        return cartGoods;
-      })
-    );
+    const changedCartGoodsList = cartGoodsList.map((cartGoods) => {
+      if (cartGoods.id === id) return { ...cartGoods, amount };
+      return cartGoods;
+    });
+    setCartGoodsList(changedCartGoodsList);
   };
   const handleChangeAllIsSelected = (isSelected: boolean) => {
-    setCartGoodsList(cartGoodsList.map((cartGoods) => ({ ...cartGoods, isSelected })));
+    const changedCartGoodsList = cartGoodsList.map((cartGoods) => ({ ...cartGoods, isSelected }));
+    setCartGoodsList(changedCartGoodsList);
   };
   const handleChangeIsSelected = (id: number, isSelected: boolean) => {
-    setCartGoodsList(
-      cartGoodsList.map((cartGoods) => {
-        if (cartGoods.id === id) return { ...cartGoods, isSelected };
-        return cartGoods;
-      })
-    );
+    const changedCartGoodsList = cartGoodsList.map((cartGoods) => {
+      if (cartGoods.id === id) return { ...cartGoods, isSelected };
+      return cartGoods;
+    });
+    setCartGoodsList(changedCartGoodsList);
   };
 
   // TODO: 결제 페이지로 이동
