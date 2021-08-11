@@ -1,11 +1,11 @@
 import React from 'react';
-
-import { Routes, Router, Route, Link, useParams } from './lib/CustomRouter';
+import GlobalStyles from 'src/GlobalStyles';
+import { Routes, Route } from './lib/CustomRouter';
 import Main from './pages/Main/Main';
 
 export default function App() {
   return (
-    <div>
+    <>
       {/* TODO: Change Header Component */}
       <div>Header</div>
       <div>
@@ -15,6 +15,7 @@ export default function App() {
           </Route>
         </Routes>
       </div>
-    </div>
+      <GlobalStyles />
+    </>
   );
 }

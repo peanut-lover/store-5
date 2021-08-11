@@ -44,11 +44,10 @@ const TagContainer = styled.div`
   display: flex;
   left: 0;
   top: 0;
-  padding: 5px;
+  padding: 15px;
   width: 100%;
-  height: 25px;
   & > *:not(:last-child) {
-    margin-right: 3px;
+    margin-right: 10px;
   }
 `;
 
@@ -59,19 +58,20 @@ const GoodsItemContainer = styled.div`
   width: 300px;
   margin-top: 10px;
   margin-bottom: 10px;
+  padding: 10px;
   display: flex;
   flex-direction: column;
 `;
 
 const ProductEmptyImage = styled.div`
-  width: 280px;
+  width: 100%;
   height: 350px;
   background-color: #c0c0c0; // TODO: change const color
   // TODO: backgrond-img;
 `;
 
 const ProductImage = styled.img`
-  width: 280px;
+  width: 100%;
   height: 350px;
   object-fit: cover;
 `;

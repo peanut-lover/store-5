@@ -22,6 +22,10 @@ const GoodsSectionContainer = styled.div`
   margin-bottom: 50px;
 `;
 
-const SectionTitle = styled.h2``;
+const SectionTitle = styled.div`
+  font-size: 26px;
+  font-weight: 600;
+  margin-bottom: 20px;
+`;
 
 export default GoodsSection;
