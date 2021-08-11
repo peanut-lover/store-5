@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useMemo } from 'react';
 import styled from 'styled-components';
 import { CartGoods } from '@src/types/CartGoods';
 
@@ -9,8 +9,11 @@ interface Props {
 
 // TODO: 배송비 정책 결정하고 대응 수정하기
 const CartOrder: React.FC<Props> = ({ cartGoodsList, onClickOrderButton }) => {
-  const selectedCartGoodsList = cartGoodsList.filter(({ isSelected }) => isSelected);
-  const reducedPrice = selectedCartGoodsList.reduce((prev, cartGoods) => prev + cartGoods.amount * cartGoods.price, 0);
+  const selectedCartGoodsList = useMemo(() => cartGoodsList.filter(({ isSelected }) => isSelected), [cartGoodsList]);
+  const reducedPrice = useMemo(
+    () => selectedCartGoodsList.reduce((prev, cartGoods) => prev + cartGoods.amount * cartGoods.price, 0),
+    [selectedCartGoodsList]
+  );
   const deliveryPrice = 0;
 
   return (

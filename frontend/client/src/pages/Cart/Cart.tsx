@@ -1,5 +1,4 @@
-import React from 'react';
-import { useState } from 'react';
+import React, { useCallback, useState } from 'react';
 import styled from 'styled-components';
 import { CartGoods } from '@src/types/CartGoods';
 import CartGoodsListContainer from './CartGoodsListContainer/CartGoodsListContainer';
@@ -34,28 +33,43 @@ const Cart: React.FC = () => {
   const [cartGoodsList, setCartGoodsList] = useState(mock);
 
   // TODO: localStorage, API 분기 처리하는 계층을 두기
-  const handleDeleteCartGoodsAll = (ids: number[]) => {
-    const filteredCartGoodsList = cartGoodsList.filter(({ id }) => !ids.includes(id));
-    setCartGoodsList(filteredCartGoodsList);
-  };
-  const handleChangeAmount = (id: number, amount: number) => {
-    const changedCartGoodsList = cartGoodsList.map((cartGoods) => {
-      if (cartGoods.id === id) return { ...cartGoods, amount };
-      return cartGoods;
-    });
-    setCartGoodsList(changedCartGoodsList);
-  };
-  const handleReviseIsSelected = (isSelected: boolean) => {
-    const changedCartGoodsList = cartGoodsList.map((cartGoods) => ({ ...cartGoods, isSelected }));
-    setCartGoodsList(changedCartGoodsList);
-  };
-  const handleChangeIsSelected = (id: number, isSelected: boolean) => {
-    const changedCartGoodsList = cartGoodsList.map((cartGoods) => {
-      if (cartGoods.id === id) return { ...cartGoods, isSelected };
-      return cartGoods;
-    });
-    setCartGoodsList(changedCartGoodsList);
-  };
+  const handleDeleteCartGoodsAll = useCallback(
+    (ids: number[]) => {
+      const filteredCartGoodsList = cartGoodsList.filter(({ id }) => !ids.includes(id));
+      setCartGoodsList(filteredCartGoodsList);
+    },
+    [cartGoodsList, setCartGoodsList]
+  );
+
+  const handleChangeAmount = useCallback(
+    (id: number, amount: number) => {
+      const changedCartGoodsList = cartGoodsList.map((cartGoods) => {
+        if (cartGoods.id === id) return { ...cartGoods, amount };
+        return cartGoods;
+      });
+      setCartGoodsList(changedCartGoodsList);
+    },
+    [cartGoodsList, setCartGoodsList]
+  );
+
+  const handleReviseIsSelected = useCallback(
+    (isSelected: boolean) => {
+      const changedCartGoodsList = cartGoodsList.map((cartGoods) => ({ ...cartGoods, isSelected }));
+      setCartGoodsList(changedCartGoodsList);
+    },
+    [cartGoodsList, setCartGoodsList]
+  );
+
+  const handleChangeIsSelected = useCallback(
+    (id: number, isSelected: boolean) => {
+      const changedCartGoodsList = cartGoodsList.map((cartGoods) => {
+        if (cartGoods.id === id) return { ...cartGoods, isSelected };
+        return cartGoods;
+      });
+      setCartGoodsList(changedCartGoodsList);
+    },
+    [cartGoodsList, setCartGoodsList]
+  );
 
   // TODO: 결제 페이지로 이동
   const handleClickOrderButton = () => {};

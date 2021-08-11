@@ -1,4 +1,5 @@
 import React from 'react';
+import { useCallback } from 'react';
 import styled from 'styled-components';
 import { BiTrash } from 'react-icons/bi';
 import { CartGoods } from '@src/types/CartGoods';
@@ -15,17 +16,20 @@ interface Props {
 const CartGoodsListItem: React.FC<Props> = ({ cartGoods, onChangeAmount, onDeleteCartGoods, onChangeIsSelected }) => {
   const { id, thumbnailUrl, title, price, discountRate, amount, isSelected } = cartGoods;
 
-  const handleChangeAmount = (amount: number) => {
-    onChangeAmount(id, amount);
-  };
+  const handleChangeAmount = useCallback(
+    (amount: number) => {
+      onChangeAmount(id, amount);
+    },
+    [onChangeAmount, id]
+  );
 
-  const handleDeleteCartGoods = () => {
+  const handleDeleteCartGoods = useCallback(() => {
     onDeleteCartGoods(id);
-  };
+  }, [onDeleteCartGoods, id]);
 
-  const handleChangeIsSelected = () => {
+  const handleChangeIsSelected = useCallback(() => {
     onChangeIsSelected(id, !isSelected);
-  };
+  }, [onChangeIsSelected, id, isSelected]);
 
   return (
     <Wrapper>

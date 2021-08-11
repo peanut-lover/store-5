@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useMemo, useCallback } from 'react';
 import styled from 'styled-components';
 
 import { CartGoods } from '@src/types/CartGoods';
@@ -23,24 +23,40 @@ const CartGoodsListContainer: React.FC<Props> = ({
   onReviseIsSelected,
   onChangeAmount,
 }) => {
-  const selectedCartGoodsIds = cartGoodsList.filter(({ isSelected }) => isSelected).map(({ id }) => id);
+  const selectedCartGoodsIds = useMemo(
+    () => cartGoodsList.filter(({ isSelected }) => isSelected).map(({ id }) => id),
+    [cartGoodsList]
+  );
   const isAllGoodsSelected = selectedCartGoodsIds.length === cartGoodsList.length;
 
-  const handleChangeAmount = (id: number, amount: number) => {
-    onChangeAmount(id, amount);
-  };
-  const handleDeleteCartGoods = (id: number) => {
-    onDeleteCartGoodsAll([id]);
-  };
-  const handleDeleteSelectedCartGoods = () => {
+  const handleChangeAmount = useCallback(
+    (id: number, amount: number) => {
+      onChangeAmount(id, amount);
+    },
+    [onChangeAmount]
+  );
+
+  const handleDeleteCartGoods = useCallback(
+    (id: number) => {
+      onDeleteCartGoodsAll([id]);
+    },
+    [onDeleteCartGoodsAll]
+  );
+
+  const handleDeleteSelectedCartGoods = useCallback(() => {
     onDeleteCartGoodsAll(selectedCartGoodsIds);
-  };
-  const handleChangeIsSelected = (id: number, isSelected: boolean) => {
-    onChangeIsSelected(id, isSelected);
-  };
-  const handleClickMasterCheckButton = () => {
+  }, [onDeleteCartGoodsAll, selectedCartGoodsIds]);
+
+  const handleChangeIsSelected = useCallback(
+    (id: number, isSelected: boolean) => {
+      onChangeIsSelected(id, isSelected);
+    },
+    [onChangeIsSelected]
+  );
+
+  const handleClickMasterCheckButton = useCallback(() => {
     onReviseIsSelected(!isAllGoodsSelected);
-  };
+  }, [onReviseIsSelected, isAllGoodsSelected]);
 
   return (
     <Wrapper>
