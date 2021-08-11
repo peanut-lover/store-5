@@ -1,6 +1,17 @@
 import React from 'react';
 import styled from 'styled-components';
 
+const CartNoData: React.FC = () => {
+  return (
+    <Wrapper>
+      {/* TODO: import asset이 안되는 이유 찾기 */}
+      <Img src='https://cdn-mart.baemin.com/front-end/assets/20210803103146/images/empty-cart.d6e30f3a9b6ce424c59b924c7fd86bd3.png' />
+      <Title>장바구니에 담긴 상품이 없습니다.</Title>
+      <Button>메인으로 가기</Button>
+    </Wrapper>
+  );
+};
+
 const Img = styled.img`
   height: 8rem;
 `;
@@ -39,16 +50,5 @@ const Wrapper = styled.div`
   margin-top: 4rem;
   margin-bottom: 4rem;
 `;
-
-const CartNoData: React.FC = () => {
-  return (
-    <Wrapper>
-      {/* TODO: import asset이 안되는 이유 찾기 */}
-      <Img src='https://cdn-mart.baemin.com/front-end/assets/20210803103146/images/empty-cart.d6e30f3a9b6ce424c59b924c7fd86bd3.png' />
-      <Title>장바구니에 담긴 상품이 없습니다.</Title>
-      <Button>메인으로 가기</Button>
-    </Wrapper>
-  );
-};
 
 export default CartNoData;

@@ -1,46 +1,10 @@
 import React from 'react';
 import { useState } from 'react';
-import { CartGoods } from '@src/types/CartGoods';
 import styled from 'styled-components';
+import { CartGoods } from '@src/types/CartGoods';
 import CartGoodsListContainer from './CartGoodsListContainer/CartGoodsListContainer';
 import CartNoData from './CartNoData/CartNoData';
 import CartOrder from './CartOrder/CartOrder';
-
-const Wrapper = styled.div`
-  font-family: initial;
-  font-size: initial;
-  margin: auto;
-  width: 1024px;
-
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-`;
-const LayoutLeft = styled.div`
-  flex: 6;
-`;
-const LayoutRight = styled.div`
-  flex: 4;
-`;
-const Header = styled.h1`
-  margin: 0;
-  padding: 0;
-  font-size: 1.75rem;
-  font-weight: bold;
-
-  text-align: center;
-  width: 100%;
-  padding: 1.5rem 0;
-  border-bottom: 4px solid black;
-  margin-bottom: 2rem;
-`;
-const ContentWrapper = styled.div`
-  width: 100%;
-  display: flex;
-  justify-content: flex-start;
-  align-items: flex-start;
-  gap: 4rem;
-`;
 
 const mock: CartGoods[] = [
   {
@@ -120,5 +84,41 @@ const Cart: React.FC = () => {
     </Wrapper>
   );
 };
+
+const Wrapper = styled.div`
+  font-family: initial;
+  font-size: initial;
+  margin: auto;
+  width: 1024px;
+
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+`;
+const LayoutLeft = styled.div`
+  flex: 6;
+`;
+const LayoutRight = styled.div`
+  flex: 4;
+`;
+const Header = styled.h1`
+  margin: 0;
+  padding: 0;
+  font-size: 1.75rem;
+  font-weight: bold;
+
+  text-align: center;
+  width: 100%;
+  padding: 1.5rem 0;
+  border-bottom: 4px solid black;
+  margin-bottom: 2rem;
+`;
+const ContentWrapper = styled.div`
+  width: 100%;
+  display: flex;
+  justify-content: flex-start;
+  align-items: flex-start;
+  gap: 4rem;
+`;
 
 export default Cart;

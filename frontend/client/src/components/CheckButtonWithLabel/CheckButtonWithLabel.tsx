@@ -1,15 +1,6 @@
 import React from 'react';
-import CheckButton from '@src/components/CheckButton/CheckButton';
 import styled from 'styled-components';
-
-const Label = styled.label`
-  cursor: pointer;
-  padding-left: 0.5rem;
-`;
-const Wrapper = styled.div`
-  display: flex;
-  align-items: center;
-`;
+import CheckButton from '@src/components/CheckButton/CheckButton';
 
 interface Props {
   value: boolean;
@@ -25,5 +16,14 @@ const CheckButtonWithLabel: React.FC<Props> = ({ value, onClick, label }) => {
     </Wrapper>
   );
 };
+
+const Label = styled.label`
+  cursor: pointer;
+  padding-left: 0.5rem;
+`;
+const Wrapper = styled.div`
+  display: flex;
+  align-items: center;
+`;
 
 export default CheckButtonWithLabel;

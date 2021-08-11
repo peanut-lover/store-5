@@ -1,6 +1,42 @@
 import React from 'react';
-import { CartGoods } from '@src/types/CartGoods';
 import styled from 'styled-components';
+import { CartGoods } from '@src/types/CartGoods';
+
+interface Props {
+  cartGoodsList: CartGoods[];
+  onClickOrderButton: () => void;
+}
+
+// TODO: 배송비 정책 결정하고 대응 수정하기
+const CartOrder: React.FC<Props> = ({ cartGoodsList, onClickOrderButton }) => {
+  const selectedCartGoodsList = cartGoodsList.filter(({ isSelected }) => isSelected);
+  const reducedPrice = selectedCartGoodsList.reduce((prev, cartGoods) => prev + cartGoods.amount * cartGoods.price, 0);
+  const deliveryPrice = 0;
+
+  return (
+    <Wrapper>
+      <Title>결제금액</Title>
+      <SolidDivider />
+      <PriceWrapper>
+        <div>선택된 상품금액</div>
+        <div>{reducedPrice}원</div>
+      </PriceWrapper>
+      <PriceWrapper>
+        <div>배송비</div>
+        <div>{deliveryPrice}원</div>
+      </PriceWrapper>
+      <DashedDivider />
+      <PriceWrapper>
+        <StrongText>합계</StrongText>
+        <StrongText>{reducedPrice + deliveryPrice}원</StrongText>
+      </PriceWrapper>
+      <DashedDivider />
+      <Button onClick={onClickOrderButton} disabled={selectedCartGoodsList.length === 0}>
+        주문하기{selectedCartGoodsList.length > 0 && ` (${selectedCartGoodsList.length}개)`}
+      </Button>
+    </Wrapper>
+  );
+};
 
 const Wrapper = styled.div`
   display: flex;
@@ -75,41 +111,5 @@ const Button = styled.button`
     background-color: #eee;
   }
 `;
-
-interface Props {
-  cartGoodsList: CartGoods[];
-  onClickOrderButton: () => void;
-}
-
-// TODO: 배송비 정책 결정하고 대응 수정하기
-const CartOrder: React.FC<Props> = ({ cartGoodsList, onClickOrderButton }) => {
-  const selectedCartGoodsList = cartGoodsList.filter(({ isSelected }) => isSelected);
-  const reducedPrice = selectedCartGoodsList.reduce((prev, cartGoods) => prev + cartGoods.amount * cartGoods.price, 0);
-  const deliveryPrice = 0;
-
-  return (
-    <Wrapper>
-      <Title>결제금액</Title>
-      <SolidDivider />
-      <PriceWrapper>
-        <div>선택된 상품금액</div>
-        <div>{reducedPrice}원</div>
-      </PriceWrapper>
-      <PriceWrapper>
-        <div>배송비</div>
-        <div>{deliveryPrice}원</div>
-      </PriceWrapper>
-      <DashedDivider />
-      <PriceWrapper>
-        <StrongText>합계</StrongText>
-        <StrongText>{reducedPrice + deliveryPrice}원</StrongText>
-      </PriceWrapper>
-      <DashedDivider />
-      <Button onClick={onClickOrderButton} disabled={selectedCartGoodsList.length === 0}>
-        주문하기{selectedCartGoodsList.length > 0 && ` (${selectedCartGoodsList.length}개)`}
-      </Button>
-    </Wrapper>
-  );
-};
 
 export default CartOrder;

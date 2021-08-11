@@ -2,59 +2,8 @@ import React from 'react';
 import styled from 'styled-components';
 
 import { CartGoods } from '@src/types/CartGoods';
-import CartGoodsListItem from './CartGoodsListItem/CartGoodsListItem';
 import CheckButtonWithLabel from '@src/components/CheckButtonWithLabel/CheckButtonWithLabel';
-
-const Wrapper = styled.div`
-  display: flex;
-  flex-direction: column;
-`;
-
-const StrongText = styled.h2`
-  margin: 0;
-  padding: 0;
-  color: black;
-  font-size: 1.25rem;
-  font-weight: bolder;
-
-  margin-bottom: 1rem;
-`;
-
-const Button = styled.button`
-  cursor: pointer;
-  border: 1px solid #ddd;
-  color: black;
-  background-color: white;
-  margin: 0;
-  padding: 0.5rem 1rem;
-  font-size: 1.125rem;
-  font-weight: bolder;
-
-  transition: 0.2s linear;
-
-  :hover {
-    border: 1px solid black;
-  }
-
-  :disabled {
-    cursor: initial;
-    border: 1px solid #ddd;
-    color: #ddd;
-  }
-`;
-
-const FlexRow = styled.div`
-  display: flex;
-  justify-content: space-between;
-  align-items: center;
-`;
-
-const Divider = styled.hr`
-  height: 2px;
-  border: none;
-  width: 100%;
-  background-color: #ddd;
-`;
+import CartGoodsListItem from './CartGoodsListItem/CartGoodsListItem';
 
 interface Props {
   cartGoodsList: CartGoods[];
@@ -119,5 +68,56 @@ const CartGoodsListContainer: React.FC<Props> = ({
     </Wrapper>
   );
 };
+
+const Wrapper = styled.div`
+  display: flex;
+  flex-direction: column;
+`;
+
+const StrongText = styled.h2`
+  margin: 0;
+  padding: 0;
+  color: black;
+  font-size: 1.25rem;
+  font-weight: bolder;
+
+  margin-bottom: 1rem;
+`;
+
+const Button = styled.button`
+  cursor: pointer;
+  border: 1px solid #ddd;
+  color: black;
+  background-color: white;
+  margin: 0;
+  padding: 0.5rem 1rem;
+  font-size: 1.125rem;
+  font-weight: bolder;
+
+  transition: 0.2s linear;
+
+  :hover {
+    border: 1px solid black;
+  }
+
+  :disabled {
+    cursor: initial;
+    border: 1px solid #ddd;
+    color: #ddd;
+  }
+`;
+
+const FlexRow = styled.div`
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+`;
+
+const Divider = styled.hr`
+  height: 2px;
+  border: none;
+  width: 100%;
+  background-color: #ddd;
+`;
 
 export default CartGoodsListContainer;

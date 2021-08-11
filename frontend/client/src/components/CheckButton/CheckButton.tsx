@@ -2,6 +2,19 @@ import React from 'react';
 import styled from 'styled-components';
 import { FaCheck } from 'react-icons/fa';
 
+interface Props {
+  value: boolean;
+  onClick: () => void;
+}
+
+const CheckButton: React.FC<Props> = ({ value, onClick }) => {
+  return (
+    <StyledButton value={value ? 'true' : ''} onClick={onClick}>
+      {value && <FaCheck color='white' />}
+    </StyledButton>
+  );
+};
+
 const StyledButton = styled.button`
   cursor: pointer;
   border-radius: 0.125rem;
@@ -15,18 +28,5 @@ const StyledButton = styled.button`
   background-color: ${(props) => (props.value ? 'rgb(42, 193, 188)' : 'white')};
   border: 1px solid ${(props) => (props.value ? 'rgb(42, 193, 188)' : '#ddd')};
 `;
-
-interface Props {
-  value: boolean;
-  onClick: () => void;
-}
-
-const CheckButton: React.FC<Props> = ({ value, onClick }) => {
-  return (
-    <StyledButton value={value ? 'true' : ''} onClick={onClick}>
-      {value && <FaCheck color='white' />}
-    </StyledButton>
-  );
-};
 
 export default CheckButton;
