@@ -17,7 +17,7 @@ const HeaderTop: React.FC<{ userName: string }> = ({ userName }) => {
 
   return (
     <HeaderTopContainer>
-      {!userName ? (
+      {userName ? (
         <UserContentContainer>
           <ProfileContainer>
             <UserName>{`${userName}님,`}</UserName>
