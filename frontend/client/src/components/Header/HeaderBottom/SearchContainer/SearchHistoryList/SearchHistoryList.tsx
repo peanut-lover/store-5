@@ -55,6 +55,7 @@ const Button = styled.button`
   background-color: transparent;
   cursor: pointer;
   color: gray;
+  font-size: 1.2em;
   z-index: 3;
   :hover {
     transform: scale(1.2);
