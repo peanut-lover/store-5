@@ -1,14 +1,9 @@
 import React from 'react';
-import { useState } from 'react';
 import styled from 'styled-components';
 
 import { CartGoods } from 'src/types/CartGoods';
 import CartGoodsListItem from './CartGoodsListItem/CartGoodsListItem';
 import CheckButtonWithLabel from 'src/components/CheckButtonWithLabel/CheckButtonWithLabel';
-
-interface Props {
-  cartGoodsList: CartGoods[];
-}
 
 const StrongText = styled.h2`
   margin: 0;
@@ -64,28 +59,62 @@ const Divider = styled.hr`
   background-color: #ddd;
 `;
 
-// 전체 선택
-// 상품삭제(모달)
-const CartGoodsListContainer: React.FC<Props> = ({ cartGoodsList }) => {
-  const [value, setValue] = useState(true);
+interface Props {
+  cartGoodsList: CartGoods[];
+  onDeleteCartGoodsAll: (ids: number[]) => void;
+  onChangeIsSelected: (id: number, isSelected: boolean) => void;
+  onChangeAllIsSelected: (isSelected: boolean) => void;
+  onChangeAmount: (id: number, amount: number) => void;
+}
+
+const CartGoodsListContainer: React.FC<Props> = ({
+  cartGoodsList,
+  onDeleteCartGoodsAll,
+  onChangeIsSelected,
+  onChangeAllIsSelected,
+  onChangeAmount,
+}) => {
+  const selectedCartGoodsIds = cartGoodsList.filter(({ isSelected }) => isSelected).map(({ id }) => id);
+  const isAllGoodsSelected = selectedCartGoodsIds.length === cartGoodsList.length;
+
+  const handleChangeAmount = (id: number, amount: number) => {
+    onChangeAmount(id, amount);
+  };
+  const handleDeleteCartGoods = (id: number) => {
+    onDeleteCartGoodsAll([id]);
+  };
+  const handleDeleteSelectedCartGoods = () => {
+    onDeleteCartGoodsAll(selectedCartGoodsIds);
+  };
+  const handleChangeIsSelected = (id: number, isSelected: boolean) => {
+    onChangeIsSelected(id, isSelected);
+  };
+  const handleClickMasterCheckButton = () => {
+    onChangeAllIsSelected(!isAllGoodsSelected);
+  };
 
   return (
     <Wrapper>
       <StrongText>장바구니 상품 {cartGoodsList.length}개</StrongText>
       <FlexRow>
         <CheckButtonWithLabel
-          label={value ? '선택해제' : '전체선택'}
-          value={value}
-          onClick={() => {
-            setValue(!value);
-          }}
+          label={isAllGoodsSelected ? '선택해제' : '전체선택'}
+          value={isAllGoodsSelected}
+          onClick={handleClickMasterCheckButton}
         ></CheckButtonWithLabel>
-        <Button>상품삭제</Button>
+        <Button onClick={handleDeleteSelectedCartGoods}>상품삭제</Button>
+        {/* TODO: 모달 */}
       </FlexRow>
       <Divider />
       <div>
         {cartGoodsList.map((cartGoods) => (
-          <CartGoodsListItem key={cartGoods.id} cartGoods={cartGoods} />
+          <CartGoodsListItem
+            key={cartGoods.id}
+            cartGoods={cartGoods}
+            onChangeAmount={handleChangeAmount}
+            onChangeIsSelected={handleChangeIsSelected}
+            onDeleteCartGoods={handleDeleteCartGoods}
+          />
         ))}
       </div>
     </Wrapper>
