@@ -62,7 +62,7 @@ export const Link: React.FC<LinkProps> = ({ to, children }) => {
 type Params = { [key: string]: string };
 
 type Match = {
-  route: Route;
+  route: React.ReactElement<RouteProps>;
   params: Params;
 };
 
@@ -101,7 +101,7 @@ function compilePath(path: string) {
  * @param children 보여질 Routing Page들(components)
  * @param location 탐색할 경로
  */
-function matchRoutes(children: Route[], location: string) {
+function matchRoutes(children: ReactElementAsChildren<RouteProps>, location: string) {
   const matches: Match[] = [];
 
   React.Children.forEach(children, (route) => {
@@ -130,15 +130,21 @@ const RouteContext = createContext<RouteContextType>({
   params: {},
 });
 
+type ReactElementAsChildren<P = any> = React.ReactElement<P> | React.ReactElement<P>[];
+
+interface RoutesProps {
+  children?: ReactElementAsChildren;
+}
+
 /**
  * RouterContext에 있는 location 정보를 이용해서 알맞은 Route Component를 보여준다.
  */
-export const Routes: React.FC = ({ children }) => {
+export const Routes: React.FC<RoutesProps> = ({ children }) => {
   const { location } = useContext(RouterContext);
 
-  const match: Match = useMemo(() => matchRoutes(children as Route[], location), [children, location]);
+  const match: Match = useMemo(() => matchRoutes(children as ReactElementAsChildren, location), [children, location]);
   const value = useMemo(() => {
-    return { params: match.params };
+    return { params: match?.params };
   }, [match]);
 
   if (!match) {

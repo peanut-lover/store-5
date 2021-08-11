@@ -20,6 +20,9 @@ export default function App() {
           <Route path='/'>
             <Main />
           </Route>
+          <Route path='/test'>
+            <Main />
+          </Route>
         </Routes>
       </div>
       <GlobalStyles />
