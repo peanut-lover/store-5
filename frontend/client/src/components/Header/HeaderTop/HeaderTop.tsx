@@ -5,12 +5,13 @@ import { Link } from '../../../lib/CustomRouter';
 const HELLO = '안녕하세요!';
 
 const HeaderTop: React.FC<{ userName: string }> = ({ userName }) => {
+  // TODO: 모달 연동
   const [openLoginModal, setOpenLoginModal] = useState(false);
   const [openLogoutModal, setOpenLogoutModal] = useState(false);
-  const onClickLogout = useCallback(() => {
+  const handleClickLogout = useCallback(() => {
     setOpenLogoutModal(true);
   }, []);
-  const onClickLogin = useCallback(() => {
+  const handleClickLogin = useCallback(() => {
     setOpenLoginModal(true);
   }, []);
 
@@ -25,10 +26,10 @@ const HeaderTop: React.FC<{ userName: string }> = ({ userName }) => {
           <Link to='/admin'>
             <Span>관리자페이지</Span>
           </Link>
-          <Button onClick={onClickLogout}>로그아웃</Button>
+          <Button onClick={handleClickLogout}>로그아웃</Button>
         </Container>
       ) : (
-        <Button onClick={onClickLogin}>로그인</Button>
+        <Button onClick={handleClickLogin}>로그인</Button>
       )}
       {/* {openLoginModal && } */}
       {/* {openLogoutModal &&} */}

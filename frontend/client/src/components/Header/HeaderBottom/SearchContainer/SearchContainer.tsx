@@ -35,7 +35,7 @@ const SearchContainer = () => {
   const [searchInput, onChangeSearchInput, setSearchInput] = useInput('');
   const [autoSearchList, dispatch] = useReducer(reducer, ['맛집', '테스트', '입니다']);
 
-  const onSearch = useCallback(
+  const handleSearch = useCallback(
     (e) => {
       e.preventDefault();
       if (searchInput.length === 0) return;
@@ -45,7 +45,7 @@ const SearchContainer = () => {
     [searchInput]
   );
 
-  const onAutoSearch = useCallback((e) => {
+  const handleAutoSearch = useCallback((e) => {
     const keyword = e.target.value;
     debounce(() => {
       dispatch({ type: 'SEARCH', keyword });
@@ -77,8 +77,8 @@ const SearchContainer = () => {
   return (
     <Container>
       <FormContainer>
-        <Form onSubmit={onSearch}>
-          <Input ref={inputRef} value={searchInput} onChange={onChangeSearchInput} onInput={onAutoSearch} />
+        <Form onSubmit={handleSearch}>
+          <Input ref={inputRef} value={searchInput} onChange={onChangeSearchInput} onInput={handleAutoSearch} />
           <Button>
             <BsSearch size='1.3em' />
           </Button>
