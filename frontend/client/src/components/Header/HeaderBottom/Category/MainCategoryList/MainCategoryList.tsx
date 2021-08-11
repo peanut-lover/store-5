@@ -1,11 +1,11 @@
 import React, { MouseEvent } from 'react';
 import styled, { css } from 'styled-components';
 
-type Props = {
+interface Props {
   list: string[];
   onHover: (e: MouseEvent<HTMLUListElement> | undefined) => void;
   hovered: string;
-};
+}
 
 const MainCategoryList: React.FC<Props> = ({ list, onHover, hovered }) => {
   return (

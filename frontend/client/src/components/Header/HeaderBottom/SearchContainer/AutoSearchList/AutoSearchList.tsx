@@ -2,10 +2,10 @@ import React, { useCallback } from 'react';
 import styled from 'styled-components';
 import { Link } from '@src/lib/CustomRouter';
 
-type Props = {
+interface Props {
   autoSearchList: string[];
   onAddHistory: (keyword: string) => void;
-};
+}
 
 const AutoSearchList: React.FC<Props> = ({ autoSearchList, onAddHistory }) => {
   return (

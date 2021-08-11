@@ -2,10 +2,10 @@ import { debounceClear } from '@src/utils/debounce';
 import React from 'react';
 import styled from 'styled-components';
 
-type Props = {
+interface Props {
   list: { [key: string]: string[] };
   hovered: string;
-};
+}
 const SubCategoryList: React.FC<Props> = ({ list, hovered }) => {
   return (
     <SubCategoryContainer>

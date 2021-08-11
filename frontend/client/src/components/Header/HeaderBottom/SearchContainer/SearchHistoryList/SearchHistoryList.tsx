@@ -1,13 +1,27 @@
 import React, { useCallback } from 'react';
 import styled from 'styled-components';
 
-type Props = {
+interface Props {
   searchHistory: string[];
   onDeleteHistory: (name: string) => void;
   onResetHistory: () => void;
-};
+}
 
 const SearchHistoryList: React.FC<Props> = ({ searchHistory, onDeleteHistory, onResetHistory }) => {
+  const handleDeleteHistory = useCallback(
+    (e, keyword) => {
+      e.stopPropagation();
+      onDeleteHistory(keyword);
+    },
+    [onDeleteHistory]
+  );
+  const handleResetHistory = useCallback(
+    (e) => {
+      e.stopPropagation();
+      onResetHistory();
+    },
+    [onResetHistory]
+  );
   return (
     <>
       <SearchHistoryContainer>
@@ -16,8 +30,7 @@ const SearchHistoryList: React.FC<Props> = ({ searchHistory, onDeleteHistory, on
             <Keyword>{keyword}</Keyword>
             <Button
               onClick={(e) => {
-                e.stopPropagation();
-                onDeleteHistory(keyword);
+                handleDeleteHistory(e, keyword);
               }}
             >
               x
@@ -25,14 +38,7 @@ const SearchHistoryList: React.FC<Props> = ({ searchHistory, onDeleteHistory, on
           </SearchItem>
         ))}
       </SearchHistoryContainer>
-      <SearchHistoryFooter
-        onClick={(e) => {
-          e.stopPropagation();
-          onResetHistory();
-        }}
-      >
-        전체 삭제
-      </SearchHistoryFooter>
+      <SearchHistoryFooter onClick={handleResetHistory}>전체 삭제</SearchHistoryFooter>
     </>
   );
 };

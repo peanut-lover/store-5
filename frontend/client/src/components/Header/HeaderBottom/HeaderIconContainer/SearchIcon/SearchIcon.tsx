@@ -3,11 +3,11 @@ import { BsSearch } from 'react-icons/bs';
 import { IconContainer, IconTitle } from '../IconContainerStyle';
 import SearchContainer from '@src/components/Header/HeaderBottom/SearchContainer/SearchContainer';
 
-type Props = {
+interface Props {
   searchRef: RefObject<HTMLDivElement>;
   openSearchForm: boolean;
   onOpenSearchForm: () => void;
-};
+}
 
 const SearchIcon: React.FC<Props> = ({ searchRef, openSearchForm, onOpenSearchForm }) => (
   <IconContainer ref={searchRef} onClick={onOpenSearchForm}>
