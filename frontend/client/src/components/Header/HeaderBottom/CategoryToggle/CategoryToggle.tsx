@@ -1,6 +1,5 @@
 import React from 'react';
 import { GiHamburgerMenu } from 'react-icons/gi';
-import SearchContainer from 'src/components/Header/HeaderBottom/SearchContainer/SearchContainer';
 import Category from 'src/components/Header/HeaderBottom/Category/Category';
 import styled from 'styled-components';
 
@@ -24,7 +23,6 @@ const CategoryToggle = () => {
       <GiHamburgerMenu size='1.7em' />
       <Title>전체 카테고리</Title>
       <Category />
-      <SearchContainer />
     </Toggle>
   );
 };
