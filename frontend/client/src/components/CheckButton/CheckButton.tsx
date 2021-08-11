@@ -24,7 +24,7 @@ interface Props {
 const CheckButton: React.FC<Props> = ({ value, onClick }) => {
   return (
     <StyledButton value={value ? 'true' : ''} onClick={onClick}>
-      <FaCheck color='white' />
+      {value && <FaCheck color='white' />}
     </StyledButton>
   );
 };
