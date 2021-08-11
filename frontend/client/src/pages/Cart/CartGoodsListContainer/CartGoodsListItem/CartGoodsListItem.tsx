@@ -29,7 +29,7 @@ const CartGoodsListItem: React.FC<Props> = ({ cartGoods, onChangeAmount, onDelet
 
   return (
     <Wrapper>
-      <CheckButton value={isSelected} onClick={handleChangeIsSelected} />
+      <CheckButton isChecked={isSelected} onClick={handleChangeIsSelected} />
       <ThumbnailImg src={thumbnailUrl} />
       <GoodsTitle>{title}</GoodsTitle>
       <FlexColumn>

@@ -45,7 +45,7 @@ const CartGoodsListContainer: React.FC<Props> = ({
       <FlexRow>
         <CheckButtonWithLabel
           label={isAllGoodsSelected ? '선택해제' : '전체선택'}
-          value={isAllGoodsSelected}
+          isChecked={isAllGoodsSelected}
           onClick={handleClickMasterCheckButton}
         ></CheckButtonWithLabel>
         <Button disabled={selectedCartGoodsIds.length === 0} onClick={handleDeleteSelectedCartGoods}>

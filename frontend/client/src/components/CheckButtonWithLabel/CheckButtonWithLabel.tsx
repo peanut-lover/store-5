@@ -3,15 +3,15 @@ import styled from 'styled-components';
 import CheckButton from '@src/components/CheckButton/CheckButton';
 
 interface Props {
-  value: boolean;
+  isChecked: boolean;
   onClick: () => void;
   label: string;
 }
 
-const CheckButtonWithLabel: React.FC<Props> = ({ value, onClick, label }) => {
+const CheckButtonWithLabel: React.FC<Props> = ({ isChecked, onClick, label }) => {
   return (
     <Wrapper>
-      <CheckButton value={value} onClick={onClick}></CheckButton>
+      <CheckButton isChecked={isChecked} onClick={onClick}></CheckButton>
       <Label onClick={onClick}>{label}</Label>
     </Wrapper>
   );
