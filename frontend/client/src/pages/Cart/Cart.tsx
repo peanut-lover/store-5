@@ -7,6 +7,8 @@ import CartNoData from './CartNoData/CartNoData';
 import CartOrder from './CartOrder/CartOrder';
 
 const Wrapper = styled.div`
+  font-family: initial;
+  font-size: initial;
   margin: auto;
   width: 1024px;
 
