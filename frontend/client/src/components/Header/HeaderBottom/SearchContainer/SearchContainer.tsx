@@ -82,7 +82,7 @@ const SearchContainer = () => {
   }, []);
 
   return (
-    <Container>
+    <SearchProductContainer>
       <FormContainer>
         <Form onSubmit={handleSearch}>
           <Input ref={inputRef} value={searchInput} onChange={onChangeSearchInput} onInput={handleAutoSearch} />
@@ -107,10 +107,10 @@ const SearchContainer = () => {
           <SearchHistoryEmpty />
         )}
       </ContentContainer>
-    </Container>
+    </SearchProductContainer>
   );
 };
-const Container = styled.div`
+const SearchProductContainer = styled.div`
   z-index: 2;
   position: absolute;
   top: 100%;

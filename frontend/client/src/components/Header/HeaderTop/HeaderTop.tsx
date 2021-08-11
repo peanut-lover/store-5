@@ -1,6 +1,6 @@
 import React, { useCallback, useState } from 'react';
 import styled from 'styled-components';
-import { Link } from '../../../lib/CustomRouter';
+import { Link } from '@src/lib/CustomRouter';
 
 const HELLO = '안녕하세요!';
 
@@ -16,28 +16,28 @@ const HeaderTop: React.FC<{ userName: string }> = ({ userName }) => {
   }, []);
 
   return (
-    <Top>
+    <HeaderTopContainer>
       {!userName ? (
-        <Container>
-          <UserContainer>
+        <UserContentContainer>
+          <ProfileContainer>
             <UserName>{`${userName}님,`}</UserName>
             <span>{HELLO}</span>
-          </UserContainer>
+          </ProfileContainer>
           <Link to='/admin'>
             <Span>관리자페이지</Span>
           </Link>
           <Button onClick={handleClickLogout}>로그아웃</Button>
-        </Container>
+        </UserContentContainer>
       ) : (
         <Button onClick={handleClickLogin}>로그인</Button>
       )}
       {/* {openLoginModal && } */}
       {/* {openLogoutModal &&} */}
-    </Top>
+    </HeaderTopContainer>
   );
 };
 
-const Top = styled.div`
+const HeaderTopContainer = styled.div`
   box-sizing: border-box;
   display: flex;
   justify-content: flex-end;
@@ -48,12 +48,12 @@ const Top = styled.div`
   color: gray;
 `;
 
-const Container = styled.div`
+const UserContentContainer = styled.div`
   box-sizing: border-box;
   display: flex;
 `;
 
-const UserContainer = styled.div`
+const ProfileContainer = styled.div`
   box-sizing: border-box;
   display: flex;
   justify-content: center;

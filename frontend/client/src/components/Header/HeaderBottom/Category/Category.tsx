@@ -1,19 +1,10 @@
-import React, { useState } from 'react';
-import { useCallback } from 'react';
-import { debounce, debounceClear } from '@src/utils/debounce';
-import {
-  Container,
-  MainCategory,
-  SubListContainer,
-  MainListContainer,
-  MainList,
-  SubList,
-  SubCategory,
-  MainCategoryTitle,
-  SubCategoryTitle,
-  SubCategoryLink,
-} from './CategoryStyle';
+import React, { useState, useCallback } from 'react';
+import { debounce } from '@src/utils/debounce';
+import MainCategoryList from '@src/components/Header/HeaderBottom/Category/MainCategoryList/MainCategoryList';
+import SubCategoryList from '@src/components/Header/HeaderBottom/Category/SubCategoryList/SubCategoryList';
+import styled from 'styled-components';
 
+// TODO: API 연동 후 dummy Data 삭제
 const MAIN_CATEGORY = ['문구', '리빙', '책', '배민그린', '을지로에디션'];
 
 const SUB_CATEGORY = {
@@ -37,6 +28,7 @@ const SUB_CATEGORY = {
   ],
 };
 
+// TODO: 임시 데이터 타입 정의, DB에서 데이터 관리할 예정
 type MainCategory = '문구' | '리빙' | '책' | '배민그린' | '을지로에디션';
 
 const Category = () => {
@@ -56,29 +48,31 @@ const Category = () => {
   }, []);
 
   return (
-    <Container>
-      <MainListContainer>
-        <MainList onMouseOver={handleHover}>
-          {MAIN_CATEGORY.map((category, i) => (
-            <MainCategory key={i} active={category === hovered} data-category={category}>
-              <MainCategoryTitle>{category}</MainCategoryTitle>
-            </MainCategory>
-          ))}
-        </MainList>
-      </MainListContainer>
-      <SubListContainer>
-        <SubList onMouseEnter={debounceClear}>
-          {SUB_CATEGORY[hovered].map((category, i) => (
-            <SubCategory key={i}>
-              <SubCategoryLink href='/category'>
-                <SubCategoryTitle>{category}</SubCategoryTitle>
-              </SubCategoryLink>
-            </SubCategory>
-          ))}
-        </SubList>
-      </SubListContainer>
-    </Container>
+    <CategoryContainer>
+      <MainCategoryList list={MAIN_CATEGORY} onHover={handleHover} hovered={hovered} />
+      <SubCategoryList list={SUB_CATEGORY} hovered={hovered} />
+    </CategoryContainer>
   );
 };
+
+export const CategoryContainer = styled.div`
+  display: flex;
+  position: absolute;
+  top: 100%;
+  left: 15%;
+  color: #fff;
+  background-color: rgb(115, 103, 92);
+  width: auto;
+  min-height: 396px;
+  min-width: 280px;
+  max-width: 1080px;
+  box-shadow: rgb(0 0 0 / 10%) 0px 4px 12px 0px;
+  flex-direction: row;
+  -webkit-box-pack: start;
+  justify-content: flex-start;
+  -webkit-box-align: stretch;
+  align-items: stretch;
+  z-index: 5;
+`;
 
 export default Category;

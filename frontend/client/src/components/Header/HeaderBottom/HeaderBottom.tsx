@@ -5,16 +5,16 @@ import HeaderIconContainer from './HeaderIconContainer/HeaderIconContainer';
 
 const HeaderBottom = () => {
   return (
-    <Bottom>
+    <HeaderBottomContainer>
       <CategoryToggle />
       <div>
         <span>로고</span>
       </div>
       <HeaderIconContainer />
-    </Bottom>
+    </HeaderBottomContainer>
   );
 };
-const Bottom = styled.div`
+const HeaderBottomContainer = styled.div`
   box-sizing: border-box;
   display: flex;
   justify-content: space-between;

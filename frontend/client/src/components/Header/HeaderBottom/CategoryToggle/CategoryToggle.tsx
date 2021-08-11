@@ -26,22 +26,22 @@ const CategoryToggle = () => {
   }, []);
 
   return (
-    <Toggle ref={categoryRef} onClick={handleOpenCategory}>
+    <CategoryToggleContainer ref={categoryRef} onClick={handleOpenCategory}>
       <GiHamburgerMenu size='1.7em' />
-      <Title>전체 카테고리</Title>
+      <CategoryToggleTitle>전체 카테고리</CategoryToggleTitle>
       {openCategory && <Category />}
-    </Toggle>
+    </CategoryToggleContainer>
   );
 };
 
-const Toggle = styled.div`
+const CategoryToggleContainer = styled.div`
   display: flex;
   align-items: center;
   color: rgb(115, 103, 92);
   cursor: pointer;
 `;
 
-const Title = styled.h3`
+const CategoryToggleTitle = styled.h3`
   margin: 0;
   margin-left: 6px;
   line-height: 2em;

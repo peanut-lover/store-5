@@ -9,17 +9,17 @@ type Props = {
 
 const AutoSearchList: React.FC<Props> = ({ autoSearchList, onAddHistory }) => {
   return (
-    <Container onMouseDown={(e) => e.preventDefault()}>
+    <AutoSearchListContainer onMouseDown={(e) => e.preventDefault()}>
       {autoSearchList.map((keyword, i) => (
         <Link key={i} to={`/goods?keyword=${keyword}`}>
           <Keyword onClick={() => onAddHistory(keyword)}>{keyword}</Keyword>
         </Link>
       ))}
-    </Container>
+    </AutoSearchListContainer>
   );
 };
 
-const Container = styled.ul`
+const AutoSearchListContainer = styled.ul`
   position: absolute;
   top: 60px;
   border: 1px solid lightgray;

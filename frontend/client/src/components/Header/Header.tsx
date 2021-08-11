@@ -5,13 +5,13 @@ import HeaderTop from './HeaderTop/HeaderTop';
 
 const Header = () => {
   return (
-    <Head>
+    <HeaderContainer>
       <HeaderTop userName={''} />
       <HeaderBottom />
-    </Head>
+    </HeaderContainer>
   );
 };
-const Head = styled.header`
+const HeaderContainer = styled.header`
   position: relative;
   width: 100%;
   min-width: 1080px;

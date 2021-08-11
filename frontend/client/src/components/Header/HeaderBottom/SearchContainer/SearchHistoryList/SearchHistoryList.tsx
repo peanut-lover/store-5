@@ -10,7 +10,7 @@ type Props = {
 const SearchHistoryList: React.FC<Props> = ({ searchHistory, onDeleteHistory, onResetHistory }) => {
   return (
     <>
-      <Container>
+      <SearchHistoryContainer>
         {searchHistory.map((keyword, i) => (
           <SearchItem key={i}>
             <Keyword>{keyword}</Keyword>
@@ -24,20 +24,20 @@ const SearchHistoryList: React.FC<Props> = ({ searchHistory, onDeleteHistory, on
             </Button>
           </SearchItem>
         ))}
-      </Container>
-      <Footer
+      </SearchHistoryContainer>
+      <SearchHistoryFooter
         onClick={(e) => {
           e.stopPropagation();
           onResetHistory();
         }}
       >
         전체 삭제
-      </Footer>
+      </SearchHistoryFooter>
     </>
   );
 };
 
-const Container = styled.ul`
+const SearchHistoryContainer = styled.ul`
   padding: 0 16px;
   height: 300px;
   overflow: hidden auto;
@@ -71,7 +71,7 @@ const Button = styled.button`
   }
 `;
 
-const Footer = styled.div`
+const SearchHistoryFooter = styled.div`
   height: 52px;
   text-align: center;
   line-height: 50px;
