@@ -8,6 +8,7 @@ import useSearchHistory from '@src/hooks/useSearchHistory';
 import { debounce } from '@src/utils/debounce';
 import AutoSearchList from './AutoSearchList/AutoSearchList';
 
+// TODO: 팀원들과 의논 후 reducer를 어떻게 처리할지
 const reducer = (state: string[], action: { type: string; keyword: string }) => {
   switch (action.type) {
     case 'SEARCH':
@@ -30,7 +31,7 @@ const reducer = (state: string[], action: { type: string; keyword: string }) => 
 const SearchContainer = () => {
   const inputRef = useRef<HTMLInputElement>(null);
   const [inputFocused, setInputFocused] = useState(false);
-  const [searchHistory, setSearchHistory] = useSearchHistory();
+  const [searchHistory, setSearchHistory, resetSearchHistory] = useSearchHistory();
   const [searchInput, onChangeSearchInput, setSearchInput] = useInput('');
   const [autoSearchList, dispatch] = useReducer(reducer, ['맛집', '테스트', '입니다']);
 
@@ -38,20 +39,30 @@ const SearchContainer = () => {
     (e) => {
       e.preventDefault();
       if (searchInput.length === 0) return;
-      setSearchHistory(searchInput);
+      setSearchHistory([searchInput, ...searchHistory]);
       setSearchInput('');
     },
     [searchInput]
   );
+
   const onAutoSearch = useCallback((e) => {
     const keyword = e.target.value;
     debounce(() => {
       dispatch({ type: 'SEARCH', keyword });
-    }, 500);
+    }, 200);
   }, []);
-  const onClickKeyword = useCallback((keyword: string) => {
-    console.log(`/product?keyword=${keyword}`);
-  }, []);
+
+  const handleDeleteHistory = useCallback(
+    (name: string) => {
+      const updated = searchHistory.filter((keyword) => keyword !== name);
+      setSearchHistory(updated);
+    },
+    [searchHistory, setSearchHistory]
+  );
+
+  const handleResetHistory = useCallback(() => {
+    resetSearchHistory();
+  }, [resetSearchHistory]);
 
   useEffect(() => {
     const input = inputRef.current as HTMLInputElement;
@@ -62,6 +73,7 @@ const SearchContainer = () => {
       setInputFocused(false);
     });
   }, []);
+
   return (
     <Container>
       <FormContainer>
@@ -71,15 +83,17 @@ const SearchContainer = () => {
             <BsSearch size='1.3em' />
           </Button>
         </Form>
-        {autoSearchList.length > 0 && inputFocused && (
-          <AutoSearchList autoSearchList={autoSearchList} onClickKeyword={onClickKeyword} />
-        )}
+        {autoSearchList.length > 0 && inputFocused && <AutoSearchList autoSearchList={autoSearchList} />}
       </FormContainer>
       <Line />
       <ContentContainer>
         <ContentTitle>최근검색어</ContentTitle>
         {searchHistory.length > 0 ? (
-          <SearchHistoryList searchHistory={searchHistory} onClickKeyword={onClickKeyword} />
+          <SearchHistoryList
+            searchHistory={searchHistory}
+            onDeleteHistory={handleDeleteHistory}
+            onResetHistory={handleResetHistory}
+          />
         ) : (
           <SearchHistoryEmpty />
         )}

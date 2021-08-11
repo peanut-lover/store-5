@@ -1,21 +1,18 @@
 import React, { useCallback } from 'react';
 import styled from 'styled-components';
+import { Link } from '@src/lib/CustomRouter';
 
 type Props = {
   autoSearchList: string[];
-  onClickKeyword: (keyword: string) => void;
 };
 
-const AutoSearchList: React.FC<Props> = ({ autoSearchList, onClickKeyword }) => {
-  const onClickHandler = useCallback((e) => {
-    onClickKeyword(e.target.dataset.keyword);
-  }, []);
+const AutoSearchList: React.FC<Props> = ({ autoSearchList }) => {
   return (
-    <Container>
+    <Container onMouseDown={(e) => e.preventDefault()}>
       {autoSearchList.map((keyword, i) => (
-        <Keyword key={i} onMouseDown={onClickHandler} data-keyword={keyword}>
-          {keyword}
-        </Keyword>
+        <Link key={i} to={`/goods?keyword=${keyword}`}>
+          <Keyword>{keyword}</Keyword>
+        </Link>
       ))}
     </Container>
   );

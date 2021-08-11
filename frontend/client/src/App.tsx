@@ -10,13 +10,14 @@ export default function App() {
     <ThemeProvider theme={theme}>
       {/* TODO: Change Header Component */}
       <Header />
-      <div>
-        <Routes>
-          <Route path='/'>
-            <Main />
-          </Route>
-        </Routes>
-      </div>
+      <Routes>
+        <Route path='/goods'>
+          <div>hihi</div>
+        </Route>
+        <Route path='/'>
+          <Main />
+        </Route>
+      </Routes>
       <GlobalStyles />
     </ThemeProvider>
   );

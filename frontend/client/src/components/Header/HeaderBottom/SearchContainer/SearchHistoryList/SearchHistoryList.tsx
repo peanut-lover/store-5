@@ -3,23 +3,29 @@ import styled from 'styled-components';
 
 type Props = {
   searchHistory: string[];
-  onClickKeyword: (keyword: string) => void;
+  onDeleteHistory: (name: string) => void;
+  onResetHistory: () => void;
 };
 
-const SearchHistoryList: React.FC<Props> = ({ searchHistory, onClickKeyword }) => {
-  const onClickHandler = useCallback((e) => {
-    onClickKeyword(e.target.dataset.keyword);
-  }, []);
-
+const SearchHistoryList: React.FC<Props> = ({ searchHistory, onDeleteHistory, onResetHistory }) => {
   return (
-    <Container>
-      {searchHistory.map((keyword, i) => (
-        <SearchItem key={i}>
-          <Keyword>{keyword}</Keyword>
-          <Button>x</Button>
-        </SearchItem>
-      ))}
-    </Container>
+    <>
+      <Container>
+        {searchHistory.map((keyword, i) => (
+          <SearchItem key={i}>
+            <Keyword>{keyword}</Keyword>
+            <Button
+              onClick={() => {
+                onDeleteHistory(keyword);
+              }}
+            >
+              x
+            </Button>
+          </SearchItem>
+        ))}
+      </Container>
+      <Footer onClick={onResetHistory}>전체 삭제</Footer>
+    </>
   );
 };
 
@@ -54,5 +60,17 @@ const Button = styled.button`
     transform: scale(1.2);
     font-weight: 600;
   }
+`;
+
+const Footer = styled.div`
+  height: 52px;
+  text-align: center;
+  line-height: 50px;
+  font-size: 14px;
+  color: rgb(136, 136, 136);
+  background-color: rgb(246, 246, 246);
+  border-top: 1px solid lightgray;
+  margin-top: 13px;
+  cursor: pointer;
 `;
 export default SearchHistoryList;
