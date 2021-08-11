@@ -43,21 +43,24 @@ const DeleteButton = styled.button`
 
 interface Props {
   cartGoods: CartGoods;
+  onChangeAmount: (id: number, amount: number) => void;
+  onDeleteCartGoods: (id: number) => void;
+  onChangeIsSelected: (id: number, isSelected: boolean) => void;
 }
 
-const CartGoodsListItem: React.FC<Props> = ({ cartGoods }) => {
+const CartGoodsListItem: React.FC<Props> = ({ cartGoods, onChangeAmount, onDeleteCartGoods, onChangeIsSelected }) => {
   const { id, thumbnailUrl, title, price, discountRate, amount, isSelected } = cartGoods;
 
   const handleChangeAmount = (amount: number) => {
-    console.log(id, amount);
+    onChangeAmount(id, amount);
   };
 
   const handleDeleteCartGoods = () => {
-    console.log(id);
+    onDeleteCartGoods(id);
   };
 
   const handleChangeIsSelected = () => {
-    console.log(id, !isSelected);
+    onChangeIsSelected(id, !isSelected);
   };
 
   return (
