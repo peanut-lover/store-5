@@ -61,10 +61,6 @@ interface ZoomData {
     width: number;
     height: number;
   };
-  scale: {
-    x: number;
-    y: number;
-  };
 }
 
 export default function ImageZoom(
@@ -105,11 +101,6 @@ export default function ImageZoom(
       width: 0,
       height: 0,
     },
-    // 확대비율
-    scale: {
-      x: 0,
-      y: 0,
-    },
   };
 
   // 확대된 이미지가 들어갈 div 엘리먼트
@@ -147,13 +138,10 @@ export default function ImageZoom(
   }
 
   // 이미지의 확대 배율을 설정
-  function setZoomedImgSize(
-    { width, scale, height }: { width: number; scale: number; height: number },
-    data: ZoomData
-  ) {
+  function setZoomedImgSize({ width, height }: { width: number; height: number }, data: ZoomData) {
     if (data?.zoomedImg?.element === null) return;
-    data.zoomedImg.element.style.width = width * scale + 'px';
-    data.zoomedImg.element.style.height = height * scale + 'px';
+    data.zoomedImg.element.style.width = '100%';
+    data.zoomedImg.element.style.height = '100%';
   }
 
   // 생성한 이미지 엘리먼트의 boundingClientRect를 반환
@@ -169,25 +157,21 @@ export default function ImageZoom(
   function onSourceImgLoad() {
     if (data.sourceImg.element === null || data.zoomedImg.element === null) return;
 
-    setZoomedImgSize({ width, scale, height }, data);
+    setZoomedImgSize({ width, height }, data);
 
     data.sourceImg.width = data.sourceImg.element.width;
     data.sourceImg.height = data.sourceImg.element.height;
-    data.zoomedImg.element.style.backgroundSize = data.sourceImg.width + 'px ' + data.sourceImg.height + 'px';
+    data.zoomedImg.element.style.backgroundSize =
+      data.sourceImg.element.width * scale + 'px ' + data.sourceImg.element.height * scale + 'px';
 
-    data.scale.x = data.sourceImg.width / width;
-    data.scale.y = data.sourceImg.height / height;
-
-    data.zoomLens.width = width / (data.sourceImg.width / (width * scale));
-    data.zoomLens.height = height / (data.sourceImg.height / (height * scale));
-
-    data.zoomLens.width = zoomWidth / data.scale.x;
-    data.zoomLens.height = height / data.scale.y;
+    data.zoomLens.width = width / scale;
+    data.zoomLens.height = height / scale;
 
     if (data.zoomLens.element) {
       data.zoomLens.element.style.position = 'absolute';
       data.zoomLens.element.style.width = data.zoomLens.width + 'px';
       data.zoomLens.element.style.height = data.zoomLens.height + 'px';
+      data.zoomLens.element.style.cssText += ' border: 1px solid #999';
       // data.zoomLens.element.pointerEvents = 'none';
     }
   }
@@ -199,8 +183,8 @@ export default function ImageZoom(
     data.sourceImg.element = container.appendChild(imageTag);
 
     container.style.position = 'relative';
-    data.sourceImg.element.style.width = width ? width + 'px' : 'auto';
-    data.sourceImg.element.style.height = height ? height + 'px' : 'auto';
+    data.sourceImg.element.style.width = width + 'px';
+    data.sourceImg.element.style.height = height + 'px';
 
     data.zoomLens.element = container.appendChild(lensDiv);
     data.zoomLens.element.style.display = 'none';
@@ -260,11 +244,13 @@ export default function ImageZoom(
     },
     handleMouseMove: function (event: MouseEvent) {
       if (!data.sourceImg.element || !data.zoomedImg.element || !data.zoomLens.element) return;
+
       const offset = getOffset(data.sourceImg.element);
       const offsetX = zoomLensLeft(event.clientX - offset.left);
       const offsetY = zoomLensTop(event.clientY - offset.top);
-      const backgroundTop = offsetX * data.scale.x;
-      const backgroundRight = offsetY * data.scale.y;
+      console.log(data);
+      const backgroundTop = offsetX * scale;
+      const backgroundRight = offsetY * scale;
       const backgroundPosition = '-' + backgroundTop + 'px ' + '-' + backgroundRight + 'px';
       data.zoomedImg.element.style.backgroundPosition = backgroundPosition;
       data.zoomLens.element.style.cssText += 'top:' + offsetY + 'px;' + 'left:' + offsetX + 'px;display: block;';
