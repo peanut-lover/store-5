@@ -4,6 +4,7 @@ import { ThemeProvider } from 'styled-components';
 import { Routes, Route } from './lib/CustomRouter';
 import Main from './pages/Main/Main';
 import Header from '@src/components/Header/Header';
+import theme from './theme/theme';
 
 export default function App() {
   return (
