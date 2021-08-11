@@ -3,7 +3,7 @@ import styled from 'styled-components';
 import { AiOutlineShoppingCart } from 'react-icons/ai';
 import { BsSearch } from 'react-icons/bs';
 import { CgProfile } from 'react-icons/cg';
-import SearchContainer from 'src/components/Header/HeaderBottom/SearchContainer/SearchContainer';
+import SearchContainer from '@src/components/Header/HeaderBottom/SearchContainer/SearchContainer';
 
 const Container = styled.div`
   display: flex;

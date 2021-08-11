@@ -1,6 +1,6 @@
 import React, { useState } from 'react';
 import { useCallback } from 'react';
-import { debounce, debounceClear } from 'src/utils/debounce';
+import { debounce, debounceClear } from '@src/utils/debounce';
 import {
   Container,
   MainCategory,

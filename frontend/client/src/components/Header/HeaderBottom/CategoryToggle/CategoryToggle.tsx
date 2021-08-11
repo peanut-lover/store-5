@@ -1,6 +1,6 @@
 import React from 'react';
 import { GiHamburgerMenu } from 'react-icons/gi';
-import Category from 'src/components/Header/HeaderBottom/Category/Category';
+import Category from '@src/components/Header/HeaderBottom/Category/Category';
 import styled from 'styled-components';
 
 const Toggle = styled.div`

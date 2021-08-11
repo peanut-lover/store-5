@@ -3,9 +3,9 @@ import { BsSearch } from 'react-icons/bs';
 import styled from 'styled-components';
 import SearchHistoryEmpty from './SearchHistoryEmpty/SearchHistoryEmpty';
 import SearchHistoryList from './SearchHistoryList/SearchHistoryList';
-import useInput from 'src/hooks/useInput';
-import useSearchHistory from 'src/hooks/useSearchHistory';
-import { debounce } from 'src/utils/debounce';
+import useInput from '@src/hooks/useInput';
+import useSearchHistory from '@src/hooks/useSearchHistory';
+import { debounce } from '@src/utils/debounce';
 import AutoSearchList from './AutoSearchList/AutoSearchList';
 
 const reducer = (state: string[], action: { type: string; keyword: string }) => {
@@ -49,6 +49,9 @@ const SearchContainer = () => {
       dispatch({ type: 'SEARCH', keyword });
     }, 500);
   }, []);
+  const onClickKeyword = useCallback((keyword: string) => {
+    console.log(`/product?keyword=${keyword}`);
+  }, []);
 
   useEffect(() => {
     const input = inputRef.current as HTMLInputElement;
@@ -68,17 +71,22 @@ const SearchContainer = () => {
             <BsSearch size='1.3em' />
           </Button>
         </Form>
-        {autoSearchList.length > 0 && inputFocused && <AutoSearchList autoSearchList={autoSearchList} />}
+        {autoSearchList.length > 0 && inputFocused && (
+          <AutoSearchList autoSearchList={autoSearchList} onClickKeyword={onClickKeyword} />
+        )}
       </FormContainer>
       <Line />
       <ContentContainer>
         <ContentTitle>최근검색어</ContentTitle>
-        {searchHistory.length > 0 ? <SearchHistoryList searchHistory={searchHistory} /> : <SearchHistoryEmpty />}
+        {searchHistory.length > 0 ? (
+          <SearchHistoryList searchHistory={searchHistory} onClickKeyword={onClickKeyword} />
+        ) : (
+          <SearchHistoryEmpty />
+        )}
       </ContentContainer>
     </Container>
   );
 };
-
 const Container = styled.div`
   z-index: 2;
   position: absolute;

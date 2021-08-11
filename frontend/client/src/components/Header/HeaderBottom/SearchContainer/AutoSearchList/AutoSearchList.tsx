@@ -1,11 +1,21 @@
-import React from 'react';
+import React, { useCallback } from 'react';
 import styled from 'styled-components';
 
-const AutoSearchList: React.FC<{ autoSearchList: string[] }> = ({ autoSearchList }) => {
+type Props = {
+  autoSearchList: string[];
+  onClickKeyword: (keyword: string) => void;
+};
+
+const AutoSearchList: React.FC<Props> = ({ autoSearchList, onClickKeyword }) => {
+  const onClickHandler = useCallback((e) => {
+    onClickKeyword(e.target.dataset.keyword);
+  }, []);
   return (
     <Container>
       {autoSearchList.map((keyword, i) => (
-        <Keyword key={i}>{keyword}</Keyword>
+        <Keyword key={i} onMouseDown={onClickHandler} data-keyword={keyword}>
+          {keyword}
+        </Keyword>
       ))}
     </Container>
   );
@@ -29,6 +39,11 @@ const Container = styled.ul`
 
 const Keyword = styled.li`
   margin-bottom: 12px;
+  line-height: 1.5em;
+  cursor: pointer;
+  :hover {
+    background-color: #e6e9e9;
+  }
 `;
 
 export default AutoSearchList;

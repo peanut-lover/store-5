@@ -1,7 +1,16 @@
-import React from 'react';
+import React, { useCallback } from 'react';
 import styled from 'styled-components';
 
-const SearchHistoryList: React.FC<{ searchHistory: string[] }> = ({ searchHistory }) => {
+type Props = {
+  searchHistory: string[];
+  onClickKeyword: (keyword: string) => void;
+};
+
+const SearchHistoryList: React.FC<Props> = ({ searchHistory, onClickKeyword }) => {
+  const onClickHandler = useCallback((e) => {
+    onClickKeyword(e.target.dataset.keyword);
+  }, []);
+
   return (
     <Container>
       {searchHistory.map((keyword, i) => (
