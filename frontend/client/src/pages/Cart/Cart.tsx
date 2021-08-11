@@ -45,7 +45,7 @@ const Cart: React.FC = () => {
     });
     setCartGoodsList(changedCartGoodsList);
   };
-  const handleChangeAllIsSelected = (isSelected: boolean) => {
+  const handleReviseIsSelected = (isSelected: boolean) => {
     const changedCartGoodsList = cartGoodsList.map((cartGoods) => ({ ...cartGoods, isSelected }));
     setCartGoodsList(changedCartGoodsList);
   };
@@ -72,7 +72,7 @@ const Cart: React.FC = () => {
           <CartGoodsListContainer
             cartGoodsList={cartGoodsList}
             onDeleteCartGoodsAll={handleDeleteCartGoodsAll}
-            onChangeAllIsSelected={handleChangeAllIsSelected}
+            onReviseIsSelected={handleReviseIsSelected}
             onChangeIsSelected={handleChangeIsSelected}
             onChangeAmount={handleChangeAmount}
           />

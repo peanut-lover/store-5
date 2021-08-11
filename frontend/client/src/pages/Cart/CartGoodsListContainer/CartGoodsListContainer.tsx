@@ -9,7 +9,7 @@ interface Props {
   cartGoodsList: CartGoods[];
   onDeleteCartGoodsAll: (ids: number[]) => void;
   onChangeIsSelected: (id: number, isSelected: boolean) => void;
-  onChangeAllIsSelected: (isSelected: boolean) => void;
+  onReviseIsSelected: (isSelected: boolean) => void;
   onChangeAmount: (id: number, amount: number) => void;
 }
 
@@ -17,7 +17,7 @@ const CartGoodsListContainer: React.FC<Props> = ({
   cartGoodsList,
   onDeleteCartGoodsAll,
   onChangeIsSelected,
-  onChangeAllIsSelected,
+  onReviseIsSelected,
   onChangeAmount,
 }) => {
   const selectedCartGoodsIds = cartGoodsList.filter(({ isSelected }) => isSelected).map(({ id }) => id);
@@ -36,7 +36,7 @@ const CartGoodsListContainer: React.FC<Props> = ({
     onChangeIsSelected(id, isSelected);
   };
   const handleClickMasterCheckButton = () => {
-    onChangeAllIsSelected(!isAllGoodsSelected);
+    onReviseIsSelected(!isAllGoodsSelected);
   };
 
   return (
