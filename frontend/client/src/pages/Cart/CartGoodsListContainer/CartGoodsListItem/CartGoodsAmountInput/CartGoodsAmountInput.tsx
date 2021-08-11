@@ -33,17 +33,28 @@ const Amount = styled.div`
   height: 3rem;
 `;
 
-interface Props {}
+interface Props {
+  value: number;
+  onChangeAmount: (value: number) => void;
+}
 
-const CartGoodsAmountInput: React.FC<Props> = ({}) => {
+const CartGoodsAmountInput: React.FC<Props> = ({ value, onChangeAmount }) => {
   return (
     <Wrapper>
-      <Amount>7</Amount>
+      <Amount>{value}</Amount>
       <FlexRow>
-        <Button>
+        <Button
+          onClick={() => {
+            onChangeAmount(value + 1);
+          }}
+        >
           <AiFillCaretUp />
         </Button>
-        <Button>
+        <Button
+          onClick={() => {
+            onChangeAmount(value - 1);
+          }}
+        >
           <AiFillCaretDown />
         </Button>
       </FlexRow>

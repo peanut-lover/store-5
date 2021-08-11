@@ -33,6 +33,13 @@ const PriceText = styled.span`
   font-size: 1rem;
   font-weight: bolder;
 `;
+const DeleteButton = styled.button`
+  cursor: pointer;
+  background: none;
+  border: none;
+  padding: 0;
+  margin: 0;
+`;
 
 interface Props {
   cartGoods: CartGoods;
@@ -41,17 +48,29 @@ interface Props {
 const CartGoodsListItem: React.FC<Props> = ({ cartGoods }) => {
   const { id, thumbnailUrl, title, price, discountRate, amount, isSelected } = cartGoods;
 
+  const handleChangeAmount = (amount: number) => {
+    console.log(id, amount);
+  };
+
+  const handleDeleteCartGoods = () => {
+    console.log(id);
+  };
+
+  const handleChangeIsSelected = () => {
+    console.log(id, !isSelected);
+  };
+
   return (
     <Wrapper>
-      <CheckButton value={true} onClick={() => {}}></CheckButton>
+      <CheckButton value={isSelected} onClick={handleChangeIsSelected} />
       <ThumbnailImg src={thumbnailUrl} />
       <GoodsTitle>{title}</GoodsTitle>
       <FlexColumn>
-        <BiTrash size='1.5rem' color='#ccc' />
-        {/* 모달 */}
-        <CartGoodsAmountInput />
-        {/* 컴포넌트 분리하기 */}
-        {/* TODO: fetch */}
+        <DeleteButton onClick={handleDeleteCartGoods}>
+          <BiTrash size='1.5rem' color='#ccc' />
+        </DeleteButton>
+        {/* TODO: 모달 */}
+        <CartGoodsAmountInput value={amount} onChangeAmount={handleChangeAmount} />
         <PriceText>{price}원</PriceText>
         {/* TODO: discountRate를 적용하기 */}
       </FlexColumn>

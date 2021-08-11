@@ -5,5 +5,6 @@ export interface CartGoods {
   price: number;
   discountRate: number;
   amount: number;
+  stock: number;
   isSelected: boolean;
 }

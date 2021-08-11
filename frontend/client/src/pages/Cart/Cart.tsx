@@ -12,6 +12,7 @@ const mock: CartGoods[] = [
     price: 34500,
     discountRate: 20,
     amount: 2,
+    stock: 5,
     isSelected: true,
   },
   {
@@ -21,12 +22,15 @@ const mock: CartGoods[] = [
     price: 9000,
     discountRate: 0,
     amount: 1,
+    stock: 8,
     isSelected: false,
   },
 ];
 
 const Cart: React.FC = () => {
   const cartGoodsList: CartGoods[] = mock;
+
+  const handleDeleteCartGoods = () => {};
 
   if (cartGoodsList.length === 0) {
     return <CartNoData />;
