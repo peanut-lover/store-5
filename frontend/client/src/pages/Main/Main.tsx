@@ -69,13 +69,13 @@ const mock_promotions: Promotion[] = [
 ];
 
 const Main = () => (
-  <div>
+  <>
     <PromotionCarousel promotions={mock_promotions} />
     <MainContentContainer>
       <GoodsSection sectionTitle='잘나가요' goodsList={mock_best_products} />
       <GoodsSection sectionTitle='새로 나왔어요' goodsList={mock_new_products} />
     </MainContentContainer>
-  </div>
+  </>
 );
 
 const MainContentContainer = styled.div`
