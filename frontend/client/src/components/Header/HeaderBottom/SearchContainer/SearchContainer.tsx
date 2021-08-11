@@ -1,9 +1,10 @@
 import React, { useCallback } from 'react';
-import useInput from 'src/hooks/useInput';
-import useSearchHistory from 'src/hooks/useSearchHistory';
 import { BsSearch } from 'react-icons/bs';
 import styled from 'styled-components';
 import SearchHistoryEmpty from './SearchHistoryEmpty/SearchHistoryEmpty';
+import SearchHistoryList from './SearchHistoryList/SearchHistoryList';
+import useInput from 'src/hooks/useInput';
+import useSearchHistory from 'src/hooks/useSearchHistory';
 
 const SearchContainer = () => {
   const [searchHistory, setSearchHistory] = useSearchHistory();
@@ -12,7 +13,6 @@ const SearchContainer = () => {
     (e) => {
       e.preventDefault();
       if (searchInput.length === 0) return;
-      console.log(searchInput);
       setSearchHistory(searchInput);
       setSearchInput('');
     },
@@ -31,24 +31,21 @@ const SearchContainer = () => {
       <Line />
       <ContentContainer>
         <ContentTitle>최근검색어</ContentTitle>
-        {searchHistory ? (
-          <SearchHistoryEmpty />
-        ) : (
-          // <ul>{searchHistory && searchHistory.map((keyword, i) => <li key={i}>{keyword}</li>)}</ul>
-          <div>hi</div>
-        )}
+        {searchHistory ? <SearchHistoryList searchHistory={searchHistory} /> : <SearchHistoryEmpty />}
       </ContentContainer>
     </Container>
   );
 };
 
 const Container = styled.div`
+  z-index: 2;
   position: absolute;
   top: 100%;
   right: 15%;
   width: 330px;
   border: 1px solid lightgray;
   box-shadow: rgb(0 0 0 / 10%) 0px 4px 12px 0px;
+  background-color: #fff;
 `;
 
 const FormContainer = styled.div`
@@ -69,7 +66,6 @@ const Form = styled.form`
 `;
 
 const Input = styled.input`
-  box-sizing: border-box;
   padding: 0px 50px 0px 16px;
   margin: 0px;
   outline: none;
@@ -80,14 +76,13 @@ const Input = styled.input`
   display: flex;
   width: 100%;
   height: 100%;
-  box-sizing: border-box;
   border: 1px solid rgb(221, 221, 221);
   color: rgb(51, 51, 51);
 `;
 
 const Button = styled.button`
   position: absolute;
-  border: none;
+  border: 0px;
   padding: 0px;
   margin: 0px;
   outline: none;

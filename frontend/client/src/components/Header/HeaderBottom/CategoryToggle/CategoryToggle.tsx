@@ -13,6 +13,8 @@ const Toggle = styled.div`
 const Title = styled.h3`
   margin: 0;
   margin-left: 6px;
+  line-height: 2em;
+  font-size: 20px;
 `;
 
 const CategoryToggle = () => {
