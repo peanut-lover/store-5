@@ -1,6 +1,6 @@
-export interface Product {
+export interface Goods {
   id: number;
-  img?: string;
+  thumbnailImg?: string; // thumbnailImg
   title: string;
   price: number;
   isBest?: boolean;

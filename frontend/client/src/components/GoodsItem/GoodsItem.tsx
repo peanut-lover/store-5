@@ -3,7 +3,7 @@ import styled from 'styled-components';
 import { BestTag, GreenTag, NewTag, SaleTag } from '../Tag';
 
 interface Props {
-  img?: string;
+  thumbnailImg?: string;
   title: string;
   price: number;
   isBest?: boolean;
@@ -13,8 +13,8 @@ interface Props {
   discountRate?: number;
 }
 
-const ProductItem: React.FC<Props> = ({
-  img = '',
+const GoodsItem: React.FC<Props> = ({
+  thumbnailImg = '',
   title,
   price,
   isBest = false,
@@ -24,18 +24,18 @@ const ProductItem: React.FC<Props> = ({
   discountRate = 0,
 }) => {
   return (
-    <ProductItemContainer>
+    <GoodsItemContainer>
       <TagContainer>
         {isBest && <BestTag />}
         {isGreen && <GreenTag />}
         {isNew && <NewTag />}
         {isSale && <SaleTag />}
       </TagContainer>
-      {img ? <ProductImage src={img} /> : <ProductEmptyImage />}
+      {thumbnailImg ? <ProductImage src={thumbnailImg} /> : <ProductEmptyImage />}
       {discountRate && discountRate > 0 ? <ProductDiscountLabel> {discountRate} % </ProductDiscountLabel> : ''}
       <ProductTitle>{title}</ProductTitle>
       <ProductPriceLabel>{price} 원</ProductPriceLabel>
-    </ProductItemContainer>
+    </GoodsItemContainer>
   );
 };
 
@@ -52,7 +52,7 @@ const TagContainer = styled.div`
   }
 `;
 
-const ProductItemContainer = styled.div`
+const GoodsItemContainer = styled.div`
   position: relative;
   flex-grow: 0;
   flex-shrink: 0;
@@ -93,4 +93,4 @@ const ProductDiscountLabel = styled.span`
   color: red; // TODO: change color as theme
 `;
 
-export default ProductItem;
+export default GoodsItem;
