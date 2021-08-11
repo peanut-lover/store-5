@@ -1,4 +1,4 @@
-import React, { useCallback, useReducer } from 'react';
+import React, { useState, useCallback, useReducer, useRef, useEffect } from 'react';
 import { BsSearch } from 'react-icons/bs';
 import styled from 'styled-components';
 import SearchHistoryEmpty from './SearchHistoryEmpty/SearchHistoryEmpty';
@@ -28,6 +28,8 @@ const reducer = (state: string[], action: { type: string; keyword: string }) => 
 };
 
 const SearchContainer = () => {
+  const inputRef = useRef<HTMLInputElement>(null);
+  const [inputFocused, setInputFocused] = useState(false);
   const [searchHistory, setSearchHistory] = useSearchHistory();
   const [searchInput, onChangeSearchInput, setSearchInput] = useInput('');
   const [autoSearchList, dispatch] = useReducer(reducer, ['맛집', '테스트', '입니다']);
@@ -47,16 +49,26 @@ const SearchContainer = () => {
       dispatch({ type: 'SEARCH', keyword });
     }, 500);
   }, []);
+
+  useEffect(() => {
+    const input = inputRef.current as HTMLInputElement;
+    input.addEventListener('focus', () => {
+      setInputFocused(true);
+    });
+    input.addEventListener('blur', function () {
+      setInputFocused(false);
+    });
+  }, []);
   return (
     <Container>
       <FormContainer>
         <Form onSubmit={onSearch}>
-          <Input value={searchInput} onChange={onChangeSearchInput} onInput={onAutoSearch} />
+          <Input ref={inputRef} value={searchInput} onChange={onChangeSearchInput} onInput={onAutoSearch} />
           <Button>
             <BsSearch size='1.3em' />
           </Button>
         </Form>
-        {autoSearchList.length > 0 && <AutoSearchList autoSearchList={autoSearchList} />}
+        {autoSearchList.length > 0 && inputFocused && <AutoSearchList autoSearchList={autoSearchList} />}
       </FormContainer>
       <Line />
       <ContentContainer>
@@ -107,7 +119,11 @@ const Input = styled.input`
   width: 100%;
   height: 100%;
   border: 1px solid rgb(221, 221, 221);
+
   color: rgb(51, 51, 51);
+  :focus {
+    box-shadow: rgb(0 0 0 / 10%) 0 -2px 10px 1px;
+  }
 `;
 
 const Button = styled.button`
