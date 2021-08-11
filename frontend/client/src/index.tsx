@@ -1,6 +1,6 @@
 import React from 'react';
 import ReactDOM from 'react-dom';
-import { Router } from 'src/lib/CustomRouter';
+import { Router } from './lib/CustomRouter';
 
 import App from './App';
 

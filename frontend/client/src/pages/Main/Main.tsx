@@ -1,7 +1,7 @@
 import React from 'react';
 import styled from 'styled-components';
-import { Goods } from 'src/types/Goods';
-import GoodsSection from 'src/components/GoodsSection/GoodsSection';
+import { Goods } from '@src/types/Goods';
+import GoodsSection from '@src/components/GoodsSection/GoodsSection';
 
 const mockImagePath =
   'https://user-images.githubusercontent.com/20085849/128866958-900ad32a-cd32-4b97-be79-1dbbc9dcb02d.jpeg';

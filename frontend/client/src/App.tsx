@@ -1,5 +1,5 @@
 import React from 'react';
-import GlobalStyles from 'src/GlobalStyles';
+import GlobalStyles from './GlobalStyles';
 import { Routes, Route } from './lib/CustomRouter';
 import Main from './pages/Main/Main';
 

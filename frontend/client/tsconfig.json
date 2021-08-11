@@ -84,7 +84,7 @@
     "outDir": "./dist",
     "moduleResolution": "node",
     "paths": {
-      "src": ["src/*"]
+      "@src/*": ["src/*"]
     }
   },
 
