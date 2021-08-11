@@ -5,6 +5,9 @@ import { CartGoods } from '@src/types/CartGoods';
 import CheckButtonWithLabel from '@src/components/CheckButtonWithLabel/CheckButtonWithLabel';
 import CartGoodsListItem from './CartGoodsListItem/CartGoodsListItem';
 
+const LABEL_TEXT_CLEAR_ALL = '선택해제';
+const LABEL_TEXT_SELECT_ALL = '전체선택';
+
 interface Props {
   cartGoodsList: CartGoods[];
   onDeleteCartGoodsAll: (ids: number[]) => void;
@@ -44,7 +47,7 @@ const CartGoodsListContainer: React.FC<Props> = ({
       <StrongText>장바구니 상품 {cartGoodsList.length}개</StrongText>
       <FlexRow>
         <CheckButtonWithLabel
-          label={isAllGoodsSelected ? '선택해제' : '전체선택'}
+          label={isAllGoodsSelected ? LABEL_TEXT_CLEAR_ALL : LABEL_TEXT_SELECT_ALL}
           isChecked={isAllGoodsSelected}
           onClick={handleClickMasterCheckButton}
         ></CheckButtonWithLabel>
