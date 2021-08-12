@@ -3,13 +3,12 @@ import styled from 'styled-components';
 import { FaArrowUp, FaArrowDown } from 'react-icons/fa';
 import { AiFillCloseCircle } from 'react-icons/ai';
 import { ThumbnailGoods } from '@src/types/Goods';
-import { useRef } from 'react';
-import { useEffect } from 'react';
+
 interface SideBarProps {
   goodsList?: ThumbnailGoods[];
 }
 
-const COUNT_OF_SHOWN_GOODS = 3;
+export const COUNT_OF_SHOWN_GOODS = 3;
 // TODO: SideBar도 Intersection Observer
 const SideBar: React.FC<SideBarProps> = ({ goodsList }) => {
   const [recentGoods, setRecentGoods] = useState(goodsList ?? []);
