@@ -4,5 +4,6 @@ module.exports = {
   setupFilesAfterEnv: ['<rootDir>/setUpTests.ts'],
   moduleNameMapper: {
     '^@src/(.*)$': '<rootDir>/src/$1',
+    '\\.(css|less|scss|sass)$': 'jest-transform-css',
   },
 };
