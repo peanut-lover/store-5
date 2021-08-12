@@ -154,3 +154,10 @@ export const Routes: React.FC = ({ children }) => {
 export function useParams() {
   return useContext(RouteContext).params;
 }
+
+/**
+ * push 함수를 추출한다.
+ */
+export function usePushHistory() {
+  return useContext(RouterContext).push;
+}
