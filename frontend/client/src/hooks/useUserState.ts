@@ -8,15 +8,25 @@ const useUserState = () => {
   const [userRecoil, setUserRecoil] = useRecoilState<User>(userState);
   const userDispatch = async (action: { type: string }) => {
     switch (action.type) {
+      case 'SAMPLE_LOGIN':
+        const result = await AuthAPI.getSampleLogin();
+        if (result) {
+          const { isLoggedIn, name } = result;
+          setUserRecoil({ isLoggedIn, name });
+        }
       case 'CHECK':
-        const { isLoggedIn, name } = await AuthAPI.getCheckLoggedIn();
-        setUserRecoil({ isLoggedIn, name });
+        const res = await AuthAPI.getCheckLoggedIn();
+        if (res) {
+          const { isLoggedIn, name } = res;
+          setUserRecoil({ isLoggedIn, name });
+        }
         break;
       case 'LOGOUT':
-        if (!userRecoil.isLoggedIn) return;
-        const res = await AuthAPI.logout();
-        if (res) {
-          useResetRecoilState(userState);
+        if (userRecoil.isLoggedIn) {
+          const res = await AuthAPI.logout();
+          if (res) {
+            useResetRecoilState(userState);
+          }
         }
         break;
       default:

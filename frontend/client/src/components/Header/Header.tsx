@@ -25,6 +25,13 @@ const Header = () => {
     observer.observe(sentinelRef.current as HTMLElement);
   }, []);
 
+  useEffect(() => {
+    async function checkLoggedIn() {
+      await userRecoilDispatch({ type: 'CHECK' });
+    }
+    checkLoggedIn();
+  }, []);
+
   return (
     <>
       <Sentinel ref={sentinelRef} isScrolled={isScrolled} />

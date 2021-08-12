@@ -19,7 +19,7 @@ async function checkLoggedIn(req: Request, res: Response, next: NextFunction) {
 
 async function getSampleLogin(req: Request, res: Response, next: NextFunction) {
   req.session.userId = '1';
-  res.sendStatus(200);
+  res.status(200).json({ name: '시연용', isLoggedIn: true });
 }
 
 async function getOAuthGitHubCb(req: Request, res: Response, next: NextFunction) {

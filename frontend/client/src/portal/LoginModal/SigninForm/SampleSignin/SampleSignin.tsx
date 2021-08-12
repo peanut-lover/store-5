@@ -1,11 +1,16 @@
-import React from 'react';
+import useUserState from '@src/hooks/useUserState';
+import React, { useCallback } from 'react';
 import { BsPeopleCircle } from 'react-icons/bs';
 import styled from 'styled-components';
 
 const SampleSignin = () => {
+  const [userRecoil, userRecoilDispatch] = useUserState();
+  const handleClickLogin = useCallback(async () => {
+    await userRecoilDispatch({ type: 'SAMPLE_LOGIN' });
+  }, [userRecoilDispatch]);
   return (
     <SampleSigninContainer>
-      <IconContainer>
+      <IconContainer onClick={handleClickLogin}>
         <BsPeopleCircle size='3em' color='#2AC1BC' />
         <Span>시연용으로 접속하기</Span>
       </IconContainer>

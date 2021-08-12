@@ -12,6 +12,25 @@ async function getCheckLoggedIn() {
     if (res.ok) {
       return res.json();
     }
+    return false;
+  } catch (error) {
+    console.log(error);
+  }
+}
+
+async function getSampleLogin() {
+  try {
+    const res = await fetch(`${API_BASE_URL}/api/auth/sample`, {
+      method: 'GET',
+      credentials: 'include',
+      headers: {
+        'Cache-Control': 'no-cache',
+      },
+    });
+    if (res.ok) {
+      return res.json();
+    }
+    return false;
   } catch (error) {
     console.log(error);
   }
@@ -31,5 +50,6 @@ const logout = async () => {
 
 export const AuthAPI = {
   getCheckLoggedIn,
+  getSampleLogin,
   logout,
 };
