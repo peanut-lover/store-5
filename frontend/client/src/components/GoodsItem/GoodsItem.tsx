@@ -1,7 +1,10 @@
 import { usePushHistory } from '@src/lib/CustomRouter';
 import React from 'react';
 import styled from 'styled-components';
+import { BsHeartFill, BsHeart, BsFillBucketFill } from 'react-icons/bs';
 import { BestTag, GreenTag, NewTag, SaleTag } from '../Tag';
+import { useCallback } from 'react';
+import { useState } from 'react';
 
 interface Props {
   id: number;
@@ -30,6 +33,15 @@ const GoodsItem: React.FC<Props> = ({
   const handleClickGoodsItem = (e: React.MouseEvent) => {
     push('/detail/' + id);
   };
+  const [isHoverGoodsImage, setIsHoverGoodsImage] = useState<boolean>(false);
+
+  const handleOnMouseEnter = useCallback((e) => {
+    setIsHoverGoodsImage(true);
+  }, []);
+
+  const handleOnMouseLeave = useCallback((e) => {
+    setIsHoverGoodsImage(false);
+  }, []);
   return (
     <GoodsItemContainer onClick={handleClickGoodsItem}>
       <TagContainer>
@@ -39,8 +51,19 @@ const GoodsItem: React.FC<Props> = ({
         {isSale && <SaleTag />}
       </TagContainer>
 
-      <GoodsImageContainer>
+      <GoodsImageContainer onMouseEnter={handleOnMouseEnter} onMouseLeave={handleOnMouseLeave}>
         {thumbnailImg ? <GoodsImage src={thumbnailImg} /> : <GoodsEmptyImage />}
+
+        {isHoverGoodsImage && (
+          <GoodsUtilBtnContainer>
+            <GoodsUtilBtn>
+              <BsHeart />
+            </GoodsUtilBtn>
+            <GoodsUtilBtn>
+              <BsFillBucketFill />
+            </GoodsUtilBtn>
+          </GoodsUtilBtnContainer>
+        )}
       </GoodsImageContainer>
 
       {discountRate && discountRate > 0 ? <GoodsDiscountLabel> {discountRate} % </GoodsDiscountLabel> : ''}
@@ -89,9 +112,11 @@ const GoodsEmptyImage = styled.div<GoodsEmptyImageProps>`
 `;
 
 const GoodsImageContainer = styled.div`
+  position: relative;
   width: 100%;
   height: 350px;
   overflow: hidden;
+  border-radius: 3px;
 `;
 
 const GoodsImage = styled.img`
@@ -124,6 +149,38 @@ const GoodsImage = styled.img`
       transform: scale(1.1);
     }
   }
+`;
+
+const GoodsUtilBtnContainer = styled.div`
+  display: flex;
+  justify-content: center;
+  position: absolute;
+  bottom: 0px;
+  left: 50%;
+  transform: translate(-50%, -10px);
+  animation-name: springEffect;
+  animation-duration: 0.5s;
+  @keyframes springEffect {
+    from {
+      transform: translate(-50%, 0);
+    }
+
+    to {
+      transform: translate(-50%, -10px);
+    }
+  }
+`;
+
+const GoodsUtilBtn = styled.button`
+  width: 30px;
+  height: 30px;
+  border-radius: 3px;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  border: none;
+  background-color: white;
+  margin-right: 3px;
 `;
 
 const GoodsTitle = styled.strong`

@@ -1,28 +1,30 @@
 import React from 'react';
 import styled from 'styled-components';
+import { FaLeaf, FaThumbsUp } from 'react-icons/fa';
+import { AiFillAlert, AiFillDollarCircle } from 'react-icons/ai';
 
 export const GreenTag: React.FC = () => (
   <TagWrapper fontColor={tagColors.white} bgColor={tagColors.naturalGreen}>
-    GREEN
+    GREEN <FaLeaf />
   </TagWrapper>
 );
 
 export const NewTag: React.FC = () => (
   <TagWrapper fontColor={tagColors.white} bgColor={tagColors.splashBlue}>
-    NEW
+    NEW <AiFillAlert />
   </TagWrapper>
 );
 
 // TODO: icon
 export const BestTag: React.FC = () => (
   <TagWrapper fontColor={tagColors.white} bgColor={tagColors.originalBlack}>
-    BEST
+    BEST <FaThumbsUp />
   </TagWrapper>
 );
 
 export const SaleTag: React.FC = () => (
   <TagWrapper fontColor={tagColors.white} bgColor={tagColors.originalRed}>
-    SALE
+    SALE <AiFillDollarCircle />
   </TagWrapper>
 );
 
@@ -40,10 +42,13 @@ interface TagWrapperProps {
 }
 
 const TagWrapper = styled.div<TagWrapperProps>`
+  display: flex;
+  align-items: center;
   border-radius: 8px;
   padding: 5px;
   color: ${(props) => props.fontColor ?? 'white'};
   background-color: ${(props) => props.bgColor ?? 'black'};
   font-size: 16px;
-  font-weight: 500;
+  font-weight: 300;
+  user-select: none;
 `;
