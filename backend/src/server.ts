@@ -9,7 +9,7 @@ const PORT = 8080; // TODO: PORT 환경변수로 빼기
 
 declare module 'express-session' {
   interface SessionData {
-    user: String | null;
+    userId: String | null;
   }
 }
 

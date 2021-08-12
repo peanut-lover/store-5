@@ -3,7 +3,7 @@ import { githubConfig } from '../config';
 import { UserRepository } from '../repository/user.repository';
 import removeBlank from '../utils/remove-blank';
 
-async function signInGithub(code: string): Promise<number> {
+async function signInGithub(code: string): Promise<string> {
   let user;
   const TOKEN_URL = `${githubConfig.tokenURL}&code=${code}`;
   const { data } = await axios.post(TOKEN_URL);
