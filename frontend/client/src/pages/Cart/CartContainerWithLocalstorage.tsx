@@ -1,9 +1,6 @@
 import React, { useCallback, useState } from 'react';
-import styled from 'styled-components';
 import { CartGoods } from '@src/types/CartGoods';
-import CartGoodsListContainer from './CartGoodsListContainer/CartGoodsListContainer';
-import EmptyCart from './EmptyCart/EmptyCart';
-import CartOrder from './CartOrder/CartOrder';
+import CartContainer from './CartContainer';
 
 const mock: CartGoods[] = [
   {
@@ -28,10 +25,10 @@ const mock: CartGoods[] = [
   },
 ];
 
-const CartPage: React.FC = () => {
+// TODO: 실제 로컬 스토리지를 사용하여 cartGoodsList를 관리하기
+const CartContainerWithLocalStorage: React.FC = () => {
   const [cartGoodsList, setCartGoodsList] = useState(mock);
 
-  // TODO: localStorage, API 분기 처리하는 계층을 두기
   const handleDeleteCartGoodsAll = useCallback(
     (ids: number[]) => {
       const filteredCartGoodsList = cartGoodsList.filter(({ id }) => !ids.includes(id));
@@ -70,68 +67,15 @@ const CartPage: React.FC = () => {
     [cartGoodsList, setCartGoodsList]
   );
 
-  // TODO: 결제 페이지로 이동
-  const handleClickOrderButton = () => {};
-
-  if (cartGoodsList.length === 0) {
-    return <EmptyCart />;
-  }
-
   return (
-    <Wrapper>
-      <Header>장바구니</Header>
-      <ContentWrapper>
-        <LayoutLeft>
-          <CartGoodsListContainer
-            cartGoodsList={cartGoodsList}
-            onDeleteCartGoodsAll={handleDeleteCartGoodsAll}
-            onReviseIsSelected={handleReviseIsSelected}
-            onChangeIsSelected={handleChangeIsSelected}
-            onChangeAmount={handleChangeAmount}
-          />
-        </LayoutLeft>
-        <LayoutRight>
-          <CartOrder cartGoodsList={cartGoodsList} onClickOrderButton={handleClickOrderButton} />
-        </LayoutRight>
-      </ContentWrapper>
-    </Wrapper>
+    <CartContainer
+      cartGoodsList={cartGoodsList}
+      onChangeAmount={handleChangeAmount}
+      onChangeIsSelected={handleChangeIsSelected}
+      onDeleteCartGoodsAll={handleDeleteCartGoodsAll}
+      onReviseIsSelected={handleReviseIsSelected}
+    />
   );
 };
 
-const Wrapper = styled.div`
-  font-family: initial;
-  font-size: initial;
-  margin: auto;
-  width: 1024px;
-
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-`;
-const LayoutLeft = styled.div`
-  flex: 6;
-`;
-const LayoutRight = styled.div`
-  flex: 4;
-`;
-const Header = styled.h1`
-  margin: 0;
-  padding: 0;
-  font-size: 1.75rem;
-  font-weight: bold;
-
-  text-align: center;
-  width: 100%;
-  padding: 1.5rem 0;
-  border-bottom: 4px solid black;
-  margin-bottom: 2rem;
-`;
-const ContentWrapper = styled.div`
-  width: 100%;
-  display: flex;
-  justify-content: flex-start;
-  align-items: flex-start;
-  gap: 4rem;
-`;
-
-export default CartPage;
+export default CartContainerWithLocalStorage;
