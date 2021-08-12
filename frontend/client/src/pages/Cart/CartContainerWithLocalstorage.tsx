@@ -5,7 +5,8 @@ import CartContainer from './CartContainer';
 const mock: CartGoods[] = [
   {
     id: 1,
-    thumbnailUrl: 'https://cdn-mart.baemin.com/sellergoods/desc/b55bb7a5-fb59-4a34-bc0b-6335e8cfcfcd.jpg',
+    thumbnailUrl:
+      'https://user-images.githubusercontent.com/20085849/128866958-900ad32a-cd32-4b97-be79-1dbbc9dcb02d.jpeg',
     title: '든든 오뚜기 오쉐프_마요네즈',
     price: 34500,
     discountRate: 20,
@@ -15,7 +16,8 @@ const mock: CartGoods[] = [
   },
   {
     id: 2,
-    thumbnailUrl: 'https://cdn-mart.baemin.com/sellergoods/desc/b55bb7a5-fb59-4a34-bc0b-6335e8cfcfcd.jpg',
+    thumbnailUrl:
+      'https://user-images.githubusercontent.com/20085849/128866958-900ad32a-cd32-4b97-be79-1dbbc9dcb02d.jpeg',
     title: '허약 마요네즈',
     price: 9000,
     discountRate: 0,

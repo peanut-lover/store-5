@@ -1,3 +1,4 @@
+import { Link } from '@src/lib/CustomRouter';
 import React from 'react';
 import styled from 'styled-components';
 import CategoryToggle from './CategoryToggle/CategoryToggle';
@@ -8,7 +9,7 @@ const HeaderBottom = () => {
     <HeaderBottomContainer>
       <CategoryToggle />
       <div>
-        <span>로고</span>
+        <Link to='/'>로고</Link>
       </div>
       <HeaderIconContainer />
     </HeaderBottomContainer>

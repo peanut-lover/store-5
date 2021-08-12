@@ -3,6 +3,7 @@ import styled from 'styled-components';
 import ShoppingCartIcon from '@src/components/Header/HeaderBottom/HeaderIconContainer/ShoppigCartIcon/ShoppingCartIcon';
 import SearchIcon from '@src/components/Header/HeaderBottom/HeaderIconContainer/SearchIcon/SearchIcon';
 import MyPageIcon from '@src/components/Header/HeaderBottom/HeaderIconContainer/MyPageIcon/MyPageIcon';
+import { Link } from '@src/lib/CustomRouter';
 
 const HeaderIconContainer = () => {
   const searchRef = useRef<HTMLDivElement>(null);
@@ -28,7 +29,9 @@ const HeaderIconContainer = () => {
 
   return (
     <HeaderIconsContainer>
-      <ShoppingCartIcon />
+      <Link to='/cart'>
+        <ShoppingCartIcon />
+      </Link>
       <SearchIcon searchRef={searchRef} openSearchForm={openSearchForm} onOpenSearchForm={handleOpenSearchForm} />
       <MyPageIcon />
     </HeaderIconsContainer>

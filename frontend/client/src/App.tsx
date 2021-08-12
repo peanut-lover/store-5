@@ -10,21 +10,15 @@ import theme from './theme/theme';
 export default function App() {
   return (
     <ThemeProvider theme={theme}>
-      {/* TODO: Change Header Component */}
       <Header />
-      <div>
-        <Routes exact>
-          <Route path='/'>
-            <Main />
-          </Route>
-          <Route path='/cart'>
-            <Cart />
-          </Route>
-          <Route path='/cart/:id'>
-            <Cart />
-          </Route>
-        </Routes>
-      </div>
+      <Routes exact>
+        <Route path='/'>
+          <Main />
+        </Route>
+        <Route path='/cart'>
+          <Cart />
+        </Route>
+      </Routes>
       <GlobalStyles />
     </ThemeProvider>
   );
