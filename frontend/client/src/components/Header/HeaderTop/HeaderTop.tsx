@@ -1,11 +1,15 @@
-import React, { useCallback, useState } from 'react';
+import React, { RefObject, useCallback, useState } from 'react';
 import styled from 'styled-components';
 import { Link } from '@src/lib/CustomRouter';
 import LoginModal from '@src/portal/LoginModal/LoginModal';
 
 const HELLO = '안녕하세요!';
 
-const HeaderTop: React.FC<{ userName: string }> = ({ userName }) => {
+interface Props {
+  userName: string;
+}
+
+const HeaderTop: React.FC<Props> = ({ userName }) => {
   // TODO: 모달 연동
   const [openLoginModal, setOpenLoginModal] = useState(false);
 
