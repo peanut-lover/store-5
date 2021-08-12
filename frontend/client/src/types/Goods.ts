@@ -20,7 +20,9 @@ export type DetailGoods = Goods & {
 };
 
 export type CartGoods = Goods & {
+  thumbnailUrl: string;
+  discountRate: number;
   amount: number;
   stock: number;
-  isSelected?: boolean;
+  isSelected: boolean;
 };
