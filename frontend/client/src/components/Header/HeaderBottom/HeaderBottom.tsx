@@ -1,4 +1,3 @@
-import { Link } from '@src/lib/CustomRouter';
 import React from 'react';
 import styled from 'styled-components';
 import CategoryToggle from './CategoryToggle/CategoryToggle';
