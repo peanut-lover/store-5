@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useState } from 'react';
 import styled from 'styled-components';
 
 interface Props {
@@ -15,7 +15,7 @@ const GoodsPrice = ({ title, price, deliveryFee }: Props) => {
       <GoodsPriceContainer>
         <p>{title}</p>
         <SelectCount>
-          <Counter value={count} />
+          <Counter defaultValue={0} />
           <SelectCountButtons>
             <UpButton></UpButton>
             <DownButton></DownButton>

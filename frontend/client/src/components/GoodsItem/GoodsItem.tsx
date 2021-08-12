@@ -1,8 +1,10 @@
+import { usePushHistory } from '@src/lib/CustomRouter';
 import React from 'react';
 import styled from 'styled-components';
 import { BestTag, GreenTag, NewTag, SaleTag } from '../Tag';
 
 interface Props {
+  id: number;
   thumbnailImg?: string;
   title: string;
   price: number;
@@ -14,6 +16,7 @@ interface Props {
 }
 
 const GoodsItem: React.FC<Props> = ({
+  id,
   thumbnailImg = '',
   title,
   price,
@@ -23,8 +26,12 @@ const GoodsItem: React.FC<Props> = ({
   isSale = false,
   discountRate = 0,
 }) => {
+  const push = usePushHistory();
+  const handleClickGoodsItem = (e: React.MouseEvent) => {
+    push('/detail/' + id);
+  };
   return (
-    <GoodsItemContainer>
+    <GoodsItemContainer onClick={handleClickGoodsItem}>
       <TagContainer>
         {isBest && <BestTag />}
         {isGreen && <GreenTag />}

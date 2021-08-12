@@ -9,3 +9,12 @@ export interface Goods {
   isSale?: boolean;
   discountRate?: number;
 }
+
+export type ThumbnailGoods = Goods;
+
+export type DetailGoods = Goods & {
+  deliveryFee: number;
+  deliveryDetail: string;
+  isWished?: boolean;
+  imgs?: string[];
+};

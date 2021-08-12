@@ -1,6 +1,6 @@
 import React from 'react';
 import styled from 'styled-components';
-import { Goods } from '@src/types/Goods';
+import { ThumbnailGoods } from '@src/types/Goods';
 import GoodsSection from '@src/components/GoodsSection/GoodsSection';
 import PromotionCarousel from '@src/components/PromotionCarousel/PromotionCarousel';
 import { Promotion } from '@src/types/Promotion';
@@ -8,14 +8,14 @@ import { Promotion } from '@src/types/Promotion';
 const mockProductImagePath =
   'https://user-images.githubusercontent.com/20085849/128866958-900ad32a-cd32-4b97-be79-1dbbc9dcb02d.jpeg';
 
-const mock_best_products: Goods[] = [
+const mock_best_products: ThumbnailGoods[] = [
   { id: 1, thumbnailImg: mockProductImagePath, title: '맥쥬짠', price: 10000, isGreen: true, isBest: true },
   { id: 2, thumbnailImg: mockProductImagePath, title: '맥쥬짠', price: 10000, isNew: true },
   { id: 3, title: 'NoImage 맥쥬짠', price: 10000, isSale: true, discountRate: 20 },
   { id: 4, thumbnailImg: mockProductImagePath, title: '맥쥬짠', price: 10000 },
 ];
 
-const mock_new_products: Goods[] = [
+const mock_new_products: ThumbnailGoods[] = [
   {
     id: 1,
     thumbnailImg: mockProductImagePath,

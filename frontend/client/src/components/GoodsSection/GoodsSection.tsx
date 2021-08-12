@@ -1,11 +1,11 @@
 import React from 'react';
 import GoodsItemList from '@src/components/GoodsItemList/GoodsItemList';
-import { Goods } from '@src/types/Goods';
+import { ThumbnailGoods } from '@src/types/Goods';
 import styled from 'styled-components';
 
 interface Props {
   sectionTitle: string;
-  goodsList: Goods[];
+  goodsList: ThumbnailGoods[];
 }
 
 const GoodsSection: React.FC<Props> = ({ sectionTitle, goodsList }) => {
