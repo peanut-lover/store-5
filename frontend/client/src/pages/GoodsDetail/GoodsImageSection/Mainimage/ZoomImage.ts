@@ -181,6 +181,7 @@ export default function ImageZoom(
     const imageTag = document.createElement('img');
     imageTag.src = src;
     data.sourceImg.element = container.appendChild(imageTag);
+    data.sourceImg.element.style.maxHeight = '100%';
 
     container.style.position = 'relative';
     data.sourceImg.element.style.width = width + 'px';

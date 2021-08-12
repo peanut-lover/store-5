@@ -5,7 +5,6 @@ import ImageZoom, { ZoomImageReturnType } from './ZoomImage';
 const MainImage: React.FC<{ src: string }> = ({ src }) => {
   let imageZoom: ZoomImageReturnType;
   const containerRef = useRef<HTMLDivElement>(null);
-
   useEffect(() => {
     const container = containerRef.current as HTMLDivElement;
     const { width, height } = container.getBoundingClientRect();
@@ -18,7 +17,7 @@ const MainImage: React.FC<{ src: string }> = ({ src }) => {
     return () => {
       imageZoom.kill();
     };
-  }, []);
+  }, [src]);
 
   return <MainImageContainer ref={containerRef} />;
 };

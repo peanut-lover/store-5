@@ -14,7 +14,7 @@ const TestContainer = document.createElement('div');
 
 describe('ImageList Component', () => {
   it('전달받은 이미지 배열의 길이만큼 imageItem을 생성해야 한다.', () => {
-    const wrapper = render(<ImageList images={testImageList} />, {
+    const wrapper = render(<ImageList imgs={testImageList} />, {
       container: document.body.appendChild(TestContainer),
     });
     expect(wrapper.container.children[0].childNodes).toHaveLength(testImageList.length);
