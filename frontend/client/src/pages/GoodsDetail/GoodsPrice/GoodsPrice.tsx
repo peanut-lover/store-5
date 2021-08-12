@@ -1,4 +1,5 @@
 import React, { useState, useCallback } from 'react';
+import { FaAngleUp, FaAngleDown } from 'react-icons/fa';
 import styled from 'styled-components';
 
 interface Props {
@@ -9,19 +10,36 @@ interface Props {
 
 const GoodsPrice = ({ title, price, deliveryFee }: Props) => {
   const [count, setCount] = useState(0);
-  const totalPrice = count * price;
-  const onChange = useCallback((e) => {
-    setCount(e.target.value);
-  }, []);
+  const totalPrice = count * price + deliveryFee;
+
+  const handleButtonEvent = useCallback((direction: number) => handleCount(count + direction), [count]);
+
+  const handleChangeEvent = useCallback(
+    (target) => {
+      target.value = target.value.replace(/[^\d]/g, '');
+      target.value !== '' && handleCount(Number(target.value));
+    },
+    [count]
+  );
+
+  const handleCount = (value: number) => {
+    if (value < 0) value = 0;
+    // TODO 재고확인 API 적용
+    setCount(value);
+  };
   return (
     <>
       <GoodsPriceContainer>
         <p>{title}</p>
         <SelectCount>
-          <Counter value={count} onChange={onChange} />
+          <Counter value={count} onChange={(e) => handleChangeEvent(e.target)} />
           <SelectCountButtons>
-            <UpButton></UpButton>
-            <DownButton></DownButton>
+            <UpButton onClick={() => handleButtonEvent(1)}>
+              <FaAngleUp />
+            </UpButton>
+            <DownButton onClick={() => handleButtonEvent(-1)}>
+              <FaAngleDown />
+            </DownButton>
           </SelectCountButtons>
         </SelectCount>
         <Price>{price.toLocaleString()}원</Price>
@@ -71,6 +89,7 @@ const UpButton = styled.button`
   border: 0;
   border-bottom: 1px solid #ccc;
   cursor: pointer;
+  padding: 0;
 `;
 
 const DownButton = styled.button`
@@ -79,6 +98,7 @@ const DownButton = styled.button`
   background: #fff;
   border: 0;
   cursor: pointer;
+  padding: 0;
 `;
 
 const Price = styled.div`
