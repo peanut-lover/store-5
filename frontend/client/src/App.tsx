@@ -14,9 +14,11 @@ export default function App() {
       <div>Header</div>
       <div>
         <Routes>
-          <Route path='/'>
-            {/* <Main /> */}
+          <Route path='/cart'>
             <Cart />
+          </Route>
+          <Route path='/'>
+            <Main />
           </Route>
         </Routes>
       </div>
