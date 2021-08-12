@@ -16,7 +16,7 @@ const ImageItem: React.FC<Props> = ({ index, src, isActivated, setActive }: Prop
 };
 
 const ImageItemContainer = styled.img<{ isActivated: boolean }>`
-  border: 1px solid ${(props) => (props.isActivated && 'red') || 'transparent'};
+  border: 1px solid ${(props) => (props.isActivated ? 'red' : 'transparent')};
   cursor: pointer;
   width: 100%;
 `;

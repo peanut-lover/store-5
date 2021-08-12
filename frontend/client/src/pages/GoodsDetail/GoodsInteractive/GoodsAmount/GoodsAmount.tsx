@@ -20,15 +20,19 @@ function getTotalPrice(amount: number, price: number, deliveryFee: number, disco
 const GoodsAmount = ({ title, price, deliveryFee, discountRate, amount, setAmount }: Props) => {
   const totalPrice = getTotalPrice(amount, price, deliveryFee, discountRate);
 
-  const handleButtonEvent = useCallback((direction: number) => handleAmount(amount + direction), [amount]);
+  const onPlusEvent = useCallback(() => {
+    setAmount((amount) => amount + 1);
+  }, []);
 
-  const handleChangeEvent = useCallback(
-    (target) => {
-      target.value = target.value.replace(/[^\d]/g, '');
-      target.value !== '' && handleAmount(Number(target.value));
-    },
-    [amount]
-  );
+  const onMinusEvent = useCallback(() => {
+    setAmount((amount) => amount - 1);
+  }, []);
+
+  const handleChangeEvent = useCallback((e) => {
+    const target = e.target;
+    target.value = target.value.replace(/[^\d]/g, '');
+    target.value !== '' && handleAmount(Number(target.value));
+  }, []);
 
   const handleAmount = (value: number) => {
     if (value < 0) value = 0;
@@ -40,12 +44,12 @@ const GoodsAmount = ({ title, price, deliveryFee, discountRate, amount, setAmoun
       <GoodsAmountContainer>
         <p>{title}</p>
         <HandleAmount>
-          <Counter value={amount} onChange={(e) => handleChangeEvent(e.target)} />
+          <Counter value={amount} onChange={handleChangeEvent} />
           <HandleAmountButtons>
-            <UpButton onClick={() => handleButtonEvent(1)}>
+            <UpButton onClick={onPlusEvent}>
               <FaAngleUp />
             </UpButton>
-            <DownButton onClick={() => handleButtonEvent(-1)}>
+            <DownButton onClick={onMinusEvent}>
               <FaAngleDown />
             </DownButton>
           </HandleAmountButtons>
