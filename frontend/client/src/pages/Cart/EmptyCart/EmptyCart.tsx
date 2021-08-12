@@ -1,11 +1,11 @@
 import React from 'react';
 import styled from 'styled-components';
+import emptyCartImgUrl from './asset/empty-cart.png';
 
 const EmptyCart: React.FC = () => {
   return (
     <Wrapper>
-      {/* TODO: import asset이 안되는 이유 찾기 */}
-      <Img src='https://cdn-mart.baemin.com/front-end/assets/20210803103146/images/empty-cart.d6e30f3a9b6ce424c59b924c7fd86bd3.png' />
+      <Img src={emptyCartImgUrl} />
       <Title>장바구니에 담긴 상품이 없습니다.</Title>
       <Button>메인으로 가기</Button>
     </Wrapper>
