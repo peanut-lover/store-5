@@ -1,10 +1,10 @@
-import React, { useCallback, useState } from 'react';
-import styled from 'styled-components';
+import React from 'react';
 import { CartGoods } from '@src/types/Goods';
 import CartGoodsListContainer from './CartGoodsListContainer/CartGoodsListContainer';
 import EmptyCart from './EmptyCart/EmptyCart';
 import CartOrder from './CartOrder/CartOrder';
 import PageHeader from '@src/components/PageHeader/PageHeader';
+import Layout from './Layout/Layout';
 
 interface Props {
   cartGoodsList: CartGoods[];
@@ -29,48 +29,20 @@ const CartContainer: React.FC<Props> = ({
   }
 
   return (
-    <Wrapper>
-      <PageHeader>장바구니</PageHeader>
-      <ContentWrapper>
-        <LayoutLeft>
-          <CartGoodsListContainer
-            cartGoodsList={cartGoodsList}
-            onDeleteCartGoodsAll={onDeleteCartGoodsAll}
-            onReviseIsSelected={onReviseIsSelected}
-            onChangeIsSelected={onChangeIsSelected}
-            onChangeAmount={onChangeAmount}
-          />
-        </LayoutLeft>
-        <LayoutRight>
-          <CartOrder cartGoodsList={cartGoodsList} onClickOrderButton={handleClickOrderButton} />
-        </LayoutRight>
-      </ContentWrapper>
-    </Wrapper>
+    <Layout
+      pageHeader={<PageHeader>장바구니</PageHeader>}
+      contentLeft={
+        <CartGoodsListContainer
+          cartGoodsList={cartGoodsList}
+          onDeleteCartGoodsAll={onDeleteCartGoodsAll}
+          onReviseIsSelected={onReviseIsSelected}
+          onChangeIsSelected={onChangeIsSelected}
+          onChangeAmount={onChangeAmount}
+        />
+      }
+      contentRight={<CartOrder cartGoodsList={cartGoodsList} onClickOrderButton={handleClickOrderButton} />}
+    />
   );
 };
-
-const Wrapper = styled.div`
-  font-family: initial;
-  font-size: initial;
-  margin: auto;
-  width: 1024px;
-
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-`;
-const ContentWrapper = styled.div`
-  width: 100%;
-  display: flex;
-  justify-content: flex-start;
-  align-items: flex-start;
-  gap: 4rem;
-`;
-const LayoutLeft = styled.div`
-  flex: 6;
-`;
-const LayoutRight = styled.div`
-  flex: 4;
-`;
 
 export default CartContainer;
