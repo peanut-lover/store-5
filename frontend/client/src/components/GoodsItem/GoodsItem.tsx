@@ -55,14 +55,17 @@ const GoodsItem: React.FC<Props> = ({
         {thumbnailImg ? <GoodsImage src={thumbnailImg} /> : <GoodsEmptyImage />}
 
         {isHoverGoodsImage && (
-          <GoodsUtilBtnContainer>
-            <GoodsUtilBtn>
-              <BsHeart />
-            </GoodsUtilBtn>
-            <GoodsUtilBtn>
-              <BsFillBucketFill />
-            </GoodsUtilBtn>
-          </GoodsUtilBtnContainer>
+          <>
+            <GoodsImageOverlay />
+            <GoodsUtilBtnContainer>
+              <GoodsUtilBtn>
+                <BsHeart />
+              </GoodsUtilBtn>
+              <GoodsUtilBtn>
+                <BsFillBucketFill />
+              </GoodsUtilBtn>
+            </GoodsUtilBtnContainer>
+          </>
         )}
       </GoodsImageContainer>
 
@@ -106,7 +109,7 @@ interface GoodsEmptyImageProps {
 const GoodsEmptyImage = styled.div<GoodsEmptyImageProps>`
   width: 100%;
   height: 350px;
-  opacity: 0.5;
+  opacity: 0.8;
   background-color: ${(props) => props.theme.label};
   // TODO: add backgrond-img;
 `;
@@ -116,7 +119,37 @@ const GoodsImageContainer = styled.div`
   width: 100%;
   height: 350px;
   overflow: hidden;
-  border-radius: 3px;
+  border-radius: 8px;
+`;
+
+const GoodsImageOverlay = styled.div`
+  position: absolute;
+  left: 0;
+  top: 0;
+  pointer-events: none;
+  width: 100%;
+  height: 350px;
+  opacity: 1;
+  transition: opacity 300ms ease;
+  background: linear-gradient(
+    180deg,
+    transparent 62%,
+    rgba(0, 0, 0, 0.00345888) 63.94%,
+    rgba(0, 0, 0, 0.014204) 65.89%,
+    rgba(0, 0, 0, 0.0326639) 67.83%,
+    rgba(0, 0, 0, 0.0589645) 69.78%,
+    rgba(0, 0, 0, 0.0927099) 71.72%,
+    rgba(0, 0, 0, 0.132754) 73.67%,
+    rgba(0, 0, 0, 0.177076) 75.61%,
+    rgba(0, 0, 0, 0.222924) 77.56%,
+    rgba(0, 0, 0, 0.267246) 79.5%,
+    rgba(0, 0, 0, 0.30729) 81.44%,
+    rgba(0, 0, 0, 0.341035) 83.39%,
+    rgba(0, 0, 0, 0.367336) 85.33%,
+    rgba(0, 0, 0, 0.385796) 87.28%,
+    rgba(0, 0, 0, 0.396541) 89.22%,
+    rgba(0, 0, 0, 0.4) 91.17%
+  );
 `;
 
 const GoodsImage = styled.img`
