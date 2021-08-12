@@ -1,6 +1,10 @@
 const webpack = require('webpack');
 const path = require('path');
 const HtmlWebpackPlugin = require('html-webpack-plugin');
+const { DefinePlugin } = require('webpack');
+const dotenv = require('dotenv');
+
+dotenv.config({ path: './.env' });
 
 console.log(path.resolve(__dirname, 'src'));
 module.exports = {
@@ -60,6 +64,10 @@ module.exports = {
     }),
     new HtmlWebpackPlugin({
       template: './public/index.html',
+    }),
+    new DefinePlugin({
+      'process.env.API_BASE_URL': JSON.stringify(process.env.API_BASE_URL),
+      'process.env.GITHUB_SIGN_URL': JSON.stringify(process.env.GITHUB_SIGN_URL),
     }),
   ],
 };

@@ -7,9 +7,10 @@ const HELLO = '안녕하세요!';
 
 interface Props {
   userName: string;
+  onLogout: () => void;
 }
 
-const HeaderTop: React.FC<Props> = ({ userName }) => {
+const HeaderTop: React.FC<Props> = ({ userName, onLogout }) => {
   // TODO: 모달 연동
   const [openLoginModal, setOpenLoginModal] = useState(false);
 
@@ -22,8 +23,7 @@ const HeaderTop: React.FC<Props> = ({ userName }) => {
   }, []);
 
   const handleClickLogout = useCallback(() => {
-    // TODO: 로그아웃
-    console.log('로그아웃');
+    onLogout();
   }, []);
 
   return (
