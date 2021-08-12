@@ -11,17 +11,17 @@ export default function App() {
   return (
     <ThemeProvider theme={theme}>
       {/* TODO: Change Header Component */}
-      <div>Header</div>
+      <Header />
       <div>
-        <Routes>
-          <Route path='/cart'>
-            <Cart />
-          </Route>
+        <Routes exact>
           <Route path='/'>
             <Main />
           </Route>
-          <Route path='/test'>
-            <Main />
+          <Route path='/cart'>
+            <Cart />
+          </Route>
+          <Route path='/cart/:id'>
+            <Cart />
           </Route>
         </Routes>
       </div>

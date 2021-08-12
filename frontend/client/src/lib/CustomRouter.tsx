@@ -73,16 +73,18 @@ interface RouteProps {
 /**
  * Routing 되는 페이지하나를 나타내는 Component
  */
-export class Route extends React.Component<RouteProps> {
-  render() {
-    return this.props.children;
-  }
-}
+// export class Route extends React.Component<RouteProps> {
+//   render() {
+//     return this.props.children;
+//   }
+// }
+
+export const Route: React.FC<RouteProps> = ({ children }) => <>{children}</>;
 
 /**
  * URL Parameter와 Path를 추출하는 함수
  */
-function compilePath(path: string) {
+function compilePath(path: string, exact: boolean) {
   const keys: string[] = [];
 
   path = path.replace(/:(\w+)/g, (_, key) => {
@@ -90,8 +92,7 @@ function compilePath(path: string) {
     return '([^\\/]+)';
   });
 
-  const source = `^(${path})`;
-
+  const source = `^(${path}${exact ? '$' : ''})`;
   const regex = new RegExp(source, 'i');
   return { regex, keys };
 }
@@ -101,11 +102,11 @@ function compilePath(path: string) {
  * @param children 보여질 Routing Page들(components)
  * @param location 탐색할 경로
  */
-function matchRoutes(children: ReactElementAsChildren<RouteProps>, location: string) {
+function matchRoutes(children: ReactElementAsChildren<RouteProps>, location: string, exact: boolean) {
   const matches: Match[] = [];
 
   React.Children.forEach(children, (route) => {
-    const { regex, keys } = compilePath(route.props.path!);
+    const { regex, keys } = compilePath(route.props.path!, exact);
     const match = location.match(regex);
     if (match) {
       const params = match.slice(2);
@@ -134,15 +135,20 @@ type ReactElementAsChildren<P = any> = React.ReactElement<P> | React.ReactElemen
 
 interface RoutesProps {
   children?: ReactElementAsChildren;
+  exact?: boolean;
 }
 
 /**
  * RouterContext에 있는 location 정보를 이용해서 알맞은 Route Component를 보여준다.
  */
-export const Routes: React.FC<RoutesProps> = ({ children }) => {
+export const Routes: React.FC<RoutesProps> = ({ children, exact = false }) => {
   const { location } = useContext(RouterContext);
 
-  const match: Match = useMemo(() => matchRoutes(children as ReactElementAsChildren, location), [children, location]);
+  const match: Match = useMemo(
+    () => matchRoutes(children as ReactElementAsChildren, location, exact),
+    [children, location]
+  );
+
   const value = useMemo(() => {
     return { params: match?.params };
   }, [match]);

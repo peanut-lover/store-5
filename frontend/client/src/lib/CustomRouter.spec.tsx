@@ -4,7 +4,7 @@ import { render, cleanup, fireEvent, waitFor } from '@testing-library/react';
 import { Router, Routes, Route, Link, useParams } from '@src/lib/CustomRouter';
 
 describe('Custom Router Component', () => {
-  it('커스텀 라우팅이 Link를 통한 라우팅을 정상적으로 진행해야한다.', async () => {
+  it('커스텀 라우팅이 Link를 통한 라우팅을 정상적으로 진행해야한다.', () => {
     const wrapper = render(
       <Router>
         <Link to='/a'>go to a</Link>
@@ -32,7 +32,7 @@ describe('Custom Router Component', () => {
     expect(wrapper.getByText('a page')).toBeInTheDocument();
   });
 
-  it('/item/1 와 같이 Router에서 param를 얻어올 수 있어야한다.', async () => {
+  it('/item/:id와 같이 Router에서 param를 얻어올 수 있어야한다.', async () => {
     const Item: React.FC = () => {
       const { id } = useParams();
       return (
@@ -74,5 +74,33 @@ describe('Custom Router Component', () => {
     const $itemPage2 = wrapper.container.querySelector('.test-product');
     expect($itemPage2).not.toBeNull();
     expect($itemPage2!.textContent).toEqual('Viewing product-2');
+  });
+
+  it('exact 속성을 사용시 엄격하게 path 매칭 수행해야한다. ', () => {
+    window.history.pushState({}, '', '/'); // 이전 테스트 케이스에 의존하지않게 하기 위해 location 을 초기화
+    const wrapper = render(
+      <Router>
+        <Link to='/strict'>go to strict path</Link>
+        <Link to='/'>go to default</Link>
+        <Routes exact>
+          <Route path='/'>default page</Route>
+          <Route path='/strict'>strict page</Route>
+        </Routes>
+      </Router>
+    );
+
+    expect(wrapper.queryByText('strict')).toBeNull();
+    const link = wrapper.queryByText('go to strict path');
+    expect(link).toBeInTheDocument();
+
+    expect(wrapper.getByText('default page')).toBeInTheDocument();
+
+    if (!link) {
+      throw new Error('a Link is Null');
+    }
+
+    fireEvent.click(link);
+
+    expect(wrapper.getByText('strict page')).toBeInTheDocument();
   });
 });
