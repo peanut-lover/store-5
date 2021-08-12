@@ -5,7 +5,7 @@ const theme = {
 
   error: '#F45452',
   warning: '#F45452',
-  cancle: '#F45452',
+  cancel: '#F45452',
 
   titleActive: '#1E2222',
   label: '#8D9393',
