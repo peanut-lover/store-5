@@ -6,6 +6,7 @@ import Cart from './pages/Cart/CartPage';
 import Main from './pages/Main/Main';
 import Header from '@src/components/Header/Header';
 import theme from './theme/theme';
+import Goods from './pages/Goods';
 
 export default function App() {
   return (
@@ -17,6 +18,9 @@ export default function App() {
         </Route>
         <Route path='/cart'>
           <Cart />
+        </Route>
+        <Route path='/detail/:id'>
+          <Goods />
         </Route>
       </Routes>
       <GlobalStyles />

@@ -1,10 +1,18 @@
 import React from 'react';
-import { GoodsProps } from '@src/pages/Goods/Goods';
 import styled from 'styled-components';
 
 const calculateSalePrice = (price: number, discountRate: number) => price - price * (discountRate / 100);
 
-const GoodsInfo = ({ title, price, discountRate, deliveryFee, deliveryDetail, isWished }: GoodsProps) => {
+export interface GoodsInfoProps {
+  title: string;
+  price: number;
+  discountRate: number;
+  deliveryFee: number;
+  deliveryDetail: string;
+  isWished: boolean;
+}
+
+const GoodsInfo: React.FC<GoodsInfoProps> = ({ title, price, discountRate, deliveryFee, deliveryDetail, isWished }) => {
   const salePrice = calculateSalePrice(price, discountRate);
 
   return (
