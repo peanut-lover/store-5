@@ -35,8 +35,8 @@ server.use('/api', router);
 server.use(errorControl);
 
 database().then(() => {
+  console.log('db connection');
   server.listen(PORT, async () => {
     console.log('server is running : ', PORT);
-    console.log('db connection');
   });
 });

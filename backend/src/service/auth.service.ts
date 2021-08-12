@@ -1,6 +1,7 @@
 import axios from 'axios';
 import { githubConfig } from '../config';
 import { UserRepository } from '../repository/user.repository';
+import removeBlank from '../utils/remove-blank';
 
 async function signInGithub(code: string): Promise<number> {
   let user;
@@ -15,9 +16,10 @@ async function signInGithub(code: string): Promise<number> {
       Authorization: `token ${accessToken}`,
     },
   });
+
   user = await UserRepository.findByGitHubId(id);
   if (!user) {
-    UserRepository.create({ githubId: `${id}`, name });
+    UserRepository.create({ githubId: `${id}`, name: removeBlank(name) });
   }
   return id;
 }

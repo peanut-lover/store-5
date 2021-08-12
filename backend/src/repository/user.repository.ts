@@ -34,7 +34,6 @@ async function create({ githubId, name }: { githubId: string; name: string }) {
     const userRepo = getRepository(User);
     const user = userRepo.create({ githubId, name });
     const result = await userRepo.insert(user);
-    console.log(result);
     return user;
   } catch (err) {
     console.error(err);
