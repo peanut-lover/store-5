@@ -13,6 +13,6 @@ export const databaseConfig = {
 };
 
 export const githubConfig = {
-  tokenURL: process.env.GITHUB_TOKEN_URL,
-  profileURL: process.env.GITHUB_PROFILE_URL,
+  tokenURL: process.env.OAUTH_GITHUB_TOKEN_URL,
+  profileURL: process.env.OAUTH_GITHUB_PROFILE_URL,
 };

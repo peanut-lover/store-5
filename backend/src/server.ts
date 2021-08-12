@@ -1,5 +1,6 @@
 import express from 'express';
 import cors from 'cors';
+import path from 'path';
 import session from 'express-session';
 import database from './database';
 import errorControl from './middlewares/error.middleware';
@@ -15,7 +16,7 @@ declare module 'express-session' {
 
 const server = express();
 server.use(express.json());
-
+server.use(express.static(path.join(__dirname, '../public')));
 // TODO: origin 환경변수 설정하기, 세션 사용시 credentials: true
 server.use(cors());
 
