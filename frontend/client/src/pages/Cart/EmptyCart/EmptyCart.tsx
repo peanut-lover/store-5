@@ -1,13 +1,20 @@
+import { usePushHistory } from '@src/lib/CustomRouter';
 import React from 'react';
 import styled from 'styled-components';
 import emptyCartImgUrl from './asset/empty-cart.png';
 
 const EmptyCart: React.FC = () => {
+  const pushHistory = usePushHistory();
+
+  const handleClickGoToMain = () => {
+    pushHistory('/');
+  };
+
   return (
     <Wrapper>
       <Img src={emptyCartImgUrl} />
       <Title>장바구니에 담긴 상품이 없습니다.</Title>
-      <Button>메인으로 가기</Button>
+      <Button onClick={handleClickGoToMain}>메인으로 가기</Button>
     </Wrapper>
   );
 };
