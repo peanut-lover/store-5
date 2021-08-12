@@ -91,6 +91,7 @@ const Button = styled.button`
   border: none;
   color: gray;
   padding: 0;
+  cursor: pointer;
 `;
 
 export default HeaderTop;

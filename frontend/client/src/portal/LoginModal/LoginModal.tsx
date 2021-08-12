@@ -1,5 +1,4 @@
 import SigninForm from '@src/portal/LoginModal/SigninForm/SigninForm';
-import SignupForm from '@src/portal/LoginModal/SignupForm/SignupForm';
 import Portal from '@src/portal/portal';
 import React, { useCallback, useEffect, useRef, useState } from 'react';
 import styled from 'styled-components';
@@ -11,13 +10,6 @@ interface Props {
 
 const LoginModal: React.FC<Props> = ({ onClose }) => {
   const modalRef = useRef<HTMLDivElement>(null);
-  const [isSignin, setIsSignin] = useState(true);
-  const handleChangeToSignup = useCallback(() => {
-    setIsSignin(false);
-  }, [setIsSignin]);
-  const handleChangeToSignin = useCallback(() => {
-    setIsSignin(true);
-  }, [setIsSignin]);
 
   const handleClose = useCallback((e) => {
     const el = e.target;
@@ -36,11 +28,7 @@ const LoginModal: React.FC<Props> = ({ onClose }) => {
     <Portal>
       <ModalContainer>
         <FormContainer ref={modalRef}>
-          {isSignin ? (
-            <SigninForm onClickSignup={handleChangeToSignup} />
-          ) : (
-            <SignupForm onClickSignin={handleChangeToSignin} />
-          )}
+          <SigninForm />
         </FormContainer>
       </ModalContainer>
     </Portal>
@@ -73,10 +61,11 @@ const FormContainer = styled.div`
   top: 50%;
   left: 50%;
   transform: translate(-50%, -50%);
-  width: 40%;
-  height: 60%;
+  min-width: 400px;
+  width: 20%;
+  height: 40%;
   margin: auto;
-  background-color: white;
+  background-color: transparent;
   border-radius: 12px;
 `;
 
