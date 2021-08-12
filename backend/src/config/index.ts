@@ -8,4 +8,6 @@ export const databaseConfig = {
   port: Number(process.env.DATABASE_PORT as string) || 3306,
   username: process.env.DATABASE_USERNAME,
   password: process.env.DATABASE_PASSWORD,
+  // TODO: 배포시 삭제
+  synchronize: true,
 };
