@@ -5,6 +5,7 @@ import GoodsSection from '@src/components/GoodsSection/GoodsSection';
 import PromotionCarousel from '@src/components/PromotionCarousel/PromotionCarousel';
 import { Promotion } from '@src/types/Promotion';
 import Footer from '@src/components/Footer/Footer';
+import SideBar from './SideBar/SideBar';
 
 const mockProductImagePath =
   'https://user-images.githubusercontent.com/20085849/128866958-900ad32a-cd32-4b97-be79-1dbbc9dcb02d.jpeg';
@@ -76,6 +77,7 @@ const Main = () => (
       <GoodsSection sectionTitle='잘나가요' goodsList={mock_best_products} />
       <GoodsSection sectionTitle='새로 나왔어요' goodsList={mock_new_products} />
     </MainContentContainer>
+    <SideBar goodsList={mock_best_products} />
     <FooterContainer>
       <Footer />
     </FooterContainer>
@@ -96,4 +98,5 @@ const FooterContainer = styled.div<FooterContainerProps>`
   width: 100%;
   background-color: ${(props) => props.theme.dustWhite};
 `;
+
 export default Main;
