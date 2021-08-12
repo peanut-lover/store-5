@@ -4,7 +4,6 @@ import HeaderBottom from './HeaderBottom/HeaderBottom';
 import HeaderTop from './HeaderTop/HeaderTop';
 
 const Header = () => {
-  const headerRef = useRef<HTMLHeadElement>(null);
   const sentinelRef = useRef<HTMLDivElement>(null);
   const [isScrolled, setIsScrolled] = useState(false);
 
@@ -23,7 +22,7 @@ const Header = () => {
   return (
     <>
       <Sentinel ref={sentinelRef} isScrolled={isScrolled} />
-      <HeaderContainer ref={headerRef} isScrolled={isScrolled}>
+      <HeaderContainer isScrolled={isScrolled}>
         <HeaderTop userName={''} />
         <HeaderBottom />
       </HeaderContainer>
