@@ -26,10 +26,6 @@ const MainImageContainer = styled.div`
   height: 100%;
   position: relative;
   cursor: pointer;
-  & > img {
-    width: 100%;
-    height: 100%;
-  }
 `;
 
 export default MainImage;
