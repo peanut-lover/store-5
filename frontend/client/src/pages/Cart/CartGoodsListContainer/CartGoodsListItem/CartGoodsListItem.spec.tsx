@@ -3,7 +3,7 @@ import React from 'react';
 import { render, cleanup } from '@testing-library/react';
 
 import CartGoodsListItem from './CartGoodsListItem';
-import { CartGoods } from '@src/types/CartGoods';
+import { CartGoods } from '@src/types/Goods';
 
 const mock: CartGoods = {
   id: 1,

@@ -2,7 +2,7 @@ import React from 'react';
 import { useCallback } from 'react';
 import styled from 'styled-components';
 import { BiTrash } from 'react-icons/bi';
-import { CartGoods } from '@src/types/CartGoods';
+import { CartGoods } from '@src/types/Goods';
 import CheckButton from '@src/components/CheckButton/CheckButton';
 import CartGoodsAmountInput from './CartGoodsAmountInput/CartGoodsAmountInput';
 import ConfirmModal from '@src/components/ConfirmModal/ConfirmModal';

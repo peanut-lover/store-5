@@ -3,6 +3,7 @@ import GlobalStyles from './GlobalStyles';
 import { ThemeProvider } from 'styled-components';
 import { Routes, Route } from './lib/CustomRouter';
 import Cart from './pages/Cart/CartPage';
+import Order from './pages/Order/OrderPage';
 import Main from './pages/Main/Main';
 import Header from '@src/components/Header/Header';
 import theme from './theme/theme';
@@ -18,6 +19,9 @@ export default function App() {
         </Route>
         <Route path='/cart'>
           <Cart />
+        </Route>
+        <Route path='/order'>
+          <Order />
         </Route>
         <Route path='/detail/:id'>
           <Goods />

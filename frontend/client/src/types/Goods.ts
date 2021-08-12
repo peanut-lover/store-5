@@ -18,3 +18,11 @@ export type DetailGoods = Goods & {
   isWished?: boolean;
   imgs?: string[];
 };
+
+export type CartGoods = Goods & {
+  thumbnailUrl: string;
+  discountRate: number;
+  amount: number;
+  stock: number;
+  isSelected: boolean;
+};
