@@ -4,11 +4,11 @@ import ImageItem from './ImageItem/ImageItem';
 
 interface Props {
   imgs: string[];
-  active: number;
-  setActive: React.Dispatch<React.SetStateAction<number>>;
+  active?: number;
+  setActive?: React.Dispatch<React.SetStateAction<number>>;
 }
 
-const ImageList = ({ imgs, active, setActive }: Props) => {
+const ImageList = ({ imgs, active = 0, setActive = () => {} }: Props) => {
   const imageItems = imgs.map((img, index) => (
     <ImageItem index={index} src={img} setActive={setActive} isActivated={active === index} key={'images ' + index} />
   ));
