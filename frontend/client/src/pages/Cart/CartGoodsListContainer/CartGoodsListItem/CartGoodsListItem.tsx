@@ -7,6 +7,7 @@ import CheckButton from '@src/components/CheckButton/CheckButton';
 import CartGoodsAmountInput from './CartGoodsAmountInput/CartGoodsAmountInput';
 import ConfirmModal from '@src/components/ConfirmModal/ConfirmModal';
 import { useState } from 'react';
+import { getDiscountedPrice, getPriceText } from '@src/utils/price';
 
 interface Props {
   cartGoods: CartGoods;
@@ -15,6 +16,7 @@ interface Props {
   onChangeIsSelected: (id: number, isSelected: boolean) => void;
 }
 
+// TODO: discountRate 관련 렌더링 추가하기
 const CartGoodsListItem: React.FC<Props> = ({ cartGoods, onChangeAmount, onDeleteCartGoods, onChangeIsSelected }) => {
   const { id, thumbnailUrl, title, price, discountRate, amount, isSelected } = cartGoods;
 
@@ -53,7 +55,7 @@ const CartGoodsListItem: React.FC<Props> = ({ cartGoods, onChangeAmount, onDelet
           </ConfirmModal>
         )}
         <CartGoodsAmountInput value={amount} onChangeAmount={handleChangeAmount} />
-        <PriceText>{price * amount}원</PriceText>
+        <PriceText>{getPriceText(getDiscountedPrice(price, discountRate) * amount)}원</PriceText>
       </FlexColumn>
     </Wrapper>
   );

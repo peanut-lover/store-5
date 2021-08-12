@@ -1,20 +1,27 @@
 import React, { useMemo } from 'react';
 import styled from 'styled-components';
 import { CartGoods } from '@src/types/CartGoods';
+import { getDiscountedPrice, getPriceText } from '@src/utils/price';
 
 interface Props {
   cartGoodsList: CartGoods[];
   onClickOrderButton: () => void;
 }
 
-// TODO: 배송비 정책 결정하고 대응 수정하기
 const CartOrder: React.FC<Props> = ({ cartGoodsList, onClickOrderButton }) => {
   const selectedCartGoodsList = useMemo(() => cartGoodsList.filter(({ isSelected }) => isSelected), [cartGoodsList]);
   const reducedPrice = useMemo(
-    () => selectedCartGoodsList.reduce((prev, cartGoods) => prev + cartGoods.amount * cartGoods.price, 0),
+    () =>
+      selectedCartGoodsList.reduce(
+        (prev, cartGoods) => prev + cartGoods.amount * getDiscountedPrice(cartGoods.price, cartGoods.discountRate),
+        0
+      ),
     [selectedCartGoodsList]
   );
-  const deliveryPrice = 0;
+
+  // TODO: 배송비 정책 결정하고 대응 수정하기
+  // 임시적으로 30000원 이상이면 배송비 0원, 아니면 3000원 부여
+  const deliveryPrice = selectedCartGoodsList.length !== 0 && reducedPrice < 30000 ? 3000 : 0;
 
   return (
     <Wrapper>
@@ -22,16 +29,16 @@ const CartOrder: React.FC<Props> = ({ cartGoodsList, onClickOrderButton }) => {
       <SolidDivider />
       <PriceWrapper>
         <div>선택된 상품금액</div>
-        <div>{reducedPrice}원</div>
+        <div>{getPriceText(reducedPrice)}원</div>
       </PriceWrapper>
       <PriceWrapper>
         <div>배송비</div>
-        <div>{deliveryPrice}원</div>
+        <div>{getPriceText(deliveryPrice)}원</div>
       </PriceWrapper>
       <DashedDivider />
       <PriceWrapper>
         <StrongText>합계</StrongText>
-        <StrongText>{reducedPrice + deliveryPrice}원</StrongText>
+        <StrongText>{getPriceText(reducedPrice + deliveryPrice)}원</StrongText>
       </PriceWrapper>
       <DashedDivider />
       <Button onClick={onClickOrderButton} disabled={selectedCartGoodsList.length === 0}>

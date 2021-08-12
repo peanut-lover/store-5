@@ -28,7 +28,6 @@ const mock: CartGoods[] = [
   },
 ];
 
-// TODO: discountRate를 적용하기
 const Cart: React.FC = () => {
   const [cartGoodsList, setCartGoodsList] = useState(mock);
 
