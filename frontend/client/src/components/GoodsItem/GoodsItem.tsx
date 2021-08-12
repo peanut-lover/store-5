@@ -38,7 +38,11 @@ const GoodsItem: React.FC<Props> = ({
         {isNew && <NewTag />}
         {isSale && <SaleTag />}
       </TagContainer>
-      {thumbnailImg ? <GoodsImage src={thumbnailImg} /> : <GoodsEmptyImage />}
+
+      <GoodsImageContainer>
+        {thumbnailImg ? <GoodsImage src={thumbnailImg} /> : <GoodsEmptyImage />}
+      </GoodsImageContainer>
+
       {discountRate && discountRate > 0 ? <GoodsDiscountLabel> {discountRate} % </GoodsDiscountLabel> : ''}
       <GoodsTitle>{title}</GoodsTitle>
       <GoodsPriceLabel>{price} 원</GoodsPriceLabel>
@@ -53,6 +57,7 @@ const TagContainer = styled.div`
   top: 0;
   padding: 15px;
   width: 100%;
+  z-index: 1;
   & > *:not(:last-child) {
     margin-right: 10px;
   }
@@ -70,17 +75,55 @@ const GoodsItemContainer = styled.div`
   flex-direction: column;
 `;
 
-const GoodsEmptyImage = styled.div`
+interface GoodsEmptyImageProps {
+  theme: {
+    label: string;
+  };
+}
+const GoodsEmptyImage = styled.div<GoodsEmptyImageProps>`
   width: 100%;
   height: 350px;
-  background-color: #c0c0c0; // TODO: change const color
-  // TODO: backgrond-img;
+  opacity: 0.5;
+  background-color: ${(props) => props.theme.label};
+  // TODO: add backgrond-img;
+`;
+
+const GoodsImageContainer = styled.div`
+  width: 100%;
+  height: 350px;
+  overflow: hidden;
 `;
 
 const GoodsImage = styled.img`
   width: 100%;
-  height: 350px;
+  height: 100%;
   object-fit: cover;
+  transform: scale(1);
+  filter: blur(1px);
+  -webkit-filter: blur(1px);
+
+  &:hover {
+    opacity: 1;
+    transform: scale(1.1);
+    filter: blur(0px);
+    -webkit-filter: blur(0px);
+    animation-name: imgZoomEffect;
+    animation-duration: 0.2s;
+  }
+
+  @keyframes imgZoomEffect {
+    from {
+      filter: blur(0.5px);
+      -webkit-filter: blur(0.5px);
+      transform: scale(1);
+    }
+
+    to {
+      filter: blur(0px);
+      -webkit-filter: blur(0px);
+      transform: scale(1.1);
+    }
+  }
 `;
 
 const GoodsTitle = styled.strong`
