@@ -29,8 +29,6 @@ describe('Custom Router Component', () => {
 
     fireEvent.click(aLink);
 
-    await waitFor(() => wrapper.getByText('a page'));
-
     expect(wrapper.getByText('a page')).toBeInTheDocument();
   });
 
