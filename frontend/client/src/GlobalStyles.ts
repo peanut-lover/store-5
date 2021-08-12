@@ -15,7 +15,6 @@ const GlobalStyles = createGlobalStyle`
     body {
         font-family: 'Do Hyeon', sans-serif;
         font-size: 14px;
-        padding-top: 50px;
     }
 `;
 
