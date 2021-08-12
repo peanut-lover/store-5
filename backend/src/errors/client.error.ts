@@ -1,11 +1,8 @@
-import { UserFacingError } from "./base.error.js";
+import { UserFacingError } from './base.error.js';
 
 export class BadRequestError extends UserFacingError {
-  constructor(message, options = {}) {
+  constructor(message: string) {
     super(message);
-    for (const [key, value] of Object.entries(options)) {
-      this[key] = value;
-    }
   }
 
   get statusCode() {
@@ -14,11 +11,8 @@ export class BadRequestError extends UserFacingError {
 }
 
 export class ForbiddenError extends UserFacingError {
-  constructor(message, options = {}) {
+  constructor(message: string) {
     super(message);
-    for (const [key, value] of Object.entries(options)) {
-      this[key] = value;
-    }
   }
 
   get statusCode() {
@@ -27,11 +21,8 @@ export class ForbiddenError extends UserFacingError {
 }
 
 export class NotFoundError extends UserFacingError {
-  constructor(message, options = {}) {
+  constructor(message: string) {
     super(message);
-    for (const [key, value] of Object.entries(options)) {
-      this[key] = value;
-    }
   }
   get statusCode() {
     return 404;

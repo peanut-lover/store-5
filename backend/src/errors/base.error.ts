@@ -4,14 +4,18 @@ export class ApplicationError extends Error {
   }
 }
 
-export class UserFacingError extends ApplicationError {}
+export class UserFacingError extends ApplicationError {
+  constructor(message: string) {
+    super(message);
+  }
+  get statusCode() {
+    return 400;
+  }
+}
 
 export class DatabaseError extends ApplicationError {
-  constructor(message, options = {}) {
+  constructor(message: string) {
     super(message);
-    for (const [key, value] of Object.entries(options)) {
-      this[key] = value;
-    }
   }
   get statusCode() {
     return 503;

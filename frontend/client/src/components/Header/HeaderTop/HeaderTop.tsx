@@ -1,18 +1,29 @@
-import React, { useCallback, useState } from 'react';
+import React, { RefObject, useCallback, useState } from 'react';
 import styled from 'styled-components';
 import { Link } from '@src/lib/CustomRouter';
+import LoginModal from '@src/portal/LoginModal/LoginModal';
 
 const HELLO = '안녕하세요!';
 
-const HeaderTop: React.FC<{ userName: string }> = ({ userName }) => {
+interface Props {
+  userName: string;
+}
+
+const HeaderTop: React.FC<Props> = ({ userName }) => {
   // TODO: 모달 연동
   const [openLoginModal, setOpenLoginModal] = useState(false);
-  const [openLogoutModal, setOpenLogoutModal] = useState(false);
-  const handleClickLogout = useCallback(() => {
-    setOpenLogoutModal(true);
+
+  const handleCloseLoginModal = useCallback(() => {
+    setOpenLoginModal(false);
   }, []);
+
   const handleClickLogin = useCallback(() => {
     setOpenLoginModal(true);
+  }, []);
+
+  const handleClickLogout = useCallback(() => {
+    // TODO: 로그아웃
+    console.log('로그아웃');
   }, []);
 
   return (
@@ -31,8 +42,7 @@ const HeaderTop: React.FC<{ userName: string }> = ({ userName }) => {
       ) : (
         <Button onClick={handleClickLogin}>로그인</Button>
       )}
-      {/* {openLoginModal && } */}
-      {/* {openLogoutModal &&} */}
+      {openLoginModal && <LoginModal onClose={handleCloseLoginModal} />}
     </HeaderTopContainer>
   );
 };
@@ -81,6 +91,7 @@ const Button = styled.button`
   border: none;
   color: gray;
   padding: 0;
+  cursor: pointer;
 `;
 
 export default HeaderTop;

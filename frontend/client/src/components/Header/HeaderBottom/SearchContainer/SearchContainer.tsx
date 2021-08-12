@@ -28,7 +28,11 @@ const reducer = (state: string[], action: { type: string; keyword: string }) => 
   }
 };
 
-const SearchContainer = () => {
+interface Props {
+  onClose: (e: Event) => void;
+}
+
+const SearchContainer: React.FC<Props> = ({ onClose }) => {
   const inputRef = useRef<HTMLInputElement>(null);
   const [inputFocused, setInputFocused] = useState(false);
   const [searchHistory, setSearchHistory, resetSearchHistory] = useSearchHistory();

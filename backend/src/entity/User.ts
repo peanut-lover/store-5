@@ -11,7 +11,7 @@ export class User {
   @Column({ type: 'varchar', length: 100 })
   githubId!: string;
 
-  @Column({ type: 'varchar', length: 10, nullable: true })
+  @Column({ type: 'varchar', length: 25, nullable: true })
   name!: string;
 
   @Column({ type: 'varchar', length: 100, nullable: true })

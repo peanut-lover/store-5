@@ -7,9 +7,7 @@ export const IconContainer = styled.div`
   justify-content: center;
   align-items: center;
   width: 4em;
-  :not(:last-child) {
-    border-right: 1px solid lightgray;
-  }
+  border-right: 1px solid lightgray;
   cursor: pointer;
 `;
 
