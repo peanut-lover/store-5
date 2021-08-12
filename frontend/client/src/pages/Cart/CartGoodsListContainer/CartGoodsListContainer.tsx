@@ -1,7 +1,7 @@
 import React, { useMemo, useCallback } from 'react';
 import styled from 'styled-components';
 
-import { CartGoods } from '@src/types/CartGoods';
+import { CartGoods } from '@src/types/Goods';
 import CheckButtonWithLabel from '@src/components/CheckButtonWithLabel/CheckButtonWithLabel';
 import CartGoodsListItem from './CartGoodsListItem/CartGoodsListItem';
 import { useState } from 'react';

@@ -1,5 +1,5 @@
 import React, { useCallback, useState } from 'react';
-import { CartGoods } from '@src/types/CartGoods';
+import { CartGoods } from '@src/types/Goods';
 import CartContainer from './CartContainer';
 
 const mock: CartGoods[] = [

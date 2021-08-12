@@ -1,7 +1,9 @@
 import React, { useMemo } from 'react';
 import styled from 'styled-components';
-import { CartGoods } from '@src/types/CartGoods';
+import { CartGoods } from '@src/types/Goods';
 import { getDiscountedPrice, getPriceText } from '@src/utils/price';
+import HighlightedText from '@src/components/HighlightedText/HighlightedText';
+import Button from '@src/components/Button/Button';
 
 interface Props {
   cartGoodsList: CartGoods[];
@@ -37,8 +39,8 @@ const CartOrder: React.FC<Props> = ({ cartGoodsList, onClickOrderButton }) => {
       </PriceWrapper>
       <DashedDivider />
       <PriceWrapper>
-        <StrongText>합계</StrongText>
-        <StrongText>{getPriceText(reducedPrice + deliveryPrice)}원</StrongText>
+        <HighlightedText>합계</HighlightedText>
+        <HighlightedText>{getPriceText(reducedPrice + deliveryPrice)}원</HighlightedText>
       </PriceWrapper>
       <DashedDivider />
       <Button onClick={onClickOrderButton} disabled={selectedCartGoodsList.length === 0}>
@@ -81,45 +83,6 @@ const DashedDivider = styled.hr`
 const PriceWrapper = styled.div`
   display: flex;
   justify-content: space-between;
-`;
-
-const StrongText = styled.strong`
-  position: relative;
-  font-size: 1.375rem;
-  font-weight: bolder;
-
-  ::after {
-    position: absolute;
-    content: '';
-    left: 0;
-    right: 0;
-    bottom: 0;
-    height: 40%;
-    background-color: rgba(42, 193, 188, 0.5);
-  }
-`;
-
-const Button = styled.button`
-  cursor: pointer;
-  color: white;
-  border: none;
-  background-color: rgb(42, 193, 188);
-  margin: 0;
-  padding: 1.25rem;
-  font-size: 1.125rem;
-  font-weight: bolder;
-
-  transition: 0.2s linear;
-
-  :hover {
-    background-color: rgba(42, 193, 188, 0.75);
-  }
-
-  :disabled {
-    cursor: initial;
-    color: #ddd;
-    background-color: #eee;
-  }
 `;
 
 export default CartOrder;

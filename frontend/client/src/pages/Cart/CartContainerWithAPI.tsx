@@ -1,5 +1,5 @@
 import React, { useState, useCallback } from 'react';
-import { CartGoods } from '@src/types/CartGoods';
+import { CartGoods } from '@src/types/Goods';
 import CartContainer from './CartContainer';
 
 // TODO: 실제 API를 호출하여 cartGoodsList를 관리하기
