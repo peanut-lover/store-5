@@ -21,9 +21,7 @@ const GoodsPrice = ({ title, price, deliveryFee }: Props) => {
             <DownButton></DownButton>
           </SelectCountButtons>
         </SelectCount>
-        <Price>
-          <span>{price.toString()}</span>원
-        </Price>
+        <Price>{price.toLocaleString()}원</Price>
       </GoodsPriceContainer>
       <TotalAmount>
         <span>총 합계금액</span>

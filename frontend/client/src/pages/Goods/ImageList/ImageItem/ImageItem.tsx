@@ -7,11 +7,7 @@ interface ImageItemProps {
 }
 
 const ImageItem: React.FC<ImageItemProps> = ({ src, active }: ImageItemProps) => {
-  return (
-    <div>
-      <ImageItemContainer src={src} active={active}></ImageItemContainer>
-    </div>
-  );
+  return <ImageItemContainer src={src} active={active}></ImageItemContainer>;
 };
 
 const ImageItemContainer = styled.img<ImageItemProps>`

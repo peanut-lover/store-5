@@ -32,7 +32,7 @@ export interface GoodsProps {
   isWished: boolean;
 }
 
-const Goods = () => {
+const GoodsDetail = () => {
   const content = {
     title: '플리츠마마X배달의민족. 텀블러백',
     price: 49000,
@@ -82,4 +82,4 @@ const ImageContainer = styled.div`
 
 const GoodsContentContainer = styled.div``;
 
-export default Goods;
+export default GoodsDetail;
