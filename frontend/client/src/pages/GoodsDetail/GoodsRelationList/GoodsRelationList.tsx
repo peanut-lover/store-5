@@ -46,6 +46,7 @@ const GoodsRelationListContainer = styled.div`
   .slick-track {
     * {
       width: auto;
+      height: auto;
     }
     img {
       width: 100%;

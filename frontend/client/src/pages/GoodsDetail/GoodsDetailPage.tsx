@@ -172,6 +172,7 @@ const GoodsDetailPage = () => {
 const GoodsDetailContainer = styled.div`
   width: 1200px;
   margin: 0 auto;
+  margin-top: 5vh;
 `;
 
 const GoodsMainContainer = styled.div`
