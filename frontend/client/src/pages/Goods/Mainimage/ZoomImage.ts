@@ -248,7 +248,6 @@ export default function ImageZoom(
       const offset = getOffset(data.sourceImg.element);
       const offsetX = zoomLensLeft(event.clientX - offset.left);
       const offsetY = zoomLensTop(event.clientY - offset.top);
-      console.log(data);
       const backgroundTop = offsetX * scale;
       const backgroundRight = offsetY * scale;
       const backgroundPosition = '-' + backgroundTop + 'px ' + '-' + backgroundRight + 'px';
