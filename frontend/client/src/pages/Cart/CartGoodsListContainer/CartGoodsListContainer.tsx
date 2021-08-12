@@ -4,6 +4,8 @@ import styled from 'styled-components';
 import { CartGoods } from '@src/types/CartGoods';
 import CheckButtonWithLabel from '@src/components/CheckButtonWithLabel/CheckButtonWithLabel';
 import CartGoodsListItem from './CartGoodsListItem/CartGoodsListItem';
+import { useState } from 'react';
+import ConfirmModal from '@src/components/ConfirmModal/ConfirmModal';
 
 const LABEL_TEXT_CLEAR_ALL = '선택해제';
 const LABEL_TEXT_SELECT_ALL = '전체선택';
@@ -58,6 +60,11 @@ const CartGoodsListContainer: React.FC<Props> = ({
     onReviseIsSelected(!isAllGoodsSelected);
   }, [onReviseIsSelected, isAllGoodsSelected]);
 
+  const [isDeleteModalOpened, setIsDeleteModalOpened] = useState(false);
+  const toggleIsDeleteModalOpened = () => {
+    setIsDeleteModalOpened(!isDeleteModalOpened);
+  };
+
   return (
     <Wrapper>
       <StrongText>장바구니 상품 {cartGoodsList.length}개</StrongText>
@@ -67,10 +74,16 @@ const CartGoodsListContainer: React.FC<Props> = ({
           isChecked={isAllGoodsSelected}
           onClick={handleClickMasterCheckButton}
         ></CheckButtonWithLabel>
-        <Button disabled={selectedCartGoodsIds.length === 0} onClick={handleDeleteSelectedCartGoods}>
+        <Button disabled={selectedCartGoodsIds.length === 0} onClick={toggleIsDeleteModalOpened}>
           상품삭제
         </Button>
-        {/* TODO: 모달 */}
+        {isDeleteModalOpened && (
+          <ConfirmModal onConfirm={handleDeleteSelectedCartGoods} onCancel={toggleIsDeleteModalOpened}>
+            <pre>
+              선택한 {selectedCartGoodsIds.length}개의 상품을{'\n'}삭제하시겠습니까?
+            </pre>
+          </ConfirmModal>
+        )}
       </FlexRow>
       <Divider />
       <div>

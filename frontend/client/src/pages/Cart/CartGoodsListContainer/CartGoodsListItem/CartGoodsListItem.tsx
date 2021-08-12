@@ -5,6 +5,8 @@ import { BiTrash } from 'react-icons/bi';
 import { CartGoods } from '@src/types/CartGoods';
 import CheckButton from '@src/components/CheckButton/CheckButton';
 import CartGoodsAmountInput from './CartGoodsAmountInput/CartGoodsAmountInput';
+import ConfirmModal from '@src/components/ConfirmModal/ConfirmModal';
+import { useState } from 'react';
 
 interface Props {
   cartGoods: CartGoods;
@@ -15,6 +17,11 @@ interface Props {
 
 const CartGoodsListItem: React.FC<Props> = ({ cartGoods, onChangeAmount, onDeleteCartGoods, onChangeIsSelected }) => {
   const { id, thumbnailUrl, title, price, discountRate, amount, isSelected } = cartGoods;
+
+  const [isDeleteModalOpened, setIsDeleteModalOpened] = useState(false);
+  const toggleIsDeleteModalOpened = () => {
+    setIsDeleteModalOpened(!isDeleteModalOpened);
+  };
 
   const handleChangeAmount = useCallback(
     (amount: number) => {
@@ -37,10 +44,14 @@ const CartGoodsListItem: React.FC<Props> = ({ cartGoods, onChangeAmount, onDelet
       <ThumbnailImg src={thumbnailUrl} />
       <GoodsTitle>{title}</GoodsTitle>
       <FlexColumn>
-        <DeleteButton onClick={handleDeleteCartGoods}>
+        <DeleteButton onClick={toggleIsDeleteModalOpened}>
           <BiTrash size='1.5rem' color='#ccc' />
         </DeleteButton>
-        {/* TODO: 모달 */}
+        {isDeleteModalOpened && (
+          <ConfirmModal onConfirm={handleDeleteCartGoods} onCancel={toggleIsDeleteModalOpened}>
+            <pre>해당 상품을{'\n'}삭제하시겠습니까?</pre>
+          </ConfirmModal>
+        )}
         <CartGoodsAmountInput value={amount} onChangeAmount={handleChangeAmount} />
         <PriceText>{price * amount}원</PriceText>
       </FlexColumn>
