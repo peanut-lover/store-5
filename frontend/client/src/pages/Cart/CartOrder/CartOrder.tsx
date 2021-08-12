@@ -3,6 +3,7 @@ import styled from 'styled-components';
 import { CartGoods } from '@src/types/Goods';
 import { getDiscountedPrice, getPriceText } from '@src/utils/price';
 import HighlightedText from '@src/components/HighlightedText/HighlightedText';
+import Button from '@src/components/Button/Button';
 
 interface Props {
   cartGoodsList: CartGoods[];
@@ -82,29 +83,6 @@ const DashedDivider = styled.hr`
 const PriceWrapper = styled.div`
   display: flex;
   justify-content: space-between;
-`;
-
-const Button = styled.button`
-  cursor: pointer;
-  color: white;
-  border: none;
-  background-color: rgb(42, 193, 188);
-  margin: 0;
-  padding: 1.25rem;
-  font-size: 1.125rem;
-  font-weight: bolder;
-
-  transition: 0.2s linear;
-
-  :hover {
-    background-color: rgba(42, 193, 188, 0.75);
-  }
-
-  :disabled {
-    cursor: initial;
-    color: #ddd;
-    background-color: #eee;
-  }
 `;
 
 export default CartOrder;
