@@ -6,7 +6,7 @@ import Cart from './pages/Cart/CartPage';
 import Main from './pages/Main/Main';
 import Header from '@src/components/Header/Header';
 import theme from './theme/theme';
-import Goods from './pages/Goods';
+import Goods from './pages/GoodsDetail/GoodsDetailPage';
 
 export default function App() {
   return (
