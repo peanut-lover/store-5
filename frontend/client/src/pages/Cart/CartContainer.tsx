@@ -4,6 +4,7 @@ import { CartGoods } from '@src/types/Goods';
 import CartGoodsListContainer from './CartGoodsListContainer/CartGoodsListContainer';
 import EmptyCart from './EmptyCart/EmptyCart';
 import CartOrder from './CartOrder/CartOrder';
+import PageHeader from '@src/components/PageHeader/PageHeader';
 
 interface Props {
   cartGoodsList: CartGoods[];
@@ -29,7 +30,7 @@ const CartContainer: React.FC<Props> = ({
 
   return (
     <Wrapper>
-      <Header>장바구니</Header>
+      <PageHeader>장바구니</PageHeader>
       <ContentWrapper>
         <LayoutLeft>
           <CartGoodsListContainer
@@ -58,30 +59,18 @@ const Wrapper = styled.div`
   flex-direction: column;
   align-items: center;
 `;
-const LayoutLeft = styled.div`
-  flex: 6;
-`;
-const LayoutRight = styled.div`
-  flex: 4;
-`;
-const Header = styled.h1`
-  margin: 0;
-  padding: 0;
-  font-size: 1.75rem;
-  font-weight: bold;
-
-  text-align: center;
-  width: 100%;
-  padding: 1.5rem 0;
-  border-bottom: 4px solid black;
-  margin-bottom: 2rem;
-`;
 const ContentWrapper = styled.div`
   width: 100%;
   display: flex;
   justify-content: flex-start;
   align-items: flex-start;
   gap: 4rem;
+`;
+const LayoutLeft = styled.div`
+  flex: 6;
+`;
+const LayoutRight = styled.div`
+  flex: 4;
 `;
 
 export default CartContainer;
