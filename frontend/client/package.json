@@ -5,7 +5,7 @@
   "main": "index.js",
   "scripts": {
     "dev": "webpack serve --config webpack.dev.js --progress",
-    "build": "webpack --mode production",
+    "build": "webpack --config webpack.prod.js",
     "prestart": "npm build",
     "start": "npm run dev",
     "test": "jest",
