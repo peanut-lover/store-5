@@ -28,7 +28,7 @@ const mock: CartGoods[] = [
   },
 ];
 
-const Cart: React.FC = () => {
+const CartPage: React.FC = () => {
   const [cartGoodsList, setCartGoodsList] = useState(mock);
 
   // TODO: localStorage, API 분기 처리하는 계층을 두기
@@ -134,4 +134,4 @@ const ContentWrapper = styled.div`
   gap: 4rem;
 `;
 
-export default Cart;
+export default CartPage;
