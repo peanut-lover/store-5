@@ -12,8 +12,8 @@ const mockImagePath =
 
 const TMP_IMAGES = [
   'https://user-images.githubusercontent.com/20085849/128860803-24b0e9a7-1482-4ca6-9a8c-ba30e7271e7a.jpeg',
-  'https://store.baemin.com/data/goods/19/11/48/237/237_main_082.png',
-  'https://store.baemin.com/data/goods/21/04/14/340/340_magnify_040.jpg',
+  'https://user-images.githubusercontent.com/45394360/129191127-2853e5c1-bdb1-45a2-97b8-2fdb7eef24af.jpg',
+  'https://user-images.githubusercontent.com/45394360/129191079-fd386e7b-063a-4f38-8cf5-1391dbeeac9f.png',
 ];
 
 const mock_products: DetailGoods[] = [

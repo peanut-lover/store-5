@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useCallback } from 'react';
 import styled from 'styled-components';
 import Slider from 'react-slick';
 import 'slick-carousel/slick/slick.css';
@@ -14,24 +14,29 @@ interface Props {
 const GoodsRelationList = ({ goodsList }: Props) => {
   const settings = {
     speed: 300,
-    dots: true,
     slidesToShow: 5,
     slidesToScroll: 5,
   };
   const GoodsItems = goodsList.map((goods) => <GoodsItem key={goods.id} {...goods} />);
+  const handleSlickSlider = useCallback((direction: string) => {
+    const button = document.querySelector(`.slick-${direction}`) as HTMLButtonElement;
+    button.click();
+  }, []);
   return (
     <GoodsRelationListContainer>
-      <div>
+      <FlexContainer>
         <Title>연관상품</Title>
-        <CustomSliderButtons>
-          <LeftButton>
-            <FaAngleLeft />
-          </LeftButton>
-          <RightButton>
-            <FaAngleRight />
-          </RightButton>
-        </CustomSliderButtons>
-      </div>
+        {goodsList.length > 5 && (
+          <CustomSliderButtons>
+            <LeftButton onClick={() => handleSlickSlider('next')}>
+              <FaAngleLeft />
+            </LeftButton>
+            <RightButton onClick={() => handleSlickSlider('prev')}>
+              <FaAngleRight />
+            </RightButton>
+          </CustomSliderButtons>
+        )}
+      </FlexContainer>
       <Slider {...settings}>{GoodsItems}</Slider>
     </GoodsRelationListContainer>
   );
@@ -49,17 +54,39 @@ const GoodsRelationListContainer = styled.div`
   }
 `;
 
+const FlexContainer = styled.div`
+  display: flex;
+  align-items: center;
+`;
+
 const Title = styled.h3`
   font-size: 26px;
   font-weight: 600;
-  margin-bottom: 20px;
-  display: inline-block;
+  margin-right: 26px;
 `;
 
-const CustomSliderButtons = styled.div``;
+const CustomSliderButtons = styled.div`
+  display: inline-flex;
+`;
 
-const LeftButton = styled.button``;
+const LeftButton = styled.button`
+  background-color: #fff;
+  width: 32px;
+  height: 32px;
+  font-size: 20px;
+  padding: 6px;
+  cursor: pointer;
+  border: 1px solid #ddd;
+`;
 
-const RightButton = styled.button``;
+const RightButton = styled.button`
+  background-color: #fff;
+  width: 32px;
+  height: 32px;
+  font-size: 20px;
+  padding: 6px;
+  cursor: pointer;
+  border: 1px solid #ddd;
+`;
 
 export default GoodsRelationList;
