@@ -2,12 +2,16 @@ import express from 'express';
 import cors from 'cors';
 import session from 'express-session';
 import database from './database';
-import dotenv from 'dotenv';
 import errorControl from './middlewares/error.middleware';
-
-dotenv.config();
+import router from './router/index';
 
 const PORT = 8080; // TODO: PORT 환경변수로 빼기
+
+declare module 'express-session' {
+  interface SessionData {
+    user: String | null;
+  }
+}
 
 const server = express();
 server.use(express.json());
@@ -26,10 +30,13 @@ server.use(
   })
 );
 
+server.use('/api', router);
+
 server.use(errorControl);
 
-server.listen(PORT, async () => {
-  console.log('server is running : ', PORT);
-  await database();
-  console.log('db connection');
+database().then(() => {
+  server.listen(PORT, async () => {
+    console.log('server is running : ', PORT);
+    console.log('db connection');
+  });
 });

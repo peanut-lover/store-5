@@ -11,3 +11,8 @@ export const databaseConfig = {
   // TODO: 배포시 삭제
   synchronize: true,
 };
+
+export const githubConfig = {
+  tokenURL: process.env.GITHUB_TOKEN_URL,
+  profileURL: process.env.GITHUB_PROFILE_URL,
+};

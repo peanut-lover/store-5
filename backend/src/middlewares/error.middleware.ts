@@ -1,5 +1,11 @@
-export default function errorControl(err, req, res, next) {
-  let statusCode = err.statusCode;
+import { Response, NextFunction, Request } from 'express';
+import { DatabaseError, UserFacingError } from '../errors/base.error';
+
+export default function errorControl(err: Error, req: Request, res: Response, next: NextFunction) {
+  let statusCode = null;
+  if (err instanceof DatabaseError || err instanceof UserFacingError) {
+    statusCode = err.statusCode;
+  }
   if (!statusCode) {
     statusCode = 500;
     next(err);
