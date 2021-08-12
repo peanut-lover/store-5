@@ -1,6 +1,6 @@
 import React, { useCallback, useState } from 'react';
 import styled from 'styled-components';
-import { CartGoods } from '@src/types/CartGoods';
+import { CartGoods } from '@src/types/Goods';
 import CartGoodsListContainer from './CartGoodsListContainer/CartGoodsListContainer';
 import EmptyCart from './EmptyCart/EmptyCart';
 import CartOrder from './CartOrder/CartOrder';
