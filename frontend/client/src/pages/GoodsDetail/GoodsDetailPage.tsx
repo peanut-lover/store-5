@@ -77,6 +77,30 @@ const mock_products: DetailGoods[] = [
     deliveryDetail: '',
     deliveryFee: 0,
   },
+  {
+    id: 6,
+    thumbnailImg: mockImagePath,
+    title: '맥쥬짠6',
+    price: 10000,
+    isNew: true,
+    isGreen: true,
+    isBest: true,
+    imgs: TMP_IMAGES,
+    deliveryDetail: '',
+    deliveryFee: 0,
+  },
+  {
+    id: 7,
+    thumbnailImg: mockImagePath,
+    title: '맥쥬짠7',
+    price: 10000,
+    isNew: true,
+    isGreen: true,
+    isBest: true,
+    imgs: TMP_IMAGES,
+    deliveryDetail: '',
+    deliveryFee: 0,
+  },
 ];
 
 const GoodsDetailPage = () => {
