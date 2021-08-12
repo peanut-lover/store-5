@@ -16,3 +16,10 @@ export const githubConfig = {
   tokenURL: process.env.OAUTH_GITHUB_TOKEN_URL,
   profileURL: process.env.OAUTH_GITHUB_PROFILE_URL,
 };
+
+export const serverConfig = {
+  port: process.env.SERVER_PORT,
+  origin_url: process.env.ORIGIN_URL,
+  session_secret: process.env.SESSION_SECRET,
+  cookie_domain: process.env.COOKIE_DOMAIN,
+};
