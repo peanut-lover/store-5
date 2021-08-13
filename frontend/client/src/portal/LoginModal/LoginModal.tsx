@@ -28,7 +28,7 @@ const LoginModal: React.FC<Props> = ({ onClose }) => {
     <Portal>
       <ModalContainer>
         <FormContainer ref={modalRef}>
-          <SigninForm />
+          <SigninForm onClose={onClose} />
         </FormContainer>
       </ModalContainer>
     </Portal>

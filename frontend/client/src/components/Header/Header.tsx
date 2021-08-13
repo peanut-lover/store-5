@@ -1,11 +1,17 @@
-import React, { useEffect, useRef, useState } from 'react';
+import useUserState from '@src/hooks/useUserState';
+import React, { useCallback, useEffect, useRef, useState } from 'react';
 import styled, { css } from 'styled-components';
 import HeaderBottom from './HeaderBottom/HeaderBottom';
 import HeaderTop from './HeaderTop/HeaderTop';
 
 const Header = () => {
   const sentinelRef = useRef<HTMLDivElement>(null);
+  const [userRecoil, userRecoilDispatch] = useUserState();
   const [isScrolled, setIsScrolled] = useState(false);
+
+  const handleLogout = useCallback(async () => {
+    await userRecoilDispatch({ type: 'LOGOUT' });
+  }, [userRecoilDispatch]);
 
   useEffect(() => {
     const observerHandler: IntersectionObserverCallback = (entries) => {
@@ -19,11 +25,18 @@ const Header = () => {
     observer.observe(sentinelRef.current as HTMLElement);
   }, []);
 
+  useEffect(() => {
+    async function checkLoggedIn() {
+      await userRecoilDispatch({ type: 'CHECK' });
+    }
+    checkLoggedIn();
+  }, []);
+
   return (
     <>
       <Sentinel ref={sentinelRef} isScrolled={isScrolled} />
       <HeaderContainer isScrolled={isScrolled}>
-        <HeaderTop userName={''} />
+        <HeaderTop userName={userRecoil.name} onLogout={handleLogout} />
         <HeaderBottom />
       </HeaderContainer>
     </>

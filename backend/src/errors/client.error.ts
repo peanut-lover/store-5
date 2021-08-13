@@ -1,4 +1,4 @@
-import { UserFacingError } from './base.error.js';
+import { UserFacingError } from './base.error';
 
 export class BadRequestError extends UserFacingError {
   constructor(message: string) {

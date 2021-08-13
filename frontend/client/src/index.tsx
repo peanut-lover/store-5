@@ -1,14 +1,17 @@
 import React from 'react';
 import ReactDOM from 'react-dom';
-import { Router } from './lib/CustomRouter';
-
+import { ThemeProvider } from 'styled-components';
+import { RecoilRoot } from 'recoil';
+import theme from './theme/theme';
 import App from './App';
 
 const rootElement = document.getElementById('root');
 
 ReactDOM.render(
-  <Router>
-    <App />
-  </Router>,
+  <RecoilRoot>
+    <ThemeProvider theme={theme}>
+      <App />
+    </ThemeProvider>
+  </RecoilRoot>,
   rootElement
 );

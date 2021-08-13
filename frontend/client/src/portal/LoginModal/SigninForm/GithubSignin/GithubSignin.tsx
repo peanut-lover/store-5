@@ -1,11 +1,15 @@
-import React from 'react';
+import React, { useCallback } from 'react';
 import styled from 'styled-components';
 import { AiFillGithub } from 'react-icons/ai';
+import { OAUTH_GITHUB_SIGN_URL } from '@src/constants/config';
 
 const GithubSignin = () => {
+  const handleClick = useCallback(() => {
+    location.href = OAUTH_GITHUB_SIGN_URL as string;
+  }, []);
   return (
     <GithubSigninContainer>
-      <IconContainer>
+      <IconContainer onClick={handleClick}>
         <AiFillGithub size='3em' color='#fff' />
         <Span>GitHub로 접속하기</Span>
       </IconContainer>
