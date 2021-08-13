@@ -1,11 +1,11 @@
 import React, { useCallback } from 'react';
 import styled from 'styled-components';
 import { AiFillGithub } from 'react-icons/ai';
-import { GITHUB_SIGN_URL } from '@src/constants/config';
+import { OAUTH_GITHUB_SIGN_URL } from '@src/constants/config';
 
 const GithubSignin = () => {
   const handleClick = useCallback(() => {
-    location.href = GITHUB_SIGN_URL as string;
+    location.href = OAUTH_GITHUB_SIGN_URL as string;
   }, []);
   return (
     <GithubSigninContainer>

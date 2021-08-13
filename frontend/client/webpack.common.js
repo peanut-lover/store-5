@@ -67,7 +67,7 @@ module.exports = {
     }),
     new DefinePlugin({
       'process.env.API_BASE_URL': JSON.stringify(process.env.API_BASE_URL),
-      'process.env.GITHUB_SIGN_URL': JSON.stringify(process.env.GITHUB_SIGN_URL),
+      'process.env.OAUTH_GITHUB_SIGN_URL': JSON.stringify(process.env.OAUTH_GITHUB_SIGN_URL),
     }),
   ],
 };
