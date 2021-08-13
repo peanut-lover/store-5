@@ -24,6 +24,13 @@ jobs:
           npm install
         working-directory: ./frontend/client
 
+      - name: Make .env file for Client App
+        run: |
+          touch .env	
+          cat << EOF >> .env	
+          ${{ secrets.CLIENT_ENV }}
+        working-directory: ./frontend/client
+
       - name: Build in Client App
         run: npm run build
         working-directory: ./frontend/client
@@ -42,11 +49,11 @@ jobs:
           cp -r ../frontend/client/dist/* ./public/
         working-directory: ./backend
 
-      - name: Create env file
+      - name: Create .env file for server app
         run: |
           touch .env	
           cat << EOF >> .env	
-          ${{ secrets.ENV }}
+          ${{ secrets.SERVER_ENV }}
         working-directory: ./backend
 
       - name: Make tar file
