@@ -2,7 +2,7 @@ import { API_BASE_URL } from '@src/constants/config';
 
 async function getCheckLoggedIn() {
   try {
-    const res = await fetch(`${API_BASE_URL}/api/auth/check`, {
+    const res = await fetch(`/api/auth/check`, {
       method: 'GET',
       credentials: 'include',
       headers: {
@@ -20,7 +20,7 @@ async function getCheckLoggedIn() {
 
 async function getSampleLogin() {
   try {
-    const res = await fetch(`${API_BASE_URL}/api/auth/sample`, {
+    const res = await fetch(`/api/auth/sample`, {
       method: 'GET',
       credentials: 'include',
       headers: {
@@ -38,7 +38,7 @@ async function getSampleLogin() {
 
 const logout = async () => {
   try {
-    const res = await fetch(`${API_BASE_URL}/api/auth/logout`, {
+    const res = await fetch(`/api/auth/logout`, {
       method: 'POST',
       credentials: 'include',
     });
