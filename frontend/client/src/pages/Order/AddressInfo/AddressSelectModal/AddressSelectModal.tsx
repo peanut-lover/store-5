@@ -9,10 +9,12 @@ import Portal from '@src/portal/portal';
 
 interface Props {
   addressList: Address[];
+  onSelect: (addressId: number) => void;
+  onCancel: () => void;
 }
 
 // TODO: 노데이터
-const AddressSelectModal: React.FC<Props> = ({ addressList }) => {
+const AddressSelectModal: React.FC<Props> = ({ addressList, onSelect, onCancel }) => {
   const dim = useRef(null);
 
   return (
@@ -20,10 +22,7 @@ const AddressSelectModal: React.FC<Props> = ({ addressList }) => {
       <ModalDim
         ref={dim}
         onClick={(e) => {
-          if (e.target !== dim.current) {
-            return;
-          }
-          // onCancel();
+          if (e.target === dim.current) onCancel();
         }}
       >
         <Wrapper>
@@ -31,7 +30,7 @@ const AddressSelectModal: React.FC<Props> = ({ addressList }) => {
           <ModalBar>
             <FlexCenter>배송지 선택</FlexCenter>
             <FlexRight>
-              <IconButton>
+              <IconButton onClick={onCancel}>
                 <FiX size='1.5rem' />
               </IconButton>
             </FlexRight>
@@ -39,9 +38,18 @@ const AddressSelectModal: React.FC<Props> = ({ addressList }) => {
           {/* 콘텐츠 */}
           <Content>
             {addressList.map((address) => (
-              <AddressCard address={address} onClick={() => {}} onDelete={() => {}} onEdit={() => {}} />
+              <AddressCard
+                key={address.id}
+                address={address}
+                onClick={() => {
+                  onSelect(address.id);
+                  onCancel();
+                }}
+                onDelete={() => {}}
+                onEdit={() => {}}
+              />
             ))}
-            <Button>신규 배송지 추가하기</Button>
+            <Button onClick={() => {}}>신규 배송지 추가하기</Button>
           </Content>
         </Wrapper>
       </ModalDim>
@@ -112,7 +120,7 @@ const Content = styled.div`
   flex-direction: column;
   gap: 1rem;
   padding: 1rem;
-  max-height: 24rem;
+  max-height: 360px;
   overflow-y: auto;
   background-color: #f5f5f5;
 `;

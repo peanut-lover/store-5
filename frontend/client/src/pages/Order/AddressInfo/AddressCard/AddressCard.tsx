@@ -13,28 +13,43 @@ const AddressCard: React.FC<Props> = ({ address: addressProp, onClick, onDelete,
   const { name, receiver, zipCode, address, subAddress } = addressProp;
 
   return (
-    <Wrapper clickable={!!onClick}>
+    <Wrapper clickable={!!onClick} onClick={onClick}>
       <InfoGroup>
         <SmallStrong>
           {receiver} ({name})
         </SmallStrong>
-        <SmallStrong>우편번호: {zipCode}</SmallStrong>
+        <ZipCode>우편번호: {zipCode}</ZipCode>
         <MediumStrong>{`${address} ${subAddress}`}</MediumStrong>
       </InfoGroup>
 
       <ButtonGroup>
-        {onEdit && <TextButton>수정</TextButton>}
+        {onEdit && (
+          <TextButton
+            onClick={(e) => {
+              e.stopPropagation();
+            }}
+          >
+            수정
+          </TextButton>
+        )}
         {onEdit && onDelete && <Splitter />}
-        {onDelete && <TextButton>삭제</TextButton>}
+        {onDelete && (
+          <TextButton
+            onClick={(e) => {
+              e.stopPropagation();
+            }}
+          >
+            삭제
+          </TextButton>
+        )}
       </ButtonGroup>
     </Wrapper>
   );
 };
 
 const Wrapper = styled.div<{ clickable: boolean }>`
-  ${({ clickable }) => clickable && 'cursor: pointer;'}
+  ${({ clickable }) => clickable && 'cursor: pointer; padding: 1rem;'}
   position: relative;
-  padding: 1rem;
   background-color: white;
   transition: 0.2s linear;
   border: 1px solid white;
@@ -50,11 +65,17 @@ const InfoGroup = styled.div`
   gap: 0.375rem;
 `;
 
-const SmallStrong = styled.strong`
+const SmallStrong = styled.span`
+  padding: 0;
+  margin: 0;
+  font-size: 1.125rem;
+  margin-bottom: 0.5rem;
+`;
+
+const ZipCode = styled.strong`
   padding: 0;
   margin: 0;
   font-size: 1rem;
-  font-weight: bolder;
 `;
 
 const MediumStrong = styled.strong`
