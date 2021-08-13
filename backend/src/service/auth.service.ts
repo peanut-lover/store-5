@@ -2,6 +2,7 @@ import axios from 'axios';
 import { githubConfig } from '../config';
 import { UserRepository } from '../repository/user.repository';
 import removeBlank from '../utils/remove-blank';
+import { URLSearchParams } from 'url';
 
 async function signInGithub(code: string): Promise<string> {
   let user;

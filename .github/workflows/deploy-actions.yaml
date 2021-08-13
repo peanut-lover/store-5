@@ -1,0 +1,70 @@
+name: Build & Deploy
+env:
+  PROJECT_NAME: store-5
+on:
+  push:
+    branches:
+      - main
+      - dev
+  pull_request:
+    branches:
+      - release-test
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v2
+      - name: Use Node.js
+        uses: actions/setup-node@v2
+        with:
+          node-version: '14.x'
+      - name: Install Dependency in Client App
+        run: |
+          npm install
+        working-directory: ./frontend/client
+
+      - name: Build in Client App
+        run: npm run build
+        working-directory: ./frontend/client
+
+      - name: Install Dependency in Server
+        run: npm install
+        working-directory: ./backend
+
+      - name: Build in Server
+        run: npm run build
+        working-directory: ./backend
+
+      - name: Move Bundle Files to Server Public
+        run: |
+          mkdir -p public
+          cp -r ../frontend/client/dist/* ./public/
+        working-directory: ./backend
+
+      - name: Create env file
+        run: |
+          touch .env	
+          cat << EOF >> .env	
+          ${{ secrets.ENV }}
+        working-directory: ./backend
+
+      - name: Make tar file
+        run: tar -cpvzf ./$GITHUB_SHA.tgz *
+        shell: bash
+
+      - name: Configure AWS credentials
+        uses: aws-actions/configure-aws-credentials@v1
+        with:
+          aws-access-key-id: ${{ secrets.AWS_ACCESS_KEY_ID }}
+          aws-secret-access-key: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
+          aws-region: ap-northeast-2
+
+      - name: Upload to S3
+        run: |
+          aws s3 cp \
+            --region ap-northeast-2 \
+            ./$GITHUB_SHA.tgz s3://store-5-bucket/$PROJECT_NAME/$GITHUB_SHA.tgz
+
+      - name: Code Deploy
+        run: aws deploy create-deployment --application-name store-5 --file-exists-behavior OVERWRITE --deployment-config-name CodeDeployDefault.OneAtATime --deployment-group-name store-5-deploy-group --s3-location bucket=store-5-bucket,bundleType=tgz,key=$PROJECT_NAME/$GITHUB_SHA.tgz
