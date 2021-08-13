@@ -26,3 +26,10 @@ export type CartGoods = Goods & {
   stock: number;
   isSelected: boolean;
 };
+
+export type OrderGoods = Goods & {
+  thumbnailUrl: string;
+  discountRate: number;
+  amount: number;
+  stock: number;
+};

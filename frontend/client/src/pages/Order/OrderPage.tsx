@@ -1,4 +1,5 @@
 import React from 'react';
+import { useState } from 'react';
 import PageHeader from '@src/components/PageHeader/PageHeader';
 import Layout from '@src/pages/Cart/Layout/Layout';
 import styled from 'styled-components';
@@ -6,22 +7,49 @@ import Divider from '@src/components/Divider/Divider';
 import Button from '@src/components/Button/Button';
 import CheckButtonWithLabel from '@src/components/CheckButtonWithLabel/CheckButtonWithLabel';
 import HighlightedText from '@src/components/HighlightedText/HighlightedText';
+import Topic from '@src/components/Topic/Topic';
+import { OrderGoods } from '@src/types/Goods';
+import OrderGoodsList from './OrderGoodsList/OrderGoodsList';
+
+const mock: OrderGoods[] = [
+  {
+    id: 1,
+    thumbnailUrl:
+      'https://user-images.githubusercontent.com/20085849/128866958-900ad32a-cd32-4b97-be79-1dbbc9dcb02d.jpeg',
+    title: '든든 오뚜기 오쉐프_마요네즈',
+    price: 34500,
+    discountRate: 20,
+    amount: 2,
+    stock: 5,
+  },
+  {
+    id: 2,
+    thumbnailUrl:
+      'https://user-images.githubusercontent.com/20085849/128866958-900ad32a-cd32-4b97-be79-1dbbc9dcb02d.jpeg',
+    title: '허약 마요네즈',
+    price: 9000,
+    discountRate: 0,
+    amount: 1,
+    stock: 8,
+  },
+];
 
 const OrderPage: React.FC = () => {
+  const [orderGoodsList, setOrderGoodsList] = useState<OrderGoods[]>(mock);
+
   return (
     <Layout
       pageHeader={<PageHeader>주문/결제</PageHeader>}
       contentLeft={
-        <Wrapper>
-          <FlexColumn gap='4rem'>
-            <div>
-              <Topic>배송정보</Topic>
-            </div>
-            <div>
-              <Topic>주문 상품 (1건)</Topic>
-            </div>
-          </FlexColumn>
-        </Wrapper>
+        <FlexColumn gap='4rem'>
+          <div>
+            <Topic>배송정보</Topic>
+          </div>
+          <div>
+            <Topic>주문 상품 (1건)</Topic>
+            <OrderGoodsList orderGoodsList={orderGoodsList} />
+          </div>
+        </FlexColumn>
       }
       contentRight={
         <BorderBox>
@@ -65,11 +93,6 @@ const OrderPage: React.FC = () => {
   );
 };
 
-const Wrapper = styled.div`
-  display: flex;
-  flex-direction: column;
-`;
-
 const BorderBox = styled.div`
   box-sizing: border-box;
   border: 1px solid #ddd;
@@ -89,21 +112,5 @@ const FlexRowSpaceBetween = styled.div`
   display: flex;
   justify-content: space-between;
 `;
-
-const StrongText = styled.h2`
-  padding: 0;
-  margin: 0;
-  font-size: 1.375rem;
-  font-weight: bolder;
-`;
-
-const Topic: React.FC = ({ children }) => {
-  return (
-    <div>
-      <StrongText>{children}</StrongText>
-      <Divider size={2} />
-    </div>
-  );
-};
 
 export default OrderPage;
