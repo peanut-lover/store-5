@@ -6,6 +6,9 @@ on:
     branches:
       - main
       - dev
+  pull_request:
+    branches:
+      - release-test
 
 jobs:
   build:
@@ -61,7 +64,7 @@ jobs:
         run: |
           aws s3 cp \
             --region ap-northeast-2 \
-            ./$GITHUB_SHA.tgz s3://peanut-lover-test-bucket/$PROJECT_NAME/$GITHUB_SHA.tgz
+            ./$GITHUB_SHA.tgz s3://store-5-bucket/$PROJECT_NAME/$GITHUB_SHA.tgz
 
       - name: Code Deploy
-        run: aws deploy create-deployment --application-name store-5 --file-exists-behavior OVERWRITE --deployment-config-name CodeDeployDefault.OneAtATime --deployment-group-name store-5-deploy-group --s3-location bucket=peanut-lover-test-bucket,bundleType=tgz,key=$PROJECT_NAME/$GITHUB_SHA.tgz
+        run: aws deploy create-deployment --application-name store-5 --file-exists-behavior OVERWRITE --deployment-config-name CodeDeployDefault.OneAtATime --deployment-group-name store-5-deploy-group --s3-location bucket=store-5-bucket,bundleType=tgz,key=$PROJECT_NAME/$GITHUB_SHA.tgz
