@@ -3,10 +3,14 @@ import SampleSignin from './SampleSignin/SampleSignin';
 import React from 'react';
 import styled from 'styled-components';
 
-const SigninForm = () => {
+interface Props {
+  onClose: () => void;
+}
+
+const SigninForm: React.FC<Props> = ({ onClose }) => {
   return (
     <SigninFormContainer>
-      <SampleSignin />
+      <SampleSignin onClose={onClose} />
       <GithubSignin />
     </SigninFormContainer>
   );

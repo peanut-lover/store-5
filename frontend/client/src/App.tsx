@@ -1,19 +1,16 @@
 import React from 'react';
 import GlobalStyles from './GlobalStyles';
-import { ThemeProvider } from 'styled-components';
-import { Routes, Route } from './lib/CustomRouter';
+import { Routes, Route, Router } from './lib/CustomRouter';
 import Cart from './pages/Cart/CartPage';
 import Order from './pages/Order/OrderPage';
 import Main from './pages/Main/Main';
 import Header from '@src/components/Header/Header';
-import theme from './theme/theme';
 import Goods from './pages/GoodsDetail/GoodsDetailPage';
-import { RecoilRoot } from 'recoil';
 
 export default function App() {
   return (
-    <RecoilRoot>
-      <ThemeProvider theme={theme}>
+    <>
+      <Router>
         <Header />
         <Routes exact>
           <Route path='/'>
@@ -29,8 +26,8 @@ export default function App() {
             <Goods />
           </Route>
         </Routes>
-        <GlobalStyles />
-      </ThemeProvider>
-    </RecoilRoot>
+      </Router>
+      <GlobalStyles />
+    </>
   );
 }
