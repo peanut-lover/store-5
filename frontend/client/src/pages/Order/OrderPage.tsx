@@ -10,6 +10,7 @@ import HighlightedText from '@src/components/HighlightedText/HighlightedText';
 import Topic from '@src/components/Topic/Topic';
 import { OrderGoods } from '@src/types/Goods';
 import OrderGoodsList from './OrderGoodsList/OrderGoodsList';
+import AddressInfo from './AddressInfo/AddressInfo';
 
 const mock: OrderGoods[] = [
   {
@@ -44,6 +45,7 @@ const OrderPage: React.FC = () => {
         <FlexColumn gap='4rem'>
           <div>
             <Topic>배송정보</Topic>
+            <AddressInfo />
           </div>
           <div>
             <Topic>주문 상품 (1건)</Topic>
