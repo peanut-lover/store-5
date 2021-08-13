@@ -66,26 +66,26 @@ const OrderPage: React.FC = () => {
                 <div>배송비</div>
                 <div>+0원</div>
               </FlexRowSpaceBetween>
-              <Divider lineStyle={'dashed'} />
+              <Divider lineStyle='dashed' />
               <FlexRowSpaceBetween>
                 <HighlightedText>총 결제금액</HighlightedText>
                 <HighlightedText>42,800원</HighlightedText>
               </FlexRowSpaceBetween>
             </FlexColumn>
           </PaddingBox>
-          <Divider size={8} color={'#eee'} />
+          <Divider size={8} color='#eee' />
           <PaddingBox>
             <FlexColumn gap='1.5rem'>
               <Topic>결제수단 선택</Topic>
-              <CheckButtonWithLabel isCircle isChecked={true} onClick={() => {}} label={'신용・체크카드'} />
-              <CheckButtonWithLabel isCircle isChecked={true} onClick={() => {}} label={'무통장입금(가상계좌)'} />
-              <CheckButtonWithLabel isCircle isChecked={true} onClick={() => {}} label={'네이버페이'} />
+              <CheckButtonWithLabel isCircle isChecked={true} onClick={() => {}} label='신용・체크카드' />
+              <CheckButtonWithLabel isCircle isChecked={true} onClick={() => {}} label='무통장입금(가상계좌)' />
+              <CheckButtonWithLabel isCircle isChecked={true} onClick={() => {}} label='네이버페이' />
             </FlexColumn>
           </PaddingBox>
-          <Divider size={8} color={'#eee'} />
+          <Divider size={8} color='#eee' />
           <PaddingBox>
             <FlexColumn gap='1rem'>
-              <CheckButtonWithLabel isChecked={true} onClick={() => {}} label={'결제 진행에 필요한 사항 동의'} />
+              <CheckButtonWithLabel isChecked={true} onClick={() => {}} label='결제 진행에 필요한 사항 동의' />
               <Button fullWidth>42,800원 결제하기</Button>
             </FlexColumn>
           </PaddingBox>
