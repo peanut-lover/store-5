@@ -9,7 +9,7 @@ export const databaseConfig = {
   username: process.env.DATABASE_USERNAME,
   password: process.env.DATABASE_PASSWORD,
   // TODO: 배포시 삭제, false로 해야 if not exist 옵션!
-  synchronize: false,
+  synchronize: true,
 };
 
 export const githubConfig = {
