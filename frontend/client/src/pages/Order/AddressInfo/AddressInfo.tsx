@@ -5,21 +5,42 @@ import { Address } from '@src/types/Address';
 import React from 'react';
 import styled from 'styled-components';
 import AddressCard from './AddressCard/AddressCard';
+import AddressSelectModal from './AddressSelectModal/AddressSelectModal';
 
 interface Props {}
 
-const mock: Address = {
-  id: 3,
-  name: '집',
-  receiver: '신어진',
-  zipCode: '1234',
-  address: '대구 광역시 북구',
-  subAddress: '3층',
-  isDefault: true,
-};
+const mock: Address[] = [
+  {
+    id: 3,
+    name: '집',
+    receiver: '신어진',
+    zipCode: '1234',
+    address: '대구 광역시 북구',
+    subAddress: '3층',
+    isDefault: true,
+  },
+  {
+    id: 4,
+    name: '회사',
+    receiver: '신어진',
+    zipCode: '12234',
+    address: '대구 광역시 북구',
+    subAddress: '5층',
+    isDefault: false,
+  },
+  {
+    id: 5,
+    name: '회사',
+    receiver: '신어진',
+    zipCode: '12234',
+    address: '대구 광역시 북구',
+    subAddress: '5층',
+    isDefault: false,
+  },
+];
 
 const AddressInfo: React.FC<Props> = ({}) => {
-  return <AddressCard address={mock} onClick={() => {}} onDelete={() => {}} onEdit={() => {}} />;
+  return <AddressSelectModal addressList={mock} />;
 };
 
 // const AddressInfo: React.FC<Props> = ({}) => {
