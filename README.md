@@ -2,7 +2,7 @@
 
 ![hero image](https://user-images.githubusercontent.com/45394360/129295696-bebd1bfb-eccd-410f-a205-684e0a03e890.png)
 
-## [📀 배포 링크](http://13.125.196.121:8080/)
+## [📀 배포 링크](http://13.125.153.143:8080/)
 
 ## 팀원
 
