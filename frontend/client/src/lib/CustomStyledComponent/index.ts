@@ -1,9 +1,10 @@
 import React, { ReactHTML } from 'react';
 
 const style = document.createElement('style');
-
 document.head.appendChild(style);
 
+// TODO: className을 해싱해서 생성해야하지않을까?
+// TODO: styled-Component와 충돌나지않을까? (거의 그럴일은 없을 예정)
 const css = (styles: string) => {
   const index = style.sheet?.cssRules.length;
   const className = `css-${index}`;
