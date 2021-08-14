@@ -1,4 +1,5 @@
 import dotenv from 'dotenv';
+import { SnakeNamingStrategy } from 'typeorm-naming-strategies';
 
 dotenv.config();
 
@@ -11,6 +12,7 @@ export const databaseConfig = {
   // logging: true,
   // TODO: 배포시 삭제!
   synchronize: true,
+  namingStrategy: new SnakeNamingStrategy(),
 };
 
 export const githubConfig = {
