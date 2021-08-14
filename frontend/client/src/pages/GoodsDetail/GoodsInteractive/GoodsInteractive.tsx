@@ -35,7 +35,7 @@ const GoodsInteractive: React.FC<Props> = ({
         amount={amount}
         deliveryFee={deliveryFee}
         discountRate={discountRate}
-        onChangAmount={handleChangeAmount}
+        onChangeAmount={handleChangeAmount}
       />
       <GoodsButtons
         isWished={isWished}

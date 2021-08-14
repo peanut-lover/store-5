@@ -14,18 +14,18 @@ interface Props {
   amount: number;
   deliveryFee: number;
   discountRate: number;
-  onChangAmount: (amount: number) => void;
+  onChangeAmount: (amount: number) => void;
 }
 
-const GoodsAmount: React.FC<Props> = ({ title, price, deliveryFee, discountRate, amount, onChangAmount }) => {
+const GoodsAmount: React.FC<Props> = ({ title, price, deliveryFee, discountRate, amount, onChangeAmount }) => {
   const totalPrice = getTotalPrice(amount, price, deliveryFee, discountRate);
 
   const onPlusEvent = useCallback(() => {
-    onChangAmount(amount + 1);
+    onChangeAmount(amount + 1);
   }, []);
 
   const onMinusEvent = useCallback(() => {
-    onChangAmount(amount - 1);
+    onChangeAmount(amount - 1);
   }, []);
 
   const handleChangeEvent = useCallback((e) => {
@@ -37,7 +37,7 @@ const GoodsAmount: React.FC<Props> = ({ title, price, deliveryFee, discountRate,
   const handleAmount = (value: number) => {
     if (value < 0) value = 0;
     // TODO 재고확인 API 적용
-    onChangAmount(value);
+    onChangeAmount(value);
   };
   return (
     <>
