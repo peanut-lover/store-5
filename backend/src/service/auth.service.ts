@@ -8,6 +8,8 @@ import { UserRepository } from '../repository/user.repository';
 import removeBlank from '../utils/remove-blank';
 import { URLSearchParams } from 'url';
 
+type SessionUserId = number | undefined | null;
+
 async function signInGithub(code: string): Promise<number> {
   let user;
   const TOKEN_URL = `${githubConfig.tokenURL}&code=${code}`;
@@ -31,7 +33,7 @@ async function signInGithub(code: string): Promise<number> {
   return user.id;
 }
 
-async function getUserName({ userId }: { userId: number }) {
+async function getUserName(userId: number) {
   const user = await UserRepository.findById({ id: userId });
   const name = user ? user.name : null;
   return name;
@@ -40,18 +42,17 @@ async function getUserName({ userId }: { userId: number }) {
 async function logout(session: Session) {
   if (session) {
     session.destroy(() => {});
-    // TODO: session Datatype은 어떻게 정의하는지 찾아봐야함..
+  } else {
+    throw new BadRequestError(INVALID_ACCESS);
+  }
+}
 
-    // const { userId } = session;
-    // if (userId) {
-    //   const user = await UserRepository.findById({ id: +userId });
-    //   if (!user) {
-    //     throw new BadRequestError(INVALID_ACCESS);
-    //   }
-    //   user && session.destroy(() => {});
-    // } else {
-    //   throw new BadRequestError(INVALID_ACCESS);
-    // }
+async function validateForLogout(userId: SessionUserId) {
+  if (userId) {
+    const user = await UserRepository.findById({ id: +userId });
+    if (!user) {
+      throw new BadRequestError(INVALID_ACCESS);
+    }
   } else {
     throw new BadRequestError(INVALID_ACCESS);
   }
@@ -61,4 +62,5 @@ export const AuthService = {
   signInGithub,
   getUserName,
   logout,
+  validateForLogout,
 };

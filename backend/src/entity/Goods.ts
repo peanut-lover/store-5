@@ -34,6 +34,9 @@ export class Goods {
   discountRate!: number;
 
   @Column({ type: 'int' })
+  countOfSell!: number;
+
+  @Column({ type: 'int' })
   state!: number;
 
   @Column({ type: 'boolean' })
