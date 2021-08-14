@@ -1,6 +1,6 @@
 import React, { RefObject, useCallback, useState } from 'react';
 import styled from 'styled-components';
-import { Link } from '@src/lib/CustomRouter';
+import { Link } from '@src/lib/CustomRouter/CustomRouter';
 import LoginModal from '@src/portal/LoginModal/LoginModal';
 
 const HELLO = '안녕하세요!';

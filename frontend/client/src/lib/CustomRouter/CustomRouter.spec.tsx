@@ -1,7 +1,7 @@
 import React from 'react';
 
 import { render, cleanup, fireEvent, waitFor } from '@testing-library/react';
-import { Router, Routes, Route, Link, useParams } from '@src/lib/CustomRouter';
+import { Router, Routes, Route, Link, useParams } from '@src/lib/CustomRouter/CustomRouter';
 
 describe('Custom Router Component', () => {
   it('커스텀 라우팅이 Link를 통한 라우팅을 정상적으로 진행해야한다.', () => {

@@ -7,6 +7,8 @@ import { Promotion } from '@src/types/Promotion';
 import Footer from '@src/components/Footer/Footer';
 import SideBar from './SideBar/SideBar';
 
+import { styled as CustomStyled } from '@src/lib/CustomStyledComponent';
+
 const mockProductImagePath =
   'https://user-images.githubusercontent.com/20085849/128866958-900ad32a-cd32-4b97-be79-1dbbc9dcb02d.jpeg';
 
@@ -111,6 +113,7 @@ interface FooterContainerProps {
     dustWhite: string;
   };
 }
+
 const FooterContainer = styled.div<FooterContainerProps>`
   width: 100%;
   background-color: ${(props) => props.theme.dustWhite};

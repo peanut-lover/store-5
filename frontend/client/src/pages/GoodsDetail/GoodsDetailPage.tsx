@@ -1,7 +1,7 @@
 import React, { useState, useEffect } from 'react';
 import styled from 'styled-components';
 import { DetailGoods } from '@src/types/Goods';
-import { useParams } from '@src/lib/CustomRouter';
+import { useParams } from '@src/lib/CustomRouter/CustomRouter';
 import GoodsInfo from './GoodsInfo/GoodsInfo';
 import GoodsInteractive from './GoodsInteractive/GoodsInteractive';
 import GoodsImageSection from './GoodsImageSection/GoodsImageSection';
