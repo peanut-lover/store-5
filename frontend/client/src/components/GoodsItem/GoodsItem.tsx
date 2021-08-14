@@ -198,11 +198,11 @@ const GoodsUtilBtnContainer = styled.div`
   bottom: -50px;
   left: 50%;
   height: 50px;
-  transform: translate(-50%, -50px);
-
+  transform: translate(-50%, 0px);
   transition: transform 0.5s;
 
   ${GoodsImageContainer}:hover & {
+    transform: translate(-50%, -50px);
   }
 `;
 
@@ -215,7 +215,7 @@ const GoodsUtilBtn = styled.button`
   align-items: center;
   border: none;
   background-color: white;
-  margin-right: 3px;
+  margin-right: 5px;
   cursor: pointer;
 `;
 

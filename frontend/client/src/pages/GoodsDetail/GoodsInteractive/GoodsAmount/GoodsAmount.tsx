@@ -1,4 +1,4 @@
-import { getDiscountedPrice } from '@src/utils/price';
+import { getDiscountedPrice, getPriceText } from '@src/utils/price';
 import React, { useCallback, FC } from 'react';
 import { FaAngleUp, FaAngleDown } from 'react-icons/fa';
 import styled from 'styled-components';
@@ -59,7 +59,7 @@ const GoodsAmount: FC<Props> = ({ title, price, deliveryFee, discountRate, amoun
       <TotalAmount>
         <span>총 합계금액</span>
         <TotalPrice>
-          <span>{totalPrice.toLocaleString()}</span>원
+          <span>{getPriceText(totalPrice)}</span>원
         </TotalPrice>
       </TotalAmount>
     </>

@@ -1,6 +1,7 @@
 const webpack = require('webpack');
 const path = require('path');
 const HtmlWebpackPlugin = require('html-webpack-plugin');
+const ForkTsCheckerWebpackPlugin = require('fork-ts-checker-webpack-plugin');
 const { DefinePlugin } = require('webpack');
 const dotenv = require('dotenv');
 
@@ -23,7 +24,18 @@ module.exports = {
       },
       {
         test: /\.ts(x)?$/,
-        use: ['babel-loader', 'ts-loader'],
+        use: [
+          {
+            loader: 'babel-loader',
+          },
+          {
+            loader: 'ts-loader',
+            options: {
+              // disable type checker - we will use it in fork plugin
+              transpileOnly: true,
+            },
+          },
+        ],
       },
       {
         test: /\.(png|jpg|gif)$/i,
@@ -58,6 +70,7 @@ module.exports = {
   },
 
   plugins: [
+    new ForkTsCheckerWebpackPlugin(),
     new webpack.ProvidePlugin({
       React: 'react',
     }),
