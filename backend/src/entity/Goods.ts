@@ -1,9 +1,19 @@
-import { Column, CreateDateColumn, ManyToOne, OneToMany, PrimaryGeneratedColumn, UpdateDateColumn } from 'typeorm';
+import {
+  Column,
+  CreateDateColumn,
+  Entity,
+  ManyToOne,
+  OneToMany,
+  PrimaryGeneratedColumn,
+  UpdateDateColumn,
+} from 'typeorm';
 import { Cart } from './Cart';
 import { Category } from './Category';
+import { DeliveryInfo } from './DeliveryInfo';
 import { GoodsImg } from './GoodsImg';
 import { OrderItem } from './OrderItem';
 
+@Entity()
 export class Goods {
   @PrimaryGeneratedColumn({ type: 'int', unsigned: true })
   id!: number;
@@ -39,7 +49,12 @@ export class Goods {
   updatedAt!: Date;
 
   @ManyToOne(() => Category, (category) => category.id)
-  category!: Category;
+  @Column({ type: 'int' })
+  categoryId!: number;
+
+  @ManyToOne(() => DeliveryInfo, (deliveryInfo) => deliveryInfo.id)
+  @Column({ type: 'int' })
+  deliveryInfoId!: number;
 
   @OneToMany(() => GoodsImg, (goodsImg) => goodsImg.goodsId)
   goodsImgs!: GoodsImg[];

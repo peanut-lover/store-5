@@ -1,5 +1,6 @@
 import { createConnection } from 'typeorm';
 import { databaseConfig } from './config';
+import { DeliveryInfo } from './entity/DeliveryInfo';
 import { Cart } from './entity/Cart';
 import { Category } from './entity/Category';
 import { Goods } from './entity/Goods';
@@ -17,7 +18,20 @@ export default async function () {
   await createConnection({
     type: 'mysql',
     ...databaseConfig,
-    entities: [User, UserAddress, Cart, OrderItem, OrderList, Goods, GoodsImg, Category, Payment, Promotion, Wish], // TODO: add entities
+    entities: [
+      User,
+      UserAddress,
+      DeliveryInfo,
+      Cart,
+      OrderItem,
+      OrderList,
+      Goods,
+      GoodsImg,
+      Category,
+      Payment,
+      Promotion,
+      Wish,
+    ], // TODO: add entities
   });
   await populate();
 }
