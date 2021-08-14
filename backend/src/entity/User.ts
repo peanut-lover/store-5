@@ -2,6 +2,7 @@ import { Column, CreateDateColumn, Entity, OneToMany, PrimaryGeneratedColumn, Up
 import { Cart } from './Cart';
 import { OrderList } from './OrderList';
 import { UserAddress } from './UserAddress';
+import { Wish } from './Wish';
 
 @Entity()
 export class User {
@@ -35,18 +36,9 @@ export class User {
   @Column({ type: 'boolean', nullable: true })
   marketing_agree: boolean;
 
-  @CreateDateColumn({ name: 'created_at', type: 'timestamp' })
+  @CreateDateColumn({ type: 'timestamp' })
   createdAt: Date;
 
-  @UpdateDateColumn({ name: 'updated_at', type: 'timestamp' })
+  @UpdateDateColumn({ type: 'timestamp' })
   updatedAt: Date;
-
-  @OneToMany(() => UserAddress, (userAddress) => userAddress.userId)
-  userAddresses: UserAddress[];
-
-  @OneToMany(() => Cart, (cart) => cart.userId)
-  carts: Cart[];
-
-  @OneToMany(() => OrderList, (orderList) => orderList.userId)
-  orderLists: OrderList[];
 }

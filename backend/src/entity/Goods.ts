@@ -2,16 +2,13 @@ import {
   Column,
   CreateDateColumn,
   Entity,
+  JoinColumn,
   ManyToOne,
-  OneToMany,
   PrimaryGeneratedColumn,
   UpdateDateColumn,
 } from 'typeorm';
-import { Cart } from './Cart';
 import { Category } from './Category';
 import { DeliveryInfo } from './DeliveryInfo';
-import { GoodsImg } from './GoodsImg';
-import { OrderItem } from './OrderItem';
 
 @Entity()
 export class Goods {
@@ -42,26 +39,24 @@ export class Goods {
   @Column({ type: 'boolean', default: false })
   isGreen: boolean;
 
-  @CreateDateColumn({ name: 'created_at', type: 'timestamp' })
+  @CreateDateColumn({ type: 'timestamp' })
   createdAt: Date;
 
-  @UpdateDateColumn({ name: 'updated_at', type: 'timestamp' })
+  @UpdateDateColumn({ type: 'timestamp' })
   updatedAt: Date;
 
   @ManyToOne(() => Category, (category) => category.id)
-  @Column({ type: 'int' })
-  categoryId: number;
+  @JoinColumn()
+  // @Column({ type: 'int' })
+  category: number;
 
   @ManyToOne(() => DeliveryInfo, (deliveryInfo) => deliveryInfo.id)
-  @Column({ type: 'int' })
-  deliveryInfoId: number;
+  // @Column({ type: 'int' })
+  @JoinColumn()
+  deliveryInfo: number;
+  // categoryId!: number;
 
-  @OneToMany(() => GoodsImg, (goodsImg) => goodsImg.goodsId)
-  goodsImgs: GoodsImg[];
-
-  @OneToMany(() => Cart, (cart) => cart.goodsId)
-  carts: Cart[];
-
-  @OneToMany(() => OrderItem, (orderItem) => orderItem.goodsId)
-  orderItems: OrderItem[];
+  // @ManyToOne(() => DeliveryInfo, (deliveryInfo) => deliveryInfo.id)
+  // @Column({ type: 'int' })
+  // deliveryInfoId!: number;
 }

@@ -1,4 +1,12 @@
-import { Column, CreateDateColumn, Entity, ManyToOne, PrimaryGeneratedColumn, UpdateDateColumn } from 'typeorm';
+import {
+  Column,
+  CreateDateColumn,
+  Entity,
+  JoinColumn,
+  ManyToOne,
+  PrimaryGeneratedColumn,
+  UpdateDateColumn,
+} from 'typeorm';
 import { Goods } from './Goods';
 import { OrderList } from './OrderList';
 
@@ -19,15 +27,17 @@ export class OrderItem {
   @Column({ type: 'int' })
   state: number;
 
-  @CreateDateColumn({ name: 'created_at', type: 'timestamp' })
+  @CreateDateColumn({ type: 'timestamp' })
   createdAt: Date;
 
-  @UpdateDateColumn({ name: 'updated_at', type: 'timestamp' })
+  @UpdateDateColumn({ type: 'timestamp' })
   updatedAt: Date;
 
   @ManyToOne(() => Goods, (goods) => goods.id)
-  goodsId: Goods;
+  @JoinColumn()
+  goods: Goods;
 
   @ManyToOne(() => OrderList, (orderList) => orderList.id)
-  orderListId: OrderList;
+  @JoinColumn()
+  orderList: OrderList;
 }

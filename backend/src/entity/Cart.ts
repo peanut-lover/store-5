@@ -1,4 +1,12 @@
-import { Column, CreateDateColumn, Entity, ManyToOne, PrimaryGeneratedColumn, UpdateDateColumn } from 'typeorm';
+import {
+  Column,
+  CreateDateColumn,
+  Entity,
+  JoinColumn,
+  ManyToOne,
+  PrimaryGeneratedColumn,
+  UpdateDateColumn,
+} from 'typeorm';
 import { Goods } from './Goods';
 import { User } from './User';
 
@@ -10,15 +18,17 @@ export class Cart {
   @Column({ type: 'int' })
   amount: number;
 
-  @CreateDateColumn({ name: 'created_at', type: 'timestamp' })
+  @CreateDateColumn({ type: 'timestamp' })
   createdAt: Date;
 
-  @UpdateDateColumn({ name: 'updated_at', type: 'timestamp' })
+  @UpdateDateColumn({ type: 'timestamp' })
   updatedAt: Date;
 
   @ManyToOne(() => User, (user) => user.id)
-  userId: User;
+  @JoinColumn()
+  user: User;
 
   @ManyToOne(() => Goods, (goods) => goods.id)
-  goodsId: Goods;
+  @JoinColumn()
+  goods: Goods;
 }

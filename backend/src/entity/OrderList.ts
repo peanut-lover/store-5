@@ -2,6 +2,7 @@ import {
   Column,
   CreateDateColumn,
   Entity,
+  JoinColumn,
   ManyToOne,
   OneToMany,
   PrimaryGeneratedColumn,
@@ -34,18 +35,17 @@ export class OrderList {
   @Column({ type: 'varchar', length: 50 })
   subAddress: string;
 
-  @CreateDateColumn({ name: 'created_at', type: 'timestamp' })
+  @CreateDateColumn({ type: 'timestamp' })
   createdAt: Date;
 
-  @UpdateDateColumn({ name: 'updated_at', type: 'timestamp' })
+  @UpdateDateColumn({ type: 'timestamp' })
   updatedAt: Date;
 
   @ManyToOne(() => Payment, (payment) => payment.id)
-  paymentId: Payment;
+  @JoinColumn()
+  payment: Payment;
 
   @ManyToOne(() => User, (user) => user.id)
-  userId: User;
-
-  @OneToMany(() => OrderItem, (orderItem) => orderItem.orderListId)
-  orderItems: OrderItem[];
+  @JoinColumn()
+  user: User;
 }
