@@ -7,11 +7,6 @@ import errorControl from './middlewares/error.middleware';
 import router from './router/index';
 import { serverConfig } from './config';
 
-declare module 'express-session' {
-  interface SessionData {
-    userId: String | null;
-  }
-}
 const PORT = serverConfig.port || 8080;
 
 const server = express();
