@@ -2,7 +2,11 @@ import {
   Column,
   CreateDateColumn,
   Entity,
+<<<<<<< HEAD
   JoinColumn,
+=======
+  ManyToMany,
+>>>>>>> b810f5b (add: Create Sub 카테고리)
   ManyToOne,
   PrimaryGeneratedColumn,
   UpdateDateColumn,
@@ -16,12 +20,14 @@ export class Category {
   @Column({ type: 'varchar', length: 10, unique: true })
   name: string;
 
-  @CreateDateColumn({ type: 'timestamp' })
-  createdAt: Date;
+  // @Column({type : ''})
+
+  @CreateDateColumn({ name: 'created_at', type: 'timestamp' })
+  createdAt!: Date;
 
   @UpdateDateColumn({ type: 'timestamp' })
   updatedAt: Date;
 
-  @Column({ nullable: true })
-  parent: number;
+  @ManyToMany(() => Category, (category) => category.id, { nullable: true })
+  categories!: Category;
 }

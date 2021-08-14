@@ -2,11 +2,20 @@ import {
   Column,
   CreateDateColumn,
   Entity,
+<<<<<<< HEAD
   JoinColumn,
   ManyToOne,
   PrimaryGeneratedColumn,
   UpdateDateColumn,
 } from 'typeorm';
+=======
+  ManyToOne,
+  OneToMany,
+  PrimaryGeneratedColumn,
+  UpdateDateColumn,
+} from 'typeorm';
+import { Cart } from './Cart';
+>>>>>>> b810f5b (add: Create Sub 카테고리)
 import { Category } from './Category';
 import { DeliveryInfo } from './DeliveryInfo';
 
@@ -30,17 +39,23 @@ export class Goods {
   @Column({ type: 'int' })
   discountRate: number;
 
-  @Column({ type: 'int', nullable: true })
-  countOfSell: number;
+  @Column({ type: 'int' })
+  countOfSell!: number;
 
-  @Column({ type: 'varchar', length: 5 })
-  state: string;
+  @Column({ type: 'int' })
+  state!: number;
 
-  @Column({ type: 'boolean', default: false })
-  isGreen: boolean;
+  @Column({ type: 'boolean' })
+  isGreen!: boolean;
 
-  @CreateDateColumn({ type: 'timestamp' })
-  createdAt: Date;
+  @Column({ type: 'int' })
+  deliveryFee!: number;
+
+  @Column({ type: 'varchar', length: 50 })
+  deliveryContent!: string;
+
+  @CreateDateColumn({ name: 'created_at', type: 'timestamp' })
+  createdAt!: Date;
 
   @UpdateDateColumn({ type: 'timestamp' })
   updatedAt: Date;
