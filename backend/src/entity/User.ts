@@ -6,47 +6,47 @@ import { UserAddress } from './UserAddress';
 @Entity()
 export class User {
   @PrimaryGeneratedColumn({ type: 'int', unsigned: true })
-  id!: number;
+  id: number;
 
   @Column({ type: 'varchar', length: 100 })
-  githubId!: string;
+  githubId: string;
 
   @Column({ type: 'varchar', length: 25, nullable: true })
-  name!: string;
+  name: string;
 
   @Column({ type: 'varchar', length: 100, nullable: true })
-  email!: string;
+  email: string;
 
   @Column({ type: 'varchar', length: 60, nullable: true })
-  password!: string;
+  password: string;
 
   @Column({ type: 'varchar', length: 20, nullable: true })
-  phone!: string;
+  phone: string;
 
   @Column({ type: 'boolean', nullable: true })
-  terms_agree!: boolean;
+  terms_agree: boolean;
 
   @Column({ type: 'boolean', nullable: true })
-  privacy_agree!: boolean;
+  privacy_agree: boolean;
 
   @Column({ type: 'boolean', nullable: true })
-  third_party_agree!: boolean;
+  third_party_agree: boolean;
 
   @Column({ type: 'boolean', nullable: true })
-  marketing_agree!: boolean;
+  marketing_agree: boolean;
 
   @CreateDateColumn({ name: 'created_at', type: 'timestamp' })
-  createdAt!: Date;
+  createdAt: Date;
 
   @UpdateDateColumn({ name: 'updated_at', type: 'timestamp' })
-  updatedAt!: Date;
+  updatedAt: Date;
 
   @OneToMany(() => UserAddress, (userAddress) => userAddress.userId)
-  userAddresses!: UserAddress[];
+  userAddresses: UserAddress[];
 
   @OneToMany(() => Cart, (cart) => cart.userId)
-  carts!: Cart[];
+  carts: Cart[];
 
   @OneToMany(() => OrderList, (orderList) => orderList.userId)
-  orderLists!: OrderList[];
+  orderLists: OrderList[];
 }

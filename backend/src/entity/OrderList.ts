@@ -14,38 +14,38 @@ import { User } from './User';
 @Entity()
 export class OrderList {
   @PrimaryGeneratedColumn({ type: 'int', unsigned: true })
-  id!: number;
+  id: number;
 
   @Column({ type: 'int' })
-  state!: number;
+  state: number;
 
   @Column({ type: 'varchar', length: 200 })
-  orderMemo!: string;
+  orderMemo: string;
 
   @Column({ type: 'varchar', length: 20 })
-  receiver!: string;
+  receiver: string;
 
   @Column({ type: 'varchar', length: 7 })
-  zipCode!: string;
+  zipCode: string;
 
   @Column({ type: 'varchar', length: 50 })
-  address!: string;
+  address: string;
 
   @Column({ type: 'varchar', length: 50 })
-  subAddress!: string;
+  subAddress: string;
 
   @CreateDateColumn({ name: 'created_at', type: 'timestamp' })
-  createdAt!: Date;
+  createdAt: Date;
 
   @UpdateDateColumn({ name: 'updated_at', type: 'timestamp' })
-  updatedAt!: Date;
+  updatedAt: Date;
 
   @ManyToOne(() => Payment, (payment) => payment.id)
-  paymentId!: Payment;
+  paymentId: Payment;
 
   @ManyToOne(() => User, (user) => user.id)
-  userId!: User;
+  userId: User;
 
   @OneToMany(() => OrderItem, (orderItem) => orderItem.orderListId)
-  orderItems!: OrderItem[];
+  orderItems: OrderItem[];
 }

@@ -3,17 +3,17 @@ import { Column, CreateDateColumn, Entity, ManyToOne, PrimaryGeneratedColumn, Up
 @Entity()
 export class Category {
   @PrimaryGeneratedColumn({ type: 'int', unsigned: true })
-  id!: number;
+  id: number;
 
   @Column({ type: 'varchar', length: 10, unique: true })
-  name!: string;
+  name: string;
 
   @CreateDateColumn({ name: 'created_at', type: 'timestamp' })
-  createdAt!: Date;
+  createdAt: Date;
 
   @UpdateDateColumn({ name: 'updated_at', type: 'timestamp' })
-  updatedAt!: Date;
+  updatedAt: Date;
 
   @ManyToOne(() => Category, (category) => category.id, { nullable: true })
-  categories!: Category;
+  categories: Category;
 }

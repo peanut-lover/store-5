@@ -4,23 +4,23 @@ import { Goods } from './Goods';
 @Entity()
 export class DeliveryInfo {
   @PrimaryGeneratedColumn({ type: 'int', unsigned: true })
-  id!: number;
+  id: number;
 
   @Column({ type: 'varchar', length: 10 })
-  name!: string;
+  name: string;
 
   @Column({ type: 'int' })
-  deliveryFee!: number;
+  deliveryFee: number;
 
   @Column({ type: 'varchar', length: 20 })
-  deliveryDetail!: string;
+  deliveryDetail: string;
 
   @CreateDateColumn({ name: 'created_at', type: 'timestamp' })
-  createdAt!: Date;
+  createdAt: Date;
 
   @UpdateDateColumn({ name: 'updated_at', type: 'timestamp' })
-  updatedAt!: Date;
+  updatedAt: Date;
 
   @OneToMany(() => Goods, (goods) => goods.deliveryInfoId)
-  goods!: Goods[];
+  goods: Goods[];
 }
