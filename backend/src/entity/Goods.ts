@@ -9,7 +9,6 @@ import {
 } from 'typeorm';
 import { Cart } from './Cart';
 import { Category } from './Category';
-import { DeliveryInfo } from './DeliveryInfo';
 import { GoodsImg } from './GoodsImg';
 import { OrderItem } from './OrderItem';
 
@@ -42,6 +41,12 @@ export class Goods {
   @Column({ type: 'boolean' })
   isGreen!: boolean;
 
+  @Column({ type: 'int' })
+  deliveryFee!: number;
+
+  @Column({ type: 'varchar', length: 50 })
+  deliveryContent!: string;
+
   @CreateDateColumn({ name: 'created_at', type: 'timestamp' })
   createdAt!: Date;
 
@@ -49,13 +54,10 @@ export class Goods {
   updatedAt!: Date;
 
   @ManyToOne(() => Category, (category) => category.id)
-  categoryId!: Category;
-
-  @ManyToOne(() => DeliveryInfo, (deliveryInfo) => deliveryInfo.id)
-  deliveryInfoId!: DeliveryInfo;
+  category!: Category;
 
   @OneToMany(() => GoodsImg, (goodsImg) => goodsImg.goodsId)
-  GoodsImgs!: GoodsImg[];
+  goodsImgs!: GoodsImg[];
 
   @OneToMany(() => Cart, (cart) => cart.goodsId)
   carts!: Cart[];

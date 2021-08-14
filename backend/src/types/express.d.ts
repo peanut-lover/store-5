@@ -1,10 +1,15 @@
+export {};
+
 declare global {
   namespace Express {
     interface Request {
       userId: number;
     }
-    interface Session {
-      userId?: number;
-    }
+  }
+}
+
+declare module 'express-session' {
+  export interface SessionData {
+    userId: number;
   }
 }

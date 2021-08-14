@@ -11,8 +11,8 @@
     "forceConsistentCasingInFileNames": true,
     "emitDecoratorMetadata": true,
     "experimentalDecorators": true,
-    "sourceMap": true,
-    "typeRoots": ["./node_modules/@types", "./src/types"]
+    "sourceMap": true
+    // "typeRoots": ["./node_modules/@types", "./src/types/request", "./src/types/response", "./src/types"]
   }
 }
 
