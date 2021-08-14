@@ -7,7 +7,8 @@ export interface Goods {
   isGreen?: boolean;
   isNew?: boolean;
   isSale?: boolean;
-  discountRate?: number;
+  discountRate: number;
+  isWished?: boolean;
 }
 
 export type ThumbnailGoods = Goods;
@@ -15,7 +16,6 @@ export type ThumbnailGoods = Goods;
 export type DetailGoods = Goods & {
   deliveryFee: number;
   deliveryDetail: string;
-  isWished?: boolean;
   imgs?: string[];
 };
 

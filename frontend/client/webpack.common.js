@@ -5,8 +5,6 @@ const { DefinePlugin } = require('webpack');
 const dotenv = require('dotenv');
 
 dotenv.config({ path: './.env' });
-
-console.log(path.resolve(__dirname, 'src'));
 module.exports = {
   entry: './src/index.tsx',
 
@@ -56,6 +54,7 @@ module.exports = {
   output: {
     path: path.join(__dirname, '/dist'),
     filename: 'bundle.js',
+    publicPath: '/',
   },
 
   plugins: [

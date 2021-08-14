@@ -67,6 +67,7 @@ interface SideBarContainerProps {
 }
 
 const SideBarContainer = styled.div<SideBarContainerProps>`
+  z-index: 99;
   position: fixed;
   right: 0px;
   top: 50%;
