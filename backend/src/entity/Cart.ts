@@ -1,24 +1,34 @@
-import { Column, CreateDateColumn, Entity, ManyToOne, PrimaryGeneratedColumn, UpdateDateColumn } from 'typeorm';
+import {
+  Column,
+  CreateDateColumn,
+  Entity,
+  JoinColumn,
+  ManyToOne,
+  PrimaryGeneratedColumn,
+  UpdateDateColumn,
+} from 'typeorm';
 import { Goods } from './Goods';
 import { User } from './User';
 
 @Entity()
 export class Cart {
   @PrimaryGeneratedColumn({ type: 'int', unsigned: true })
-  id!: number;
+  id: number;
 
   @Column({ type: 'int' })
-  amount!: number;
+  amount: number;
 
-  @CreateDateColumn({ name: 'created_at', type: 'timestamp' })
-  createdAt!: Date;
+  @CreateDateColumn({ type: 'timestamp' })
+  createdAt: Date;
 
-  @UpdateDateColumn({ name: 'updated_at', type: 'timestamp' })
-  updatedAt!: Date;
+  @UpdateDateColumn({ type: 'timestamp' })
+  updatedAt: Date;
 
   @ManyToOne(() => User, (user) => user.id)
-  userId!: User;
+  @JoinColumn()
+  user: User;
 
   @ManyToOne(() => Goods, (goods) => goods.id)
-  goodsId!: Goods;
+  @JoinColumn()
+  goods: Goods;
 }

@@ -1,52 +1,62 @@
-import { Column, CreateDateColumn, ManyToOne, OneToMany, PrimaryGeneratedColumn, UpdateDateColumn } from 'typeorm';
-import { Cart } from './Cart';
+import {
+  Column,
+  CreateDateColumn,
+  Entity,
+  JoinColumn,
+  ManyToOne,
+  PrimaryGeneratedColumn,
+  UpdateDateColumn,
+} from 'typeorm';
 import { Category } from './Category';
-import { GoodsImg } from './GoodsImg';
-import { OrderItem } from './OrderItem';
+import { DeliveryInfo } from './DeliveryInfo';
 
+@Entity()
 export class Goods {
   @PrimaryGeneratedColumn({ type: 'int', unsigned: true })
-  id!: number;
+  id: number;
 
   @Column({ type: 'varchar', length: 400 })
-  thumbnailUrl!: string;
+  thumbnailUrl: string;
 
   @Column({ type: 'varchar', length: 30 })
-  title!: string;
+  title: string;
 
   @Column({ type: 'int' })
-  price!: number;
+  price: number;
 
   @Column({ type: 'int' })
-  stock!: number;
+  stock: number;
 
   @Column({ type: 'int' })
-  discountRate!: number;
+  discountRate: number;
 
   @Column({ type: 'int', nullable: true })
-  countOfSell!: number;
+  countOfSell: number;
 
   @Column({ type: 'varchar', length: 5 })
-  state!: string;
+  state: string;
 
   @Column({ type: 'boolean', default: false })
-  isGreen!: boolean;
+  isGreen: boolean;
 
-  @CreateDateColumn({ name: 'created_at', type: 'timestamp' })
-  createdAt!: Date;
+  @CreateDateColumn({ type: 'timestamp' })
+  createdAt: Date;
 
-  @UpdateDateColumn({ name: 'updated_at', type: 'timestamp' })
-  updatedAt!: Date;
+  @UpdateDateColumn({ type: 'timestamp' })
+  updatedAt: Date;
 
   @ManyToOne(() => Category, (category) => category.id)
-  category!: Category;
+  @JoinColumn()
+  // @Column({ type: 'int' })
+  category: number;
 
-  @OneToMany(() => GoodsImg, (goodsImg) => goodsImg.goodsId)
-  goodsImgs!: GoodsImg[];
+  @ManyToOne(() => DeliveryInfo, (deliveryInfo) => deliveryInfo.id)
+  // @Column({ type: 'int' })
+  @JoinColumn()
+  deliveryInfo: number;
+  // categoryId!: number;
 
-  @OneToMany(() => Cart, (cart) => cart.goodsId)
-  carts!: Cart[];
-
-  @OneToMany(() => OrderItem, (orderItem) => orderItem.goodsId)
-  orderItems!: OrderItem[];
+  // @ManyToOne(() => DeliveryInfo, (deliveryInfo) => deliveryInfo.id)
+  // @Column({ type: 'int' })
+  // deliveryInfoId!: number;
 }

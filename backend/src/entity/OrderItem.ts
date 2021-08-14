@@ -2,6 +2,7 @@ import {
   Column,
   CreateDateColumn,
   Entity,
+  JoinColumn,
   ManyToOne,
   PrimaryGeneratedColumn,
   UpdateDateColumn,
@@ -12,29 +13,31 @@ import { OrderList } from './OrderList';
 @Entity()
 export class OrderItem {
   @PrimaryGeneratedColumn({ type: 'int', unsigned: true })
-  id!: number;
+  id: number;
 
   @Column({ type: 'int' })
-  amount!: number;
+  amount: number;
 
   @Column({ type: 'int' })
-  price!: number;
+  price: number;
 
   @Column({ type: 'boolean' })
-  discountRate!: boolean;
+  discountRate: boolean;
 
   @Column({ type: 'int' })
-  state!: number;
+  state: number;
 
-  @CreateDateColumn({ name: 'created_at', type: 'timestamp' })
-  createdAt!: Date;
+  @CreateDateColumn({ type: 'timestamp' })
+  createdAt: Date;
 
-  @UpdateDateColumn({ name: 'updated_at', type: 'timestamp' })
-  updatedAt!: Date;
+  @UpdateDateColumn({ type: 'timestamp' })
+  updatedAt: Date;
 
   @ManyToOne(() => Goods, (goods) => goods.id)
-  goodsId!: Goods;
+  @JoinColumn()
+  goods: Goods;
 
   @ManyToOne(() => OrderList, (orderList) => orderList.id)
-  orderListId!: OrderList;
+  @JoinColumn()
+  orderList: OrderList;
 }

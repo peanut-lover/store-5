@@ -2,51 +2,43 @@ import { Column, CreateDateColumn, Entity, OneToMany, PrimaryGeneratedColumn, Up
 import { Cart } from './Cart';
 import { OrderList } from './OrderList';
 import { UserAddress } from './UserAddress';
+import { Wish } from './Wish';
 
 @Entity()
 export class User {
   @PrimaryGeneratedColumn({ type: 'int', unsigned: true })
-  id!: number;
+  id: number;
 
   @Column({ type: 'varchar', length: 100 })
-  githubId!: string;
+  githubId: string;
 
   @Column({ type: 'varchar', length: 25, nullable: true })
-  name!: string;
+  name: string;
 
   @Column({ type: 'varchar', length: 100, nullable: true })
-  email!: string;
+  email: string;
 
   @Column({ type: 'varchar', length: 60, nullable: true })
-  password!: string;
+  password: string;
 
   @Column({ type: 'varchar', length: 20, nullable: true })
-  phone!: string;
+  phone: string;
 
   @Column({ type: 'boolean', nullable: true })
-  terms_agree!: boolean;
+  terms_agree: boolean;
 
   @Column({ type: 'boolean', nullable: true })
-  privacy_agree!: boolean;
+  privacy_agree: boolean;
 
   @Column({ type: 'boolean', nullable: true })
-  third_party_agree!: boolean;
+  third_party_agree: boolean;
 
   @Column({ type: 'boolean', nullable: true })
-  marketing_agree!: boolean;
+  marketing_agree: boolean;
 
-  @CreateDateColumn({ name: 'created_at', type: 'timestamp' })
-  createdAt!: Date;
+  @CreateDateColumn({ type: 'timestamp' })
+  createdAt: Date;
 
-  @UpdateDateColumn({ name: 'updated_at', type: 'timestamp' })
-  updatedAt!: Date;
-
-  @OneToMany(() => UserAddress, (userAddress) => userAddress.userId)
-  userAddresses!: UserAddress[];
-
-  @OneToMany(() => Cart, (cart) => cart.userId)
-  carts!: Cart[];
-
-  @OneToMany(() => OrderList, (orderList) => orderList.userId)
-  orderLists!: OrderList[];
+  @UpdateDateColumn({ type: 'timestamp' })
+  updatedAt: Date;
 }
