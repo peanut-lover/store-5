@@ -1,5 +1,5 @@
 import { getDiscountedPrice, getPriceText } from '@src/utils/price';
-import React, { useCallback, FC } from 'react';
+import React, { useCallback } from 'react';
 import { FaAngleUp, FaAngleDown } from 'react-icons/fa';
 import styled from 'styled-components';
 
@@ -17,7 +17,7 @@ interface Props {
   onChangAmount: (amount: number) => void;
 }
 
-const GoodsAmount: FC<Props> = ({ title, price, deliveryFee, discountRate, amount, onChangAmount }) => {
+const GoodsAmount: React.FC<Props> = ({ title, price, deliveryFee, discountRate, amount, onChangAmount }) => {
   const totalPrice = getTotalPrice(amount, price, deliveryFee, discountRate);
 
   const onPlusEvent = useCallback(() => {
@@ -54,7 +54,7 @@ const GoodsAmount: FC<Props> = ({ title, price, deliveryFee, discountRate, amoun
             </DownButton>
           </HandleAmountButtons>
         </HandleAmount>
-        <Price>{getDiscountedPrice(price, discountRate).toLocaleString()}원</Price>
+        <Price>{getPriceText(getDiscountedPrice(price, discountRate))}원</Price>
       </GoodsAmountContainer>
       <TotalAmount>
         <span>총 합계금액</span>

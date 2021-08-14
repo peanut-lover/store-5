@@ -1,6 +1,6 @@
 import React from 'react';
 import styled from 'styled-components';
-import { getDiscountedPrice } from '@src/utils/price';
+import { getDiscountedPrice, getPriceText } from '@src/utils/price';
 import { DetailGoods } from '@src/types/Goods';
 
 export interface GoodsInfoProps {
@@ -19,19 +19,19 @@ const GoodsInfo: React.FC<GoodsInfoProps> = ({
         {discountRate > 0 && (
           <ContentItem>
             <span>정가</span>
-            <Price>{price.toLocaleString()}원</Price>
+            <Price>{getPriceText(price)}원</Price>
           </ContentItem>
         )}
         <ContentItem>
           <span>판매가격</span>
           <SalePrice>
-            <span>{salePrice.toLocaleString()}</span>원
+            <span>{getPriceText(salePrice)}</span>원
           </SalePrice>
         </ContentItem>
         <ContentItem>
           <span>배송정보</span>
           <DeliveryInfo>
-            <p>{deliveryFee.toLocaleString()}원</p>
+            <p>{getPriceText(deliveryFee)}원</p>
             <p>{deliveryDetail}</p>
           </DeliveryInfo>
         </ContentItem>

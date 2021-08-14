@@ -1,13 +1,13 @@
 import GoodsButtons from './GoodsButtons/GoodsButtons';
 import GoodsAmount from './GoodsAmount/GoodsAmount';
 import { DetailGoods } from '@src/types/Goods';
-import React, { useState, useCallback, FC } from 'react';
+import React, { useState, useCallback } from 'react';
 
 interface Props {
   goods: DetailGoods;
 }
 
-const GoodsInteractive: FC<Props> = ({
+const GoodsInteractive: React.FC<Props> = ({
   goods: { id, title, price, deliveryFee, discountRate = 0, isWished = false },
 }) => {
   const [amount, setAmount] = useState(0);

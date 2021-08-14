@@ -5,6 +5,7 @@ import { BsHeart, BsFillBucketFill } from 'react-icons/bs';
 import { BestTag, GreenTag, NewTag, SaleTag } from '../Tag';
 import { useCallback } from 'react';
 import { useState } from 'react';
+import { getPriceText } from '@src/utils/price';
 
 type GoodsItemSizeMode = 'small' | 'middle';
 
@@ -72,7 +73,7 @@ const GoodsItem: React.FC<Props> = ({
 
       {discountRate && discountRate > 0 ? <GoodsDiscountLabel> {discountRate} % </GoodsDiscountLabel> : ''}
       <GoodsTitle>{title}</GoodsTitle>
-      <GoodsPriceLabel>{price} 원</GoodsPriceLabel>
+      <GoodsPriceLabel>{getPriceText(price)} 원</GoodsPriceLabel>
     </GoodsItemContainer>
   );
 };

@@ -9,7 +9,7 @@ interface Props {
   onAddToOrder: () => void;
 }
 
-const GoodsButtons = ({ isWished, onToggleWish, onAddToCart, onAddToOrder }: Props) => {
+const GoodsButtons: React.FC<Props> = ({ isWished, onToggleWish, onAddToCart, onAddToOrder }) => {
   return (
     <>
       <GoodsButtonsContainer>
