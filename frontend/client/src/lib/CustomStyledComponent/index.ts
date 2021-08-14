@@ -20,7 +20,7 @@ interface StylePropsFn<P> {
 export const styled = (tag: keyof ReactHTML) => {
   return function styledTemplate<P = {}>(rules: TemplateStringsArray, ...args: StylePropsFn<P>[]): React.FC<P> {
     return (props) => {
-      const resolved = resolveRule(rules, args, props);
+      const resolved = resolveRule<P>(rules, args, props);
       const className = css(resolved);
       return React.createElement(tag, { className, ...props });
     };
@@ -33,5 +33,5 @@ function resolveRule<P>(parts: TemplateStringsArray, args: StylePropsFn<P>[], pr
       return output + part;
     }
     return output + part + args[index](props);
-  });
+  }, '');
 }
