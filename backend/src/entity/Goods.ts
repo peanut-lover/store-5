@@ -1,18 +1,9 @@
-import {
-  Column,
-  CreateDateColumn,
-  Entity,
-  ManyToOne,
-  OneToMany,
-  PrimaryGeneratedColumn,
-  UpdateDateColumn,
-} from 'typeorm';
+import { Column, CreateDateColumn, ManyToOne, OneToMany, PrimaryGeneratedColumn, UpdateDateColumn } from 'typeorm';
 import { Cart } from './Cart';
 import { Category } from './Category';
 import { GoodsImg } from './GoodsImg';
 import { OrderItem } from './OrderItem';
 
-@Entity()
 export class Goods {
   @PrimaryGeneratedColumn({ type: 'int', unsigned: true })
   id!: number;
@@ -32,20 +23,14 @@ export class Goods {
   @Column({ type: 'int' })
   discountRate!: number;
 
-  @Column({ type: 'int' })
+  @Column({ type: 'int', nullable: true })
   countOfSell!: number;
 
-  @Column({ type: 'int' })
-  state!: number;
+  @Column({ type: 'varchar', length: 5 })
+  state!: string;
 
-  @Column({ type: 'boolean' })
+  @Column({ type: 'boolean', default: false })
   isGreen!: boolean;
-
-  @Column({ type: 'int' })
-  deliveryFee!: number;
-
-  @Column({ type: 'varchar', length: 50 })
-  deliveryContent!: string;
 
   @CreateDateColumn({ name: 'created_at', type: 'timestamp' })
   createdAt!: Date;
