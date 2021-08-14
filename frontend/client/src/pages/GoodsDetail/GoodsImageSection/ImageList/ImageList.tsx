@@ -8,7 +8,7 @@ interface Props {
   setActive?: React.Dispatch<React.SetStateAction<number>>;
 }
 
-const ImageList = ({ imgs, active = 0, setActive = () => {} }: Props) => {
+const ImageList: React.FC<Props> = ({ imgs, active = 0, setActive = () => {} }) => {
   const imageItems = imgs.map((img, index) => (
     <ImageItem index={index} src={img} setActive={setActive} isActivated={active === index} key={'images ' + index} />
   ));

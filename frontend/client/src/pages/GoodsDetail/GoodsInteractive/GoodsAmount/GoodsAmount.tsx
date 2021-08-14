@@ -1,7 +1,12 @@
-import { getDiscountedPrice } from '@src/utils/price';
+import { getDiscountedPrice, getPriceText } from '@src/utils/price';
 import React, { useCallback } from 'react';
 import { FaAngleUp, FaAngleDown } from 'react-icons/fa';
 import styled from 'styled-components';
+
+function getTotalPrice(amount: number, price: number, deliveryFee: number, discountRate: number) {
+  if (amount === 0) return 0;
+  return amount * getDiscountedPrice(price, discountRate) + deliveryFee;
+}
 
 interface Props {
   title: string;
@@ -9,23 +14,18 @@ interface Props {
   amount: number;
   deliveryFee: number;
   discountRate: number;
-  setAmount: React.Dispatch<React.SetStateAction<number>>;
+  onChangeAmount: (amount: number) => void;
 }
 
-function getTotalPrice(amount: number, price: number, deliveryFee: number, discountRate: number) {
-  if (amount === 0) return 0;
-  return amount * getDiscountedPrice(price, discountRate) + deliveryFee;
-}
-
-const GoodsAmount = ({ title, price, deliveryFee, discountRate, amount, setAmount }: Props) => {
+const GoodsAmount: React.FC<Props> = ({ title, price, deliveryFee, discountRate, amount, onChangeAmount }) => {
   const totalPrice = getTotalPrice(amount, price, deliveryFee, discountRate);
 
   const onPlusEvent = useCallback(() => {
-    setAmount((amount) => amount + 1);
+    onChangeAmount(amount + 1);
   }, []);
 
   const onMinusEvent = useCallback(() => {
-    setAmount((amount) => amount - 1);
+    onChangeAmount(amount - 1);
   }, []);
 
   const handleChangeEvent = useCallback((e) => {
@@ -37,7 +37,7 @@ const GoodsAmount = ({ title, price, deliveryFee, discountRate, amount, setAmoun
   const handleAmount = (value: number) => {
     if (value < 0) value = 0;
     // TODO 재고확인 API 적용
-    setAmount(value);
+    onChangeAmount(value);
   };
   return (
     <>
@@ -54,12 +54,12 @@ const GoodsAmount = ({ title, price, deliveryFee, discountRate, amount, setAmoun
             </DownButton>
           </HandleAmountButtons>
         </HandleAmount>
-        <Price>{getDiscountedPrice(price, discountRate).toLocaleString()}원</Price>
+        <Price>{getPriceText(getDiscountedPrice(price, discountRate))}원</Price>
       </GoodsAmountContainer>
       <TotalAmount>
         <span>총 합계금액</span>
         <TotalPrice>
-          <span>{totalPrice.toLocaleString()}</span>원
+          <span>{getPriceText(totalPrice)}</span>원
         </TotalPrice>
       </TotalAmount>
     </>

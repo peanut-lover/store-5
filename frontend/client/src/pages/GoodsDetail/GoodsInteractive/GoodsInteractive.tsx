@@ -3,25 +3,46 @@ import GoodsAmount from './GoodsAmount/GoodsAmount';
 import { DetailGoods } from '@src/types/Goods';
 import React, { useState, useCallback } from 'react';
 
-const GoodsInteractive = ({ id, title, price, deliveryFee, discountRate = 0, isWished = false }: DetailGoods) => {
+interface Props {
+  goods: DetailGoods;
+}
+
+const GoodsInteractive: React.FC<Props> = ({
+  goods: { id, title, price, deliveryFee, discountRate = 0, isWished = false },
+}) => {
   const [amount, setAmount] = useState(0);
 
   const handleToWish = useCallback(() => {
-    // TODO 찜하기 API 적용
-    // goodsId, userId 전달
+    console.log('찜하기 토글 API', 'flag:', !isWished, 'goods id:', id);
   }, []);
-  const addToCart = useCallback(() => {
-    // TODO 장바구니 API 적용
-    // goodsId, userId, amount 전달
+  const handleAddToCart = useCallback(() => {
+    console.log('장바구니 추가 API', 'goods id:', id);
   }, []);
-  const addToOrder = useCallback(() => {
-    // TODO 결제 API 적용
-    // goodsId, userId, amount 전달
+  const handleAddToOrder = useCallback(() => {
+    // TODO: 상품 관련 상태 저장 후
+    console.log('결제화면으로 이동', 'goods id:', id);
   }, []);
+
+  const handleChangeAmount = (amount: number) => {
+    setAmount(amount);
+  };
+
   return (
     <div>
-      <GoodsAmount {...{ title, price, deliveryFee, discountRate, amount, setAmount }} />
-      <GoodsButtons {...{ isWished, handleToWish, addToCart, addToOrder }} />
+      <GoodsAmount
+        title={title}
+        price={price}
+        amount={amount}
+        deliveryFee={deliveryFee}
+        discountRate={discountRate}
+        onChangeAmount={handleChangeAmount}
+      />
+      <GoodsButtons
+        isWished={isWished}
+        onToggleWish={handleToWish}
+        onAddToCart={handleAddToCart}
+        onAddToOrder={handleAddToOrder}
+      />
     </div>
   );
 };

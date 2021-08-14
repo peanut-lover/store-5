@@ -11,10 +11,18 @@ const mockProductImagePath =
   'https://user-images.githubusercontent.com/20085849/128866958-900ad32a-cd32-4b97-be79-1dbbc9dcb02d.jpeg';
 
 const mock_best_products: ThumbnailGoods[] = [
-  { id: 1, thumbnailImg: mockProductImagePath, title: '맥쥬짠', price: 10000, isGreen: true, isBest: true },
-  { id: 2, thumbnailImg: mockProductImagePath, title: '맥쥬짠', price: 10000, isNew: true },
+  {
+    id: 1,
+    thumbnailImg: mockProductImagePath,
+    title: '맥쥬짠',
+    price: 10000,
+    isGreen: true,
+    isBest: true,
+    discountRate: 0,
+  },
+  { id: 2, thumbnailImg: mockProductImagePath, title: '맥쥬짠', price: 10000, isNew: true, discountRate: 0 },
   { id: 3, title: 'NoImage 맥쥬짠', price: 10000, isSale: true, discountRate: 20 },
-  { id: 4, thumbnailImg: mockProductImagePath, title: '맥쥬짠', price: 10000 },
+  { id: 4, thumbnailImg: mockProductImagePath, title: '맥쥬짠', price: 10000, discountRate: 0 },
 ];
 
 const mock_new_products: ThumbnailGoods[] = [
@@ -26,6 +34,7 @@ const mock_new_products: ThumbnailGoods[] = [
     isNew: true,
     isGreen: true,
     isBest: true,
+    discountRate: 0,
   },
   {
     id: 2,
@@ -45,11 +54,11 @@ const mock_new_products: ThumbnailGoods[] = [
     isSale: true,
     discountRate: 20,
   },
-  { id: 4, thumbnailImg: mockProductImagePath, title: '맥쥬짠', price: 10000, isNew: true },
-  { id: 5, thumbnailImg: mockProductImagePath, title: '맥쥬짠', price: 10000, isNew: true },
-  { id: 6, thumbnailImg: mockProductImagePath, title: '맥쥬짠', price: 10000, isNew: true },
-  { id: 7, thumbnailImg: mockProductImagePath, title: '맥쥬짠', price: 10000, isNew: true },
-  { id: 8, thumbnailImg: mockProductImagePath, title: '맥쥬짠', price: 10000, isNew: true },
+  { id: 4, thumbnailImg: mockProductImagePath, title: '맥쥬짠', price: 10000, isNew: true, discountRate: 0 },
+  { id: 5, thumbnailImg: mockProductImagePath, title: '맥쥬짠', price: 10000, isNew: true, discountRate: 0 },
+  { id: 6, thumbnailImg: mockProductImagePath, title: '맥쥬짠', price: 10000, isNew: true, discountRate: 0 },
+  { id: 7, thumbnailImg: mockProductImagePath, title: '맥쥬짠', price: 10000, isNew: true, discountRate: 0 },
+  { id: 8, thumbnailImg: mockProductImagePath, title: '맥쥬짠', price: 10000, isNew: true, discountRate: 0 },
 ];
 
 const mock_promotions: Promotion[] = [
@@ -72,7 +81,9 @@ const mock_promotions: Promotion[] = [
 
 const Main = () => (
   <>
-    <PromotionCarousel promotions={mock_promotions} />
+    <PromotionContainer>
+      <PromotionCarousel promotions={mock_promotions} />
+    </PromotionContainer>
     <MainContentContainer>
       <GoodsSection sectionTitle='잘나가요' goodsList={mock_best_products} />
       <GoodsSection sectionTitle='새로 나왔어요' goodsList={mock_new_products} />
@@ -83,6 +94,11 @@ const Main = () => (
     </FooterContainer>
   </>
 );
+
+const PromotionContainer = styled.div`
+  min-height: 300px;
+  min-width: 1500px;
+`;
 
 const MainContentContainer = styled.div`
   width: 1200px;

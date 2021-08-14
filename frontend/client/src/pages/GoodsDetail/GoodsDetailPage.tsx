@@ -5,7 +5,7 @@ import { useParams } from '@src/lib/CustomRouter';
 import GoodsInfo from './GoodsInfo/GoodsInfo';
 import GoodsInteractive from './GoodsInteractive/GoodsInteractive';
 import GoodsImageSection from './GoodsImageSection/GoodsImageSection';
-import GoodsRelationList from '@src/pages/GoodsDetail/GoodsRelationList/GoodsRelationList';
+import GoodsSection from '@src/components/GoodsSection/GoodsSection';
 
 const mockImagePath =
   'https://user-images.githubusercontent.com/20085849/128860803-24b0e9a7-1482-4ca6-9a8c-ba30e7271e7a.jpeg';
@@ -28,6 +28,7 @@ const mock_products: DetailGoods[] = [
     imgs: TMP_IMAGES,
     deliveryDetail: '',
     deliveryFee: 0,
+    discountRate: 0,
   },
   {
     id: 2,
@@ -40,6 +41,7 @@ const mock_products: DetailGoods[] = [
     imgs: TMP_IMAGES,
     deliveryDetail: '',
     deliveryFee: 0,
+    discountRate: 0,
   },
   {
     id: 3,
@@ -52,62 +54,13 @@ const mock_products: DetailGoods[] = [
     imgs: TMP_IMAGES,
     deliveryDetail: '',
     deliveryFee: 0,
-  },
-  {
-    id: 4,
-    thumbnailImg: mockImagePath,
-    title: '맥쥬짠4',
-    price: 10000,
-    isNew: true,
-    isGreen: true,
-    isBest: true,
-    imgs: TMP_IMAGES,
-    deliveryDetail: '',
-    deliveryFee: 0,
-  },
-  {
-    id: 5,
-    thumbnailImg: mockImagePath,
-    title: '맥쥬짠5',
-    price: 10000,
-    isNew: true,
-    isGreen: true,
-    isBest: true,
-    imgs: TMP_IMAGES,
-    deliveryDetail: '',
-    deliveryFee: 0,
-  },
-  {
-    id: 6,
-    thumbnailImg: mockImagePath,
-    title: '맥쥬짠6',
-    price: 10000,
-    isNew: true,
-    isGreen: true,
-    isBest: true,
-    imgs: TMP_IMAGES,
-    deliveryDetail: '',
-    deliveryFee: 0,
-  },
-  {
-    id: 7,
-    thumbnailImg: mockImagePath,
-    title: '맥쥬짠7',
-    price: 10000,
-    isNew: true,
-    isGreen: true,
-    isBest: true,
-    imgs: TMP_IMAGES,
-    deliveryDetail: '',
-    deliveryFee: 0,
+    discountRate: 0,
   },
 ];
 
-const GoodsDetailPage = () => {
-  // TODO: 작업 후 주석 해제
-  // const [goods, setGoods] = useState<DetailGoods | null>(null);
+const RelationSectionTitle = '연관 검색어';
 
-  // TODO: API 연동 후 삭제
+const GoodsDetailPage = () => {
   const [goods, setGoods] = useState<DetailGoods | null>({
     id: 1,
     title: '플리츠마마X배달의민족. 텀블러백',
@@ -120,51 +73,29 @@ const GoodsDetailPage = () => {
   });
 
   const { id } = useParams();
-  useEffect(() => {
-    // TODO: 작업 후 주석 해제
-    // const idAsNumber = Number(id);
 
-    // TODO: API 연동 후 삭제
-    const idAsNumber = Number(3);
+  useEffect(() => {
+    const idAsNumber = Number(id);
 
     if (isNaN(idAsNumber)) {
       throw new Error('올바르지 않은 상품 id입니다.');
     }
-
-    // TODO: change realapi
-    const content: DetailGoods = {
-      id: idAsNumber,
-      title: '플리츠마마X배달의민족. 텀블러백',
-      price: 49000,
-      discountRate: 50,
-      deliveryFee: 2500,
-      deliveryDetail: '오후 2시 당일배송마감',
-      isWished: false,
-      imgs: TMP_IMAGES,
-    };
-    setGoods(content);
+    // TODO: API에서 업데이트 받아서 정보 변경
+    // setGoods(content);
   }, []);
 
   return (
     <GoodsDetailContainer>
-      {/* TODO: more components */}
       {goods && (
         <GoodsMainContainer>
           {goods.imgs && <GoodsImageSection imgs={goods.imgs} />}
           <GoodsContentContainer>
-            <GoodsInfo
-              title={goods.title}
-              price={goods.price}
-              discountRate={goods.discountRate ?? 0}
-              deliveryFee={goods.deliveryFee}
-              deliveryDetail={goods.deliveryDetail}
-              isWished={goods.isWished ?? false}
-            ></GoodsInfo>
-            <GoodsInteractive {...goods} />
+            <GoodsInfo goods={goods}></GoodsInfo>
+            <GoodsInteractive goods={goods} />
           </GoodsContentContainer>
         </GoodsMainContainer>
       )}
-      <GoodsRelationList goodsList={mock_products} />
+      <GoodsSection sectionTitle={RelationSectionTitle} goodsList={mock_products}></GoodsSection>
     </GoodsDetailContainer>
   );
 };

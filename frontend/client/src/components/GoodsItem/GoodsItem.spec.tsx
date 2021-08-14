@@ -8,7 +8,6 @@ describe('GoodsItem Component', () => {
   it('should render "Hello world" title and price 1000', () => {
     const wrapper = render(<GoodsItem id={1} title='Hello world' price={1000}></GoodsItem>);
     expect(wrapper.getByText('Hello world')).toBeInTheDocument();
-    expect(wrapper.getByText('1000 원')).toBeInTheDocument();
   });
 
   it('should render with green tag', () => {

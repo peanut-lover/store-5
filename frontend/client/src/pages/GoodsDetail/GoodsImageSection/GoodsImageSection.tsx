@@ -7,7 +7,7 @@ interface Props {
   imgs: string[];
 }
 
-const GoodsImageSectionContainer = ({ imgs }: Props) => {
+const GoodsImageSectionContainer: React.FC<Props> = ({ imgs }) => {
   const [active, setActive] = useState(0);
   return (
     <GoodsImageContainer>

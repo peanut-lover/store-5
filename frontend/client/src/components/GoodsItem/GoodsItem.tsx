@@ -1,10 +1,13 @@
 import { usePushHistory } from '@src/lib/CustomRouter';
 import React from 'react';
 import styled from 'styled-components';
-import { BsHeartFill, BsHeart, BsFillBucketFill } from 'react-icons/bs';
+import { BsHeart, BsFillBucketFill } from 'react-icons/bs';
 import { BestTag, GreenTag, NewTag, SaleTag } from '../Tag';
 import { useCallback } from 'react';
 import { useState } from 'react';
+import { getPriceText } from '@src/utils/price';
+
+type GoodsItemSizeMode = 'small' | 'middle';
 
 interface Props {
   id: number;
@@ -16,6 +19,7 @@ interface Props {
   isNew?: boolean;
   isSale?: boolean;
   discountRate?: number;
+  mode?: GoodsItemSizeMode;
 }
 
 const GoodsItem: React.FC<Props> = ({
@@ -28,6 +32,7 @@ const GoodsItem: React.FC<Props> = ({
   isGreen = false,
   isSale = false,
   discountRate = 0,
+  mode = 'middle',
 }) => {
   const push = usePushHistory();
   const handleClickGoodsItem = (e: React.MouseEvent) => {
@@ -54,24 +59,21 @@ const GoodsItem: React.FC<Props> = ({
       <GoodsImageContainer onMouseEnter={handleOnMouseEnter} onMouseLeave={handleOnMouseLeave}>
         {thumbnailImg ? <GoodsImage src={thumbnailImg} /> : <GoodsEmptyImage />}
 
-        {isHoverGoodsImage && (
-          <>
-            <GoodsImageOverlay />
-            <GoodsUtilBtnContainer>
-              <GoodsUtilBtn>
-                <BsHeart />
-              </GoodsUtilBtn>
-              <GoodsUtilBtn>
-                <BsFillBucketFill />
-              </GoodsUtilBtn>
-            </GoodsUtilBtnContainer>
-          </>
-        )}
+        {isHoverGoodsImage && <></>}
+        <GoodsImageOverlay />
+        <GoodsUtilBtnContainer>
+          <GoodsUtilBtn>
+            <BsHeart size={20} />
+          </GoodsUtilBtn>
+          <GoodsUtilBtn>
+            <BsFillBucketFill size={20} />
+          </GoodsUtilBtn>
+        </GoodsUtilBtnContainer>
       </GoodsImageContainer>
 
       {discountRate && discountRate > 0 ? <GoodsDiscountLabel> {discountRate} % </GoodsDiscountLabel> : ''}
       <GoodsTitle>{title}</GoodsTitle>
-      <GoodsPriceLabel>{price} 원</GoodsPriceLabel>
+      <GoodsPriceLabel>{getPriceText(price)} 원</GoodsPriceLabel>
     </GoodsItemContainer>
   );
 };
@@ -83,6 +85,7 @@ const TagContainer = styled.div`
   top: 0;
   padding: 15px;
   width: 100%;
+  pointer-events: none;
   z-index: 1;
   & > *:not(:last-child) {
     margin-right: 10px;
@@ -116,10 +119,11 @@ const GoodsEmptyImage = styled.div<GoodsEmptyImageProps>`
 
 const GoodsImageContainer = styled.div`
   position: relative;
-  width: 100%;
+  width: 280px;
   height: 350px;
   overflow: hidden;
   border-radius: 8px;
+  cursor: pointer;
 `;
 
 const GoodsImageOverlay = styled.div`
@@ -129,7 +133,11 @@ const GoodsImageOverlay = styled.div`
   pointer-events: none;
   width: 100%;
   height: 350px;
-  opacity: 1;
+  opacity: 0;
+
+  ${GoodsImageContainer}:hover & {
+    opacity: 1;
+  }
   transition: opacity 300ms ease;
   background: linear-gradient(
     180deg,
@@ -160,7 +168,7 @@ const GoodsImage = styled.img`
   filter: blur(1px);
   -webkit-filter: blur(1px);
 
-  &:hover {
+  ${GoodsImageContainer}:hover & {
     opacity: 1;
     transform: scale(1.1);
     filter: blur(0px);
@@ -188,19 +196,14 @@ const GoodsUtilBtnContainer = styled.div`
   display: flex;
   justify-content: center;
   position: absolute;
-  bottom: 0px;
+  bottom: -50px;
   left: 50%;
-  transform: translate(-50%, -10px);
-  animation-name: springEffect;
-  animation-duration: 0.5s;
-  @keyframes springEffect {
-    from {
-      transform: translate(-50%, 0);
-    }
+  height: 50px;
+  transform: translate(-50%, 0px);
+  transition: transform 0.5s;
 
-    to {
-      transform: translate(-50%, -10px);
-    }
+  ${GoodsImageContainer}:hover & {
+    transform: translate(-50%, -50px);
   }
 `;
 
@@ -213,7 +216,8 @@ const GoodsUtilBtn = styled.button`
   align-items: center;
   border: none;
   background-color: white;
-  margin-right: 3px;
+  margin-right: 5px;
+  cursor: pointer;
 `;
 
 const GoodsTitle = styled.strong`
