@@ -1,21 +1,14 @@
+import { GoodsImg } from './GoodsImg';
 import {
   Column,
   CreateDateColumn,
   Entity,
-<<<<<<< HEAD
   JoinColumn,
-  ManyToOne,
-  PrimaryGeneratedColumn,
-  UpdateDateColumn,
-} from 'typeorm';
-=======
   ManyToOne,
   OneToMany,
   PrimaryGeneratedColumn,
   UpdateDateColumn,
 } from 'typeorm';
-import { Cart } from './Cart';
->>>>>>> b810f5b (add: Create Sub 카테고리)
 import { Category } from './Category';
 import { DeliveryInfo } from './DeliveryInfo';
 
@@ -69,9 +62,7 @@ export class Goods {
   // @Column({ type: 'int' })
   @JoinColumn()
   deliveryInfo: number;
-  // categoryId!: number;
 
-  // @ManyToOne(() => DeliveryInfo, (deliveryInfo) => deliveryInfo.id)
-  // @Column({ type: 'int' })
-  // deliveryInfoId!: number;
+  @OneToMany(() => GoodsImg, (goodsImg) => goodsImg.goods)
+  goodsImgs: GoodsImg[];
 }

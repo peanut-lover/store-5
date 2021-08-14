@@ -20,18 +20,10 @@ async function createSubCategory(parentId: number, name: string) {
   try {
     await createCategory(name);
     const categoryRepo = getRepository(Category);
-    // const category = await categoryRepo.create({ name,
-    // categories: parentId
-    // });
-  } catch (err) {
-    console.error(err);
-    throw new DatabaseError(CATEGORY_DB_ERROR);
-  }
-}
-
-async function getAllCategory() {
-  try {
-    const result = await getRepository(Category).find({});
+    const category = await categoryRepo.create({ name, parent: parentId });
+    const res = await categoryRepo.insert(category);
+    if (!res) throw new Error();
+    return res.identifiers;
   } catch (err) {
     console.error(err);
     throw new DatabaseError(CATEGORY_DB_ERROR);
@@ -52,7 +44,6 @@ async function getCategoryByName(name: string) {
 async function getAllCategories() {
   try {
     const categoryRepo = getRepository(Category);
-
     const categories = await categoryRepo.find();
     const result = new Map();
     categories.forEach((category) => {
@@ -74,6 +65,7 @@ async function getAllCategories() {
 
 export const CategoryRepository = {
   createCategory,
+  createSubCategory,
   getCategoryByName,
   getAllCategories,
 };
