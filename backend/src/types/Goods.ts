@@ -11,10 +11,10 @@ export interface FindAllCategoryProps {
 }
 
 export interface GetAllByCategoryProps {
-  category: string;
-  page: string;
+  category: number;
+  page: number;
   flag: string;
-  limit: string;
+  limit: number;
   state: string;
   userId: number;
 }
