@@ -4,7 +4,7 @@ import { Session } from 'express-session';
 import { githubConfig } from '../config';
 import { INVALID_ACCESS } from '../constants/client-error-name';
 import { User } from '../entity/User';
-import { BadRequestError } from '../errors/client.error';
+import { BadRequestError, NotFoundError } from '../errors/client.error';
 import { UserRepository } from '../repository/user.repository';
 import removeBlank from '../utils/remove-blank';
 import { URLSearchParams } from 'url';
@@ -71,6 +71,17 @@ async function createAddress(userId: number, body: AddressBody) {
   return await UserAddressRepository.createAddress(1, body);
 }
 
+async function deleteAddress(userId: number, addressId: number) {
+  await isMineAddress(1, addressId);
+  return await UserAddressRepository.deleteAddress(addressId);
+}
+
+async function isMineAddress(userId: number, addressId: number): Promise<boolean> {
+  const address = await UserAddressRepository.getAddressByIds(userId, addressId);
+  if (address) return true;
+  throw new NotFoundError(INVALID_ACCESS);
+}
+
 export const AuthService = {
   signInGithub,
   getUserName,
@@ -78,4 +89,5 @@ export const AuthService = {
   validateForLogout,
   getAddresses,
   createAddress,
+  deleteAddress,
 };

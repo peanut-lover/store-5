@@ -4,11 +4,20 @@ import { AddressBody } from './../types/request/auth.request';
 import { UserAddress } from './../entity/UserAddress';
 import { getConnection, getRepository } from 'typeorm';
 
+async function getAddressByIds(userId: number, addressId: number): Promise<UserAddress | undefined> {
+  try {
+    const addressRepo = getRepository(UserAddress);
+    return await addressRepo.findOne({ where: { id: addressId, user: userId } });
+  } catch (err) {
+    console.error(err);
+    throw new DatabaseError(USER_ADDRESS_DB_ERROR);
+  }
+}
+
 async function getAddressesById(id: number) {
   try {
-    const userRepo = getRepository(UserAddress);
-    const result = await userRepo.find({});
-    return result;
+    const addressRepo = getRepository(UserAddress);
+    return await addressRepo.find({});
   } catch (err) {
     console.error(err);
     throw new DatabaseError(USER_ADDRESS_DB_ERROR);
@@ -17,9 +26,9 @@ async function getAddressesById(id: number) {
 
 async function createAddress(id: number, body: AddressBody) {
   try {
-    const userRepo = getRepository(UserAddress);
-    const address = await userRepo.create({ user: id, ...body });
-    const result = await userRepo.insert(address);
+    const addressRepo = getRepository(UserAddress);
+    const address = await addressRepo.create({ user: id, ...body });
+    const result = await addressRepo.insert(address);
     return result;
   } catch (err) {
     console.error(err);
@@ -40,12 +49,23 @@ async function createDefaultAddress(id: number, body: AddressBody) {
   }
 }
 
-// async function deleteAddress(params: type) {}
+async function deleteAddress(id: number) {
+  try {
+    const addressRepo = getRepository(UserAddress);
+    return await addressRepo.delete({ id });
+  } catch (err) {
+    console.error(err);
+    throw new DatabaseError(USER_ADDRESS_DB_ERROR);
+  }
+}
 
-// async function updateAddress(params: type) {}
+async function updateAddress() {}
 
 export const UserAddressRepository = {
+  getAddressByIds,
   getAddressesById,
   createAddress,
   createDefaultAddress,
+  deleteAddress,
+  updateAddress,
 };

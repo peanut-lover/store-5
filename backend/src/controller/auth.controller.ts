@@ -44,6 +44,17 @@ async function createAddress(req: CreateAddressRequest, res: Response) {
   const result = await AuthService.createAddress(1, req.body);
 }
 
+async function deleteAddress(req: Request, res: Response) {
+  const userId = req.userId;
+  const addressId = req.params.id;
+  await AuthService.deleteAddress(userId, +addressId);
+  res.sendStatus(204);
+}
+
+async function updateAddress(req: Request, res: Response) {
+  console.log('hihi');
+}
+
 export const AuthController = {
   checkLoggedIn,
   getSampleLogin,
@@ -51,4 +62,6 @@ export const AuthController = {
   logout,
   getAddresses,
   createAddress,
+  deleteAddress,
+  updateAddress,
 };
