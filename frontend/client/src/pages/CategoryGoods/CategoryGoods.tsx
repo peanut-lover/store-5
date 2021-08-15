@@ -1,7 +1,6 @@
-import { useParams } from '@src/lib/CustomRouter';
-import styled from 'styled-components';
 import React from 'react';
-import CategoryNavigator from '@src/pages/CategoryGoods/CategoryNavigator/CategoryNavigator';
+import styled from 'styled-components';
+import { useParams } from '@src/lib/CustomRouter';
 import CategoryGoodsList from '@src/pages/CategoryGoods/CategoryGoodsList/CategoryGoodsList';
 
 const appendQuotationMarks = (text: string) => `"${text}"`;
@@ -13,9 +12,6 @@ const CategoryGoods = () => {
       <CategoryClassificationLabel>{`상위카테고리 > ${category}`}</CategoryClassificationLabel>
       <CategoryTitle>{appendQuotationMarks(category)}</CategoryTitle>
       <CategoryContentContainer>
-        <CategoryContentNav>
-          <CategoryNavigator />
-        </CategoryContentNav>
         <CategoryContentMain>
           <CategoryGoodsList category={category} />
         </CategoryContentMain>
@@ -43,12 +39,10 @@ const CategoryTitle = styled.h1`
   margin: 2rem 0px;
 `;
 
-const CategoryContentContainer = styled.main`
+const CategoryContentContainer = styled.div`
   display: flex;
-`;
-
-const CategoryContentNav = styled.nav`
-  width: 300px;
+  width: 100%;
+  justify-content: space-around;
 `;
 
 const CategoryContentMain = styled.main`
