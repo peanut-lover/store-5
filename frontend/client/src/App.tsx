@@ -6,6 +6,7 @@ import Order from './pages/Order/OrderPage';
 import Main from './pages/Main/Main';
 import Header from '@src/components/Header/Header';
 import Goods from './pages/GoodsDetail/GoodsDetailPage';
+import MyPage from './pages/MyPage/MyPage';
 
 export default function App() {
   return (
@@ -24,6 +25,9 @@ export default function App() {
           </Route>
           <Route path='/detail/:id'>
             <Goods />
+          </Route>
+          <Route path='/mypage'>
+            <MyPage />
           </Route>
         </Routes>
       </Router>
