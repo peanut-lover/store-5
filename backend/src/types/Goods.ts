@@ -16,5 +16,5 @@ export interface GetAllByCategoryProps {
   flag: string;
   limit: number;
   state: string;
-  userId: number;
+  userId?: number;
 }

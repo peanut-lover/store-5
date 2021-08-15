@@ -26,13 +26,13 @@ async function getAllByCategoryInSalesState({
   const totalCount = await GoodsRepository.findTotalCountByCategory(category);
   page = Math.min(getTotalPage(totalCount, limit), page);
   const option: FindAllCategoryProps = setAllByCategoryOption(category, page, limit, flag);
-  const wishSet = new Set(await WishRepository.findWishByUserId(userId));
+  const wishSet = userId && new Set(await WishRepository.findWishByUserId(userId));
   const goodsSellCountAverage = await GoodsRepository.findSellCountAverage();
   const goodsList = await GoodsRepository.findAllByCategory(option);
   if (!goodsList) throw new BadRequestError(GOODS_DB_ERROR);
 
   goodsList.forEach((goods) => {
-    goods.isWish = wishSet.has(goods.id);
+    if (wishSet) goods.isWish = wishSet.has(goods.id);
     goods.isBest = goodsSellCountAverage < goods.countOfSell;
     goods.isNew = checkNewGoods(goods.createdAt);
   });
