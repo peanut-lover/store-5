@@ -8,4 +8,5 @@ router.get('/check', wrapAsync(AuthController.checkLoggedIn));
 router.get('/sample', AuthController.getSampleLogin);
 router.post('/logout', wrapAsync(AuthController.logout));
 router.get('/github/callback', wrapAsync(AuthController.getOAuthGitHubCb));
+
 export default router;

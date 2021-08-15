@@ -1,4 +1,9 @@
 export class ApplicationError extends Error {
+  constructor(message: string) {
+    const trueProto = new.target.prototype;
+    super(message);
+    Object.setPrototypeOf(this, trueProto);
+  }
   get name() {
     return this.constructor.name;
   }

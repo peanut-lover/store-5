@@ -43,5 +43,5 @@ export class UserAddress {
 
   @ManyToOne(() => User, (user) => user.id)
   @JoinColumn()
-  user: User;
+  user: number;
 }

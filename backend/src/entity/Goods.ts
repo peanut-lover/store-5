@@ -1,9 +1,11 @@
+import { GoodsImg } from './GoodsImg';
 import {
   Column,
   CreateDateColumn,
   Entity,
   JoinColumn,
   ManyToOne,
+  OneToMany,
   PrimaryGeneratedColumn,
   UpdateDateColumn,
 } from 'typeorm';
@@ -30,13 +32,13 @@ export class Goods {
   @Column({ type: 'int' })
   discountRate: number;
 
-  @Column({ type: 'int', nullable: true })
+  @Column({ type: 'int' })
   countOfSell: number;
 
   @Column({ type: 'varchar', length: 5 })
   state: string;
 
-  @Column({ type: 'boolean', default: false })
+  @Column({ type: 'boolean' })
   isGreen: boolean;
 
   @CreateDateColumn({ type: 'timestamp' })
@@ -54,9 +56,7 @@ export class Goods {
   // @Column({ type: 'int' })
   @JoinColumn()
   deliveryInfo: number;
-  // categoryId!: number;
 
-  // @ManyToOne(() => DeliveryInfo, (deliveryInfo) => deliveryInfo.id)
-  // @Column({ type: 'int' })
-  // deliveryInfoId!: number;
+  @OneToMany(() => GoodsImg, (goodsImg) => goodsImg.goods)
+  goodsImgs: GoodsImg[];
 }

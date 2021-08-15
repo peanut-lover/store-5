@@ -24,22 +24,22 @@ async function signInGithub(code: string): Promise<number> {
     },
   });
 
-  user = await UserRepository.findByGitHubId({ githubId: id });
+  user = await UserRepository.findByGitHubId(id);
 
   if (!user) {
-    user = (await UserRepository.create({ githubId: `${id}`, name: removeBlank(name) })) as User;
+    user = await UserRepository.create(id, removeBlank(name));
   }
 
   return user.id;
 }
 
-async function getUserName(userId: number) {
-  const user = await UserRepository.findById({ id: userId });
+async function getUserName(userId: number): Promise<string | null> {
+  const user = await UserRepository.findById(userId);
   const name = user ? user.name : null;
   return name;
 }
 
-async function logout(session: Session) {
+async function logout(session: Session): Promise<void> {
   if (session) {
     session.destroy(() => {});
   } else {
@@ -47,9 +47,9 @@ async function logout(session: Session) {
   }
 }
 
-async function validateForLogout(userId: SessionUserId) {
+async function validateForLogout(userId: SessionUserId): Promise<void> {
   if (userId) {
-    const user = await UserRepository.findById({ id: +userId });
+    const user = await UserRepository.findById(+userId);
     if (!user) {
       throw new BadRequestError(INVALID_ACCESS);
     }
