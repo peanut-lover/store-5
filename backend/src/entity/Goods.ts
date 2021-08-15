@@ -33,16 +33,16 @@ export class Goods {
   discountRate: number;
 
   @Column({ type: 'int' })
-  countOfSell!: number;
+  countOfSell: number;
 
   @Column({ type: 'int' })
-  state!: number;
+  state: number;
 
   @Column({ type: 'boolean' })
-  isGreen!: boolean;
+  isGreen: boolean;
 
   @CreateDateColumn({ name: 'created_at', type: 'timestamp' })
-  createdAt!: Date;
+  createdAt: Date;
 
   @UpdateDateColumn({ type: 'timestamp' })
   updatedAt: Date;
