@@ -1,14 +1,15 @@
+import { CreateUserAddressResponse, UserAddressesResponse } from './../types/response/user.response';
 import { UserAddressService } from '../service/user.address.service';
 import { Request, Response } from 'express';
-import { CreateAddressRequest } from '../types/request/auth.request';
+import { CreateAddressRequest } from '../types/request/user.request';
 
-async function getAddresses(req: Request, res: Response) {
+async function getAddresses(req: Request, res: UserAddressesResponse) {
   const userId = req.userId;
   const result = await UserAddressService.getAddresses(userId);
   res.status(200).json(result);
 }
 
-async function createAddress(req: CreateAddressRequest, res: Response) {
+async function createAddress(req: CreateAddressRequest, res: CreateUserAddressResponse) {
   const userId = req.userId;
   const result = await UserAddressService.createAddress(userId, req.body);
   res.status(200).json(result);

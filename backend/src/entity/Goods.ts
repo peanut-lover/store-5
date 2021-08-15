@@ -41,12 +41,6 @@ export class Goods {
   @Column({ type: 'boolean' })
   isGreen!: boolean;
 
-  @Column({ type: 'int' })
-  deliveryFee!: number;
-
-  @Column({ type: 'varchar', length: 50 })
-  deliveryContent!: string;
-
   @CreateDateColumn({ name: 'created_at', type: 'timestamp' })
   createdAt!: Date;
 

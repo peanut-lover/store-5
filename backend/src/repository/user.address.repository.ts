@@ -1,8 +1,8 @@
 import { USER_ADDRESS_DB_ERROR } from './../constants/database-error-name';
 import { DatabaseError } from './../errors/base.error';
-import { AddressBody } from './../types/request/auth.request';
 import { UserAddress } from './../entity/UserAddress';
 import { getConnection, getRepository } from 'typeorm';
+import { AddressBody } from '../types/request/user.request';
 
 async function getAddressByIds(userId: number, addressId: number): Promise<UserAddress | undefined> {
   try {
@@ -17,7 +17,11 @@ async function getAddressByIds(userId: number, addressId: number): Promise<UserA
 async function getAddressesById(id: number) {
   try {
     const addressRepo = getRepository(UserAddress);
-    return await addressRepo.find({});
+    return await addressRepo.find({
+      where: {
+        id,
+      },
+    });
   } catch (err) {
     console.error(err);
     throw new DatabaseError(USER_ADDRESS_DB_ERROR);
