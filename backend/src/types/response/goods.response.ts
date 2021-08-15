@@ -6,3 +6,22 @@ export type DetailGoodsResponse = Response &
     goodsImgs: string[] | undefined;
     deliveryInfo: DeliveryInfo;
   };
+
+export interface ListGoodsMetaData {
+  page: number;
+  limit: number;
+  totalPage: number;
+  totalCount: number;
+}
+
+export type ListGoodsType = Goods & {
+  isNew?: boolean;
+  isBest?: boolean;
+  isGreen?: boolean;
+  isWish?: boolean;
+};
+
+export interface ListGoodsResponse {
+  meta?: ListGoodsMetaData;
+  goods?: ListGoodsType[];
+}
