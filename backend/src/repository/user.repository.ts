@@ -31,11 +31,11 @@ async function findById(id: number): Promise<User | undefined> {
 }
 
 // TODO: 응답 값으로 무엇을 줄지 고민 후에 타입을 지정할 예정
-async function create(githubId: string, name: string): Promise<User | undefined> {
+async function create(githubId: string, name: string): Promise<User> {
   try {
     const userRepo = getRepository(User);
     const user = userRepo.create({ githubId, name });
-    const result = await userRepo.insert(user);
+    await userRepo.insert(user);
     return user;
   } catch (err) {
     console.error(err);

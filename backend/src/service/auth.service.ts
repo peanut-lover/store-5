@@ -27,7 +27,7 @@ async function signInGithub(code: string): Promise<number> {
   user = await UserRepository.findByGitHubId(id);
 
   if (!user) {
-    user = (await UserRepository.create(id, removeBlank(name))) as User;
+    user = await UserRepository.create(id, removeBlank(name));
   }
 
   return user.id;
