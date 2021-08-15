@@ -1,14 +1,12 @@
-import { AddressBody } from './../types/request/auth.request';
 import axios from 'axios';
 import { Session } from 'express-session';
 import { githubConfig } from '../config';
 import { INVALID_ACCESS } from '../constants/client-error-name';
 import { User } from '../entity/User';
-import { BadRequestError, NotFoundError } from '../errors/client.error';
+import { BadRequestError } from '../errors/client.error';
 import { UserRepository } from '../repository/user.repository';
 import removeBlank from '../utils/remove-blank';
 import { URLSearchParams } from 'url';
-import { UserAddressRepository } from '../repository/user.address.repository';
 
 type SessionUserId = number | undefined | null;
 
@@ -60,34 +58,9 @@ async function validateForLogout(userId: SessionUserId) {
   }
 }
 
-async function getAddresses(userId: number) {
-  return await UserAddressRepository.getAddressesById(1);
-}
-
-async function createAddress(userId: number, body: AddressBody) {
-  if (body.isDefault) {
-    return await UserAddressRepository.createDefaultAddress(1, body);
-  }
-  return await UserAddressRepository.createAddress(1, body);
-}
-
-async function deleteAddress(userId: number, addressId: number) {
-  await isMineAddress(1, addressId);
-  return await UserAddressRepository.deleteAddress(addressId);
-}
-
-async function isMineAddress(userId: number, addressId: number): Promise<boolean> {
-  const address = await UserAddressRepository.getAddressByIds(userId, addressId);
-  if (address) return true;
-  throw new NotFoundError(INVALID_ACCESS);
-}
-
 export const AuthService = {
   signInGithub,
   getUserName,
   logout,
   validateForLogout,
-  getAddresses,
-  createAddress,
-  deleteAddress,
 };

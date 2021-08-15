@@ -59,7 +59,27 @@ async function deleteAddress(id: number) {
   }
 }
 
-async function updateAddress() {}
+async function updateAddress(userId: number, addressId: number, body: AddressBody) {
+  try {
+    const addressRepo = getRepository(UserAddress);
+    addressRepo.update({ id: addressId, user: userId }, { ...body });
+  } catch (err) {
+    console.error(err);
+    throw new DatabaseError(USER_ADDRESS_DB_ERROR);
+  }
+}
+
+async function updateDefaultAddress(userId: number, addressId: number, body: AddressBody) {
+  try {
+    getConnection().transaction(async (transactionalEntityManager) => {
+      await transactionalEntityManager.update(UserAddress, { user: userId, isDefault: true }, { isDefault: false });
+      await transactionalEntityManager.update(UserAddress, { id: addressId, user: userId }, { ...body });
+    });
+  } catch (err) {
+    console.error(err);
+    throw new DatabaseError(USER_ADDRESS_DB_ERROR);
+  }
+}
 
 export const UserAddressRepository = {
   getAddressByIds,
@@ -68,4 +88,5 @@ export const UserAddressRepository = {
   createDefaultAddress,
   deleteAddress,
   updateAddress,
+  updateDefaultAddress,
 };
