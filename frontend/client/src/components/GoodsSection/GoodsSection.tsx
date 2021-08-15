@@ -20,8 +20,8 @@ const GoodsSection: React.FC<Props> = ({ sectionTitle, goodsList, itemBoxSize = 
 };
 
 const GoodsSectionContainer = styled.div`
-  margin-top: 100px;
-  margin-bottom: 50px;
+  margin-top: 30px;
+  margin-top: 30px;
 `;
 
 const SectionTitle = styled.div`

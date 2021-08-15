@@ -1,5 +1,6 @@
 import { getGoodsByCategory } from '@src/apis/goodsAPI';
 import GoodsSection from '@src/components/GoodsSection/GoodsSection';
+import Paginator from '@src/pages/CategoryGoods/CategoryGoodsList/Paginator';
 import { ThumbnailGoods } from '@src/types/Goods';
 import React, { useEffect, useState } from 'react';
 import styled from 'styled-components';
@@ -22,6 +23,7 @@ const CategoryGoodsList: React.FC<Props> = ({ category }) => {
   return (
     <CategoryGoodsListContainer>
       <GoodsSection goodsList={goodsList} itemBoxSize='middle' />
+      <Paginator totalPage={10} currentPage={2} />
     </CategoryGoodsListContainer>
   );
 };
