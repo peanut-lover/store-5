@@ -3,38 +3,35 @@ import { CATEGORY_DB_ERROR } from '../constants/database-error-name';
 import { Category } from '../entity/Category';
 import { DatabaseError } from '../errors/base.error';
 
-async function createCategory(name: string) {
+async function createCategory(name: string): Promise<Category> {
   try {
     const categoryRepo = getRepository(Category);
     const category = await categoryRepo.create({ name });
-    const result = await categoryRepo.insert(category);
-    if (result.identifiers.length > 0) return category;
-    return null;
+    await categoryRepo.insert(category);
+    return category;
   } catch (err) {
     console.error(err);
     throw new DatabaseError(CATEGORY_DB_ERROR);
   }
 }
 
-async function createSubCategory(parentId: number, name: string) {
+async function createSubCategory(parentId: number, name: string): Promise<Category> {
   try {
     await createCategory(name);
     const categoryRepo = getRepository(Category);
     const category = await categoryRepo.create({ name, parent: parentId });
-    const res = await categoryRepo.insert(category);
-    if (!res) throw new Error();
-    return res.identifiers;
+    await categoryRepo.insert(category);
+    return category;
   } catch (err) {
     console.error(err);
     throw new DatabaseError(CATEGORY_DB_ERROR);
   }
 }
 
-async function getCategoryByName(name: string) {
+async function getCategoryByName(name: string): Promise<Category | undefined> {
   try {
     const categoryRepo = getRepository(Category);
-    const category = await categoryRepo.findOne({ name });
-    return category ? category : null;
+    return await categoryRepo.findOne({ name });
   } catch (err) {
     console.error(err);
     throw new DatabaseError(CATEGORY_DB_ERROR);
