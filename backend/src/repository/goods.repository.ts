@@ -4,6 +4,7 @@ import { DatabaseError } from '../errors/base.error';
 import { Goods } from '../entity/Goods';
 import { CreateGoodsRequest } from '../types/request/goods.request';
 import { FindAllCategoryProps } from '../types/Goods';
+import { TaggedGoodsType } from '../types/response/goods.response';
 
 async function findGoodsDetailById({ id }: { id: number }) {
   try {
@@ -42,7 +43,7 @@ async function findAllByCategory({
   limit,
   order = 'createdAt',
   sort = 'ASC',
-}: FindAllCategoryProps): Promise<Goods[] | undefined> {
+}: FindAllCategoryProps): Promise<TaggedGoodsType[] | undefined> {
   try {
     const goodsRepo = getRepository(Goods);
     const data = await goodsRepo.find({
