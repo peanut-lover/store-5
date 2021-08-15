@@ -10,22 +10,6 @@ export interface FindAllCategoryProps {
   sort: 'ASC' | 'DESC';
 }
 
-// interface PageProps {
-//   page: number;
-//   limit: number;
-//   userId?: number;
-// }
-
-// export type GetAllByCategoryProps = PageProps & {
-//   flag?: string;
-//   category?: number;
-//   state?: string;
-// };
-
-// export type GetAllByKeywordProps = PageProps & {
-//   keyword: string;
-// };
-
 export interface GetAllByCategoryProps {
   category: string;
   page: string;
