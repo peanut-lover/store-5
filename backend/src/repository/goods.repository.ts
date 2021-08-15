@@ -44,17 +44,6 @@ async function findAllByCategory({
 }: FindAllCategoryProps): Promise<Goods[] | undefined> {
   try {
     const goodsRepo = getRepository(Goods);
-    console.log({
-      where: {
-        category,
-        ...where,
-      },
-      skip: offset,
-      take: limit,
-      order: {
-        [order]: sort,
-      },
-    });
     const data = await goodsRepo.find({
       where: {
         category,
@@ -73,11 +62,13 @@ async function findAllByCategory({
   }
 }
 
-async function findTotalCountByCategory(category: string): Promise<number> {
+async function findTotalCountByCategory(category: number): Promise<number> {
   try {
     const goodsRepo = getRepository(Goods);
     const count = await goodsRepo.count({
-      where: category,
+      where: {
+        category,
+      },
     });
     return count;
   } catch (err) {
@@ -86,30 +77,14 @@ async function findTotalCountByCategory(category: string): Promise<number> {
   }
 }
 
-async function findAllByCategoryInLogined({
-  category,
-  where,
-  offset,
-  limit,
-  order = 'createdAt',
-  sort = 'ASC',
-  userId,
-}: FindAllCategoryProps): Promise<Goods[] | undefined> {
+async function findSellCountAverage(): Promise<number> {
   try {
-    const goodsRepo = getRepository(Goods);
+    const result = await getRepository(Goods)
+      .createQueryBuilder('goods')
+      .select('TRUNCATE(AVG(goods.countOfSell), 1)', 'avg')
+      .getRawOne();
 
-    const data = await goodsRepo.find({
-      where: {
-        category,
-        ...where,
-      },
-      skip: offset,
-      take: limit,
-      order: {
-        [order]: sort,
-      },
-    });
-    return data;
+    return result.avg;
   } catch (err) {
     console.error(err);
     throw new DatabaseError(GOODS_DB_ERROR);
@@ -119,6 +94,6 @@ async function findAllByCategoryInLogined({
 export const GoodsRepository = {
   findGoodsDetailById,
   findAllByCategory,
-  findAllByCategoryInLogined,
   findTotalCountByCategory,
+  findSellCountAverage,
 };
