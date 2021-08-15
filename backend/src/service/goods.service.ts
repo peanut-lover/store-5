@@ -4,15 +4,8 @@ import { GoodsRepository } from '../repository/goods.repository';
 import { DetailGoodsResponse } from '../types/response/goods.response';
 import { WishRepository } from '../repository/wish.repository';
 import { FindAllCategoryProps, GetAllByCategoryProps } from '../types/Goods';
-import { ListGoodsResponse } from '../types/response/goods.response';
+import { ListGoodsMetaData, ListGoodsResponse } from '../types/response/goods.response';
 import { pagination } from '../utils/pagination';
-
-interface GoodsListMetaData {
-  page: number;
-  limit: number;
-  totalPage: number;
-  totalCount: number;
-}
 
 async function getDetailById(id: number): Promise<DetailGoodsResponse> {
   const data = await GoodsRepository.findGoodsDetailById({ id });
@@ -22,20 +15,33 @@ async function getDetailById(id: number): Promise<DetailGoodsResponse> {
   return { ...res, goodsImgs: imgs };
 }
 
-async function getAllByCategory({ category, page, flag, limit, state, userId }: GetAllByCategoryProps) {
+async function getAllByCategory({ category, page, flag, limit, state }: GetAllByCategoryProps) {
   const option: FindAllCategoryProps = {
     category: +category,
     offset: pagination.calculateOffset(+page, +limit),
     limit: +limit,
     where: {
       state,
+      stock: MoreThan(0),
     },
     order: getCategoryByFlag(flag) ?? 'createdAt',
     sort: getSortByFlag(flag),
   };
 
-  if (userId) await GoodsRepository.findAllByCategoryInLogined(option);
-  else await GoodsRepository.findAllByCategory(option);
+  const result: ListGoodsResponse = {};
+
+  result.goods = await GoodsRepository.findAllByCategory(option);
+  if (!result.goods) return undefined;
+
+  const totalCount = await GoodsRepository.findTotalCountByCategory(+category);
+  const goodsSellCountAverage = await GoodsRepository.findSellCountAverage();
+
+  result.goods.forEach((goods) => {
+    goods.isBest = goodsSellCountAverage < goods.countOfSell;
+    goods.isNew = checkNewGoods(goods.createdAt);
+  });
+  result.meta = getListGoodsMeta(+page, +limit, totalCount);
+  return undefined;
 }
 
 async function getAllByCategoryInSalesState({
@@ -58,46 +64,21 @@ async function getAllByCategoryInSalesState({
   };
 
   const result: ListGoodsResponse = {};
-  // meta: {
-  //   page:1,
-  //   limit:10
-  //   totalPage:100,
-  //   totalCount: 1600,
-  // },
-  if (userId) result.goods = await GoodsRepository.findAllByCategoryInLogined(option);
-  else result.goods = await GoodsRepository.findAllByCategory(option);
+
+  result.goods = await GoodsRepository.findAllByCategory(option);
   if (!result.goods) return undefined;
 
-  const totalCount = await GoodsRepository.findTotalCountByCategory(category);
+  const totalCount = await GoodsRepository.findTotalCountByCategory(+category);
   const wishSet = new Set(await WishRepository.findWishByUserId(userId));
+  const goodsSellCountAverage = await GoodsRepository.findSellCountAverage();
 
   result.goods.forEach((goods) => {
-    if (wishSet.has(goods.id)) {
-      goods.isWish = true;
-    }
-    console.log(
-      goods.createdAt,
-      new Date(goods.createdAt),
-      (new Date().getTime() - goods.createdAt.getTime()) / 1000 / 60 / 60
-    );
+    goods.isWish = wishSet.has(goods.id);
+    goods.isBest = goodsSellCountAverage < goods.countOfSell;
+    goods.isNew = checkNewGoods(goods.createdAt);
   });
-
-  result.meta = {
-    page: +page,
-    limit: +limit,
-    totalPage: getTotalPage(totalCount, +limit),
-    totalCount,
-  };
-
+  result.meta = getListGoodsMeta(+page, +limit, totalCount);
   return undefined;
-  // return {
-  //   meta,
-  // };
-
-  // return {
-  //   meta,
-  //   goods: goodsList,
-  // };
 }
 
 function getCategoryByFlag(flag: string): keyof Goods {
@@ -106,6 +87,22 @@ function getCategoryByFlag(flag: string): keyof Goods {
 
 function getSortByFlag(flag: string): 'DESC' | 'ASC' {
   return flag === 'high' || flag === 'best' ? 'DESC' : 'ASC';
+}
+
+function checkNewGoods(date: Date): boolean {
+  const DAY_DIVIDE = 1000 / 60 / 60 / 24;
+  const NEW_PRODUCT_BASE_DAY = 7;
+  const nowTime = new Date().getTime();
+  return (nowTime - date.getTime()) / DAY_DIVIDE < NEW_PRODUCT_BASE_DAY;
+}
+
+function getListGoodsMeta(page: number, limit: number, totalCount: number): ListGoodsMetaData {
+  return {
+    page,
+    limit,
+    totalPage: getTotalPage(totalCount, limit),
+    totalCount,
+  };
 }
 
 function getTotalPage(totalCount: number, limit: number): number {
