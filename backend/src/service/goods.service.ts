@@ -2,7 +2,9 @@ import { MoreThan } from 'typeorm';
 import { Goods } from '../entity/Goods';
 import { GoodsRepository } from '../repository/goods.repository';
 import { DetailGoodsResponse } from '../types/response/goods.response';
+import { WishRepository } from '../repository/wish.repository';
 import { FindAllCategoryProps, GetAllByCategoryProps } from '../types/Goods';
+import { ListGoodsResponse } from '../types/response/goods.response';
 import { pagination } from '../utils/pagination';
 
 interface GoodsListMetaData {
@@ -36,7 +38,13 @@ async function getAllByCategory({ category, page, flag, limit, state, userId }: 
   else await GoodsRepository.findAllByCategory(option);
 }
 
-async function getAllByCategoryInSalesState({ category, page, flag, limit, userId }: GetAllByCategoryProps) {
+async function getAllByCategoryInSalesState({
+  category,
+  page,
+  flag,
+  limit,
+  userId,
+}: GetAllByCategoryProps): Promise<ListGoodsResponse | undefined> {
   const option: FindAllCategoryProps = {
     category: +category,
     offset: pagination.calculateOffset(+page, +limit),
@@ -49,8 +57,47 @@ async function getAllByCategoryInSalesState({ category, page, flag, limit, userI
     sort: getSortByFlag(flag),
   };
 
-  if (userId) return await GoodsRepository.findAllByCategoryInLogined(option);
-  else return await GoodsRepository.findAllByCategory(option);
+  const result: ListGoodsResponse = {};
+  // meta: {
+  //   page:1,
+  //   limit:10
+  //   totalPage:100,
+  //   totalCount: 1600,
+  // },
+  if (userId) result.goods = await GoodsRepository.findAllByCategoryInLogined(option);
+  else result.goods = await GoodsRepository.findAllByCategory(option);
+  if (!result.goods) return undefined;
+
+  const totalCount = await GoodsRepository.findTotalCountByCategory(category);
+  const wishSet = new Set(await WishRepository.findWishByUserId(userId));
+
+  result.goods.forEach((goods) => {
+    if (wishSet.has(goods.id)) {
+      goods.isWish = true;
+    }
+    console.log(
+      goods.createdAt,
+      new Date(goods.createdAt),
+      (new Date().getTime() - goods.createdAt.getTime()) / 1000 / 60 / 60
+    );
+  });
+
+  result.meta = {
+    page: +page,
+    limit: +limit,
+    totalPage: getTotalPage(totalCount, +limit),
+    totalCount,
+  };
+
+  return undefined;
+  // return {
+  //   meta,
+  // };
+
+  // return {
+  //   meta,
+  //   goods: goodsList,
+  // };
 }
 
 function getCategoryByFlag(flag: string): keyof Goods {
@@ -59,6 +106,10 @@ function getCategoryByFlag(flag: string): keyof Goods {
 
 function getSortByFlag(flag: string): 'DESC' | 'ASC' {
   return flag === 'high' || flag === 'best' ? 'DESC' : 'ASC';
+}
+
+function getTotalPage(totalCount: number, limit: number): number {
+  return Math.ceil(totalCount / limit);
 }
 
 export const GoodsService = {
