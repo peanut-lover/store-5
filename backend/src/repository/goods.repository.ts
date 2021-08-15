@@ -73,6 +73,19 @@ async function findAllByCategory({
   }
 }
 
+async function findTotalCountByCategory(category: string): Promise<number> {
+  try {
+    const goodsRepo = getRepository(Goods);
+    const count = await goodsRepo.count({
+      where: category,
+    });
+    return count;
+  } catch (err) {
+    console.error(err);
+    throw new DatabaseError(GOODS_DB_ERROR);
+  }
+}
+
 async function findAllByCategoryInLogined({
   category,
   where,
@@ -88,18 +101,14 @@ async function findAllByCategoryInLogined({
     const data = await goodsRepo.find({
       where: {
         category,
-        userId,
         ...where,
       },
       skip: offset,
       take: limit,
       order: {
         [order]: sort,
-        stock: 'ASC',
       },
-      relations: ['wish'],
     });
-    console.log(data);
     return data;
   } catch (err) {
     console.error(err);
@@ -111,4 +120,5 @@ export const GoodsRepository = {
   findGoodsDetailById,
   findAllByCategory,
   findAllByCategoryInLogined,
+  findTotalCountByCategory,
 };
