@@ -36,6 +36,7 @@ async function createGoods(requestGoods: CreateGoodsRequest) {
 
 async function findAllByCategory({
   category,
+  where,
   offset,
   limit,
   order = 'createdAt',
@@ -47,13 +48,17 @@ async function findAllByCategory({
     const data = await goodsRepo.find({
       where: {
         category,
+        ...where,
       },
       skip: offset,
       take: limit,
       order: {
         [order]: sort,
+        stock: 'ASC',
       },
+      relations: ['goodsImgs'],
     });
+    console.log(data);
     return data;
   } catch (err) {
     console.error(err);

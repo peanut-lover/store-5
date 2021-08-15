@@ -10,9 +10,9 @@ interface PageProps {
 }
 
 type GetAllByCategoryProps = PageProps & {
-  // flag: 'best' | 'low' | 'high';
   flag: string;
   category: number;
+  state?: string;
 };
 
 type GetAllByKeywordProps = PageProps & {
@@ -34,13 +34,31 @@ async function getDetailById(id: number): Promise<DetailGoodsResponse> {
   return { ...res, goodsImgs: imgs };
 }
 
-async function getAllByCategory({ category, page, flag = 'new', limit }: GetAllByCategoryProps) {
+async function getAllByCategory({ category, page, flag = 'new', limit, state }: GetAllByCategoryProps) {
   const option: FindAllCategoryProps = {
     category,
     offset: pagination.calculateOffset(page, limit),
     limit,
+    where: {
+      state,
+    },
     order: getCategoryByFlag(flag) ?? 'createdAt',
-    sort: flag === 'low' ? 'DSC' : 'ASC',
+    sort: getSortByFlag(flag),
+  };
+
+  await GoodsRepository.findAllByCategory(option);
+}
+
+async function getAllByCategoryInSalesState({ category, page, flag = 'new', limit }: GetAllByCategoryProps) {
+  const option: FindAllCategoryProps = {
+    category,
+    where: {
+      state: 'S',
+    },
+    offset: pagination.calculateOffset(page, limit),
+    limit,
+    order: getCategoryByFlag(flag) ?? 'createdAt',
+    sort: getSortByFlag(flag),
   };
 
   await GoodsRepository.findAllByCategory(option);
@@ -50,7 +68,12 @@ function getCategoryByFlag(flag: string): keyof Goods {
   return flag === 'low' || flag === 'high' ? 'price' : 'countOfSell';
 }
 
+function getSortByFlag(flag: string): 'DSC' | 'ASC' {
+  return flag === 'low' ? 'DSC' : 'ASC';
+}
+
 export const GoodsService = {
   getDetailById,
   getAllByCategory,
+  getAllByCategoryInSalesState,
 };
