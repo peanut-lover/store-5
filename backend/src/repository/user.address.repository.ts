@@ -14,12 +14,12 @@ async function getAddressByIds(userId: number, addressId: number): Promise<UserA
   }
 }
 
-async function getAddressesById(id: number): Promise<UserAddress[]> {
+async function getAddressesById(userId: number): Promise<UserAddress[]> {
   try {
     const addressRepo = getRepository(UserAddress);
     return await addressRepo.find({
       where: {
-        user: id,
+        user: userId,
       },
     });
   } catch (err) {
