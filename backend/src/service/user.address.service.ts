@@ -1,13 +1,14 @@
+import { CreateUserAddressResponse, UserAddressesResponse } from './../types/response/user.response';
 import { INVALID_ACCESS } from '../constants/client-error-name';
 import { NotFoundError } from '../errors/client.error';
 import { UserAddressRepository } from '../repository/user.address.repository';
 import { AddressBody } from '../types/request/user.request';
 
-async function getAddresses(userId: number) {
+async function getAddresses(userId: number): Promise<UserAddressesResponse> {
   return await UserAddressRepository.getAddressesById(userId);
 }
 
-async function createAddress(userId: number, body: AddressBody) {
+async function createAddress(userId: number, body: AddressBody): Promise<CreateUserAddressResponse> {
   if (body.isDefault) {
     return await UserAddressRepository.createDefaultAddress(userId, body);
   }

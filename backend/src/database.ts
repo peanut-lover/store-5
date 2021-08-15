@@ -69,5 +69,7 @@ async function createDefaultAddress() {
     isDefault: true,
     amount: 13,
   };
+  const addresses = await UserAddressRepository.getAddressesById(1);
+  if (addresses.length > 0) return;
   await UserAddressRepository.createDefaultAddress(1, body);
 }

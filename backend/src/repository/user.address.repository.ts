@@ -14,12 +14,12 @@ async function getAddressByIds(userId: number, addressId: number): Promise<UserA
   }
 }
 
-async function getAddressesById(id: number) {
+async function getAddressesById(id: number): Promise<UserAddress[]> {
   try {
     const addressRepo = getRepository(UserAddress);
     return await addressRepo.find({
       where: {
-        id,
+        user: id,
       },
     });
   } catch (err) {
@@ -32,8 +32,8 @@ async function createAddress(id: number, body: AddressBody) {
   try {
     const addressRepo = getRepository(UserAddress);
     const address = await addressRepo.create({ user: id, ...body });
-    const result = await addressRepo.insert(address);
-    return result;
+    await addressRepo.insert(address);
+    return address;
   } catch (err) {
     console.error(err);
     throw new DatabaseError(USER_ADDRESS_DB_ERROR);
@@ -42,10 +42,9 @@ async function createAddress(id: number, body: AddressBody) {
 
 async function createDefaultAddress(id: number, body: AddressBody) {
   try {
-    getConnection().transaction(async (transactionalEntityManager) => {
+    return await getConnection().transaction(async (transactionalEntityManager) => {
       await transactionalEntityManager.update(UserAddress, { user: id, isDefault: true }, { isDefault: false });
-      const result = await transactionalEntityManager.save(UserAddress, { ...body, user: id });
-      return result;
+      return await transactionalEntityManager.save(UserAddress, { ...body, user: id });
     });
   } catch (err) {
     console.error(err);
@@ -66,7 +65,7 @@ async function deleteAddress(id: number) {
 async function updateAddress(userId: number, addressId: number, body: AddressBody) {
   try {
     const addressRepo = getRepository(UserAddress);
-    addressRepo.update({ id: addressId, user: userId }, { ...body });
+    await addressRepo.update({ id: addressId, user: userId }, { ...body });
   } catch (err) {
     console.error(err);
     throw new DatabaseError(USER_ADDRESS_DB_ERROR);
