@@ -1,23 +1,9 @@
+import { MoreThan } from 'typeorm';
 import { Goods } from '../entity/Goods';
 import { GoodsRepository } from '../repository/goods.repository';
 import { DetailGoodsResponse } from '../types/response/goods.response';
-import { FindAllCategoryProps } from '../types/Goods';
+import { FindAllCategoryProps, GetAllByCategoryProps } from '../types/Goods';
 import { pagination } from '../utils/pagination';
-
-interface PageProps {
-  page: number;
-  limit: number;
-}
-
-type GetAllByCategoryProps = PageProps & {
-  flag: string;
-  category: number;
-  state?: string;
-};
-
-type GetAllByKeywordProps = PageProps & {
-  keyword: string;
-};
 
 interface GoodsListMetaData {
   page: number;
@@ -34,11 +20,11 @@ async function getDetailById(id: number): Promise<DetailGoodsResponse> {
   return { ...res, goodsImgs: imgs };
 }
 
-async function getAllByCategory({ category, page, flag = 'new', limit, state }: GetAllByCategoryProps) {
+async function getAllByCategory({ category, page, flag, limit, state, userId }: GetAllByCategoryProps) {
   const option: FindAllCategoryProps = {
-    category,
-    offset: pagination.calculateOffset(page, limit),
-    limit,
+    category: +category,
+    offset: pagination.calculateOffset(+page, +limit),
+    limit: +limit,
     where: {
       state,
     },
@@ -46,30 +32,33 @@ async function getAllByCategory({ category, page, flag = 'new', limit, state }: 
     sort: getSortByFlag(flag),
   };
 
-  await GoodsRepository.findAllByCategory(option);
+  if (userId) await GoodsRepository.findAllByCategoryInLogined(option);
+  else await GoodsRepository.findAllByCategory(option);
 }
 
-async function getAllByCategoryInSalesState({ category, page, flag = 'new', limit }: GetAllByCategoryProps) {
+async function getAllByCategoryInSalesState({ category, page, flag, limit, userId }: GetAllByCategoryProps) {
   const option: FindAllCategoryProps = {
-    category,
+    category: +category,
+    offset: pagination.calculateOffset(+page, +limit),
+    limit: +limit,
     where: {
       state: 'S',
+      stock: MoreThan(0),
     },
-    offset: pagination.calculateOffset(page, limit),
-    limit,
     order: getCategoryByFlag(flag) ?? 'createdAt',
     sort: getSortByFlag(flag),
   };
 
-  await GoodsRepository.findAllByCategory(option);
+  if (userId) return await GoodsRepository.findAllByCategoryInLogined(option);
+  else return await GoodsRepository.findAllByCategory(option);
 }
 
 function getCategoryByFlag(flag: string): keyof Goods {
   return flag === 'low' || flag === 'high' ? 'price' : 'countOfSell';
 }
 
-function getSortByFlag(flag: string): 'DSC' | 'ASC' {
-  return flag === 'low' ? 'DSC' : 'ASC';
+function getSortByFlag(flag: string): 'DESC' | 'ASC' {
+  return flag === 'high' || flag === 'best' ? 'DESC' : 'ASC';
 }
 
 export const GoodsService = {
