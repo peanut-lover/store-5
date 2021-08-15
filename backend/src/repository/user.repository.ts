@@ -43,6 +43,16 @@ async function create({ githubId, name }: { githubId: string; name: string }): P
   }
 }
 
+async function getAddressesById(id: number) {
+  const userRepo = getRepository(User);
+}
+
+async function createAddress(id: number, body: Object) {}
+
+// async function deleteAddress(params: type) {}
+
+// async function updateAddress(params: type) {}
+
 export const UserRepository = {
   findByGitHubId,
   findById,

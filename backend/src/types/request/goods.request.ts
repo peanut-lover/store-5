@@ -1,4 +1,5 @@
-export interface CreateGoodsRequest {
+import { Request } from 'express';
+export interface CreateGoodsRequest extends Request {
   title: string;
   category: number;
   // file binary 타입 정의,

@@ -11,7 +11,7 @@ async function findGoodsDetailById({ id }: { id: number }) {
         id,
       },
     });
-    console.log(result);
+    return result;
   } catch (error) {
     console.error(error);
     throw new DatabaseError(GOODS_DB_ERROR);

@@ -1,3 +1,4 @@
+import { AddressBody } from './../types/request/auth.request';
 import axios from 'axios';
 import { Session } from 'express-session';
 import { githubConfig } from '../config';
@@ -7,6 +8,7 @@ import { BadRequestError } from '../errors/client.error';
 import { UserRepository } from '../repository/user.repository';
 import removeBlank from '../utils/remove-blank';
 import { URLSearchParams } from 'url';
+import { UserAddressRepository } from '../repository/user.address.repository';
 
 type SessionUserId = number | undefined | null;
 
@@ -58,9 +60,22 @@ async function validateForLogout(userId: SessionUserId) {
   }
 }
 
+async function getAddresses(userId: number) {
+  return await UserAddressRepository.getAddressesById(1);
+}
+
+async function createAddress(userId: number, body: AddressBody) {
+  if (body.isDefault) {
+    return await UserAddressRepository.createDefaultAddress(1, body);
+  }
+  return await UserAddressRepository.createAddress(1, body);
+}
+
 export const AuthService = {
   signInGithub,
   getUserName,
   logout,
   validateForLogout,
+  getAddresses,
+  createAddress,
 };
