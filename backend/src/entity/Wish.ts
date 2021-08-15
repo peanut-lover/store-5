@@ -24,11 +24,17 @@ export class Wish {
   @UpdateDateColumn({ type: 'timestamp' })
   updatedAt: Date;
 
+  @Column()
+  userId: number;
+
+  @Column()
+  goodsId: number;
+
   @ManyToOne(() => User, (user) => user.id)
-  @JoinColumn()
+  @JoinColumn({ name: 'userId' })
   user: User;
 
   @ManyToOne(() => Goods, (goods) => goods.id)
-  @JoinColumn()
+  @JoinColumn({ name: 'goodsId' })
   goods: Goods;
 }
