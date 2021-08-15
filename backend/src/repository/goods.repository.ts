@@ -3,6 +3,7 @@ import { GOODS_DB_ERROR } from '../constants/database-error-name';
 import { DatabaseError } from '../errors/base.error';
 import { Goods } from '../entity/Goods';
 import { CreateGoodsRequest } from '../types/request/goods.request';
+import { FindAllCategoryProps } from '../types/Goods';
 
 async function findGoodsDetailById({ id }: { id: number }) {
   try {

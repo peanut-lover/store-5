@@ -6,6 +6,8 @@ import { WishRepository } from '../repository/wish.repository';
 import { FindAllCategoryProps, GetAllByCategoryProps } from '../types/Goods';
 import { ListGoodsMetaData, ListGoodsResponse } from '../types/response/goods.response';
 import { pagination } from '../utils/pagination';
+import { BadRequestError } from '../errors/client.error';
+import { GOODS_DB_ERROR } from '../constants/database-error-name';
 
 async function getDetailById(id: number): Promise<DetailGoodsResponse> {
   const data = await GoodsRepository.findGoodsDetailById({ id });
@@ -17,31 +19,32 @@ async function getDetailById(id: number): Promise<DetailGoodsResponse> {
 
 async function getAllByCategory({ category, page, flag, limit, state }: GetAllByCategoryProps) {
   const option: FindAllCategoryProps = {
-    category: +category,
-    offset: pagination.calculateOffset(+page, +limit),
-    limit: +limit,
+    category: category,
+    offset: pagination.calculateOffset(page, limit),
+    limit: limit,
     where: {
       state,
       stock: MoreThan(0),
     },
-    order: getCategoryByFlag(flag) ?? 'createdAt',
+    order: getCategoryByFlag(flag),
     sort: getSortByFlag(flag),
   };
 
   const result: ListGoodsResponse = {};
 
+  const totalCount = await GoodsRepository.findTotalCountByCategory(category);
+  page = Math.min(getTotalPage(totalCount, limit), page);
   result.goods = await GoodsRepository.findAllByCategory(option);
-  if (!result.goods) return undefined;
+  if (!result.goods) throw new BadRequestError(GOODS_DB_ERROR);
 
-  const totalCount = await GoodsRepository.findTotalCountByCategory(+category);
   const goodsSellCountAverage = await GoodsRepository.findSellCountAverage();
 
   result.goods.forEach((goods) => {
     goods.isBest = goodsSellCountAverage < goods.countOfSell;
     goods.isNew = checkNewGoods(goods.createdAt);
   });
-  result.meta = getListGoodsMeta(+page, +limit, totalCount);
-  return undefined;
+  result.meta = getListGoodsMeta(page, limit, totalCount);
+  return result;
 }
 
 async function getAllByCategoryInSalesState({
@@ -52,9 +55,9 @@ async function getAllByCategoryInSalesState({
   userId,
 }: GetAllByCategoryProps): Promise<ListGoodsResponse | undefined> {
   const option: FindAllCategoryProps = {
-    category: +category,
-    offset: pagination.calculateOffset(+page, +limit),
-    limit: +limit,
+    category,
+    offset: pagination.calculateOffset(page, limit),
+    limit,
     where: {
       state: 'S',
       stock: MoreThan(0),
@@ -65,10 +68,11 @@ async function getAllByCategoryInSalesState({
 
   const result: ListGoodsResponse = {};
 
+  const totalCount = await GoodsRepository.findTotalCountByCategory(category);
+  page = Math.min(getTotalPage(totalCount, limit), page);
   result.goods = await GoodsRepository.findAllByCategory(option);
-  if (!result.goods) return undefined;
+  if (!result.goods) throw new BadRequestError(GOODS_DB_ERROR);
 
-  const totalCount = await GoodsRepository.findTotalCountByCategory(+category);
   const wishSet = new Set(await WishRepository.findWishByUserId(userId));
   const goodsSellCountAverage = await GoodsRepository.findSellCountAverage();
 
@@ -77,8 +81,8 @@ async function getAllByCategoryInSalesState({
     goods.isBest = goodsSellCountAverage < goods.countOfSell;
     goods.isNew = checkNewGoods(goods.createdAt);
   });
-  result.meta = getListGoodsMeta(+page, +limit, totalCount);
-  return undefined;
+  result.meta = getListGoodsMeta(page, limit, totalCount);
+  return result;
 }
 
 function getCategoryByFlag(flag: string): keyof Goods {
