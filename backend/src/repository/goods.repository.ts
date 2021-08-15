@@ -44,7 +44,17 @@ async function findAllByCategory({
 }: FindAllCategoryProps): Promise<Goods[] | undefined> {
   try {
     const goodsRepo = getRepository(Goods);
-
+    console.log({
+      where: {
+        category,
+        ...where,
+      },
+      skip: offset,
+      take: limit,
+      order: {
+        [order]: sort,
+      },
+    });
     const data = await goodsRepo.find({
       where: {
         category,
@@ -54,9 +64,40 @@ async function findAllByCategory({
       take: limit,
       order: {
         [order]: sort,
+      },
+    });
+    return data;
+  } catch (err) {
+    console.error(err);
+    throw new DatabaseError(GOODS_DB_ERROR);
+  }
+}
+
+async function findAllByCategoryInLogined({
+  category,
+  where,
+  offset,
+  limit,
+  order = 'createdAt',
+  sort = 'ASC',
+  userId,
+}: FindAllCategoryProps): Promise<Goods[] | undefined> {
+  try {
+    const goodsRepo = getRepository(Goods);
+
+    const data = await goodsRepo.find({
+      where: {
+        category,
+        userId,
+        ...where,
+      },
+      skip: offset,
+      take: limit,
+      order: {
+        [order]: sort,
         stock: 'ASC',
       },
-      relations: ['goodsImgs'],
+      relations: ['wish'],
     });
     console.log(data);
     return data;
@@ -69,4 +110,5 @@ async function findAllByCategory({
 export const GoodsRepository = {
   findGoodsDetailById,
   findAllByCategory,
+  findAllByCategoryInLogined,
 };
