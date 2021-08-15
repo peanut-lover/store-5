@@ -42,12 +42,14 @@ export const Router: React.FC = ({ children }) => {
 
 interface LinkProps {
   to: string;
+  className?: string;
 }
 
-export const Link: React.FC<LinkProps> = ({ to, children }) => {
+export const Link: React.FC<LinkProps> = ({ to, children, className = '' }) => {
   const { push } = useContext(RouterContext);
   return (
     <a
+      className={className}
       href={to}
       onClick={(e) => {
         e.preventDefault();
