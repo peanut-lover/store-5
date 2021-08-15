@@ -35,8 +35,8 @@ export class Goods {
   @Column({ type: 'int' })
   countOfSell: number;
 
-  @Column({ type: 'int' })
-  state: number;
+  @Column({ type: 'varchar', length: 5 })
+  state: string;
 
   @Column({ type: 'boolean' })
   isGreen: boolean;
