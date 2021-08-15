@@ -33,13 +33,13 @@ async function signInGithub(code: string): Promise<number> {
   return user.id;
 }
 
-async function getUserName(userId: number) {
+async function getUserName(userId: number): Promise<string | null> {
   const user = await UserRepository.findById(userId);
   const name = user ? user.name : null;
   return name;
 }
 
-async function logout(session: Session) {
+async function logout(session: Session): Promise<void> {
   if (session) {
     session.destroy(() => {});
   } else {
@@ -47,7 +47,7 @@ async function logout(session: Session) {
   }
 }
 
-async function validateForLogout(userId: SessionUserId) {
+async function validateForLogout(userId: SessionUserId): Promise<void> {
   if (userId) {
     const user = await UserRepository.findById(+userId);
     if (!user) {
