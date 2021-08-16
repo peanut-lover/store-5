@@ -16,8 +16,7 @@ async function findWishByIds(userId: number, goodsId: number): Promise<Wish | un
 async function createWish(userId: number, goodsId: number): Promise<Wish> {
   try {
     const wishRepo = getRepository(Wish);
-  return await wishRepo.save({ userId, goodsId });
-    return wish;
+    return await wishRepo.save({ userId, goodsId });
   } catch (err) {
     console.error(err);
     throw new DatabaseError(WISH_DB_ERROR);
