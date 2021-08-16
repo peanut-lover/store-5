@@ -7,7 +7,7 @@ import { useCallback } from 'react';
 import { useState } from 'react';
 import { getPriceText } from '@src/utils/price';
 
-type GoodsItemSizeMode = 'small' | 'middle';
+export type GoodsItemSize = 'small' | 'middle' | 'big';
 
 interface Props {
   id: number;
@@ -19,7 +19,7 @@ interface Props {
   isNew?: boolean;
   isSale?: boolean;
   discountRate?: number;
-  mode?: GoodsItemSizeMode;
+  itemBoxSize?: GoodsItemSize;
 }
 
 const GoodsItem: React.FC<Props> = ({
@@ -32,7 +32,7 @@ const GoodsItem: React.FC<Props> = ({
   isGreen = false,
   isSale = false,
   discountRate = 0,
-  mode = 'middle',
+  itemBoxSize = 'middle',
 }) => {
   const push = usePushHistory();
   const handleClickGoodsItem = (e: React.MouseEvent) => {
@@ -48,7 +48,7 @@ const GoodsItem: React.FC<Props> = ({
     setIsHoverGoodsImage(false);
   }, []);
   return (
-    <GoodsItemContainer onClick={handleClickGoodsItem}>
+    <GoodsItemContainer onClick={handleClickGoodsItem} size={itemBoxSize}>
       <TagContainer>
         {isBest && <BestTag />}
         {isGreen && <GreenTag />}
@@ -56,7 +56,7 @@ const GoodsItem: React.FC<Props> = ({
         {isSale && <SaleTag />}
       </TagContainer>
 
-      <GoodsImageContainer onMouseEnter={handleOnMouseEnter} onMouseLeave={handleOnMouseLeave}>
+      <GoodsImageContainer onMouseEnter={handleOnMouseEnter} onMouseLeave={handleOnMouseLeave} size={itemBoxSize}>
         {thumbnailImg ? <GoodsImage src={thumbnailImg} /> : <GoodsEmptyImage />}
 
         {isHoverGoodsImage && <></>}
@@ -78,6 +78,18 @@ const GoodsItem: React.FC<Props> = ({
   );
 };
 
+const ItemContainerWidthMap = {
+  big: '300px',
+  middle: '260px',
+  small: '200px',
+};
+
+const ImageContainerHeightMap = {
+  big: '350px',
+  middle: '300px',
+  small: '200px',
+};
+
 const TagContainer = styled.div`
   position: absolute;
   display: flex;
@@ -92,11 +104,15 @@ const TagContainer = styled.div`
   }
 `;
 
-const GoodsItemContainer = styled.div`
+interface GoodsItemContainerProps {
+  size: GoodsItemSize;
+}
+
+const GoodsItemContainer = styled.div<GoodsItemContainerProps>`
   position: relative;
   flex-grow: 0;
   flex-shrink: 0;
-  width: 300px;
+  width: ${(props) => ItemContainerWidthMap[props.size]};
   margin-top: 10px;
   margin-bottom: 10px;
   padding: 10px;
@@ -109,6 +125,7 @@ interface GoodsEmptyImageProps {
     label: string;
   };
 }
+
 const GoodsEmptyImage = styled.div<GoodsEmptyImageProps>`
   width: 100%;
   height: 350px;
@@ -117,10 +134,14 @@ const GoodsEmptyImage = styled.div<GoodsEmptyImageProps>`
   // TODO: add backgrond-img;
 `;
 
-const GoodsImageContainer = styled.div`
+interface GoodsImageContainerProps {
+  size: GoodsItemSize;
+}
+
+const GoodsImageContainer = styled.div<GoodsImageContainerProps>`
   position: relative;
-  width: 280px;
-  height: 350px;
+  width: 100%;
+  height: ${(props) => ImageContainerHeightMap[props.size]};
   overflow: hidden;
   border-radius: 8px;
   cursor: pointer;

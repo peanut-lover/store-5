@@ -85,8 +85,9 @@ const Main = () => (
       <PromotionCarousel promotions={mock_promotions} />
     </PromotionContainer>
     <MainContentContainer>
-      <GoodsSection sectionTitle='잘나가요' goodsList={mock_best_products} />
-      <GoodsSection sectionTitle='새로 나왔어요' goodsList={mock_new_products} />
+      <GoodsSection sectionTitle='잘나가요' goodsList={mock_best_products} itemBoxSize='big' />
+      <GoodsSection sectionTitle='새로 나왔어요' goodsList={mock_new_products} itemBoxSize='big' />
+      <GoodsSection sectionTitle='지금 할인 중' goodsList={mock_new_products} itemBoxSize='big' />
     </MainContentContainer>
     <SideBar goodsList={mock_best_products} />
     <FooterContainer>
