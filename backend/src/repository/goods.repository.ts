@@ -43,8 +43,8 @@ async function findAllByCategory({
   where,
   offset,
   limit,
-  order = 'createdAt',
-  sort = 'ASC',
+  order,
+  sort,
 }: FindAllCategoryProps): Promise<TaggedGoodsType[] | undefined> {
   try {
     const goodsRepo = getRepository(Goods);

@@ -168,11 +168,21 @@ function setAllByCategoryOption(category: number, page: number, limit: number, f
 }
 
 function getCategoryByFlag(flag: string): keyof Goods {
-  return flag === 'low' || flag === 'high' ? 'price' : 'countOfSell';
+  switch (flag) {
+    case 'low':
+    case 'high':
+      return 'price';
+    case 'best':
+      return 'countOfSell';
+    case 'latest':
+      return 'createdAt';
+    default:
+      return 'createdAt';
+  }
 }
 
 function getSortByFlag(flag: string): 'DESC' | 'ASC' {
-  return flag === 'high' || flag === 'best' ? 'DESC' : 'ASC';
+  return flag === 'low' ? 'ASC' : 'DESC';
 }
 
 function checkNewGoods(date: Date): boolean {
