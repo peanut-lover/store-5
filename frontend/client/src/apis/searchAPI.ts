@@ -13,6 +13,7 @@ async function getAutoSearchList(keyword: string): Promise<AutoSearch[] | null> 
     return null;
   } catch (error) {
     console.error(error);
+    // TODO: Fetching Error handling 어떻게 할 것 인지 의논
     return null;
   }
 }
