@@ -5,6 +5,7 @@ import AddressFormCore from '../AddressFormCore/AddressFormCore';
 
 interface Props {
   initialAddress?: AddressCore;
+  disabled?: boolean;
   onSubmit?: (address: AddressCore) => void;
   onCancel?: () => void;
 }
@@ -18,20 +19,25 @@ const defaultAddress: AddressCore = {
   isDefault: false,
 };
 
-const AddressForm: React.FC<Props> = ({ initialAddress, onSubmit, onCancel }) => {
+const AddressForm: React.FC<Props> = ({ initialAddress, onSubmit, onCancel, disabled }) => {
   const [address, setAddress] = useState(initialAddress ?? defaultAddress);
 
   return (
     <>
-      <AddressFormCore address={address} onChangeAddress={setAddress} />
+      <AddressFormCore address={address} onChangeAddress={setAddress} disabled={disabled} />
       <Button
         onClick={() => {
           onSubmit?.(address);
         }}
+        disabled={disabled}
       >
         완료
       </Button>
-      {onCancel && <Button onClick={onCancel}>취소</Button>}
+      {onCancel && (
+        <Button disabled={disabled} onClick={onCancel}>
+          취소
+        </Button>
+      )}
     </>
   );
 };

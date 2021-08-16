@@ -1,3 +1,4 @@
+import { default as PrimaryButton } from '@src/components/Button/Button';
 import CheckButtonWithLabel from '@src/components/CheckButtonWithLabel/CheckButtonWithLabel';
 import Input from '@src/components/Input/Input';
 import { Address } from '@src/types/Address';
@@ -5,52 +6,37 @@ import React from 'react';
 import { useState } from 'react';
 import styled from 'styled-components';
 import AddressCard from './AddressCard/AddressCard';
+import AddressCreateModal from './AddressCreateModal/AddressCreateModal';
+import AddressManageModal from './AddressManageModal/AddressManageModal';
 import AddressSelectModal from './AddressSelectModal/AddressSelectModal';
 
 interface Props {}
 
-const mock: Address[] = [
-  {
-    id: 3,
-    name: '집',
-    receiver: '신어진',
-    zipCode: '1234',
-    address: '대구 광역시 북구',
-    subAddress: '301호',
-    isDefault: true,
-  },
-  {
-    id: 4,
-    name: '회사',
-    receiver: '신어진',
-    zipCode: '12234',
-    address: '대구 광역시 북구',
-    subAddress: '302호',
-    isDefault: false,
-  },
-];
-
 const AddressInfo: React.FC<Props> = ({}) => {
-  const addressList = mock;
-  const selectedAddress = addressList[0]; // 임시적인 처리입니다.
+  const [selectedAddress, setSelectedAddress] = useState<Address | null>(null); // 임시적인 처리입니다. TODO
 
-  const [isSelectModalOpened, setIsSelectModalOpened] = useState(false);
+  const [isModalOpened, setIsModalOpened] = useState(false);
   const toggleIsSelectModalOpened = () => {
-    setIsSelectModalOpened(!isSelectModalOpened);
+    setIsModalOpened(!isModalOpened);
   };
+
+  if (!selectedAddress) {
+    return (
+      <Wrapper>
+        <EmptyWrapper>
+          등록된 배송지가 없습니다.
+          <PrimaryButton onClick={toggleIsSelectModalOpened}>등록하기</PrimaryButton>
+          {isModalOpened && <AddressCreateModal onSelect={setSelectedAddress} onClose={toggleIsSelectModalOpened} />}
+        </EmptyWrapper>
+      </Wrapper>
+    );
+  }
 
   return (
     <Wrapper>
-      {/* TODO: 노데이터 */}
       <AddressCard address={selectedAddress} />
-      {isSelectModalOpened && (
-        <AddressSelectModal
-          addressList={addressList}
-          onSelect={toggleIsSelectModalOpened}
-          onCancel={toggleIsSelectModalOpened}
-        />
-      )}
       <Button onClick={toggleIsSelectModalOpened}>변경</Button>
+      {isModalOpened && <AddressManageModal onSelect={setSelectedAddress} onClose={toggleIsSelectModalOpened} />}
       {/* TODO: 배송메모 input */}
     </Wrapper>
   );
@@ -59,6 +45,13 @@ const AddressInfo: React.FC<Props> = ({}) => {
 const Wrapper = styled.div`
   margin-top: 1rem;
   position: relative;
+`;
+
+const EmptyWrapper = styled.div`
+  display: flex;
+  flex-direction: column;
+  text-align: center;
+  gap: 1rem;
 `;
 
 const Button = styled.button`
