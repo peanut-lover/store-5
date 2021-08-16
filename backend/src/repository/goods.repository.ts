@@ -1,10 +1,11 @@
-import { getRepository } from 'typeorm';
+import { getRepository, Like } from 'typeorm';
 import { GOODS_DB_ERROR } from '../constants/database-error-name';
 import { DatabaseError } from '../errors/base.error';
 import { Goods } from '../entity/Goods';
 import { CreateGoodsRequest } from '../types/request/goods.request';
 import { FindAllCategoryProps } from '../types/Goods';
 import { TaggedGoodsType } from '../types/response/goods.response';
+import { SearchedGoodsFromKeyword } from '../types/response/search.response';
 
 async function findGoodsDetailById({ id }: { id: number }) {
   try {
@@ -93,9 +94,19 @@ async function findSellCountAverage(): Promise<number> {
   }
 }
 
+async function searchGoodsFromKeyword(keyword: string): Promise<SearchedGoodsFromKeyword[]> {
+  const goodsRepo = getRepository(Goods);
+  return await goodsRepo.find({
+    select: ['id', 'thumbnailUrl', 'title'],
+    where: { title: Like(`%${keyword}%`) },
+    take: 5,
+  });
+}
+
 export const GoodsRepository = {
   findGoodsDetailById,
   findAllByCategory,
   findTotalCountByCategory,
   findSellCountAverage,
+  searchGoodsFromKeyword,
 };
