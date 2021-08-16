@@ -1,24 +1,29 @@
 import { ThumbnailGoods } from '@src/types/Goods';
 import { APIResponse } from './base';
-
 interface GoodsByCategoryResult {
   goodsList: ThumbnailGoods[];
 }
-
-export const getGoodsByCategory = async (categoryName: string): Promise<APIResponse<GoodsByCategoryResult>> => {
-  return new Promise((resolve, _) => {
-    resolve({
-      result: {
-        goodsList: mock_new_products,
-      },
-    });
-  });
+const GoodsFlag = {
+  best: 'best',
+  low: 'low',
+  high: 'high',
+  latest: 'latest',
 };
-
+export const getGoodsByCategory = async (
+  categoryName: string,
+  page: number = 1,
+  limit: number = 5,
+  flag: string = GoodsFlag.latest
+): Promise<APIResponse<GoodsByCategoryResult> | boolean> => {
+  const res = await fetch(`/api/goods/category/${categoryName}?page=${page}&flag=${flag}&limit=${limit}`, {
+    method: 'GET',
+    credentials: 'include',
+  });
+  return await res.json();
+};
 // TODO: API 연동시 제거할 코드들
 const mockProductImagePath =
   'https://user-images.githubusercontent.com/20085849/128866958-900ad32a-cd32-4b97-be79-1dbbc9dcb02d.jpeg';
-
 const mock_new_products: ThumbnailGoods[] = [
   {
     id: 1,

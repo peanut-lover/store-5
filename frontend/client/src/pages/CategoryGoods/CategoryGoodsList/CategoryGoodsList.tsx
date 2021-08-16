@@ -13,7 +13,8 @@ const CategoryGoodsList: React.FC<Props> = ({ category }) => {
 
   const fetchGoodsList = async (categoryName: string) => {
     const data = await getGoodsByCategory(categoryName);
-    setGoodsList(data.result.goodsList);
+    console.log(data);
+    // setGoodsList(data.result.goodsList);
   };
 
   useEffect(() => {
