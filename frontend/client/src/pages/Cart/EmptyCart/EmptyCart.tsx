@@ -1,4 +1,4 @@
-import { usePushHistory } from '@src/lib/CustomRouter';
+import { usePushHistory } from '@src/lib/CustomRouter/CustomRouter';
 import React from 'react';
 import styled from 'styled-components';
 import emptyCartImgUrl from './asset/empty-cart.png';

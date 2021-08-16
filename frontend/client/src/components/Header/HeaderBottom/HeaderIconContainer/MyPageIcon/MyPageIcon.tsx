@@ -1,4 +1,4 @@
-import { usePushHistory } from '@src/lib/CustomRouter';
+import { usePushHistory } from '@src/lib/CustomRouter/CustomRouter';
 import LoginModal from '@src/portal/LoginModal/LoginModal';
 import { userState } from '@src/recoil/userState';
 import React, { useCallback, useState } from 'react';

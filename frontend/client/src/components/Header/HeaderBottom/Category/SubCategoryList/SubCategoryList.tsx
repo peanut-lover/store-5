@@ -1,3 +1,4 @@
+import { Link } from '@src/lib/CustomRouter';
 import { debounceClear } from '@src/utils/debounce';
 import React from 'react';
 import styled from 'styled-components';
@@ -12,7 +13,7 @@ const SubCategoryList: React.FC<Props> = ({ list, hovered }) => {
       <SubCategories onMouseEnter={debounceClear}>
         {list[hovered].map((category, i) => (
           <SubCategory key={i}>
-            <SubCategoryLink href='/category'>
+            <SubCategoryLink to={`/category/${category}`}>
               <SubCategoryTitle>{category}</SubCategoryTitle>
             </SubCategoryLink>
           </SubCategory>
@@ -83,7 +84,7 @@ export const SubCategory = styled.li`
   }
 `;
 
-export const SubCategoryLink = styled.a`
+export const SubCategoryLink = styled(Link)`
   color: inherit;
   border: 0px;
   padding: 0px;

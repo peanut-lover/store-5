@@ -7,6 +7,8 @@ import { Promotion } from '@src/types/Promotion';
 import Footer from '@src/components/Footer/Footer';
 import SideBar from './SideBar/SideBar';
 
+import { styled as CustomStyled } from '@src/lib/CustomStyledComponent';
+
 const mockProductImagePath =
   'https://user-images.githubusercontent.com/20085849/128866958-900ad32a-cd32-4b97-be79-1dbbc9dcb02d.jpeg';
 
@@ -85,8 +87,9 @@ const Main = () => (
       <PromotionCarousel promotions={mock_promotions} />
     </PromotionContainer>
     <MainContentContainer>
-      <GoodsSection sectionTitle='잘나가요' goodsList={mock_best_products} />
-      <GoodsSection sectionTitle='새로 나왔어요' goodsList={mock_new_products} />
+      <GoodsSection sectionTitle='잘나가요' goodsList={mock_best_products} itemBoxSize='big' />
+      <GoodsSection sectionTitle='새로 나왔어요' goodsList={mock_new_products} itemBoxSize='big' />
+      <GoodsSection sectionTitle='지금 할인 중' goodsList={mock_new_products} itemBoxSize='big' />
     </MainContentContainer>
     <SideBar goodsList={mock_best_products} />
     <FooterContainer>
@@ -110,6 +113,7 @@ interface FooterContainerProps {
     dustWhite: string;
   };
 }
+
 const FooterContainer = styled.div<FooterContainerProps>`
   width: 100%;
   background-color: ${(props) => props.theme.dustWhite};
