@@ -49,11 +49,9 @@ export class Goods {
 
   @ManyToOne(() => Category, (category) => category.id)
   @JoinColumn()
-  // @Column({ type: 'int' })
   category: number;
 
   @ManyToOne(() => DeliveryInfo, (deliveryInfo) => deliveryInfo.id)
-  // @Column({ type: 'int' })
   @JoinColumn()
   deliveryInfo: number;
 
