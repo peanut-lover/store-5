@@ -6,7 +6,6 @@ import { DatabaseError } from '../errors/base.error';
 async function findWishByIds(userId: number, goodsId: number): Promise<Wish | undefined> {
   try {
     const wishRepo = getRepository(Wish);
-    const tmp = await wishRepo.findOne({ where: { userId, goodsId } });
     return await wishRepo.findOne({ where: { userId, goodsId } });
   } catch (err) {
     console.error(err);
