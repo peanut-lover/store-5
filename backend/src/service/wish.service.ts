@@ -13,7 +13,7 @@ async function deleteWish(userId: number, goodsId: number): Promise<DeleteResult
   return await WishRepository.deleteWish(userId, goodsId);
 }
 
-async function isMineWish(userId: number, goodsId: number): Promise<boolean> {
+async function isMineWish(userId: number, goodsId: number): Promise<void> {
   const wish = await WishRepository.findWishByIds(userId, goodsId);
   if (!wish) throw new NotFoundError(INVALID_ACCESS);
 }
