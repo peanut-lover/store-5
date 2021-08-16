@@ -1,7 +1,37 @@
-import { getRepository } from 'typeorm';
+import { DeleteResult, getRepository } from 'typeorm';
 import { WISH_DB_ERROR } from '../constants/database-error-name';
 import { Wish } from '../entity/Wish';
 import { DatabaseError } from '../errors/base.error';
+
+async function findWishByIds(userId: number, goodsId: number): Promise<Wish | undefined> {
+  try {
+    const wishRepo = getRepository(Wish);
+    return await wishRepo.findOne({ where: { userId, goodsId } });
+  } catch (err) {
+    console.error(err);
+    throw new DatabaseError(WISH_DB_ERROR);
+  }
+}
+
+async function createWish(userId: number, goodsId: number): Promise<Wish> {
+  try {
+    const wishRepo = getRepository(Wish);
+    return await wishRepo.save({ userId, goodsId });
+  } catch (err) {
+    console.error(err);
+    throw new DatabaseError(WISH_DB_ERROR);
+  }
+}
+
+async function deleteWish(userId: number, goodsId: number): Promise<DeleteResult> {
+  try {
+    const wishRepo = getRepository(Wish);
+    return await wishRepo.delete({ userId, goodsId });
+  } catch (err) {
+    console.error(err);
+    throw new DatabaseError(WISH_DB_ERROR);
+  }
+}
 
 async function findWishByUserId(userId: number): Promise<number[]> {
   try {
@@ -20,4 +50,7 @@ async function findWishByUserId(userId: number): Promise<number[]> {
 
 export const WishRepository = {
   findWishByUserId,
+  findWishByIds,
+  createWish,
+  deleteWish,
 };

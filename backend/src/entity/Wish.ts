@@ -15,9 +15,6 @@ export class Wish {
   @PrimaryGeneratedColumn({ type: 'int', unsigned: true })
   id: number;
 
-  @Column({ type: 'int' })
-  amount: number;
-
   @CreateDateColumn({ type: 'timestamp' })
   createdAt: Date;
 
