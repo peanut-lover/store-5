@@ -5,7 +5,8 @@ import wrapAsync from '../utils/wrap-async';
 
 const router = express.Router();
 
-router.get('/category/:categoryName', wrapAsync(GoodsController.getAllGoodsCategory));
+router.get('/category', wrapAsync(GoodsController.getAllGoodsCategory));
+router.get('/keyword', wrapAsync(GoodsController.getAllSaleGoodsByKeyword));
 router.get('/main', wrapAsync(GoodsController.getMainGoodsListMap));
 router.get('/:id', checkNumberInParams, wrapAsync(GoodsController.getGoodsDetail));
 
