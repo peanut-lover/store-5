@@ -32,6 +32,11 @@ server.use(
 
 server.use('/api', router);
 
+// fallback to index.html
+server.get('*', (req, res) => {
+  res.sendFile(path.join(__dirname, '../public/index.html'));
+});
+
 server.use(errorControl);
 
 database().then(() => {
