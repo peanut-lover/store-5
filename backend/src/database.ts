@@ -99,3 +99,7 @@ async function createDefaultAddress() {
   if (addresses.length > 0) return;
   await UserAddressRepository.createDefaultAddress(1, body);
 }
+
+async function createDefaultOrderList() {}
+
+async function createDefaultPayment() {}

@@ -1,13 +1,4 @@
-import {
-  Column,
-  CreateDateColumn,
-  Entity,
-  JoinColumn,
-  ManyToOne,
-  OneToMany,
-  PrimaryGeneratedColumn,
-  UpdateDateColumn,
-} from 'typeorm';
+import { Column, CreateDateColumn, Entity, ManyToOne, PrimaryGeneratedColumn, UpdateDateColumn } from 'typeorm';
 import { OrderItem } from './OrderItem';
 import { Payment } from './Payment';
 import { User } from './User';
@@ -17,8 +8,8 @@ export class OrderList {
   @PrimaryGeneratedColumn({ type: 'int', unsigned: true })
   id: number;
 
-  @Column({ type: 'int' })
-  state: number;
+  @Column({ type: 'varchar', length: 5 })
+  state: string;
 
   @Column({ type: 'varchar', length: 200 })
   orderMemo: string;
@@ -42,10 +33,8 @@ export class OrderList {
   updatedAt: Date;
 
   @ManyToOne(() => Payment, (payment) => payment.id)
-  @JoinColumn()
-  payment: Payment;
+  payment: number;
 
   @ManyToOne(() => User, (user) => user.id)
-  @JoinColumn()
-  user: User;
+  user: number;
 }
