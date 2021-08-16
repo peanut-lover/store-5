@@ -88,6 +88,7 @@ export const Route: React.FC<RouteProps> = ({ children }) => <>{children}</>;
  */
 function compilePath(path: string, exact: boolean) {
   const keys: string[] = [];
+  const queries: string[] = [];
 
   path = path.replace(/:(\w+)/g, (_, key) => {
     keys.push(key);

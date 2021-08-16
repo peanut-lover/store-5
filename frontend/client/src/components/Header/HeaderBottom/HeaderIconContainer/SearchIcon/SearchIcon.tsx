@@ -30,7 +30,7 @@ const SearchIcon = () => {
     <IconContainer ref={searchRef} onClick={handleOpenSearchForm}>
       <BsSearch size='1.5em' />
       <IconTitle>상품검색</IconTitle>
-      {openSearchForm && <SearchContainer onClose={handleCloseSearchForm} />}
+      {openSearchForm && <SearchContainer onClose={() => setOpenSearchForm(false)} />}
     </IconContainer>
   );
 };

@@ -8,6 +8,7 @@ import Main from './pages/Main/Main';
 import Goods from './pages/GoodsDetail/GoodsDetailPage';
 import MyPage from './pages/MyPage/MyPage';
 import CategoryGoods from '@src/pages/CategoryGoods/CategoryGoods';
+import KeywordGoods from './pages/KeywordGoods/KeywordGoods';
 
 export default function App() {
   return (
@@ -32,6 +33,9 @@ export default function App() {
           </Route>
           <Route path='/category/:category'>
             <CategoryGoods />
+          </Route>
+          <Route path='/keyword/:keyword'>
+            <KeywordGoods />
           </Route>
         </Routes>
       </Router>
