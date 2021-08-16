@@ -8,7 +8,7 @@ async function getGoodsDetail(req: Request, res: Response) {
 }
 
 async function getAllGoodsCategory(req: Request, res: Response) {
-  const data = await GoodsService.getAllByCategoryInSalesState(req.goodsListParams);
+  const data = await GoodsService.getAllSaleGoodsByCategory(req.goodsListParams);
   return res.json(data);
 }
 

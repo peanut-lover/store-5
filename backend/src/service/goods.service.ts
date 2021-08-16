@@ -16,7 +16,7 @@ async function getDetailById(id: number): Promise<DetailGoodsResponse> {
   return { ...res, goodsImgs: imgs };
 }
 
-async function getAllByCategoryInSalesState({
+async function getAllSaleGoodsByCategory({
   category,
   page,
   flag,
@@ -121,5 +121,5 @@ function getTotalPage(totalCount: number, limit: number): number {
 export const GoodsService = {
   getDetailById,
   getAllByCategory,
-  getAllByCategoryInSalesState,
+  getAllSaleGoodsByCategory,
 };
