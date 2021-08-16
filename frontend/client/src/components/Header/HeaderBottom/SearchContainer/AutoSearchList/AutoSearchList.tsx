@@ -1,18 +1,20 @@
-import React from 'react';
+import React, { useCallback } from 'react';
 import styled from 'styled-components';
 import { Link } from '@src/lib/CustomRouter/CustomRouter';
+import { AutoSearch } from '@src/types/Search';
+import AutoSearchItem from '@src/components/Header/HeaderBottom/SearchContainer/AutoSearchList/AutoSearchItem/AutoSearchItem';
 
 interface Props {
-  autoSearchList: string[];
-  onAddHistory: (keyword: string) => void;
+  autoSearchList: AutoSearch[];
+  onAddHistory: (keyword: string) => Promise<void>;
 }
 
 const AutoSearchList: React.FC<Props> = ({ autoSearchList, onAddHistory }) => {
   return (
     <AutoSearchListContainer onMouseDown={(e) => e.preventDefault()}>
-      {autoSearchList.map((keyword, i) => (
-        <Link key={i} to={`/goods?keyword=${keyword}`}>
-          <Keyword onClick={() => onAddHistory(keyword)}>{keyword}</Keyword>
+      {autoSearchList.map((item, i) => (
+        <Link key={i} to={`/goods?keyword=${item.title}`}>
+          <AutoSearchItem onAddHistory={onAddHistory} searchedItem={item} />
         </Link>
       ))}
     </AutoSearchListContainer>
@@ -33,15 +35,6 @@ const AutoSearchListContainer = styled.ul`
   border-bottom-left-radius: 12px;
   border-bottom-right-radius: 12px;
   box-shadow: rgb(0 0 0 / 10%) 0px 4px 12px 0px;
-`;
-
-const Keyword = styled.li`
-  margin-bottom: 12px;
-  line-height: 1.5em;
-  cursor: pointer;
-  :hover {
-    background-color: #e6e9e9;
-  }
 `;
 
 export default AutoSearchList;
