@@ -22,11 +22,11 @@ async function getGoodsDetail(req: Request, res: Response) {
 }
 
 async function getAllGoodsCategory(req: Request, res: Response) {
-  const { category, page, flag = GoodsFlag.latest, limit, state = GoodsStateMap.sale } = req.query;
-
+  const { page, flag = GoodsFlag.latest, limit, state = GoodsStateMap.sale } = req.query;
+  const categoryName = String(req.params.categoryName);
   // TODO : 타입 체크
   const GoodsListParams: GetAllByCategoryProps = {
-    categoryName: String(category),
+    categoryName,
     page: Number(page),
     flag: String(flag) as GoodsFlag,
     limit: Number(limit),
@@ -34,10 +34,10 @@ async function getAllGoodsCategory(req: Request, res: Response) {
     userId: req.userId,
   };
 
-  console.log(GoodsListParams);
-
   const data = await GoodsService.getAllSaleGoodsByCategory(GoodsListParams);
-  return res.json(data);
+  return res.json({
+    result: data,
+  });
 }
 
 export const GoodsController = {
