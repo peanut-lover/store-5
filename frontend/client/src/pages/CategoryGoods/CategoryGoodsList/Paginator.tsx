@@ -1,12 +1,14 @@
 import React from 'react';
 import styled from 'styled-components';
 import { BsFillCaretLeftFill, BsFillCaretRightFill } from 'react-icons/bs';
-
+import updateParameterInURL from '@src/utils/updateParameterInURL';
 import { range } from '@src/utils/range';
+import { Link } from '@src/lib/CustomRouter';
 
 interface Props {
   totalPage: number;
   currentPage: number;
+  locationSearch: string;
   rangeOfPage?: number;
   onClickNextPage?: () => void;
   onClickPreviousPage?: () => void;
@@ -16,6 +18,7 @@ const Paginator: React.FC<Props> = ({
   totalPage,
   currentPage,
   rangeOfPage = DEFAULT_PAGE_RANGE,
+  locationSearch,
   onClickNextPage,
   onClickPreviousPage,
 }) => {
@@ -31,7 +34,7 @@ const Paginator: React.FC<Props> = ({
       </PaginationButton>
       <PageList>
         {pages.map((page) => (
-          <PageButton key={page}>{page}</PageButton>
+          <PageButton key={page}><Link to={updateParameterInURL(locationSearch, 'page', String(page))}>{page}</Link></PageButton>
         ))}
       </PageList>
       <PaginationButton onClick={onClickPreviousPage}>
