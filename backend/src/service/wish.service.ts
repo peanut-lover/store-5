@@ -15,8 +15,7 @@ async function deleteWish(userId: number, goodsId: number): Promise<DeleteResult
 
 async function isMineWish(userId: number, goodsId: number): Promise<boolean> {
   const wish = await WishRepository.findWishByIds(userId, goodsId);
-  if (wish) return true;
-  throw new NotFoundError(INVALID_ACCESS);
+  if (!wish) throw new NotFoundError(INVALID_ACCESS);
 }
 
 export default {
