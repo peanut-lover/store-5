@@ -1,13 +1,12 @@
-import React from 'react';
+import React, { useState, useEffect } from 'react';
 import styled from 'styled-components';
-import { ThumbnailGoods } from '@src/types/Goods';
+import { MainGoodsListResult, ThumbnailGoods } from '@src/types/Goods';
 import GoodsSection from '@src/components/GoodsSection/GoodsSection';
 import PromotionCarousel from '@src/components/PromotionCarousel/PromotionCarousel';
 import { Promotion } from '@src/types/Promotion';
 import Footer from '@src/components/Footer/Footer';
 import SideBar from './SideBar/SideBar';
-
-import { styled as CustomStyled } from '@src/lib/CustomStyledComponent';
+import { getMainGoodsListMap } from '@src/apis/goodsAPI';
 
 const mockProductImagePath =
   'https://user-images.githubusercontent.com/20085849/128866958-900ad32a-cd32-4b97-be79-1dbbc9dcb02d.jpeg';
@@ -25,42 +24,6 @@ const mock_best_products: ThumbnailGoods[] = [
   { id: 2, thumbnailImg: mockProductImagePath, title: '맥쥬짠', price: 10000, isNew: true, discountRate: 0 },
   { id: 3, title: 'NoImage 맥쥬짠', price: 10000, isSale: true, discountRate: 20 },
   { id: 4, thumbnailImg: mockProductImagePath, title: '맥쥬짠', price: 10000, discountRate: 0 },
-];
-
-const mock_new_products: ThumbnailGoods[] = [
-  {
-    id: 1,
-    thumbnailImg: mockProductImagePath,
-    title: '맥쥬짠',
-    price: 10000,
-    isNew: true,
-    isGreen: true,
-    isBest: true,
-    discountRate: 0,
-  },
-  {
-    id: 2,
-    thumbnailImg: mockProductImagePath,
-    title: '맥쥬짠',
-    price: 10000,
-    isNew: true,
-    isSale: true,
-    discountRate: 20,
-  },
-  {
-    id: 3,
-    thumbnailImg: mockProductImagePath,
-    title: '맥쥬짠',
-    price: 10000,
-    isNew: true,
-    isSale: true,
-    discountRate: 20,
-  },
-  { id: 4, thumbnailImg: mockProductImagePath, title: '맥쥬짠', price: 10000, isNew: true, discountRate: 0 },
-  { id: 5, thumbnailImg: mockProductImagePath, title: '맥쥬짠', price: 10000, isNew: true, discountRate: 0 },
-  { id: 6, thumbnailImg: mockProductImagePath, title: '맥쥬짠', price: 10000, isNew: true, discountRate: 0 },
-  { id: 7, thumbnailImg: mockProductImagePath, title: '맥쥬짠', price: 10000, isNew: true, discountRate: 0 },
-  { id: 8, thumbnailImg: mockProductImagePath, title: '맥쥬짠', price: 10000, isNew: true, discountRate: 0 },
 ];
 
 const mock_promotions: Promotion[] = [
@@ -81,22 +44,37 @@ const mock_promotions: Promotion[] = [
   },
 ];
 
-const Main = () => (
-  <>
-    <PromotionContainer>
-      <PromotionCarousel promotions={mock_promotions} />
-    </PromotionContainer>
-    <MainContentContainer>
-      <GoodsSection sectionTitle='잘나가요' goodsList={mock_best_products} itemBoxSize='big' />
-      <GoodsSection sectionTitle='새로 나왔어요' goodsList={mock_new_products} itemBoxSize='big' />
-      <GoodsSection sectionTitle='지금 할인 중' goodsList={mock_new_products} itemBoxSize='big' />
-    </MainContentContainer>
-    <SideBar goodsList={mock_best_products} />
-    <FooterContainer>
-      <Footer />
-    </FooterContainer>
-  </>
-);
+const Main = () => {
+  const [mainGoodsListMap, setMainGoodsListMap] = useState<MainGoodsListResult | null>(null);
+
+  const fetchMainGoodsListMap = async () => {
+    const data = await getMainGoodsListMap();
+    setMainGoodsListMap(data.result);
+  };
+
+  useEffect(() => {
+    fetchMainGoodsListMap();
+  }, []);
+
+  return (
+    mainGoodsListMap && (
+      <>
+        <PromotionContainer>
+          <PromotionCarousel promotions={mock_promotions} />
+        </PromotionContainer>
+        <MainContentContainer>
+          <GoodsSection sectionTitle='잘나가요' goodsList={mainGoodsListMap.bestGoodsList} itemBoxSize='big' />
+          <GoodsSection sectionTitle='새로 나왔어요' goodsList={mainGoodsListMap.discountGoodsList} itemBoxSize='big' />
+          <GoodsSection sectionTitle='지금 할인 중' goodsList={mainGoodsListMap.latestGoodsList} itemBoxSize='big' />
+        </MainContentContainer>
+        <SideBar goodsList={mock_best_products} />
+        <FooterContainer>
+          <Footer />
+        </FooterContainer>
+      </>
+    )
+  );
+};
 
 const PromotionContainer = styled.div`
   min-height: 300px;
