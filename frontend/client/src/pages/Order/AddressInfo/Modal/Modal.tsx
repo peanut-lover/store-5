@@ -22,7 +22,7 @@ const Modal: React.FC<Props> = ({ children, title, onClose, disabled }) => {
       >
         <Wrapper>
           <ModalBar title={title} onClickExit={onClose} disabled={disabled} />
-          {children}
+          <Content>{children}</Content>
         </Wrapper>
       </ModalDim>
     </Portal>
@@ -51,6 +51,13 @@ const Wrapper = styled.div`
   margin: auto;
   background-color: white;
   overflow: hidden;
+`;
+
+const Content = styled.div`
+  min-height: 240px;
+  max-height: 480px;
+  overflow-y: auto;
+  position: relative;
 `;
 
 export default Modal;

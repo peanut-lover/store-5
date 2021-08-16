@@ -33,6 +33,10 @@ const StyledButton = styled.button<{ isChecked: boolean; isCircle?: boolean }>`
   :disabled {
     background-color: #eee;
     border: 1px solid #eee;
+
+    :hover {
+      cursor: initial;
+    }
   }
 `;
 

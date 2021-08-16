@@ -15,6 +15,7 @@ const CheckButtonWithLabel: React.FC<Props> = ({ isChecked, onClick, label, isCi
     <Wrapper>
       <CheckButton isChecked={isChecked} onClick={onClick} isCircle={isCircle} disabled={disabled}></CheckButton>
       <Label
+        hover={!disabled}
         onClick={() => {
           !disabled && onClick();
         }}
@@ -25,8 +26,8 @@ const CheckButtonWithLabel: React.FC<Props> = ({ isChecked, onClick, label, isCi
   );
 };
 
-const Label = styled.label`
-  cursor: pointer;
+const Label = styled.label<{ hover: boolean }>`
+  ${(props) => props.hover && 'cursor: pointer;'}
   padding-left: 0.5rem;
 `;
 const Wrapper = styled.div`

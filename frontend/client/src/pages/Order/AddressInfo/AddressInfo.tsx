@@ -8,11 +8,8 @@ import styled from 'styled-components';
 import AddressCard from './AddressCard/AddressCard';
 import AddressCreateModal from './AddressCreateModal/AddressCreateModal';
 import AddressManageModal from './AddressManageModal/AddressManageModal';
-import AddressSelectModal from './AddressSelectModal/AddressSelectModal';
 
-interface Props {}
-
-const AddressInfo: React.FC<Props> = ({}) => {
+const AddressInfo: React.FC = () => {
   const [selectedAddress, setSelectedAddress] = useState<Address | null>(null); // 임시적인 처리입니다. TODO
 
   const [isModalOpened, setIsModalOpened] = useState(false);

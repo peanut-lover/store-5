@@ -1,6 +1,7 @@
 import { Address, AddressCore } from '@src/types/Address';
 import React, { useState } from 'react';
 import AddressForm from '../AddressForm/AddressForm';
+import Loading from '../Loading/Loading';
 import Modal from '../Modal/Modal';
 
 interface Props {
@@ -22,19 +23,21 @@ const AddressCreateModal: React.FC<Props> = ({ onClose, onSelect }) => {
   const [disabled, setDisabled] = useState(false);
 
   // TODO: api 대응 수정하기
-  const handleSubmit = (address: AddressCore) => {
+  const handleSubmit = async (address: AddressCore) => {
     setDisabled(true);
     // await createAddress(address);
+    await new Promise((resolve, reject) => {
+      setTimeout(resolve, 1500);
+    });
     // setDisabled(false);
-    setTimeout(() => {
-      onSelect?.(mock);
-      onClose?.();
-    }, 1500);
+    onSelect?.(mock);
+    onClose?.();
   };
 
   return (
     <Modal title='배송지 등록' onClose={onClose} disabled={disabled}>
       <AddressForm onSubmit={handleSubmit} disabled={disabled} />
+      {disabled && <Loading />}
     </Modal>
   );
 };

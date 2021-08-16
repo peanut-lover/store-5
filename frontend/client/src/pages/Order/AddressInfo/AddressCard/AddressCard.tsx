@@ -14,7 +14,12 @@ const AddressCard: React.FC<Props> = ({ address: addressProp, onClick, onDelete,
   const { name, receiver, zipCode, address, subAddress } = addressProp;
 
   return (
-    <Wrapper clickable={!!onClick && !disabled} onClick={onClick}>
+    <Wrapper
+      clickable={!!onClick && !disabled}
+      onClick={() => {
+        !disabled && onClick?.();
+      }}
+    >
       <InfoGroup>
         <SmallStrong>
           {receiver} ({name})
@@ -28,6 +33,7 @@ const AddressCard: React.FC<Props> = ({ address: addressProp, onClick, onDelete,
           <TextButton
             onClick={(e) => {
               e.stopPropagation();
+              onEdit();
             }}
             disabled={disabled}
           >
@@ -39,6 +45,7 @@ const AddressCard: React.FC<Props> = ({ address: addressProp, onClick, onDelete,
           <TextButton
             onClick={(e) => {
               e.stopPropagation();
+              onDelete();
             }}
             disabled={disabled}
           >
@@ -51,7 +58,8 @@ const AddressCard: React.FC<Props> = ({ address: addressProp, onClick, onDelete,
 };
 
 const Wrapper = styled.div<{ clickable: boolean }>`
-  ${({ clickable }) => clickable && 'cursor: pointer; padding: 1rem;'}
+  ${({ clickable }) => clickable && 'cursor: pointer;'}
+  padding: 1rem;
   position: relative;
   background-color: white;
   transition: 0.2s linear;

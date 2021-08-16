@@ -53,6 +53,10 @@ const IconButton = styled.button`
   cursor: pointer;
   background: none;
   border: none;
+
+  :disabled {
+    cursor: initial;
+  }
 `;
 
 export default ModalBar;
