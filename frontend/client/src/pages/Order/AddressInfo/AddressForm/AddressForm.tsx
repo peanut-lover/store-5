@@ -1,11 +1,13 @@
-import CheckButtonWithLabel from '@src/components/CheckButtonWithLabel/CheckButtonWithLabel';
-import Input from '@src/components/Input/Input';
+import Button from '@src/components/Button/Button';
 import { AddressCore } from '@src/types/Address';
-import React, { useState } from 'react';
+import React from 'react';
+import { useState } from 'react';
+import AddressFormCore from '../AddressFormCore/AddressFormCore';
 
 interface Props {
-  address: AddressCore;
-  onChangeAddress?: (address: AddressCore) => void;
+  initialAddress?: AddressCore;
+  onSubmit?: (address: AddressCore) => void;
+  onCancel?: () => void;
 }
 
 const defaultAddress: AddressCore = {
@@ -17,48 +19,20 @@ const defaultAddress: AddressCore = {
   isDefault: false,
 };
 
-const AddressForm: React.FC<Props> = ({ address, onChangeAddress }) => {
-  const { name, receiver, zipCode, address: mainAddress, subAddress, isDefault } = address;
+const AddressForm: React.FC<Props> = ({ initialAddress, onSubmit, onCancel }) => {
+  const [address, setAddress] = useState(initialAddress ?? defaultAddress);
 
   return (
     <>
-      <Input
-        value={name}
-        onChange={(event) => {
-          onChangeAddress?.({ ...address, name: event.target.value });
-        }}
-      />
-      <Input
-        value={receiver}
-        onChange={(event) => {
-          onChangeAddress?.({ ...address, receiver: event.target.value });
-        }}
-      />
-      <Input
-        value={zipCode}
-        onChange={(event) => {
-          onChangeAddress?.({ ...address, zipCode: event.target.value });
-        }}
-      />
-      <Input
-        value={mainAddress}
-        onChange={(event) => {
-          onChangeAddress?.({ ...address, address: event.target.value });
-        }}
-      />
-      <Input
-        value={subAddress}
-        onChange={(event) => {
-          onChangeAddress?.({ ...address, subAddress: event.target.value });
-        }}
-      />
-      <CheckButtonWithLabel
-        isChecked={isDefault}
+      <AddressFormCore address={address} onChangeAddress={setAddress} />
+      <Button
         onClick={() => {
-          onChangeAddress?.({ ...address, isDefault: !address.isDefault });
+          onSubmit?.(address);
         }}
-        label='기본 배송지로 설정'
-      />
+      >
+        완료
+      </Button>
+      {onCancel && <Button onClick={onCancel}>취소</Button>}
     </>
   );
 };
