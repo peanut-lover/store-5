@@ -9,11 +9,11 @@ async function createWish(userId: number, goodsId: number): Promise<CreateWishRe
 }
 
 async function deleteWish(userId: number, goodsId: number): Promise<DeleteResult> {
-  await isMineWish(userId, goodsId);
+  await checkMineWish(userId, goodsId);
   return await WishRepository.deleteWish(userId, goodsId);
 }
 
-async function isMineWish(userId: number, goodsId: number): Promise<void> {
+async function checkMineWish(userId: number, goodsId: number): Promise<void> {
   const wish = await WishRepository.findWishByIds(userId, goodsId);
   if (!wish) throw new NotFoundError(INVALID_ACCESS);
 }

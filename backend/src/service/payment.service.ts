@@ -9,11 +9,11 @@ async function getPayments(): Promise<Payment[]> {
 
 async function createPayment(body: CreatePaymentBody): Promise<Payment> {
   const { name, type } = body;
-  await isAlreadyExisted(name, type);
+  await checkAlreadyExisted(name, type);
   return await PaymentRepository.createPayment(name, type);
 }
 
-async function isAlreadyExisted(name: string, type: string): Promise<void> {
+async function checkAlreadyExisted(name: string, type: string): Promise<void> {
   const payment = await PaymentRepository.getPaymentFromNameAndType(name, type);
   if (payment) throw new BadRequestError(EXISTED);
 }
