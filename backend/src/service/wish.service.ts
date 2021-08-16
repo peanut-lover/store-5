@@ -8,13 +8,13 @@ async function createWish(userId: number, goodsId: number): Promise<CreateWishRe
   return await WishRepository.createWish(userId, goodsId);
 }
 
-async function deleteWish(userId: number, wishId: number): Promise<DeleteResult> {
-  await isMineWish(userId, wishId);
-  return await WishRepository.deleteWish(wishId);
+async function deleteWish(userId: number, goodsId: number): Promise<DeleteResult> {
+  await isMineWish(userId, goodsId);
+  return await WishRepository.deleteWish(userId, goodsId);
 }
 
-async function isMineWish(userId: number, wishId: number): Promise<boolean> {
-  const wish = await WishRepository.findWishByIds(userId, wishId);
+async function isMineWish(userId: number, goodsId: number): Promise<boolean> {
+  const wish = await WishRepository.findWishByIds(userId, goodsId);
   if (wish) return true;
   throw new NotFoundError(INVALID_ACCESS);
 }

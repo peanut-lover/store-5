@@ -1,15 +1,16 @@
 import { DeleteResult, getRepository } from 'typeorm';
-import { USER_ADDRESS_DB_ERROR, WISH_DB_ERROR } from '../constants/database-error-name';
+import { WISH_DB_ERROR } from '../constants/database-error-name';
 import { Wish } from '../entity/Wish';
 import { DatabaseError } from '../errors/base.error';
 
-async function findWishByIds(userId: number, wishId: number): Promise<Wish | undefined> {
+async function findWishByIds(userId: number, goodsId: number): Promise<Wish | undefined> {
   try {
     const wishRepo = getRepository(Wish);
-    return await wishRepo.findOne({ where: { id: wishId, user: userId } });
+    const tmp = await wishRepo.findOne({ where: { userId, goodsId } });
+    return await wishRepo.findOne({ where: { userId, goodsId } });
   } catch (err) {
     console.error(err);
-    throw new DatabaseError(USER_ADDRESS_DB_ERROR);
+    throw new DatabaseError(WISH_DB_ERROR);
   }
 }
 
@@ -20,17 +21,17 @@ async function createWish(userId: number, goodsId: number): Promise<Wish> {
     return wish;
   } catch (err) {
     console.error(err);
-    throw new DatabaseError(USER_ADDRESS_DB_ERROR);
+    throw new DatabaseError(WISH_DB_ERROR);
   }
 }
 
-async function deleteWish(wishId: number): Promise<DeleteResult> {
+async function deleteWish(userId: number, goodsId: number): Promise<DeleteResult> {
   try {
     const wishRepo = getRepository(Wish);
-    return await wishRepo.delete({ id: wishId });
+    return await wishRepo.delete({ userId, goodsId });
   } catch (err) {
     console.error(err);
-    throw new DatabaseError(USER_ADDRESS_DB_ERROR);
+    throw new DatabaseError(WISH_DB_ERROR);
   }
 }
 

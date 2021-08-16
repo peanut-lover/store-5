@@ -5,5 +5,5 @@ import wrapAsync from '../utils/wrap-async';
 const router = express.Router();
 
 router.post('/goods', wrapAsync(WishController.createWish));
-router.delete('/goods/:wishId', wrapAsync(WishController.deleteWish));
+router.delete('/goods/:goodsId', wrapAsync(WishController.deleteWish));
 export default router;
