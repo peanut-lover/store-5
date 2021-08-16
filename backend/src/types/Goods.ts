@@ -1,5 +1,9 @@
 import { Goods } from '../entity/Goods';
 
+export type GoodsState = 'S' | 'T' | 'D';
+
+export type GoodsFlag = 'best' | 'low' | 'high' | 'latest';
+
 export interface FindAllCategoryProps {
   category: number;
   offset: number;
@@ -14,10 +18,10 @@ export interface FindAllCategoryProps {
 export interface GetAllByCategoryProps {
   category: number;
   page: number;
-  flag: 'best' | 'low' | 'high';
+  flag: GoodsFlag;
   limit: number;
   // 'S' = 판매중, 'T' = 임시, 'D' = 삭제
-  state: 'S' | 'T' | 'D';
+  state: GoodsState;
   // 비회원 undefined
   userId?: number;
 }
