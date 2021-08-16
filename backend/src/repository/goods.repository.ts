@@ -3,7 +3,7 @@ import { GOODS_DB_ERROR } from '../constants/database-error-name';
 import { DatabaseError } from '../errors/base.error';
 import { Goods } from '../entity/Goods';
 import { CreateGoodsRequest } from '../types/request/goods.request';
-import { FindAllCategoryProps, FindAllColumnNameProps } from '../types/Goods';
+import { FindAllCategoryProps, FindAllColumnNameProps, FindAllKeywordProps } from '../types/Goods';
 import { TaggedGoodsType } from '../types/response/goods.response';
 import { SearchedGoodsFromKeyword } from '../types/response/search.response';
 import { GoodsStateMap } from '../controller/goods.controller';
@@ -66,6 +66,31 @@ async function findAllByCategory({
   }
 }
 
+async function findAllByKeyword({
+  keyword,
+  offset,
+  limit,
+}: FindAllKeywordProps): Promise<TaggedGoodsType[] | undefined> {
+  try {
+    const goodsRepo = getRepository(Goods);
+    return await goodsRepo.find({
+      where: {
+        state: GoodsStateMap.sale,
+        stock: MoreThan(0),
+        title: Like(`%${keyword}%`),
+      },
+      skip: offset,
+      take: limit,
+      order: {
+        createdAt: 'DESC',
+      },
+    });
+  } catch (err) {
+    console.error(err);
+    throw new DatabaseError(GOODS_DB_ERROR);
+  }
+}
+
 async function findAllByColumnName({
   columnName,
   limit,
@@ -104,6 +129,19 @@ async function findTotalCountByCategory(category: number): Promise<number> {
   }
 }
 
+async function findTotalCountByKeyword(keyword: string): Promise<number> {
+  try {
+    const goodsRepo = getRepository(Goods);
+    const count = await goodsRepo.count({
+      where: { title: Like(`%${keyword}%`) },
+    });
+    return count;
+  } catch (err) {
+    console.error(err);
+    throw new DatabaseError(GOODS_DB_ERROR);
+  }
+}
+
 async function findSellCountAverage(): Promise<number> {
   try {
     const result = await getRepository(Goods)
@@ -131,7 +169,9 @@ export const GoodsRepository = {
   findGoodsDetailById,
   findAllByCategory,
   findAllByColumnName,
+  findAllByKeyword,
   findTotalCountByCategory,
+  findTotalCountByKeyword,
   findSellCountAverage,
   searchGoodsFromKeyword,
 };
