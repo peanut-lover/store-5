@@ -1,12 +1,9 @@
-import { GetAllByCategoryProps } from './Goods';
-
 export {};
 
 declare global {
   namespace Express {
     interface Request {
       userId: number;
-      goodsListParams: GetAllByCategoryProps;
     }
   }
 }

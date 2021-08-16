@@ -9,13 +9,3 @@ export interface CreateGoodsRequest extends Request {
   state: string;
   discountRate: number;
 }
-
-export interface GetAllGoodsRequest extends Request {
-  query: {
-    category: string;
-    page: string;
-    flag: string;
-    limit: string;
-    state: string;
-  };
-}
