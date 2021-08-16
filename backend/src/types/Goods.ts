@@ -15,6 +15,11 @@ export interface FindAllCategoryProps {
   sort: 'ASC' | 'DESC';
 }
 
+export interface FindAllColumnNameProps {
+  columnName: keyof Goods;
+  limit: number;
+}
+
 export interface GetAllByCategoryProps {
   // 카테고리 명
   categoryName: string;

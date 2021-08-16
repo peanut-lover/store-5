@@ -26,3 +26,9 @@ export type CartGoods = Goods & {
   stock: number;
   isSelected: boolean;
 };
+
+export type MainGoodsListResult = {
+  bestGoodsList: ThumbnailGoods[];
+  latestGoodsList: ThumbnailGoods[];
+  discountGoodsList: ThumbnailGoods[];
+};
