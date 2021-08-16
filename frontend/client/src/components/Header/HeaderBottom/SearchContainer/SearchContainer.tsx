@@ -7,6 +7,7 @@ import useInput from '@src/hooks/useInput';
 import useSearchHistory from '@src/hooks/useSearchHistory';
 import { debounce } from '@src/utils/debounce';
 import AutoSearchList from './AutoSearchList/AutoSearchList';
+import { usePushHistory } from '@src/lib/CustomRouter';
 
 // TODO: 팀원들과 의논 후 reducer를 어떻게 처리할지
 const reducer = (state: string[], action: { type: string; keyword: string }) => {
@@ -29,7 +30,7 @@ const reducer = (state: string[], action: { type: string; keyword: string }) => 
 };
 
 interface Props {
-  onClose: (e: Event) => void;
+  onClose: () => void;
 }
 
 const SearchContainer: React.FC<Props> = ({ onClose }) => {
@@ -39,12 +40,16 @@ const SearchContainer: React.FC<Props> = ({ onClose }) => {
   const [searchInput, onChangeSearchInput, setSearchInput] = useInput('');
   const [autoSearchList, dispatch] = useReducer(reducer, ['맛집', '테스트', '입니다']);
 
+  const push = usePushHistory();
+
   const handleSearch = useCallback(
     (e) => {
       e.preventDefault();
       if (searchInput.length === 0) return;
       setSearchHistory([searchInput, ...searchHistory]);
+      push(`/keyword/${searchInput}`);
       setSearchInput('');
+      onClose();
     },
     [searchInput]
   );
