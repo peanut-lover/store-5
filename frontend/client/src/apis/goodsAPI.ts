@@ -1,7 +1,7 @@
 import { ThumbnailGoods } from '@src/types/Goods';
-import { APIResponse } from './base';
+import { APIResponse, checkedFetch } from './base';
 interface GoodsByCategoryResult {
-  goodsList: ThumbnailGoods[];
+  goods: ThumbnailGoods[];
 }
 const GoodsFlag = {
   best: 'best',
@@ -9,13 +9,15 @@ const GoodsFlag = {
   high: 'high',
   latest: 'latest',
 };
+
+const LIMIT = 5;
+
 export const getGoodsByCategory = async (
   categoryName: string,
   page: number = 1,
-  limit: number = 5,
   flag: string = GoodsFlag.latest
-): Promise<APIResponse<GoodsByCategoryResult> | boolean> => {
-  const res = await fetch(`/api/goods/category/${categoryName}?page=${page}&flag=${flag}&limit=${limit}`, {
+): Promise<APIResponse<GoodsByCategoryResult>> => {
+  const res = await checkedFetch(`/api/goods/category/${categoryName}?page=${page}&flag=${flag}&limit=${LIMIT}`, {
     method: 'GET',
     credentials: 'include',
   });
