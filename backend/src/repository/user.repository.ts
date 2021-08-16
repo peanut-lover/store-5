@@ -33,8 +33,7 @@ async function findById(id: number): Promise<User | undefined> {
 async function create(githubId: string, name: string): Promise<User> {
   try {
     const userRepo = getRepository(User);
-    const user = userRepo.create({ githubId, name });
-    await userRepo.insert(user);
+    const user = await userRepo.save({ githubId, name });
     return user;
   } catch (err) {
     console.error(err);

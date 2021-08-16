@@ -1,4 +1,3 @@
-import { Payment } from './../entity/Payment';
 import { CreateOrderBody } from './../types/request/order.request';
 import { OrderList } from '../entity/OrderList';
 import { getRepository } from 'typeorm';
@@ -21,16 +20,14 @@ async function getOrders(userId: number): Promise<OrderList[]> {
   }
 }
 
-async function createOrder(userId: number, body: CreateOrderBody) {
+async function createOrder(userId: number, body: CreateOrderBody): Promise<OrderList> {
   try {
     const orderRepo = getRepository(OrderList);
-    const orderList = await orderRepo.create({
+    return await orderRepo.save({
       user: userId,
       ...body,
       payment: body.payment.id,
     });
-    await orderRepo.insert(orderList);
-    return orderList;
   } catch (err) {
     console.error(err);
     throw new DatabaseError(ORDER_LIST_DB_ERROR);

@@ -48,7 +48,7 @@ async function getAllCategories(): Promise<Category[]> {
   }
 }
 
-export default {
+export const CategoryRepository = {
   createCategory,
   createSubCategory,
   getCategoryByName,

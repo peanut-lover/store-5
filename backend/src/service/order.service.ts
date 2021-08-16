@@ -6,7 +6,7 @@ async function getOrders(userId: number): Promise<OrderList[]> {
   return await OrderListRepository.getOrders(userId);
 }
 
-async function createOrder(userId: number, body: CreateOrderBody) {
+async function createOrder(userId: number, body: CreateOrderBody): Promise<OrderList> {
   return await OrderListRepository.createOrder(userId, body);
 }
 
