@@ -4,14 +4,13 @@ import React from 'react';
 import styled from 'styled-components';
 
 interface Props {
-  list: { [key: string]: string[] };
-  hovered: string;
+  list: string[];
 }
-const SubCategoryList: React.FC<Props> = ({ list, hovered }) => {
+const SubCategoryList: React.FC<Props> = ({ list }) => {
   return (
     <SubCategoryContainer>
       <SubCategories onMouseEnter={debounceClear}>
-        {list[hovered].map((category, i) => (
+        {list.map((category, i) => (
           <SubCategory key={i}>
             <SubCategoryLink to={`/category/${category}`}>
               <SubCategoryTitle>{category}</SubCategoryTitle>
