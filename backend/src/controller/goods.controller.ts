@@ -2,7 +2,7 @@ import { Request, Response } from 'express';
 import { GoodsService } from '../service/goods.service';
 import { GetAllByCategoryProps, GoodsFlag, GoodsState } from '../types/Goods';
 
-const GoodsStateMap = {
+export const GoodsStateMap = {
   sale: 'S',
   temp: 'T',
   destroy: 'D',
@@ -40,7 +40,15 @@ async function getAllGoodsCategory(req: Request, res: Response) {
   });
 }
 
+async function getMainGoodsListMap(req: Request, res: Response) {
+  const data = await GoodsService.getMainGoodsListMap();
+  return res.json({
+    result: data,
+  });
+}
+
 export const GoodsController = {
   getGoodsDetail,
   getAllGoodsCategory,
+  getMainGoodsListMap,
 };

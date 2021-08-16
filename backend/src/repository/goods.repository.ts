@@ -1,11 +1,12 @@
-import { getRepository, Like } from 'typeorm';
+import { getRepository, Like, MoreThan } from 'typeorm';
 import { GOODS_DB_ERROR } from '../constants/database-error-name';
 import { DatabaseError } from '../errors/base.error';
 import { Goods } from '../entity/Goods';
 import { CreateGoodsRequest } from '../types/request/goods.request';
-import { FindAllCategoryProps } from '../types/Goods';
+import { FindAllCategoryProps, FindAllColumnNameProps } from '../types/Goods';
 import { TaggedGoodsType } from '../types/response/goods.response';
 import { SearchedGoodsFromKeyword } from '../types/response/search.response';
+import { GoodsStateMap } from '../controller/goods.controller';
 
 async function findGoodsDetailById({ id }: { id: number }) {
   try {
@@ -65,6 +66,29 @@ async function findAllByCategory({
   }
 }
 
+async function findAllByColumnName({
+  columnName,
+  limit,
+}: FindAllColumnNameProps): Promise<TaggedGoodsType[] | undefined> {
+  try {
+    const goodsRepo = getRepository(Goods);
+    const data = await goodsRepo.find({
+      take: limit,
+      where: {
+        state: GoodsStateMap.sale,
+        stock: MoreThan(0),
+      },
+      order: {
+        [columnName]: 'ASC',
+      },
+    });
+    return data;
+  } catch (err) {
+    console.error(err);
+    throw new DatabaseError(GOODS_DB_ERROR);
+  }
+}
+
 async function findTotalCountByCategory(category: number): Promise<number> {
   try {
     const goodsRepo = getRepository(Goods);
@@ -106,6 +130,7 @@ async function searchGoodsFromKeyword(keyword: string): Promise<SearchedGoodsFro
 export const GoodsRepository = {
   findGoodsDetailById,
   findAllByCategory,
+  findAllByColumnName,
   findTotalCountByCategory,
   findSellCountAverage,
   searchGoodsFromKeyword,

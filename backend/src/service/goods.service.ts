@@ -1,9 +1,14 @@
 import { MoreThan } from 'typeorm';
 import { Goods } from '../entity/Goods';
 import { GoodsRepository } from '../repository/goods.repository';
-import { DetailGoodsResponse, GoodsListResponse, GoodsListMetaData } from '../types/response/goods.response';
+import {
+  DetailGoodsResponse,
+  GoodsListResponse,
+  GoodsListMetaData,
+  TaggedGoodsType,
+} from '../types/response/goods.response';
 import { WishRepository } from '../repository/wish.repository';
-import { FindAllCategoryProps, GetAllByCategoryProps } from '../types/Goods';
+import { FindAllCategoryProps, FindAllColumnNameProps, GetAllByCategoryProps } from '../types/Goods';
 import { pagination } from '../utils/pagination';
 import { BadRequestError } from '../errors/client.error';
 import { GOODS_DB_ERROR } from '../constants/database-error-name';
@@ -44,6 +49,35 @@ async function getAllSaleGoodsByCategory({
   return {
     meta: getListGoodsMeta(page, limit, totalCount),
     goods: goodsList,
+  };
+}
+
+// TODO: 각 조회를 하나의 함수로 분리?
+async function getMainGoodsListMap(): Promise<{
+  bestGoodsList: TaggedGoodsType[] | undefined;
+  latestGoodsList: TaggedGoodsType[] | undefined;
+  discountGoodsList: TaggedGoodsType[] | undefined;
+}> {
+  const bestProps: FindAllColumnNameProps = {
+    columnName: 'countOfSell',
+    limit: 4,
+  };
+  const latestProps: FindAllColumnNameProps = {
+    columnName: 'createdAt',
+    limit: 8,
+  };
+  const discountProps: FindAllColumnNameProps = {
+    columnName: 'discountRate',
+    limit: 8,
+  };
+
+  const bestGoodsList = await GoodsRepository.findAllByColumnName(bestProps);
+  const latestGoodsList = await GoodsRepository.findAllByColumnName(latestProps);
+  const discountGoodsList = await GoodsRepository.findAllByColumnName(discountProps);
+  return {
+    bestGoodsList,
+    latestGoodsList,
+    discountGoodsList,
   };
 }
 
@@ -129,4 +163,5 @@ export const GoodsService = {
   getDetailById,
   getAllByCategory,
   getAllSaleGoodsByCategory,
+  getMainGoodsListMap,
 };
