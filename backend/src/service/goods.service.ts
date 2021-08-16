@@ -7,6 +7,7 @@ import { FindAllCategoryProps, GetAllByCategoryProps } from '../types/Goods';
 import { pagination } from '../utils/pagination';
 import { BadRequestError } from '../errors/client.error';
 import { GOODS_DB_ERROR } from '../constants/database-error-name';
+import { CategoryRepository } from '../repository/category.repository';
 
 async function getDetailById(id: number): Promise<DetailGoodsResponse> {
   const data = await GoodsRepository.findGoodsDetailById({ id });
@@ -17,15 +18,18 @@ async function getDetailById(id: number): Promise<DetailGoodsResponse> {
 }
 
 async function getAllSaleGoodsByCategory({
-  category,
+  categoryName,
   page,
   flag,
   limit,
   userId,
 }: GetAllByCategoryProps): Promise<GoodsListResponse | undefined> {
-  const totalCount = await GoodsRepository.findTotalCountByCategory(category);
+  // TODO: 함수로 빼도 될듯?
+  const category = await CategoryRepository.getCategoryByName(categoryName);
+  if (!category) throw new BadRequestError(GOODS_DB_ERROR);
+  const totalCount = await GoodsRepository.findTotalCountByCategory(category.id);
   page = Math.min(getTotalPage(totalCount, limit), page);
-  const option: FindAllCategoryProps = setAllByCategoryOption(category, page, limit, flag);
+  const option: FindAllCategoryProps = setAllByCategoryOption(category.id, page, limit, flag);
   const wishSet = userId && new Set(await WishRepository.findWishByUserId(userId));
   const goodsSellCountAverage = await GoodsRepository.findSellCountAverage();
   const goodsList = await GoodsRepository.findAllByCategory(option);
@@ -44,12 +48,15 @@ async function getAllSaleGoodsByCategory({
 }
 
 // 백오피스용 목록 조회 함수입니다, 추가적인 작업 예정 :)
-async function getAllByCategory({ category, page, flag, limit, state }: GetAllByCategoryProps) {
-  const totalCount = await GoodsRepository.findTotalCountByCategory(category);
+async function getAllByCategory({ categoryName, page, flag, limit, state }: GetAllByCategoryProps) {
+  // TODO: 함수로 빼도 될듯?
+  const category = await CategoryRepository.getCategoryByName(categoryName);
+  if (!category) throw new BadRequestError(GOODS_DB_ERROR);
+  const totalCount = await GoodsRepository.findTotalCountByCategory(category.id);
   page = Math.min(getTotalPage(totalCount, limit), page);
 
   const option: FindAllCategoryProps = {
-    category: category,
+    category: category.id,
     offset: pagination.calculateOffset(page, limit),
     limit: limit,
     where: {

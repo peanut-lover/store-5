@@ -1,4 +1,4 @@
-import { createConnection } from 'typeorm';
+import { createConnection, getRepository } from 'typeorm';
 import { databaseConfig } from './config';
 import { DeliveryInfo } from './entity/DeliveryInfo';
 import { Cart } from './entity/Cart';
@@ -15,6 +15,7 @@ import { Wish } from './entity/Wish';
 import { CategoryRepository } from './repository/category.repository';
 import { UserRepository } from './repository/user.repository';
 import { UserAddressRepository } from './repository/user.address.repository';
+import { GoodsRepository } from './repository/goods.repository';
 
 export default async function () {
   await createConnection({
@@ -43,6 +44,7 @@ async function populate() {
   await createDefaultAddress();
   const categories = ['문구', '잡화', '생필품'];
   categories.forEach((name) => createCategory(name));
+  createDefaultGoods();
 }
 
 async function createDefaultUser(name: string) {
@@ -77,3 +79,30 @@ async function createDefaultAddress() {
 async function createDefaultOrderList() {}
 
 async function createDefaultPayment() {}
+async function createDefaultGoods() {
+  // const goodsList = createDummy(20);
+  // for (const goods of goodsList) {
+  //   await getRepository(Goods).save(goods);
+  // }
+}
+
+function createDummy(length: number) {
+  const result = Array(length)
+    .fill('')
+    .map((_) => {
+      return {
+        thumbnailUrl:
+          'https://user-images.githubusercontent.com/20085849/128866958-900ad32a-cd32-4b97-be79-1dbbc9dcb02d.jpeg',
+        countOfSell: Math.floor(Math.random() * 100 + 1),
+        isGreen: !Math.round(Math.random()),
+        title: `상품명 랜덤 - ${Math.round(Math.random())}`,
+        price: Math.floor(Math.random() * 100 + 1),
+        stock: 1 * Math.round(Math.random() * 50),
+        discountRate: Math.floor(Math.random() * 50 + 1),
+        state: 'S',
+        category: Math.ceil(Math.random() * 3),
+        delivery: 1,
+      };
+    });
+  return result;
+}

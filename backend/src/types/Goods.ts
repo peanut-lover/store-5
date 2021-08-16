@@ -16,7 +16,8 @@ export interface FindAllCategoryProps {
 }
 
 export interface GetAllByCategoryProps {
-  category: number;
+  // 카테고리 명
+  categoryName: string;
   page: number;
   flag: GoodsFlag;
   limit: number;
