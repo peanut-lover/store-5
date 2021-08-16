@@ -1,9 +1,12 @@
-export interface Address {
-  id: number;
+export interface AddressCore {
   name: string;
   receiver: string;
   zipCode: string;
   address: string;
   subAddress: string;
-  isDefault?: boolean;
+  isDefault: boolean;
 }
+
+export type Address = AddressCore & {
+  id: number;
+};
