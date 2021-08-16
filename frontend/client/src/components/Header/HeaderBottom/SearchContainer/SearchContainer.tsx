@@ -5,29 +5,10 @@ import SearchHistoryEmpty from './SearchHistoryEmpty/SearchHistoryEmpty';
 import SearchHistoryList from './SearchHistoryList/SearchHistoryList';
 import useInput from '@src/hooks/useInput';
 import useSearchHistory from '@src/hooks/useSearchHistory';
-import { debounce } from '@src/utils/debounce';
+import { debounce, debounceClear } from '@src/utils/debounce';
 import AutoSearchList from './AutoSearchList/AutoSearchList';
 import { usePushHistory } from '@src/lib/CustomRouter';
-
-// TODO: 팀원들과 의논 후 reducer를 어떻게 처리할지
-const reducer = (state: string[], action: { type: string; keyword: string }) => {
-  switch (action.type) {
-    case 'SEARCH':
-      // TODO: API 호출 연동
-      if (action.keyword === '맛') {
-        const res = ['자동', '검색', '기능'];
-        return res;
-      } else if (action.keyword === '맛집') {
-        const res = ['으악', '악으', '으아'];
-        return res;
-      } else {
-        return [];
-      }
-
-    default:
-      return state;
-  }
-};
+import useAutoSearch from '@src/hooks/useAutoSearch';
 
 interface Props {
   onClose: () => void;
@@ -38,31 +19,35 @@ const SearchContainer: React.FC<Props> = ({ onClose }) => {
   const [inputFocused, setInputFocused] = useState(false);
   const [searchHistory, setSearchHistory, resetSearchHistory] = useSearchHistory();
   const [searchInput, onChangeSearchInput, setSearchInput] = useInput('');
-  const [autoSearchList, dispatch] = useReducer(reducer, ['맛집', '테스트', '입니다']);
+  const [autoSearchList, fetchAutoSearch] = useAutoSearch();
 
   const push = usePushHistory();
 
   const handleSearch = useCallback(
-    (e) => {
+    async (e) => {
       e.preventDefault();
       if (searchInput.length === 0) return;
-      setSearchHistory([searchInput, ...searchHistory]);
-      push(`/keyword/${searchInput}`);
+      await setSearchHistory([searchInput, ...searchHistory]);
       setSearchInput('');
+      push(`/keyword/${searchInput}`);
+      debounceClear();
       onClose();
     },
     [searchInput]
   );
 
-  const handleAutoSearch = useCallback((e) => {
-    const keyword = e.target.value;
-    debounce(() => {
-      dispatch({ type: 'SEARCH', keyword });
-    }, 200);
-  }, []);
+  const handleAutoSearch = useCallback(
+    (e) => {
+      const keyword = e.target.value;
+      debounce(async () => {
+        await fetchAutoSearch(keyword);
+      }, 200);
+    },
+    [fetchAutoSearch]
+  );
 
   const handleAddHistory = useCallback(
-    (keyword) => {
+    async (keyword) => {
       setSearchHistory([keyword, ...searchHistory]);
     },
     [searchHistory]
@@ -85,7 +70,7 @@ const SearchContainer: React.FC<Props> = ({ onClose }) => {
     input.addEventListener('focus', () => {
       setInputFocused(true);
     });
-    input.addEventListener('blur', function () {
+    input.addEventListener('blur', () => {
       setInputFocused(false);
     });
   }, []);

@@ -1,6 +1,6 @@
 import { Category } from '../entity/Category';
 import { CategoryResponse } from '../types/response/category.response';
-import CategoryRepository from '../repository/category.repository';
+import { CategoryRepository } from '../repository/category.repository';
 
 async function createCategory(name: string, parentId?: number): Promise<Category> {
   if (parentId) {

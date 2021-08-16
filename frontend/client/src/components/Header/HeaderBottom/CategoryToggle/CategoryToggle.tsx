@@ -1,15 +1,19 @@
 import React, { useCallback, useEffect, useRef, useState } from 'react';
+import styled from 'styled-components';
 import { GiHamburgerMenu } from 'react-icons/gi';
 import Category from '@src/components/Header/HeaderBottom/Category/Category';
-import styled from 'styled-components';
+import { Category as CategoryType } from '@src/types/Category';
+import { getAllCategory } from '@src/apis/categoryAPI';
 
 const CategoryToggle = () => {
   const categoryRef = useRef<HTMLDivElement>(null);
+  const [categories, setCategories] = useState<CategoryType[]>([]);
   const [openCategory, setOpenCategory] = useState(false);
 
   const handleOpenCategory = useCallback(() => {
     setOpenCategory(true);
   }, [setOpenCategory]);
+
   const handleCloseCategory = useCallback(
     (e) => {
       const el = categoryRef.current as HTMLElement;
@@ -25,11 +29,21 @@ const CategoryToggle = () => {
     };
   }, []);
 
+  useEffect(() => {
+    const fetchCategory = async () => {
+      const {
+        result: { categories },
+      } = await getAllCategory();
+      setCategories(categories);
+    };
+    fetchCategory();
+  }, []);
+
   return (
     <CategoryToggleContainer ref={categoryRef} onClick={handleOpenCategory}>
       <GiHamburgerMenu size='1.7em' />
       <CategoryToggleTitle>전체 카테고리</CategoryToggleTitle>
-      {openCategory && <Category />}
+      {openCategory && <Category categories={categories} />}
     </CategoryToggleContainer>
   );
 };

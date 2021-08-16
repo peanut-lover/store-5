@@ -5,7 +5,7 @@ const useSearchHistory = () => {
   const initialState = isStorage ? JSON.parse(isStorage) : [];
   const [searchHistory, setSearchHistory] = useState<string[]>(initialState);
   const setHistory = useCallback(
-    (values: string[]) => {
+    async (values: string[]) => {
       setSearchHistory(() => {
         const updated = Array.from(new Set([...values]));
         if (updated.length > 10) updated.pop();

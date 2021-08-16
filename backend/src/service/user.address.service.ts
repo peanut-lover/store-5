@@ -17,19 +17,19 @@ async function createAddress(userId: number, body: AddressBody): Promise<CreateU
 }
 
 async function deleteAddress(userId: number, addressId: number): Promise<DeleteResult> {
-  await isMineAddress(userId, addressId);
+  await checkMineAddress(userId, addressId);
   return await UserAddressRepository.deleteAddress(addressId);
 }
 
 async function updateAddress(userId: number, addressId: number, body: AddressBody): Promise<UpdateResult | void> {
-  await isMineAddress(userId, addressId);
+  await checkMineAddress(userId, addressId);
   if (body.isDefault) {
     return await UserAddressRepository.updateDefaultAddress(userId, addressId, body);
   }
   return await UserAddressRepository.updateAddress(userId, addressId, body);
 }
 
-async function isMineAddress(userId: number, addressId: number): Promise<boolean> {
+async function checkMineAddress(userId: number, addressId: number): Promise<boolean> {
   const address = await UserAddressRepository.getAddressByIds(userId, addressId);
   if (address) return true;
   throw new NotFoundError(INVALID_ACCESS);

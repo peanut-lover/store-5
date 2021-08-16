@@ -3,12 +3,14 @@ import { debounce } from '@src/utils/debounce';
 import MainCategoryList from '@src/components/Header/HeaderBottom/Category/MainCategoryList/MainCategoryList';
 import SubCategoryList from '@src/components/Header/HeaderBottom/Category/SubCategoryList/SubCategoryList';
 import styled from 'styled-components';
-import { getAllCategory } from '@src/apis/categoryAPI';
 import { Category } from '@src/types/Category';
 
-const Category = () => {
-  const [categories, setCategories] = useState<Category[]>([]);
-  const [hovered, setHovered] = useState<string>('');
+interface Props {
+  categories: Category[];
+}
+const Category: React.FC<Props> = ({ categories }) => {
+  const [hovered, setHovered] = useState<string>(categories.length > 0 ? categories[0].name : '');
+
   const handleSetDebounce = useCallback(
     (target: string, time: number) => {
       debounce(() => {
@@ -22,17 +24,6 @@ const Category = () => {
     const category = e.target.dataset.category;
     if (!category) return;
     handleSetDebounce(category, 100);
-  }, []);
-
-  const fetchCategory = async () => {
-    const {
-      result: { categories },
-    } = await getAllCategory();
-    setCategories(categories);
-  };
-
-  useEffect(() => {
-    fetchCategory();
   }, []);
 
   const mainCategories = categories.map((category) => category.name);

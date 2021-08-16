@@ -31,8 +31,7 @@ async function getAddressesById(userId: number): Promise<UserAddress[]> {
 async function createAddress(id: number, body: AddressBody): Promise<UserAddress> {
   try {
     const addressRepo = getRepository(UserAddress);
-    const address = await addressRepo.create({ user: id, ...body });
-    await addressRepo.insert(address);
+    const address = await addressRepo.save({ user: id, ...body });
     return address;
   } catch (err) {
     console.error(err);

@@ -22,6 +22,7 @@ const SearchHistoryList: React.FC<Props> = ({ searchHistory, onDeleteHistory, on
     },
     [onResetHistory]
   );
+
   return (
     <>
       <SearchHistoryContainer>

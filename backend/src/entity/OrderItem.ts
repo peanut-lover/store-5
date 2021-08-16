@@ -24,8 +24,8 @@ export class OrderItem {
   @Column({ type: 'boolean' })
   discountRate: boolean;
 
-  @Column({ type: 'int' })
-  state: number;
+  @Column({ type: 'varchar', length: 5 })
+  state: string;
 
   @CreateDateColumn({ type: 'timestamp' })
   createdAt: Date;
