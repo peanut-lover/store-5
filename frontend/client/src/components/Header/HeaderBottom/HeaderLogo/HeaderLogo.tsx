@@ -1,6 +1,6 @@
 import React from 'react';
 import logoIcon from '@src/../public/images/logo.png';
-import { Link } from '@src/lib/CustomRouter';
+import { Link } from '@src/lib/CustomRouter/CustomRouter';
 import styled from 'styled-components';
 
 const HeaderLogo = () => (
