@@ -1,12 +1,12 @@
 import React, { useCallback, useRef, useState } from 'react';
+import ProductImagePreviews from './ProductImagePreviews/ProductImagePreviews';
 
 interface Props {
-  onHandleUpdateFiles: (newFiles: File[] | File) => void;
+  onHandleUpdateFiles: (newFiles: File[]) => void;
 }
 
 const ProductImageUploader: React.FC<Props> = ({ onHandleUpdateFiles }) => {
-  const [previewImages, setPreviewImages] = useState<String[]>([]);
-
+  const [previewImages, setPreviewImages] = useState<string[]>([]);
   const imageInput = useRef<HTMLInputElement>(null);
 
   const handleImageUpload = useCallback(() => {
@@ -16,12 +16,12 @@ const ProductImageUploader: React.FC<Props> = ({ onHandleUpdateFiles }) => {
   const handleChangeImages = useCallback(
     (e) => {
       const addFiles: File[] = [];
-      const addImages: String[] = [];
+      const addImages: string[] = [];
       Array.prototype.forEach.call(e.target.files, (f: File) => {
         const imageUrl = URL.createObjectURL(f);
         addFiles.push(f);
         addImages.push(imageUrl);
-      }); //
+      });
       onHandleUpdateFiles(addFiles);
       setPreviewImages((prev) => [...prev, ...addImages]);
     },
@@ -31,7 +31,8 @@ const ProductImageUploader: React.FC<Props> = ({ onHandleUpdateFiles }) => {
   return (
     <div>
       <button onClick={handleImageUpload}>icon</button>
-      <input type='file' name='image' multiple hidden ref={imageInput} onChange={handleChangeImages} />
+      <ProductImagePreviews previewImages={previewImages} />
+      <input ref={imageInput} type='file' accept='.jpg, .png, .jpeg' hidden multiple onChange={handleChangeImages} />
     </div>
   );
 };

@@ -1,24 +1,39 @@
-import React, { useState } from 'react';
+import React, { MouseEvent, useState } from 'react';
 import { useCallback } from 'react';
-import Portal from 'src/portal/portal';
-import ProductImageUploader from 'src/portal/ProductUploadModal/ProductImageUploader/ProductImageUploader';
-import ProductTitleUploader from 'src/portal/ProductUploadModal/ProductTitleUploader/ProductTitleUploader';
+import Portal from '../portal';
+import ProductImageUploader from './ProductImageUploader/ProductImageUploader';
+import ProductTitleUploader from './ProductTitleUploader/ProductTitleUploader';
 import styled from 'styled-components';
+import useInput from '../../hooks/useInput';
 
 const ProductUploadModal = () => {
   const [files, setFiles] = useState<File[]>([]); // 이미지 file 저장
-  const handleUpdateFiles = useCallback((newFiles: File[] | File) => {
-    setFiles((prev) => {
-      if (Array.isArray(newFiles)) return { ...prev, ...newFiles };
-      return { ...prev, File };
-    });
-  }, []);
+  const [title, handleChangeTitle] = useInput('');
+
+  const handleUpdateFiles = useCallback(
+    (newFiles: File[]) => {
+      setFiles((prev) => {
+        return [...prev, ...newFiles];
+      });
+    },
+    [setFiles]
+  );
+
+  const handleSubmit = (e: MouseEvent) => {
+    e.preventDefault();
+    const formData = new FormData();
+    files.forEach((file: File) => formData.append('files', file));
+    formData.append('title', title);
+    console.log(formData);
+  };
+
   return (
     <Portal>
       <ModalContainer>
         <ProductUploadContainer>
           <ProductImageUploader onHandleUpdateFiles={handleUpdateFiles} />
-          <ProductTitleUploader />
+          <ProductTitleUploader title={title} onChangeTitle={handleChangeTitle} />
+          <button onClick={handleSubmit}>제출</button>
         </ProductUploadContainer>
       </ModalContainer>
     </Portal>
