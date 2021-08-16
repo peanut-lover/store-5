@@ -6,14 +6,21 @@ interface Props {
   isChecked: boolean;
   onClick: () => void;
   label: string;
+  disabled?: boolean;
   isCircle?: boolean;
 }
 
-const CheckButtonWithLabel: React.FC<Props> = ({ isChecked, onClick, label, isCircle }) => {
+const CheckButtonWithLabel: React.FC<Props> = ({ isChecked, onClick, label, isCircle, disabled }) => {
   return (
     <Wrapper>
-      <CheckButton isChecked={isChecked} onClick={onClick} isCircle={isCircle}></CheckButton>
-      <Label onClick={onClick}>{label}</Label>
+      <CheckButton isChecked={isChecked} onClick={onClick} isCircle={isCircle} disabled={disabled}></CheckButton>
+      <Label
+        onClick={() => {
+          !disabled && onClick();
+        }}
+      >
+        {label}
+      </Label>
     </Wrapper>
   );
 };

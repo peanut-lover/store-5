@@ -5,14 +5,15 @@ import styled from 'styled-components';
 interface Props {
   title: string;
   onClickExit?: () => void;
+  disabled?: boolean;
 }
 
-const ModalBar: React.FC<Props> = ({ title, onClickExit }) => {
+const ModalBar: React.FC<Props> = ({ title, onClickExit, disabled }) => {
   return (
     <Wrapper>
       <FlexCenter>{title}</FlexCenter>
       <FlexRight>
-        <IconButton onClick={onClickExit}>
+        <IconButton disabled={disabled} onClick={onClickExit}>
           <FiX size='1.5rem' />
         </IconButton>
       </FlexRight>

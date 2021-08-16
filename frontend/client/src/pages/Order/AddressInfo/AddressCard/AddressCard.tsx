@@ -7,13 +7,14 @@ interface Props {
   onClick?: () => void;
   onDelete?: () => void;
   onEdit?: () => void;
+  disabled?: boolean;
 }
 
-const AddressCard: React.FC<Props> = ({ address: addressProp, onClick, onDelete, onEdit }) => {
+const AddressCard: React.FC<Props> = ({ address: addressProp, onClick, onDelete, onEdit, disabled }) => {
   const { name, receiver, zipCode, address, subAddress } = addressProp;
 
   return (
-    <Wrapper clickable={!!onClick} onClick={onClick}>
+    <Wrapper clickable={!!onClick && !disabled} onClick={onClick}>
       <InfoGroup>
         <SmallStrong>
           {receiver} ({name})
@@ -28,6 +29,7 @@ const AddressCard: React.FC<Props> = ({ address: addressProp, onClick, onDelete,
             onClick={(e) => {
               e.stopPropagation();
             }}
+            disabled={disabled}
           >
             수정
           </TextButton>
@@ -38,6 +40,7 @@ const AddressCard: React.FC<Props> = ({ address: addressProp, onClick, onDelete,
             onClick={(e) => {
               e.stopPropagation();
             }}
+            disabled={disabled}
           >
             삭제
           </TextButton>
