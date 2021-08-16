@@ -1,6 +1,6 @@
 import { Request, Response } from 'express';
 import { GoodsService } from '../service/goods.service';
-import { GetAllByCategoryProps, GoodsFlag, GoodsState } from '../types/Goods';
+import { GetAllByCategoryProps, GetAllByKeywordProps, GoodsFlag, GoodsState } from '../types/Goods';
 
 export const GoodsStateMap = {
   sale: 'S',
@@ -22,11 +22,10 @@ async function getGoodsDetail(req: Request, res: Response) {
 }
 
 async function getAllGoodsCategory(req: Request, res: Response) {
-  const { page, flag = GoodsFlag.latest, limit, state = GoodsStateMap.sale } = req.query;
-  const categoryName = String(req.params.categoryName);
+  const { page, category, flag = GoodsFlag.latest, limit, state = GoodsStateMap.sale } = req.query;
   // TODO : 타입 체크
   const GoodsListParams: GetAllByCategoryProps = {
-    categoryName,
+    categoryName: String(category),
     page: Number(page),
     flag: String(flag) as GoodsFlag,
     limit: Number(limit),
@@ -35,6 +34,23 @@ async function getAllGoodsCategory(req: Request, res: Response) {
   };
 
   const data = await GoodsService.getAllSaleGoodsByCategory(GoodsListParams);
+  return res.json({
+    result: data,
+  });
+}
+
+async function getAllSaleGoodsByKeyword(req: Request, res: Response) {
+  const { page, keyword, limit, state = GoodsStateMap.sale } = req.query;
+  // TODO : 타입 체크
+  const GoodsListParams: GetAllByKeywordProps = {
+    keyword: String(keyword),
+    page: Number(page),
+    limit: Number(limit),
+    state: String(state) as GoodsState,
+    userId: req.userId,
+  };
+
+  const data = await GoodsService.getAllSaleGoodsByKeyword(GoodsListParams);
   return res.json({
     result: data,
   });
@@ -50,5 +66,6 @@ async function getMainGoodsListMap(req: Request, res: Response) {
 export const GoodsController = {
   getGoodsDetail,
   getAllGoodsCategory,
+  getAllSaleGoodsByKeyword,
   getMainGoodsListMap,
 };

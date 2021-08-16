@@ -8,7 +8,13 @@ import {
   TaggedGoodsType,
 } from '../types/response/goods.response';
 import { WishRepository } from '../repository/wish.repository';
-import { FindAllCategoryProps, FindAllColumnNameProps, GetAllByCategoryProps } from '../types/Goods';
+import {
+  FindAllCategoryProps,
+  FindAllColumnNameProps,
+  FindAllKeywordProps,
+  GetAllByCategoryProps,
+  GetAllByKeywordProps,
+} from '../types/Goods';
 import { pagination } from '../utils/pagination';
 import { BadRequestError } from '../errors/client.error';
 import { GOODS_DB_ERROR } from '../constants/database-error-name';
@@ -38,6 +44,36 @@ async function getAllSaleGoodsByCategory({
   const wishSet = userId && new Set(await WishRepository.findWishByUserId(userId));
   const goodsSellCountAverage = await GoodsRepository.findSellCountAverage();
   const goodsList = await GoodsRepository.findAllByCategory(option);
+  if (!goodsList) throw new BadRequestError(GOODS_DB_ERROR);
+
+  goodsList.forEach((goods) => {
+    if (wishSet) goods.isWish = wishSet.has(goods.id);
+    goods.isBest = goodsSellCountAverage < goods.countOfSell;
+    goods.isNew = checkNewGoods(goods.createdAt);
+  });
+
+  return {
+    meta: getListGoodsMeta(page, limit, totalCount),
+    goods: goodsList,
+  };
+}
+
+async function getAllSaleGoodsByKeyword({
+  keyword,
+  page,
+  limit,
+  userId,
+}: GetAllByKeywordProps): Promise<GoodsListResponse | undefined> {
+  const option: FindAllKeywordProps = {
+    keyword,
+    offset: pagination.calculateOffset(page, limit),
+    limit,
+  };
+  const totalCount = await GoodsRepository.findTotalCountByKeyword(keyword);
+  page = Math.min(getTotalPage(totalCount, limit), page);
+  const wishSet = userId && new Set(await WishRepository.findWishByUserId(userId));
+  const goodsSellCountAverage = await GoodsRepository.findSellCountAverage();
+  const goodsList = await GoodsRepository.findAllByKeyword(option);
   if (!goodsList) throw new BadRequestError(GOODS_DB_ERROR);
 
   goodsList.forEach((goods) => {
@@ -162,6 +198,7 @@ function getTotalPage(totalCount: number, limit: number): number {
 export const GoodsService = {
   getDetailById,
   getAllByCategory,
+  getAllSaleGoodsByKeyword,
   getAllSaleGoodsByCategory,
   getMainGoodsListMap,
 };
