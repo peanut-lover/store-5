@@ -1,7 +1,6 @@
 import Button from '@src/components/Button/Button';
 import { AddressCore } from '@src/types/Address';
-import React from 'react';
-import { useState } from 'react';
+import React, { useState } from 'react';
 import AddressFormCore from '../AddressFormCore/AddressFormCore';
 
 interface Props {

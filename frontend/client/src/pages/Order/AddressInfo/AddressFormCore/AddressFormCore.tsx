@@ -1,7 +1,7 @@
 import CheckButtonWithLabel from '@src/components/CheckButtonWithLabel/CheckButtonWithLabel';
 import Input from '@src/components/Input/Input';
 import { AddressCore } from '@src/types/Address';
-import React, { useState } from 'react';
+import React from 'react';
 
 interface Props {
   address: AddressCore;
