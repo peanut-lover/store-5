@@ -1,16 +1,21 @@
-import React, { ReactHTML } from 'react';
+import React, { AllHTMLAttributes, ReactHTML } from 'react';
 
 const style = document.createElement('style');
 document.head.appendChild(style);
 
 // TODO: className을 해싱해서 생성해야하지않을까?
-// TODO: styled-Component와 충돌나지않을까? (거의 그럴일은 없을 예정)
-const css = (styles: string) => {
-  const index = style.sheet?.cssRules.length;
+const css = (styles: string, ruleIndex?: number) => {
+  let index;
+  if (ruleIndex) {
+    index = ruleIndex;
+    style.sheet?.removeRule(index);
+  } else {
+    index = style.sheet?.cssRules.length;
+  }
   const className = `css-${index}`;
   const rule = `.${className} { ${styles} }`;
   style.sheet?.insertRule(rule, index);
-  return className;
+  return { className, newRuleIndex: index };
 };
 
 interface StylePropsFn<P> {
@@ -18,11 +23,16 @@ interface StylePropsFn<P> {
 }
 
 export const styled = (tag: keyof ReactHTML) => {
-  return function styledTemplate<P = {}>(rules: TemplateStringsArray, ...args: StylePropsFn<P>[]): React.FC<P> {
+  return function styledTemplate<P = {}>(
+    rules: TemplateStringsArray,
+    ...args: StylePropsFn<P>[]
+  ): React.FC<P & AllHTMLAttributes<HTMLElement>> {
+    let cssRuleIndex: number | undefined;
     return (props) => {
       const resolved = resolveRule<P>(rules, args, props);
-      const className = css(resolved);
-      return React.createElement(tag, { className, ...props });
+      const { className, newRuleIndex } = css(resolved, cssRuleIndex);
+      cssRuleIndex = newRuleIndex;
+      return React.createElement<P, HTMLElement>(tag, { className, ...props });
     };
   };
 };
