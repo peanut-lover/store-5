@@ -1,6 +1,6 @@
 import React from 'react';
 import styled from 'styled-components';
-import { Link } from '@src/lib/CustomRouter';
+import { Link } from '@src/lib/CustomRouter/CustomRouter';
 
 interface Props {
   autoSearchList: string[];

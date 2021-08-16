@@ -1,7 +1,7 @@
 import React from 'react';
 import { AiOutlineShoppingCart } from 'react-icons/ai';
 import { IconContainer, IconTitle } from '../IconContainerStyle';
-import { Link } from '@src/lib/CustomRouter';
+import { Link } from '@src/lib/CustomRouter/CustomRouter';
 
 const ShoppingCartIcon = () => (
   <Link to='/cart'>
