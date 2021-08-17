@@ -7,7 +7,17 @@ import { CartBody } from '../types/request/cart.request';
 async function getCartByUserIdAndCartId(userId: number, cartId: number): Promise<Cart | undefined> {
   try {
     const cartRepo = getRepository(Cart);
-    return await cartRepo.findOne({ where: { id: cartId, user: userId } });
+    return await cartRepo.findOne({ where: { id: cartId, user: userId }, relations: ['goods'] });
+  } catch (err) {
+    console.error(err);
+    throw new DatabaseError(CART_DB_ERROR);
+  }
+}
+
+async function getCartByUserIdAndGoodsId(userId: number, goodsId: number): Promise<Cart | undefined> {
+  try {
+    const cartRepo = getRepository(Cart);
+    return await cartRepo.findOne({ where: { goods: goodsId, user: userId }, relations: ['goods'] });
   } catch (err) {
     console.error(err);
     throw new DatabaseError(CART_DB_ERROR);
@@ -54,6 +64,13 @@ async function deleteCart(cartId: number): Promise<DeleteResult> {
   }
 }
 
-const CartRepository = { getCartByUserIdAndCartId, getCartsByUserId, createCart, updateCart, deleteCart };
+const CartRepository = {
+  getCartByUserIdAndCartId,
+  getCartByUserIdAndGoodsId,
+  getCartsByUserId,
+  createCart,
+  updateCart,
+  deleteCart,
+};
 
 export default CartRepository;

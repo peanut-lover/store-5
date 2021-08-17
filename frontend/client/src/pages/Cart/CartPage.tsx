@@ -25,9 +25,9 @@ const CartPage: React.FC = () => {
 
   const handleChangeAmount = useCallback(
     async (id: number, amount: number) => {
-      await updateCart(id, { amount });
+      const { result } = await updateCart(id, { amount });
       const changedCartGoodsList = cartGoodsList.map((cartGoods) => {
-        if (cartGoods.id === id) return { ...cartGoods, amount };
+        if (cartGoods.id === id) return { ...cartGoods, amount: result.amount };
         return cartGoods;
       });
       setCartGoodsList(changedCartGoodsList);
