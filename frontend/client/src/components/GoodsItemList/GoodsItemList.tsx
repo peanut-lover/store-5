@@ -16,7 +16,7 @@ const GoodsItemList: React.FC<Props> = ({ goodsList, itemBoxSize = 'big' }) => {
           <GoodsItem
             key={goods.id}
             id={goods.id}
-            thumbnailImg={goods.thumbnailImg}
+            thumbnailUrl={goods.thumbnailUrl}
             title={goods.title}
             price={goods.price}
             isBest={goods.isBest}
@@ -34,7 +34,6 @@ const GoodsItemList: React.FC<Props> = ({ goodsList, itemBoxSize = 'big' }) => {
 const GoodsItemListContainer = styled.div`
   display: flex;
   flex-direction: row;
-  justify-content: center;
   flex-wrap: wrap;
 `;
 

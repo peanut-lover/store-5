@@ -7,13 +7,14 @@ const appendQuotationMarks = (text: string) => `"${text}"`;
 
 const CategoryGoods = () => {
   const { category } = useParams();
+  const decodeCategoryName = decodeURI(category);
   return (
     <CategoryGoodsContainer>
-      <CategoryClassificationLabel>{`상위카테고리 > ${category}`}</CategoryClassificationLabel>
-      <CategoryTitle>{appendQuotationMarks(category)}</CategoryTitle>
+      <CategoryClassificationLabel>{`상위카테고리 > ${decodeCategoryName}`}</CategoryClassificationLabel>
+      <CategoryTitle>{appendQuotationMarks(decodeCategoryName)}</CategoryTitle>
       <CategoryContentContainer>
         <CategoryContentMain>
-          <CategoryGoodsList category={category} />
+          <CategoryGoodsList category={decodeCategoryName} />
         </CategoryContentMain>
       </CategoryContentContainer>
     </CategoryGoodsContainer>

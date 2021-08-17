@@ -1,8 +1,8 @@
 import { Request, Response } from 'express';
 import { GoodsService } from '../service/goods.service';
-import { GetAllByCategoryProps, GoodsFlag, GoodsState } from '../types/Goods';
+import { GetAllByCategoryProps, GetAllByKeywordProps, GoodsFlag, GoodsState } from '../types/Goods';
 
-const GoodsStateMap = {
+export const GoodsStateMap = {
   sale: 'S',
   temp: 'T',
   destroy: 'D',
@@ -22,9 +22,10 @@ async function getGoodsDetail(req: Request, res: Response) {
 }
 
 async function getAllGoodsCategory(req: Request, res: Response) {
-  const { category, page, flag = GoodsFlag.latest, limit, state = GoodsStateMap.sale } = req.query;
+  const { page, category, flag = GoodsFlag.latest, limit, state = GoodsStateMap.sale } = req.query;
+  // TODO : 타입 체크
   const GoodsListParams: GetAllByCategoryProps = {
-    category: Number(category),
+    categoryName: String(category),
     page: Number(page),
     flag: String(flag) as GoodsFlag,
     limit: Number(limit),
@@ -32,11 +33,33 @@ async function getAllGoodsCategory(req: Request, res: Response) {
     userId: req.userId,
   };
 
-  const data = await GoodsService.getAllSaleGoodsByCategory(GoodsListParams);
-  return res.json(data);
+  const result = await GoodsService.getAllSaleGoodsByCategory(GoodsListParams);
+  return res.json({ result });
+}
+
+async function getAllSaleGoodsByKeyword(req: Request, res: Response) {
+  const { page, keyword, limit, state = GoodsStateMap.sale } = req.query;
+  // TODO : 타입 체크
+  const GoodsListParams: GetAllByKeywordProps = {
+    keyword: String(keyword),
+    page: Number(page),
+    limit: Number(limit),
+    state: String(state) as GoodsState,
+    userId: req.userId,
+  };
+
+  const result = await GoodsService.getAllSaleGoodsByKeyword(GoodsListParams);
+  return res.json({ result });
+}
+
+async function getMainGoodsListMap(req: Request, res: Response) {
+  const result = await GoodsService.getMainGoodsListMap();
+  return res.json({ result });
 }
 
 export const GoodsController = {
   getGoodsDetail,
   getAllGoodsCategory,
+  getAllSaleGoodsByKeyword,
+  getMainGoodsListMap,
 };

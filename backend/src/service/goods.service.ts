@@ -1,12 +1,25 @@
 import { MoreThan } from 'typeorm';
 import { Goods } from '../entity/Goods';
 import { GoodsRepository } from '../repository/goods.repository';
-import { DetailGoodsResponse, GoodsListResponse, GoodsListMetaData } from '../types/response/goods.response';
+import {
+  DetailGoodsResponse,
+  GoodsListResponse,
+  GoodsListMetaData,
+  TaggedGoodsType,
+} from '../types/response/goods.response';
 import { WishRepository } from '../repository/wish.repository';
-import { FindAllCategoryProps, GetAllByCategoryProps } from '../types/Goods';
+import {
+  FindAllCategoryProps,
+  FindAllColumnNameProps,
+  FindAllKeywordProps,
+  GetAllByCategoryProps,
+  GetAllByKeywordProps,
+} from '../types/Goods';
 import { pagination } from '../utils/pagination';
 import { BadRequestError } from '../errors/client.error';
 import { GOODS_DB_ERROR } from '../constants/database-error-name';
+import { CategoryRepository } from '../repository/category.repository';
+import { GoodsStateMap } from '../controller/goods.controller';
 
 async function getDetailById(id: number): Promise<DetailGoodsResponse> {
   const data = await GoodsRepository.findGoodsDetailById({ id });
@@ -17,15 +30,18 @@ async function getDetailById(id: number): Promise<DetailGoodsResponse> {
 }
 
 async function getAllSaleGoodsByCategory({
-  category,
+  categoryName,
   page,
   flag,
   limit,
   userId,
-}: GetAllByCategoryProps): Promise<GoodsListResponse | undefined> {
-  const totalCount = await GoodsRepository.findTotalCountByCategory(category);
+}: GetAllByCategoryProps): Promise<GoodsListResponse> {
+  // TODO: 함수로 빼도 될듯?
+  const category = await CategoryRepository.getCategoryByName(categoryName);
+  if (!category) throw new BadRequestError(GOODS_DB_ERROR);
+  const totalCount = await GoodsRepository.findTotalCountByCategory(category.id);
   page = Math.min(getTotalPage(totalCount, limit), page);
-  const option: FindAllCategoryProps = setAllByCategoryOption(category, page, limit, flag);
+  const option: FindAllCategoryProps = setAllByCategoryOption(category.id, page, limit, flag);
   const wishSet = userId && new Set(await WishRepository.findWishByUserId(userId));
   const goodsSellCountAverage = await GoodsRepository.findSellCountAverage();
   const goodsList = await GoodsRepository.findAllByCategory(option);
@@ -39,17 +55,79 @@ async function getAllSaleGoodsByCategory({
 
   return {
     meta: getListGoodsMeta(page, limit, totalCount),
-    goods: goodsList,
+    goodsList,
+  };
+}
+
+async function getAllSaleGoodsByKeyword({
+  keyword,
+  page,
+  limit,
+  userId,
+}: GetAllByKeywordProps): Promise<GoodsListResponse> {
+  const option: FindAllKeywordProps = {
+    keyword,
+    offset: pagination.calculateOffset(page, limit),
+    limit,
+  };
+  const totalCount = await GoodsRepository.findTotalCountByKeyword(keyword);
+  page = Math.min(getTotalPage(totalCount, limit), page);
+  const wishSet = userId && new Set(await WishRepository.findWishByUserId(userId));
+  const goodsSellCountAverage = await GoodsRepository.findSellCountAverage();
+  const goodsList = await GoodsRepository.findAllByKeyword(option);
+  if (!goodsList) throw new BadRequestError(GOODS_DB_ERROR);
+
+  goodsList.forEach((goods) => {
+    if (wishSet) goods.isWish = wishSet.has(goods.id);
+    goods.isBest = goodsSellCountAverage < goods.countOfSell;
+    goods.isNew = checkNewGoods(goods.createdAt);
+  });
+
+  return {
+    meta: getListGoodsMeta(page, limit, totalCount),
+    goodsList,
+  };
+}
+
+// TODO: 각 조회를 하나의 함수로 분리?
+async function getMainGoodsListMap(): Promise<{
+  bestGoodsList: TaggedGoodsType[];
+  latestGoodsList: TaggedGoodsType[];
+  discountGoodsList: TaggedGoodsType[];
+}> {
+  const bestProps: FindAllColumnNameProps = {
+    columnName: 'countOfSell',
+    limit: 4,
+  };
+  const latestProps: FindAllColumnNameProps = {
+    columnName: 'createdAt',
+    limit: 8,
+  };
+  const discountProps: FindAllColumnNameProps = {
+    columnName: 'discountRate',
+    limit: 8,
+  };
+
+  const bestGoodsList = await GoodsRepository.findAllByColumnName(bestProps);
+  const latestGoodsList = await GoodsRepository.findAllByColumnName(latestProps);
+  const discountGoodsList = await GoodsRepository.findAllByColumnName(discountProps);
+  return {
+    bestGoodsList,
+    latestGoodsList,
+    discountGoodsList,
   };
 }
 
 // 백오피스용 목록 조회 함수입니다, 추가적인 작업 예정 :)
-async function getAllByCategory({ category, page, flag, limit, state }: GetAllByCategoryProps) {
-  const totalCount = await GoodsRepository.findTotalCountByCategory(category);
+async function getAllByCategory({ categoryName, page, flag, limit, state }: GetAllByCategoryProps) {
+  // TODO: 함수로 빼도 될듯?
+  const category = await CategoryRepository.getCategoryByName(categoryName);
+  if (!category) throw new BadRequestError(GOODS_DB_ERROR);
+  const totalCount = await GoodsRepository.findTotalCountByCategory(category.id);
   page = Math.min(getTotalPage(totalCount, limit), page);
 
   const option: FindAllCategoryProps = {
-    category: category,
+    category: category.id,
     offset: pagination.calculateOffset(page, limit),
     limit: limit,
     where: {
@@ -82,7 +160,7 @@ function setAllByCategoryOption(category: number, page: number, limit: number, f
     offset: pagination.calculateOffset(page, limit),
     limit: limit,
     where: {
-      state: 'S',
+      state: GoodsStateMap.sale,
       stock: MoreThan(0),
     },
     order: getCategoryByFlag(flag),
@@ -91,11 +169,21 @@ function setAllByCategoryOption(category: number, page: number, limit: number, f
 }
 
 function getCategoryByFlag(flag: string): keyof Goods {
-  return flag === 'low' || flag === 'high' ? 'price' : 'countOfSell';
+  switch (flag) {
+    case 'low':
+    case 'high':
+      return 'price';
+    case 'best':
+      return 'countOfSell';
+    case 'latest':
+      return 'createdAt';
+    default:
+      return 'createdAt';
+  }
 }
 
 function getSortByFlag(flag: string): 'DESC' | 'ASC' {
-  return flag === 'high' || flag === 'best' ? 'DESC' : 'ASC';
+  return flag === 'low' ? 'ASC' : 'DESC';
 }
 
 function checkNewGoods(date: Date): boolean {
@@ -121,5 +209,7 @@ function getTotalPage(totalCount: number, limit: number): number {
 export const GoodsService = {
   getDetailById,
   getAllByCategory,
+  getAllSaleGoodsByKeyword,
   getAllSaleGoodsByCategory,
+  getMainGoodsListMap,
 };

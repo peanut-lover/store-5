@@ -1,6 +1,6 @@
 export interface Goods {
   id: number;
-  thumbnailImg?: string; // thumbnailImg
+  thumbnailUrl?: string; // thumbnailUrl
   title: string;
   price: number;
   isBest?: boolean;
@@ -25,6 +25,12 @@ export type CartGoods = Goods & {
   amount: number;
   stock: number;
   isSelected: boolean;
+};
+
+export type MainGoodsListResult = {
+  bestGoodsList: ThumbnailGoods[];
+  latestGoodsList: ThumbnailGoods[];
+  discountGoodsList: ThumbnailGoods[];
 };
 
 export type OrderGoods = Goods & {

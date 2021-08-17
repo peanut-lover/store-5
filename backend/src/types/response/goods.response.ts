@@ -24,5 +24,5 @@ export type TaggedGoodsType = Goods & {
 
 export interface GoodsListResponse {
   meta?: GoodsListMetaData;
-  goods?: TaggedGoodsType[];
+  goodsList?: TaggedGoodsType[];
 }

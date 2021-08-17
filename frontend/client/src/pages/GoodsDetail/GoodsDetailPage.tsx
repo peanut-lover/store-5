@@ -19,7 +19,7 @@ const TMP_IMAGES = [
 const mock_products: DetailGoods[] = [
   {
     id: 1,
-    thumbnailImg: mockImagePath,
+    thumbnailUrl: mockImagePath,
     title: '맥쥬짠1',
     price: 10000,
     isNew: true,
@@ -32,7 +32,7 @@ const mock_products: DetailGoods[] = [
   },
   {
     id: 2,
-    thumbnailImg: mockImagePath,
+    thumbnailUrl: mockImagePath,
     title: '맥쥬짠2',
     price: 10000,
     isNew: true,
@@ -45,7 +45,7 @@ const mock_products: DetailGoods[] = [
   },
   {
     id: 3,
-    thumbnailImg: mockImagePath,
+    thumbnailUrl: mockImagePath,
     title: '맥쥬짠3',
     price: 10000,
     isNew: true,

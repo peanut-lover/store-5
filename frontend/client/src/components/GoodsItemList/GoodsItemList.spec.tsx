@@ -8,10 +8,10 @@ import { Goods } from 'src/types/Goods';
 describe('ProductItemList Component', () => {
   it('should render all goods items', () => {
     const mock_goods: Goods[] = [
-      { id: 1, thumbnailImg: 'test_url', title: '맥쥬짠1', price: 10000, discountRate: 0 },
-      { id: 2, thumbnailImg: 'test_url', title: '맥쥬짠2', price: 20000, discountRate: 0 },
-      { id: 3, thumbnailImg: 'test_url', title: '맥쥬짠3', price: 30000, discountRate: 0 },
-      { id: 4, thumbnailImg: 'test_url', title: '맥쥬짠4', price: 40000, discountRate: 0 },
+      { id: 1, thumbnailUrl: 'test_url', title: '맥쥬짠1', price: 10000, discountRate: 0 },
+      { id: 2, thumbnailUrl: 'test_url', title: '맥쥬짠2', price: 20000, discountRate: 0 },
+      { id: 3, thumbnailUrl: 'test_url', title: '맥쥬짠3', price: 30000, discountRate: 0 },
+      { id: 4, thumbnailUrl: 'test_url', title: '맥쥬짠4', price: 40000, discountRate: 0 },
     ];
     const wrapper = render(<ProductItemList goodsList={mock_goods} />);
     expect(wrapper.getByText('맥쥬짠1')).toBeInTheDocument();
