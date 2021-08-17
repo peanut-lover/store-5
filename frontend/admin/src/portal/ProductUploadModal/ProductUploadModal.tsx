@@ -3,7 +3,7 @@ import { useCallback } from 'react';
 import Portal from '../portal';
 import ProductImageUploader from './ProductImageUploader/ProductImageUploader';
 import ProductTitleUploader from './ProductTitleUploader/ProductTitleUploader';
-import styled from 'styled-components';
+import { styled } from '@src/lib/CustomStyledComponent';
 import useInput from '../../hooks/useInput';
 
 const ProductUploadModal = () => {
@@ -40,7 +40,7 @@ const ProductUploadModal = () => {
   );
 };
 
-const ModalContainer = styled.div`
+const ModalContainer = styled('div')`
   position: fixed;
   z-index: 1000;
   text-align: center;
@@ -51,7 +51,7 @@ const ModalContainer = styled.div`
   bottom: 0;
 `;
 
-const ProductUploadContainer = styled.div`
+const ProductUploadContainer = styled('div')`
   position: absolute;
   top: 50%;
   left: 50%;

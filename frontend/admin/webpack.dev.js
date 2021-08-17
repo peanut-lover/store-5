@@ -9,7 +9,7 @@ module.exports = merge(common, {
     contentBase: path.join(__dirname, 'dist'),
     publicPath: '/',
     overlay: true,
-    port: 8081,
+    port: 8082,
     stats: 'errors-only',
     historyApiFallback: true,
     proxy: {
