@@ -28,7 +28,7 @@ const MyAddressView = () => {
     <AddressInfoList>
       <Topic>배송지 정보</Topic>
       <PrimaryButton onClick={toggleIsSelectModalOpened}>배송지 추가하기</PrimaryButton>
-      {isModalOpened && <AddressCreateModal onCreate={() => {}} onClose={toggleIsSelectModalOpened} />}
+      {isModalOpened && <AddressCreateModal onCreate={() => fetchAddresses()} onClose={toggleIsSelectModalOpened} />}
 
       {addresses.map((address, idx) => (
         <AddressInfoListItem key={idx}>

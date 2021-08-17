@@ -1,4 +1,5 @@
 import { AddressInfo, AddressCore } from '@src/types/Address';
+import { AddressAPI } from '@src/apis/addressAPI';
 import React, { useState } from 'react';
 import AddressForm from '../AddressForm/AddressForm';
 import Loading from '../Loading/Loading';
@@ -22,16 +23,18 @@ const mock: AddressInfo = {
 const AddressCreateModal: React.FC<Props> = ({ onClose, onCreate }) => {
   const [disabled, setDisabled] = useState(false);
 
-  // TODO: api 대응 수정하기
   const handleSubmit = async (address: AddressCore) => {
     setDisabled(true);
-    // await createAddress(address);
-    await new Promise((resolve, reject) => {
-      setTimeout(resolve, 1500);
-    });
-    // setDisabled(false);
-    onCreate?.(mock);
-    onClose?.();
+    try {
+      const { result } = await AddressAPI.createAddress(address);
+      onCreate?.(result);
+    } catch (err) {
+      alert('서버 문제로 정보업데이트에 실패했습니다.');
+      console.error(err);
+    } finally {
+      setDisabled(false);
+      onClose?.();
+    }
   };
 
   return (

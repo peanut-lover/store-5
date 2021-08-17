@@ -1,5 +1,5 @@
 import { APIResponse, checkedFetch } from '@src/apis/base';
-import { AddressInfo } from '@src/types/Address';
+import { AddressCore, AddressInfo } from '@src/types/Address';
 
 const getAddresses = async (): Promise<APIResponse<AddressInfo[]>> => {
   const res = await checkedFetch(`/api/user/address`, {
@@ -9,6 +9,20 @@ const getAddresses = async (): Promise<APIResponse<AddressInfo[]>> => {
   return await res.json();
 };
 
+const createAddress = async (address: AddressCore): Promise<APIResponse<AddressInfo>> => {
+  const res = await checkedFetch(`/api/user/address`, {
+    method: 'POST',
+    headers: {
+      Accept: 'application/json',
+      'Content-Type': 'application/json',
+    },
+    credentials: 'include',
+    body: JSON.stringify(address),
+  });
+  return await res.json();
+};
+
 export const AddressAPI = {
   getAddresses,
+  createAddress,
 };
