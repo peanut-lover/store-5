@@ -88,7 +88,6 @@ export const Route: React.FC<RouteProps> = ({ children }) => <>{children}</>;
  */
 function compilePath(path: string, exact: boolean) {
   const keys: string[] = [];
-  const queries: string[] = [];
 
   path = path.replace(/:(\w+)/g, (_, key) => {
     keys.push(key);
@@ -110,7 +109,9 @@ function matchRoutes(children: ReactElementAsChildren<RouteProps>, location: str
 
   React.Children.forEach(children, (route) => {
     const { regex, keys } = compilePath(route.props.path!, exact);
+    console.log(location, regex, keys);
     const match = location.match(regex);
+
     if (match) {
       const params = match.slice(2);
       matches.push({

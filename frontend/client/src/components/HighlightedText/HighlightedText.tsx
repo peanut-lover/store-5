@@ -1,6 +1,10 @@
 import styled from 'styled-components';
 
-const HighlightedText = styled.strong`
+interface HighlightTextProps {
+  fontSize?: string;
+}
+
+const HighlightedText = styled.strong<HighlightTextProps>`
   position: relative;
   font-size: 1.375rem;
   font-weight: bolder;

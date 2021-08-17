@@ -15,10 +15,7 @@ export default function App() {
     <>
       <Router>
         <Header />
-        <Routes exact>
-          <Route path='/'>
-            <Main />
-          </Route>
+        <Routes>
           <Route path='/cart'>
             <Cart />
           </Route>
@@ -36,6 +33,9 @@ export default function App() {
           </Route>
           <Route path='/keyword/:keyword'>
             <KeywordGoods />
+          </Route>
+          <Route path='/'>
+            <Main />
           </Route>
         </Routes>
       </Router>

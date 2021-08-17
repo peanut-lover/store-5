@@ -7,6 +7,7 @@ module.exports = merge(common, {
   devtool: 'inline-source-map',
   devServer: {
     contentBase: path.join(__dirname, 'dist'),
+    index: 'admin_index.html',
     publicPath: '/',
     overlay: true,
     port: 8082,
