@@ -109,7 +109,6 @@ function matchRoutes(children: ReactElementAsChildren<RouteProps>, location: str
 
   React.Children.forEach(children, (route) => {
     const { regex, keys } = compilePath(route.props.path!, exact);
-    console.log(location, regex, keys);
     const match = location.match(regex);
 
     if (match) {

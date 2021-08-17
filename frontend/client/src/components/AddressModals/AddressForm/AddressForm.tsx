@@ -1,4 +1,4 @@
-import Button from '@src/components/Button/Button';
+import Button from '@src/components/PrimaryButton/PrimaryButton';
 import { AddressCore } from '@src/types/Address';
 import React, { useState } from 'react';
 import styled from 'styled-components';

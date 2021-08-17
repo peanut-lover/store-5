@@ -1,9 +1,5 @@
-import Button from '@src/components/Button/Button';
-import { Address, AddressCore } from '@src/types/Address';
-import React, { useEffect } from 'react';
-import { useState } from 'react';
-import styled from 'styled-components';
-import AddressCard from '../AddressCard/AddressCard';
+import React, { useEffect, useState } from 'react';
+import { AddressInfo, AddressCore } from '@src/types/Address';
 import Loading from '../Loading/Loading';
 import Modal from '../Modal/Modal';
 import AddressCreatePage from './AddressCreatePage/AddressCreatePage';
@@ -12,10 +8,10 @@ import AddressUpdatePage from './AddressUpdatePage/AddressUpdatePage';
 
 interface Props {
   onClose?: () => void;
-  onSelect?: (address: Address) => void;
+  onSelect?: (address: AddressInfo) => void;
 }
 
-const mock: Address[] = [
+const mock: AddressInfo[] = [
   {
     id: 3,
     name: '집',
@@ -52,7 +48,7 @@ const AddressManageModal: React.FC<Props> = ({ onClose, onSelect }) => {
   const [disabled, setDisabled] = useState(false);
   const [page, setPage] = useState<AddressModalPage>(defaultPage);
 
-  const handleSelect = (address: Address) => {
+  const handleSelect = (address: AddressInfo) => {
     onSelect?.(address);
     onClose?.();
   };

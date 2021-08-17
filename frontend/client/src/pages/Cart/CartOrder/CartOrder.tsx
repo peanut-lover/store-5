@@ -3,7 +3,7 @@ import styled from 'styled-components';
 import { CartGoods } from '@src/types/Goods';
 import { getDiscountedPrice, getPriceText } from '@src/utils/price';
 import HighlightedText from '@src/components/HighlightedText/HighlightedText';
-import Button from '@src/components/Button/Button';
+import Button from '@src/components/PrimaryButton/PrimaryButton';
 
 interface Props {
   cartGoodsList: CartGoods[];

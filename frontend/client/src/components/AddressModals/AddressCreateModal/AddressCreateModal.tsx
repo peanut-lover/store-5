@@ -1,4 +1,4 @@
-import { Address, AddressCore } from '@src/types/Address';
+import { AddressInfo, AddressCore } from '@src/types/Address';
 import React, { useState } from 'react';
 import AddressForm from '../AddressForm/AddressForm';
 import Loading from '../Loading/Loading';
@@ -6,10 +6,10 @@ import Modal from '../Modal/Modal';
 
 interface Props {
   onClose?: () => void;
-  onSelect?: (address: Address) => void;
+  onCreate?: (address: AddressInfo) => void;
 }
 
-const mock: Address = {
+const mock: AddressInfo = {
   id: 4,
   name: '회사',
   receiver: '신어진',
@@ -19,7 +19,7 @@ const mock: Address = {
   isDefault: false,
 };
 
-const AddressCreateModal: React.FC<Props> = ({ onClose, onSelect }) => {
+const AddressCreateModal: React.FC<Props> = ({ onClose, onCreate }) => {
   const [disabled, setDisabled] = useState(false);
 
   // TODO: api 대응 수정하기
@@ -30,7 +30,7 @@ const AddressCreateModal: React.FC<Props> = ({ onClose, onSelect }) => {
       setTimeout(resolve, 1500);
     });
     // setDisabled(false);
-    onSelect?.(mock);
+    onCreate?.(mock);
     onClose?.();
   };
 

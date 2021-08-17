@@ -1,9 +1,9 @@
-import { Address } from '@src/types/Address';
+import { AddressInfo } from '@src/types/Address';
 import React from 'react';
 import styled from 'styled-components';
 
 interface Props {
-  address: Address;
+  address: AddressInfo;
   onClick?: () => void;
   onDelete?: () => void;
   onEdit?: () => void;

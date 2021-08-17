@@ -1,14 +1,14 @@
-import Button from '@src/components/Button/Button';
+import Button from '@src/components/PrimaryButton/PrimaryButton';
 import ConfirmModal from '@src/components/ConfirmModal/ConfirmModal';
-import { Address } from '@src/types/Address';
+import { AddressInfo } from '@src/types/Address';
 import React, { useState } from 'react';
 import styled from 'styled-components';
-import AddressCard from '../../AddressCard/AddressCard';
+import AddressCard from '@src/components/AddressCard/AddressCard';
 
 interface Props {
-  addressList: Address[];
+  addressList: AddressInfo[];
   disabled?: boolean;
-  onSelect?: (address: Address) => void;
+  onSelect?: (address: AddressInfo) => void;
   onDelete?: (addressId: number) => void;
   onGoToCreate?: () => void;
   onGoToUpdate?: (addressId: number) => void;

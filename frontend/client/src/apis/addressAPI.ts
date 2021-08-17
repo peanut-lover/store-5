@@ -1,17 +1,13 @@
-async function getAddresses() {
-  try {
-    const res = await fetch(`/api/user/address`, {
-      method: 'GET',
-      credentials: 'include',
-    });
-    if (res.ok) {
-      return res.json();
-    }
-    return false;
-  } catch (error) {
-    console.log(error);
-  }
-}
+import { APIResponse, checkedFetch } from '@src/apis/base';
+import { AddressInfo } from '@src/types/Address';
+
+const getAddresses = async (): Promise<APIResponse<AddressInfo[]>> => {
+  const res = await checkedFetch(`/api/user/address`, {
+    method: 'GET',
+    credentials: 'include',
+  });
+  return await res.json();
+};
 
 export const AddressAPI = {
   getAddresses,

@@ -1,16 +1,14 @@
-import { default as PrimaryButton } from '@src/components/Button/Button';
-import CheckButtonWithLabel from '@src/components/CheckButtonWithLabel/CheckButtonWithLabel';
-import Input from '@src/components/Input/Input';
-import { Address } from '@src/types/Address';
+import PrimaryButton from '@src/components/PrimaryButton/PrimaryButton';
+import { AddressInfo } from '@src/types/Address';
 import React from 'react';
 import { useState } from 'react';
 import styled from 'styled-components';
-import AddressCard from './AddressCard/AddressCard';
-import AddressCreateModal from './AddressCreateModal/AddressCreateModal';
-import AddressManageModal from './AddressManageModal/AddressManageModal';
+import AddressCard from '@src/components/AddressCard/AddressCard';
+import AddressCreateModal from '@src/components/AddressModals/AddressCreateModal/AddressCreateModal';
+import AddressManageModal from '@src/components/AddressModals/AddressManageModal/AddressManageModal';
 
 const AddressInfo: React.FC = () => {
-  const [selectedAddress, setSelectedAddress] = useState<Address | null>(null); // 임시적인 처리입니다. TODO
+  const [selectedAddress, setSelectedAddress] = useState<AddressInfo | null>(null); // 임시적인 처리입니다. TODO
 
   const [isModalOpened, setIsModalOpened] = useState(false);
   const toggleIsSelectModalOpened = () => {
@@ -23,7 +21,7 @@ const AddressInfo: React.FC = () => {
         <EmptyWrapper>
           등록된 배송지가 없습니다.
           <PrimaryButton onClick={toggleIsSelectModalOpened}>등록하기</PrimaryButton>
-          {isModalOpened && <AddressCreateModal onSelect={setSelectedAddress} onClose={toggleIsSelectModalOpened} />}
+          {isModalOpened && <AddressCreateModal onCreate={setSelectedAddress} onClose={toggleIsSelectModalOpened} />}
         </EmptyWrapper>
       </Wrapper>
     );
@@ -32,7 +30,7 @@ const AddressInfo: React.FC = () => {
   return (
     <Wrapper>
       <AddressCard address={selectedAddress} />
-      <Button onClick={toggleIsSelectModalOpened}>변경</Button>
+      <ModifyButton onClick={toggleIsSelectModalOpened}>변경</ModifyButton>
       {isModalOpened && <AddressManageModal onSelect={setSelectedAddress} onClose={toggleIsSelectModalOpened} />}
       {/* TODO: 배송메모 input */}
     </Wrapper>
@@ -51,11 +49,10 @@ const EmptyWrapper = styled.div`
   gap: 1rem;
 `;
 
-const Button = styled.button`
+const ModifyButton = styled.button`
   position: absolute;
   top: 0;
   right: 0;
-
   cursor: pointer;
   border: 1px solid #ddd;
   color: black;
@@ -64,9 +61,7 @@ const Button = styled.button`
   padding: 0.5rem 1rem;
   font-size: 1.125rem;
   font-weight: bolder;
-
   transition: 0.2s linear;
-
   :hover {
     border: 1px solid black;
   }

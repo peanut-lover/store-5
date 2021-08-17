@@ -1,9 +1,9 @@
-import { Address, AddressCore } from '@src/types/Address';
+import { AddressInfo, AddressCore } from '@src/types/Address';
 import React from 'react';
 import AddressForm from '../../AddressForm/AddressForm';
 
 interface Props {
-  address: Address;
+  address: AddressInfo;
   disabled?: boolean;
   onUpdate?: (addressId: number, address: AddressCore) => void;
   onCancel?: () => void;
