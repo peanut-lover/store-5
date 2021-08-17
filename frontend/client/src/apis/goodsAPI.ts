@@ -14,6 +14,7 @@ export interface GetGoodsByCategoryProps {
   categoryName: string;
   page: number;
   flag: string;
+  limit?: number;
 }
 
 export interface GetGoodsByKeywordProps {
@@ -28,9 +29,10 @@ export const getGoodsByCategory = async ({
   categoryName,
   page,
   flag,
+  limit = LIMIT,
 }: GetGoodsByCategoryProps): Promise<APIResponse<GoodsByCategoryResult>> => {
   const res = await checkedFetch(
-    `/api/goods/category?category=${categoryName}&page=${page}&flag=${flag}&limit=${LIMIT}`,
+    `/api/goods/category?category=${categoryName}&page=${page}&flag=${flag}&limit=${limit}`,
     {
       method: 'GET',
       credentials: 'include',
@@ -68,6 +70,16 @@ export const getGoodsDetail = async (goodsId: number): Promise<APIResponse<Detai
 
 export const getGoodsStockCount = async (goodsId: number): Promise<APIResponse<number>> => {
   const res = await checkedFetch(`/api/goods/${goodsId}/stock`, {
+    method: 'GET',
+    credentials: 'include',
+  });
+  return await res.json();
+};
+
+// 같은 카테고리인 상품을 4개까지 가져옴
+export const getRelationGoods = async (categoryName: string): Promise<APIResponse<GoodsByCategoryResult>> => {
+  const RELATION_LIMIT = 4;
+  const res = await checkedFetch(`/api/goods/category?category=${categoryName}&limit=${RELATION_LIMIT}`, {
     method: 'GET',
     credentials: 'include',
   });
