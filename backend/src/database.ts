@@ -1,4 +1,5 @@
 import { createConnection, getRepository, IsNull, Like, Not } from 'typeorm';
+import { DeliveryInfoRepository } from './repository/delivery.info.repository';
 import { databaseConfig } from './config';
 import { DeliveryInfo } from './entity/DeliveryInfo';
 import { Cart } from './entity/Cart';
@@ -17,6 +18,8 @@ import { UserRepository } from './repository/user.repository';
 import { UserAddressRepository } from './repository/user.address.repository';
 import { GoodsStateMap } from './controller/goods.controller';
 import { PromotionRepository } from './repository/promotion.repository';
+import { GoodsService } from './service/goods.service';
+import { GoodsRepository } from './repository/goods.repository';
 
 export default async function () {
   await createConnection({
@@ -46,6 +49,8 @@ async function populate() {
   await createDefaultCategory();
   await createDefaultPromotions();
   await createDefaultGoods();
+  await createDefaultDeliveryInfo();
+  await createDefaultProduct();
 }
 
 async function createDefaultUser(name: string) {
@@ -105,6 +110,32 @@ async function createDefaultAddress() {
   const addresses = await UserAddressRepository.getAddressesById(1);
   if (addresses.length > 0) return;
   await UserAddressRepository.createDefaultAddress(1, body);
+}
+
+async function createDefaultDeliveryInfo() {
+  const res = await DeliveryInfoRepository.getDeliveryInfos();
+  if (res.length > 0) return;
+  await DeliveryInfoRepository.createDeliveryInfo({
+    name: '산간',
+    deliveryFee: 5000,
+    deliveryDetail: '배송 지역이 너무멀어요',
+  });
+}
+async function createDefaultProduct() {
+  const goods = await GoodsRepository.findGoodsDetailById(1);
+  if (goods) return;
+  const body = {
+    title: '테스트 product',
+    category: 1,
+    isGreen: true,
+    price: 13000,
+    stock: 100,
+    state: 'S',
+    discountRate: 10,
+    deliveryInfo: 1,
+  };
+  const images = ['https://i.pinimg.com/474x/a6/37/06/a63706239671ff07ee06ab1fa761afae.jpg'];
+  await GoodsService.createGoods(body, images);
 }
 
 async function createDefaultOrderList() {}

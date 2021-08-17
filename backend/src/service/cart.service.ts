@@ -12,7 +12,7 @@ async function getAllCartByUserId(userId: number): Promise<CartsResponse> {
 
 async function createCart(userId: number, goodsId: number, body: CartBody): Promise<CartResponse> {
   // goods가 존재하는지 체크한다.
-  const goods = await GoodsRepository.findGoodsDetailById({ id: goodsId });
+  const goods = await GoodsRepository.findGoodsDetailById(goodsId);
   if (!goods) throw new NotFoundError(INVALID_ACCESS);
 
   return await CartRepository.createCart(userId, goodsId, body);

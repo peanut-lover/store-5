@@ -11,6 +11,7 @@ const PORT = serverConfig.port || 8080;
 
 const server = express();
 server.use(express.json());
+server.use('/uploads', express.static(path.join(__dirname, '../uploads')));
 server.use(express.static(path.join(__dirname, '../public')));
 
 server.use(

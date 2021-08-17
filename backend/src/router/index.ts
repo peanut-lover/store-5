@@ -10,6 +10,7 @@ import paymentRouter from './payment.router';
 import searchRouter from './search.router';
 import promotionRouter from './promotion.router';
 import cartRouter from './cart.router';
+import deliveryRouter from './delivery.router';
 
 const router = express.Router();
 
@@ -23,5 +24,6 @@ router.use('/payment', paymentRouter);
 router.use('/search', searchRouter);
 router.use('/promotion', promotionRouter);
 router.use('/cart', cartRouter);
+router.use('/delivery', deliveryRouter);
 
 export default router;

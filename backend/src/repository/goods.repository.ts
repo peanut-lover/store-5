@@ -2,40 +2,23 @@ import { getRepository, Like, MoreThan } from 'typeorm';
 import { GOODS_DB_ERROR } from '../constants/database-error-name';
 import { DatabaseError } from '../errors/base.error';
 import { Goods } from '../entity/Goods';
-import { CreateGoodsRequest } from '../types/request/goods.request';
 import { FindAllCategoryProps, FindAllColumnNameProps, FindAllKeywordProps } from '../types/Goods';
 import { TaggedGoodsType } from '../types/response/goods.response';
 import { SearchedGoodsFromKeyword } from '../types/response/search.response';
 import { GoodsStateMap } from '../controller/goods.controller';
 
-async function findGoodsDetailById({ id }: { id: number }) {
+async function findGoodsDetailById(goodsId: number): Promise<Goods | undefined> {
   try {
-    const result = await getRepository(Goods).findOne({
+    return await getRepository(Goods).findOne({
       relations: ['category', 'deliveryInfo', 'goodsImgs'],
       where: {
-        id,
+        id: goodsId,
       },
     });
-    return result;
   } catch (error) {
     console.error(error);
     throw new DatabaseError(GOODS_DB_ERROR);
   }
-}
-
-async function createGoods(requestGoods: CreateGoodsRequest) {
-  const goodsRepo = getRepository(Goods);
-  const { title, price, stock, discountRate, state } = requestGoods;
-  const goods = await goodsRepo.create({
-    thumbnailUrl: 'as',
-    countOfSell: 123,
-    isGreen: false,
-    title: 'asd',
-    price: 300,
-    stock: 100,
-    discountRate: 10,
-    state: GoodsStateMap.sale,
-  });
 }
 
 async function findAllByCategory({

@@ -1,6 +1,10 @@
 import { Request, Response } from 'express';
+import { INVALID_DATA } from '../constants/client-error-name';
+import { BadRequestError } from '../errors/client.error';
 import { GoodsService } from '../service/goods.service';
 import { GetAllByCategoryProps, GetAllByKeywordProps, GoodsFlag, GoodsState } from '../types/Goods';
+import { CreateGoodsRequest } from '../types/request/goods.request';
+import ConvertToURLfromFile from '../utils/convert.url.from.file';
 
 export const GoodsStateMap = {
   sale: 'S',
@@ -14,6 +18,16 @@ const GoodsFlag = {
   high: 'high',
   latest: 'latest',
 };
+
+async function createGoods(req: CreateGoodsRequest, res: Response) {
+  const body = req.body;
+  const files = req.files;
+  const HOST_URL = req.get('host');
+  if (!files || !Array.isArray(files) || !HOST_URL) throw new BadRequestError(INVALID_DATA);
+  const uploadFileUrls = ConvertToURLfromFile(files, HOST_URL);
+  const result = await GoodsService.createGoods(body, uploadFileUrls);
+  res.status(201).json({ result });
+}
 
 async function getGoodsDetail(req: Request, res: Response) {
   const goodsId = Number(req.params.id);
@@ -58,6 +72,7 @@ async function getMainGoodsListMap(req: Request, res: Response) {
 }
 
 export const GoodsController = {
+  createGoods,
   getGoodsDetail,
   getAllGoodsCategory,
   getAllSaleGoodsByKeyword,

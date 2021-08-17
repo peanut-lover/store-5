@@ -5,7 +5,7 @@ import { PAYMENT_DB_ERROR } from '../constants/database-error-name';
 async function getPayments(): Promise<Payment[]> {
   try {
     const paymentRepo = getRepository(Payment);
-    return await paymentRepo.find({});
+    return await paymentRepo.find();
   } catch (err) {
     console.log(err);
     throw new DatabaseError(PAYMENT_DB_ERROR);

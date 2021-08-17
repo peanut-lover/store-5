@@ -1,4 +1,5 @@
-import { MoreThan } from 'typeorm';
+import { GoodsImg } from './../entity/GoodsImg';
+import { getConnection, MoreThan } from 'typeorm';
 import { Goods } from '../entity/Goods';
 import { GoodsRepository } from '../repository/goods.repository';
 import {
@@ -20,9 +21,20 @@ import { BadRequestError } from '../errors/client.error';
 import { GOODS_DB_ERROR } from '../constants/database-error-name';
 import { CategoryRepository } from '../repository/category.repository';
 import { GoodsStateMap } from '../controller/goods.controller';
+import { CreateGoodsBody } from '../types/request/goods.request';
 
-async function getDetailById(id: number): Promise<DetailGoodsResponse> {
-  const data = await GoodsRepository.findGoodsDetailById({ id });
+async function createGoods(body: CreateGoodsBody, uploadFileUrls: string[]): Promise<Goods> {
+  return await getConnection().transaction(async (transactionalEntityManager) => {
+    const goods = await transactionalEntityManager.save(Goods, { ...body, thumbnailUrl: uploadFileUrls[0] });
+    await Promise.all(
+      uploadFileUrls.map(async (url) => await transactionalEntityManager.save(GoodsImg, { goods: goods.id, url }))
+    );
+    return goods;
+  });
+}
+
+async function getDetailById(goodsId: number): Promise<DetailGoodsResponse> {
+  const data = await GoodsRepository.findGoodsDetailById(goodsId);
   const imgs = data?.goodsImgs.map((goodsImg) => goodsImg.url);
   const res = JSON.parse(JSON.stringify(data));
   delete res.goodsImgs;
@@ -207,6 +219,7 @@ function getTotalPage(totalCount: number, limit: number): number {
 }
 
 export const GoodsService = {
+  createGoods,
   getDetailById,
   getAllByCategory,
   getAllSaleGoodsByKeyword,
