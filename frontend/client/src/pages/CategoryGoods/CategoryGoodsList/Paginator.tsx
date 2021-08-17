@@ -3,6 +3,7 @@ import styled from 'styled-components';
 import { BsFillCaretLeftFill, BsFillCaretRightFill } from 'react-icons/bs';
 import { range } from '@src/utils/range';
 import { Link } from '@src/lib/CustomRouter';
+import theme from '@src/theme/theme';
 
 interface Props {
   totalPage: number;
@@ -33,17 +34,17 @@ const Paginator: React.FC<Props> = ({ totalPage, currentPage, rangeOfPage = DEFA
 
   return pages.length === 0 ? null : (
     <PaginatorContainer>
-      <PaginationButton onClick={onClickNextPage}>
+      <PaginationButton onClick={onClickPreviousPage}>
         <BsFillCaretLeftFill size={20} />
       </PaginationButton>
       <PageList>
         {pages.map((page) => (
-          <PageButton key={page} onClick={() => onClickPage(page)}>
+          <PageButton key={page} onClick={() => onClickPage(page)} active={page === currentPage}>
             {page}
           </PageButton>
         ))}
       </PageList>
-      <PaginationButton onClick={onClickPreviousPage}>
+      <PaginationButton onClick={onClickNextPage}>
         <BsFillCaretRightFill size={20} />
       </PaginationButton>
     </PaginatorContainer>
@@ -74,14 +75,14 @@ const PageList = styled.ul`
   justify-content: space-around;
 `;
 
-const PageButton = styled.li`
+const PageButton = styled.li<{ active: boolean }>`
   display: flex;
   justify-content: center;
   align-items: center;
   cursor: pointer;
   width: 2rem;
   height: 2rem;
-
+  color: ${(props) => (props.active ? theme.primary : 'black')};
   &:hover {
     transform: scale(1.5);
   }
