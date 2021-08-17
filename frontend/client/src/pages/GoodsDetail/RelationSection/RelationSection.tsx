@@ -15,7 +15,6 @@ const RelationSection: React.FC<Props> = ({ categoryName }) => {
   const fetchGoodsDetail = async (categoryName: string) => {
     try {
       const data = await getRelationGoods(categoryName);
-      console.log(data);
       setRelationGoodsList(data.result.goodsList);
     } catch (e) {
       setRelationGoodsList([]);
