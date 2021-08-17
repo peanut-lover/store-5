@@ -25,5 +25,5 @@ export class GoodsImg {
 
   @ManyToOne(() => Goods, (goods) => goods.id)
   @JoinColumn()
-  goods: Goods;
+  goods: number;
 }

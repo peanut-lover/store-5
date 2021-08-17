@@ -8,6 +8,7 @@ interface Props {
 const ProductImagePreviews: React.FC<Props> = ({ previewImages }) => {
   return (
     <div>
+      <PreviewImage src={'http://localhost:8080/uploads/76bc7da57ee20405767487a84256b0f9'} />
       {previewImages.map((url, i) => (
         <PreviewImage key={i} src={url} />
       ))}

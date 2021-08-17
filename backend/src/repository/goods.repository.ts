@@ -23,11 +23,6 @@ async function findGoodsDetailById({ id }: { id: number }) {
   }
 }
 
-async function createGoods(body: CreateGoodsBody) {
-  const goodsRepo = getRepository(Goods);
-  return await goodsRepo.save({ ...body });
-}
-
 async function findAllByCategory({
   category,
   where,
@@ -157,7 +152,6 @@ async function searchGoodsFromKeyword(keyword: string): Promise<SearchedGoodsFro
 }
 
 export const GoodsRepository = {
-  createGoods,
   findGoodsDetailById,
   findAllByCategory,
   findAllByColumnName,

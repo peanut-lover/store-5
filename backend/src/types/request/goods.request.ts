@@ -7,7 +7,7 @@ export interface CreateGoodsBody {
   stock: number;
   state: string;
   discountRate: number;
-  deliveryInfoId: number;
+  deliveryInfo: number;
 }
 
 export interface CreateGoodsRequest extends Request {

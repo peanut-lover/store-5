@@ -17,6 +17,7 @@ import { UserRepository } from './repository/user.repository';
 import { UserAddressRepository } from './repository/user.address.repository';
 import { GoodsStateMap } from './controller/goods.controller';
 import { PromotionRepository } from './repository/promotion.repository';
+import { GoodsService } from './service/goods.service';
 
 export default async function () {
   await createConnection({
@@ -105,6 +106,21 @@ async function createDefaultAddress() {
   const addresses = await UserAddressRepository.getAddressesById(1);
   if (addresses.length > 0) return;
   await UserAddressRepository.createDefaultAddress(1, body);
+}
+
+async function createDefaultProduct() {
+  const body = {
+    title: '테스트 product',
+    category: 1,
+    isGreen: true,
+    price: 13000,
+    stock: 100,
+    state: 'S',
+    discountRate: 10,
+    deliveryInfo: 1,
+  };
+  const images = ['https://i.pinimg.com/474x/a6/37/06/a63706239671ff07ee06ab1fa761afae.jpg'];
+  await GoodsService.createGoods(body, images);
 }
 
 async function createDefaultOrderList() {}

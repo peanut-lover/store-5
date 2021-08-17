@@ -1,4 +1,5 @@
-import { MoreThan } from 'typeorm';
+import { GoodsImg } from './../entity/GoodsImg';
+import { getConnection, MoreThan } from 'typeorm';
 import { Goods } from '../entity/Goods';
 import { GoodsRepository } from '../repository/goods.repository';
 import {
@@ -22,7 +23,15 @@ import { CategoryRepository } from '../repository/category.repository';
 import { GoodsStateMap } from '../controller/goods.controller';
 import { CreateGoodsBody } from '../types/request/goods.request';
 
-async function createGoods(body: CreateGoodsBody, uploadFileUrls: string[]) {}
+async function createGoods(body: CreateGoodsBody, uploadFileUrls: string[]) {
+  return await getConnection().transaction(async (transactionalEntityManager) => {
+    const goods = await transactionalEntityManager.save(Goods, { ...body, thumbnailUrl: uploadFileUrls[0] });
+    await Promise.all(
+      uploadFileUrls.map(async (url) => await transactionalEntityManager.save(GoodsImg, { goods: goods.id, url }))
+    );
+    return goods;
+  });
+}
 
 async function getDetailById(id: number): Promise<DetailGoodsResponse> {
   const data = await GoodsRepository.findGoodsDetailById({ id });

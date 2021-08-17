@@ -1,4 +1,6 @@
 import { Request, Response } from 'express';
+import { INVALID_DATA } from '../constants/client-error-name';
+import { BadRequestError } from '../errors/client.error';
 import { GoodsService } from '../service/goods.service';
 import { GetAllByCategoryProps, GetAllByKeywordProps, GoodsFlag, GoodsState } from '../types/Goods';
 import { CreateGoodsRequest } from '../types/request/goods.request';
@@ -19,8 +21,15 @@ const GoodsFlag = {
 async function createGoods(req: CreateGoodsRequest, res: Response) {
   const body = req.body;
   const files = req.files;
-  console.log(files);
-  console.log(body.title);
+  if (!files || !Array.isArray(files)) throw new BadRequestError(INVALID_DATA);
+
+  // TODO: 파일 이미지를 URL로 변환하는 작업 util 함수로 빼는 게 적절할 것인가?
+  const uploadFileUrls = files.reduce((acc: string[], { path }) => {
+    acc.push(`http://${req.get('host')}/${path}`);
+    return acc;
+  }, []);
+  const result = await GoodsService.createGoods(body, uploadFileUrls);
+  res.status(201).json({ result });
 }
 
 async function getGoodsDetail(req: Request, res: Response) {
