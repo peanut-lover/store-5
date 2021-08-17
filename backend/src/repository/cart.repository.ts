@@ -17,7 +17,7 @@ async function getCartByUserIdAndCartId(userId: number, cartId: number): Promise
 async function getCartsByUserId(userId: number): Promise<Cart[]> {
   try {
     const cartRepo = getRepository(Cart);
-    return await cartRepo.find({ where: { user: userId } });
+    return await cartRepo.find({ where: { user: userId }, relations: ['goods'] });
   } catch (err) {
     console.error(err);
     throw new DatabaseError(CART_DB_ERROR);

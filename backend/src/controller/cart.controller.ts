@@ -36,7 +36,7 @@ async function deleteCarts(req: Request, res: Response) {
     .map((id) => Number(id))
     .filter((id) => !isNaN(id));
   await CartService.deleteCarts(userId, cartIds);
-  res.status(204).json({ success: true });
+  res.sendStatus(204);
 }
 
 const CartController = {
