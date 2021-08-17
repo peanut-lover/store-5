@@ -2,6 +2,13 @@ import { UserAddressService } from '../service/user.address.service';
 import { Request, Response } from 'express';
 import { CreateAddressRequest } from '../types/request/user.request';
 
+async function getAddressById(req: Request, res: Response) {
+  const userId = req.userId;
+  const addressId = Number(req.params.id);
+  const result = await UserAddressService.getAddressById(userId, addressId);
+  res.status(200).json({ result });
+}
+
 async function getAddresses(req: Request, res: Response) {
   const userId = req.userId;
   const result = await UserAddressService.getAddresses(userId);
@@ -33,6 +40,7 @@ async function updateAddress(req: CreateAddressRequest, res: Response) {
 }
 
 export const UserController = {
+  getAddressById,
   getAddresses,
   createAddress,
   deleteAddress,

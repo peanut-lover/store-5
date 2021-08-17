@@ -10,3 +10,7 @@ export interface AddressCore {
 export type AddressInfo = AddressCore & {
   id: number;
 };
+
+export type AddressUpdateResult = {
+  id: number;
+};

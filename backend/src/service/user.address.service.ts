@@ -1,9 +1,17 @@
-import { CreateUserAddressResponse, UserAddressesResponse } from './../types/response/user.response';
+import {
+  CreateUserAddressResponse,
+  UserAddressesResponse,
+  UserAddressResponse,
+} from './../types/response/user.response';
 import { INVALID_ACCESS } from '../constants/client-error-name';
 import { NotFoundError } from '../errors/client.error';
 import { UserAddressRepository } from '../repository/user.address.repository';
 import { AddressBody } from '../types/request/user.request';
 import { DeleteResult, UpdateResult } from 'typeorm';
+
+async function getAddressById(userId: number, addressId: number): Promise<UserAddressResponse | undefined> {
+  return await UserAddressRepository.getAddressByIds(userId, addressId);
+}
 
 async function getAddresses(userId: number): Promise<UserAddressesResponse> {
   return await UserAddressRepository.getAddressesById(userId);
@@ -36,6 +44,7 @@ async function checkMineAddress(userId: number, addressId: number): Promise<bool
 }
 
 export const UserAddressService = {
+  getAddressById,
   getAddresses,
   createAddress,
   deleteAddress,

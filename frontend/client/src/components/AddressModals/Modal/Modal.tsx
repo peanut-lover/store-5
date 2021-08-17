@@ -46,7 +46,8 @@ const Wrapper = styled.div`
   position: absolute;
   top: 50%;
   left: 50%;
-  width: 360px;
+  width: 500px;
+  padding: 1rem;
   transform: translate(-50%, -50%);
   margin: auto;
   background-color: white;

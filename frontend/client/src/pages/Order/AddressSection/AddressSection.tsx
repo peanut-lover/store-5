@@ -21,7 +21,7 @@ const AddressInfo: React.FC = () => {
         <EmptyWrapper>
           등록된 배송지가 없습니다.
           <PrimaryButton onClick={toggleIsSelectModalOpened}>등록하기</PrimaryButton>
-          {isModalOpened && <AddressCreateModal onCreate={setSelectedAddress} onClose={toggleIsSelectModalOpened} />}
+          {isModalOpened && <AddressCreateModal onSelect={setSelectedAddress} onClose={toggleIsSelectModalOpened} />}
         </EmptyWrapper>
       </Wrapper>
     );

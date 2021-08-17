@@ -6,9 +6,9 @@ import wrapAsync from '../utils/wrap-async';
 
 const router = express.Router();
 
+router.get('/address/:id', isAuthenticate, checkNumberInParams, wrapAsync(UserController.getAddressById));
 router.get('/address', isAuthenticate, wrapAsync(UserController.getAddresses));
 router.post('/address', isAuthenticate, wrapAsync(UserController.createAddress));
 router.delete('/address/:id', isAuthenticate, checkNumberInParams, wrapAsync(UserController.deleteAddress));
 router.put('/address/:id', isAuthenticate, checkNumberInParams, wrapAsync(UserController.updateAddress));
-
 export default router;

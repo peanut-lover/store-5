@@ -6,13 +6,21 @@ import { AddressInfo } from '@src/types/Address';
 import React, { useEffect, useState } from 'react';
 import styled from 'styled-components';
 import AddressCreateModal from '@src/components/AddressModals/AddressCreateModal/AddressCreateModal';
+import AddressManageModal from '@src/components/AddressModals/AddressManageModal/AddressManageModal';
 
 const MyAddressView = () => {
   const [addresses, setAddresses] = useState<AddressInfo[]>([]);
-  const [isModalOpened, setIsModalOpened] = useState(false);
+  const [isOpenCreateModal, setIsOpenCreateModal] = useState(false);
+  const [isOpenManageModal, setIsOpenManageModal] = useState(false);
 
-  const toggleIsSelectModalOpened = () => {
-    setIsModalOpened(!isModalOpened);
+  const toggleCreateModal = () => {
+    setIsOpenCreateModal(!isOpenCreateModal);
+    fetchAddresses();
+  };
+
+  const toggleManageModal = () => {
+    setIsOpenManageModal(!isOpenManageModal);
+    fetchAddresses();
   };
 
   async function fetchAddresses() {
@@ -24,29 +32,47 @@ const MyAddressView = () => {
     fetchAddresses();
   }, []);
 
+  const defaultAddress = addresses.find((address) => address.isDefault);
+  const optionalAddress = addresses.filter((address) => !address.isDefault);
+
   return (
     <AddressInfoList>
       <Topic>배송지 정보</Topic>
-      <PrimaryButton onClick={toggleIsSelectModalOpened}>배송지 추가하기</PrimaryButton>
-      {isModalOpened && <AddressCreateModal onCreate={() => fetchAddresses()} onClose={toggleIsSelectModalOpened} />}
 
-      {addresses.map((address, idx) => (
-        <AddressInfoListItem key={idx}>
-          <AddressCard address={address} />
-        </AddressInfoListItem>
-      ))}
+      <AddressControlButtonContainer>
+        <PrimaryButton onClick={toggleCreateModal}>배송지 추가하기</PrimaryButton>
+        <PrimaryButton onClick={toggleManageModal}>배송지 수정하기</PrimaryButton>
+      </AddressControlButtonContainer>
+
+      {isOpenCreateModal && <AddressCreateModal onClose={toggleCreateModal} />}
+      {isOpenManageModal && <AddressManageModal onClose={toggleManageModal} />}
+
+      <AddressInfoListItem isPrimary>
+        {defaultAddress ? <AddressCard address={defaultAddress} /> : '기본 주소가 없습니다.'}
+      </AddressInfoListItem>
     </AddressInfoList>
   );
 };
+
+const AddressControlButtonContainer = styled.div`
+  display: flex;
+  justify-content: space-between;
+`;
 
 const AddressInfoList = styled.ul`
   display: flex;
   flex-direction: column;
 `;
 
-const AddressInfoListItem = styled.li`
+interface AddressInfoListItem {
+  theme: {
+    darkPrimary: string;
+  };
+  isPrimary?: boolean;
+}
+
+const AddressInfoListItem = styled.li<AddressInfoListItem>`
   display: flex;
-  border: 1px solid black;
   margin-top: 1rem;
 `;
 

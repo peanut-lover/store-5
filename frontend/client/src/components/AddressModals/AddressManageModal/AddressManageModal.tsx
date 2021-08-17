@@ -1,40 +1,21 @@
 import React, { useEffect, useState } from 'react';
+import { AddressAPI } from '@src/apis/addressAPI';
 import { AddressInfo, AddressCore } from '@src/types/Address';
-import Loading from '../Loading/Loading';
-import Modal from '../Modal/Modal';
 import AddressCreatePage from './AddressCreatePage/AddressCreatePage';
 import AddressSelectPage from './AddressSelectPage/AddressSelectPage';
 import AddressUpdatePage from './AddressUpdatePage/AddressUpdatePage';
+import Loading from '../Loading/Loading';
+import Modal from '../Modal/Modal';
 
 interface Props {
   onClose?: () => void;
   onSelect?: (address: AddressInfo) => void;
 }
 
-const mock: AddressInfo[] = [
-  {
-    id: 3,
-    name: '집',
-    receiver: '신어진',
-    zipCode: '1234',
-    address: '대구 광역시 북구',
-    subAddress: '301호',
-    isDefault: true,
-  },
-  {
-    id: 4,
-    name: '회사',
-    receiver: '신어진',
-    zipCode: '12234',
-    address: '대구 광역시 북구',
-    subAddress: '302호',
-    isDefault: false,
-  },
-];
-
 interface AddressModalPage {
   title: string;
   component: any; // React.FC;
+  address?: AddressInfo;
 }
 
 const defaultPage: AddressModalPage = {
@@ -47,6 +28,7 @@ const defaultPage: AddressModalPage = {
 const AddressManageModal: React.FC<Props> = ({ onClose, onSelect }) => {
   const [disabled, setDisabled] = useState(false);
   const [page, setPage] = useState<AddressModalPage>(defaultPage);
+  const [addresses, setAddresses] = useState<AddressInfo[]>([]);
 
   const handleSelect = (address: AddressInfo) => {
     onSelect?.(address);
@@ -60,17 +42,20 @@ const AddressManageModal: React.FC<Props> = ({ onClose, onSelect }) => {
       setTimeout(resolve, 1500);
     });
     setDisabled(false);
-    handleGoToSelect();
+    handleGoToSelectPage();
   };
 
   const handleUpdate = async (addressId: number, address: AddressCore) => {
     setDisabled(true);
-    // await
-    await new Promise((resolve, reject) => {
-      setTimeout(resolve, 1500);
-    });
-    setDisabled(false);
-    handleGoToSelect();
+    try {
+      await AddressAPI.updateAddress(addressId, address);
+      setDisabled(false);
+      handleGoToSelectPage();
+    } catch (err) {
+      console.error(err);
+      alert('서버에서 Address를 업데이트하는데 실패했습니다.');
+      onClose?.();
+    }
   };
 
   const handleDelete = async (addressId: number) => {
@@ -80,52 +65,59 @@ const AddressManageModal: React.FC<Props> = ({ onClose, onSelect }) => {
       setTimeout(resolve, 1500);
     });
     setDisabled(false);
-    handleGoToSelect();
+    handleGoToSelectPage();
   };
 
-  const handleGoToSelect = async () => {
+  const handleGoToSelectPage = async () => {
     setDisabled(true);
-    // await
-    await new Promise((resolve, reject) => {
-      setTimeout(resolve, 1500);
-    });
-    setPage({ title: '배송지 조회', component: AddressSelectPage });
-    setDisabled(false);
+    try {
+      const { result } = await AddressAPI.getAddresses();
+      setAddresses(result);
+      setPage({ title: '배송지 조회', component: AddressSelectPage });
+      setDisabled(false);
+    } catch (err) {
+      console.error(err);
+      alert('서버에서 Address를 가져오는데 실패했습니다.');
+      onClose?.();
+    }
   };
 
-  const handleGoToCreate = async () => {
+  const handleGoToCreatePage = async () => {
     setPage({ title: '배송지 추가', component: AddressCreatePage });
   };
 
-  const handleGoToUpdate = async (addressId: number) => {
+  const handleGoToUpdatePage = async (addressId: number) => {
     setDisabled(true);
-    // await
-    await new Promise((resolve, reject) => {
-      setTimeout(resolve, 1500);
-    });
-    setDisabled(false);
-    setPage({ title: '배송지 수정', component: AddressUpdatePage });
+    try {
+      const { result } = await AddressAPI.getAddressById(addressId);
+      setDisabled(false);
+      setPage({ title: '배송지 수정', component: AddressUpdatePage, address: result });
+    } catch (err) {
+      console.error(err);
+      alert('서버에서 Address를 가져오는데 실패했습니다.');
+      onClose?.();
+    }
   };
 
   useEffect(() => {
-    handleGoToSelect();
+    handleGoToSelectPage();
   }, []);
 
   const Page = page.component;
-
+  const targetAddress = page.address;
   return (
     <Modal title={page.title} onClose={onClose} disabled={disabled}>
       <Page
-        addressList={mock}
-        address={mock[0]}
+        addressList={addresses}
+        address={targetAddress}
         disabled={disabled}
         onSelect={handleSelect}
         onCreate={handleCreate}
         onUpdate={handleUpdate}
         onDelete={handleDelete}
-        onCancel={handleGoToSelect}
-        onGoToCreate={handleGoToCreate}
-        onGoToUpdate={handleGoToUpdate}
+        onCancel={handleGoToSelectPage}
+        onGoToCreate={handleGoToCreatePage}
+        onGoToUpdate={handleGoToUpdatePage}
       />
       {disabled && <Loading />}
     </Modal>
