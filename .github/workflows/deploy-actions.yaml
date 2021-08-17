@@ -57,7 +57,7 @@ jobs:
         run: |
           mkdir -p public
           cp -r ../frontend/client/dist/* ./public/
-          cp -r ../frontend/admin/dist/*  ./public/a
+          cp -r ../frontend/admin/dist/*  ./public/
         working-directory: ./backend
 
       - name: Create .env file for server app
