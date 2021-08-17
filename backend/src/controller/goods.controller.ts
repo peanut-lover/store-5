@@ -1,6 +1,7 @@
 import { Request, Response } from 'express';
 import { GoodsService } from '../service/goods.service';
 import { GetAllByCategoryProps, GetAllByKeywordProps, GoodsFlag, GoodsState } from '../types/Goods';
+import { CreateGoodsRequest } from '../types/request/goods.request';
 
 export const GoodsStateMap = {
   sale: 'S',
@@ -14,6 +15,13 @@ const GoodsFlag = {
   high: 'high',
   latest: 'latest',
 };
+
+async function createGoods(req: CreateGoodsRequest, res: Response) {
+  const body = req.body;
+  const files = req.files;
+  console.log(files);
+  console.log(body.title);
+}
 
 async function getGoodsDetail(req: Request, res: Response) {
   const goodsId = Number(req.params.id);
@@ -58,6 +66,7 @@ async function getMainGoodsListMap(req: Request, res: Response) {
 }
 
 export const GoodsController = {
+  createGoods,
   getGoodsDetail,
   getAllGoodsCategory,
   getAllSaleGoodsByKeyword,

@@ -20,6 +20,9 @@ import { BadRequestError } from '../errors/client.error';
 import { GOODS_DB_ERROR } from '../constants/database-error-name';
 import { CategoryRepository } from '../repository/category.repository';
 import { GoodsStateMap } from '../controller/goods.controller';
+import { CreateGoodsBody } from '../types/request/goods.request';
+
+async function createGoods(body: CreateGoodsBody, uploadFileUrls: string[]) {}
 
 async function getDetailById(id: number): Promise<DetailGoodsResponse> {
   const data = await GoodsRepository.findGoodsDetailById({ id });
@@ -207,6 +210,7 @@ function getTotalPage(totalCount: number, limit: number): number {
 }
 
 export const GoodsService = {
+  createGoods,
   getDetailById,
   getAllByCategory,
   getAllSaleGoodsByKeyword,

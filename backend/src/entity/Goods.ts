@@ -35,6 +35,9 @@ export class Goods {
   @Column({ type: 'int' })
   countOfSell: number;
 
+  // @Column({ type: 'int' })
+  // deliveryInfoId: number;
+
   @Column({ type: 'varchar', length: 5 })
   state: string;
 
