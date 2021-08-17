@@ -58,8 +58,16 @@ export const getMainGoodsListMap = async (): Promise<APIResponse<MainGoodsListRe
   return await res.json();
 };
 
-export const getGoodsDetail = async (id: number): Promise<APIResponse<DetailGoods>> => {
-  const res = await checkedFetch(`/api/goods/${id}`, {
+export const getGoodsDetail = async (goodsId: number): Promise<APIResponse<DetailGoods>> => {
+  const res = await checkedFetch(`/api/goods/${goodsId}`, {
+    method: 'GET',
+    credentials: 'include',
+  });
+  return await res.json();
+};
+
+export const getGoodsStockCount = async (goodsId: number): Promise<APIResponse<number>> => {
+  const res = await checkedFetch(`/api/goods/${goodsId}/stock`, {
     method: 'GET',
     credentials: 'include',
   });

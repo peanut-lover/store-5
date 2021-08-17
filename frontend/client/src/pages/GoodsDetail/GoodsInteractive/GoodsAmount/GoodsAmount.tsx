@@ -1,3 +1,4 @@
+import theme from '@src/theme/theme';
 import { getDiscountedPrice, getPriceText } from '@src/utils/price';
 import React, { useCallback } from 'react';
 import { FaAngleUp, FaAngleDown } from 'react-icons/fa';
@@ -14,19 +15,28 @@ interface Props {
   amount: number;
   deliveryFee: number;
   discountRate: number;
+  isOver: boolean;
   onChangeAmount: (amount: number) => void;
 }
 
-const GoodsAmount: React.FC<Props> = ({ title, price, deliveryFee, discountRate, amount, onChangeAmount }) => {
+const GoodsAmount: React.FC<Props> = ({
+  title,
+  price,
+  deliveryFee,
+  discountRate,
+  amount,
+  isOver = false,
+  onChangeAmount,
+}) => {
   const totalPrice = getTotalPrice(amount, price, deliveryFee, discountRate);
 
   const onPlusEvent = useCallback(() => {
-    onChangeAmount(amount + 1);
-  }, []);
+    handleAmount(amount + 1);
+  }, [amount]);
 
   const onMinusEvent = useCallback(() => {
-    onChangeAmount(amount - 1);
-  }, []);
+    handleAmount(amount - 1);
+  }, [amount]);
 
   const handleChangeEvent = useCallback((e) => {
     const target = e.target;
@@ -36,7 +46,6 @@ const GoodsAmount: React.FC<Props> = ({ title, price, deliveryFee, discountRate,
 
   const handleAmount = (value: number) => {
     if (value < 0) value = 0;
-    // TODO 재고확인 API 적용
     onChangeAmount(value);
   };
   return (
@@ -58,9 +67,13 @@ const GoodsAmount: React.FC<Props> = ({ title, price, deliveryFee, discountRate,
       </GoodsAmountContainer>
       <TotalAmount>
         <span>총 합계금액</span>
-        <TotalPrice>
-          <span>{getPriceText(totalPrice)}</span>원
-        </TotalPrice>
+        {isOver ? (
+          <OverStock>구매 가능 수량 초과</OverStock>
+        ) : (
+          <TotalPrice>
+            <span>{getPriceText(totalPrice)}</span>원
+          </TotalPrice>
+        )}
       </TotalAmount>
     </>
   );
@@ -139,6 +152,11 @@ const TotalPrice = styled.div`
   span {
     font-size: 2.25rem;
   }
+`;
+
+const OverStock = styled.div`
+  font-size: 1.875rem;
+  color: ${theme.warning};
 `;
 
 export default GoodsAmount;
