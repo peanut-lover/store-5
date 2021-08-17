@@ -4,4 +4,4 @@ const uploadProductFiles = multer({
   dest: 'uploads/',
 });
 
-export default uploadProductFiles.array;
+export default uploadProductFiles;

@@ -8,7 +8,12 @@ import wrapAsync from '../utils/wrap-async';
 
 const router = express.Router();
 
-router.post('/', isAuthenticate, uploadProductFiles('files', MAX_UPLOAD_FILE), wrapAsync(GoodsController.createGoods));
+router.post(
+  '/',
+  isAuthenticate,
+  uploadProductFiles.array('files', MAX_UPLOAD_FILE),
+  wrapAsync(GoodsController.createGoods)
+);
 router.get('/category', wrapAsync(GoodsController.getAllGoodsCategory));
 router.get('/keyword', wrapAsync(GoodsController.getAllSaleGoodsByKeyword));
 router.get('/main', wrapAsync(GoodsController.getMainGoodsListMap));

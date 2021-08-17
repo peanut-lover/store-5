@@ -22,10 +22,9 @@ const GoodsFlag = {
 async function createGoods(req: CreateGoodsRequest, res: Response) {
   const body = req.body;
   const files = req.files;
-  if (!files || !Array.isArray(files)) throw new BadRequestError(INVALID_DATA);
-
-  // TODO: 파일 이미지를 URL로 변환하는 작업 util 함수로 빼는 게 적절할 것인가?
-  const uploadFileUrls = ConvertToURLfromFile(files);
+  const HOST_URL = req.get('host');
+  if (!files || !Array.isArray(files) || !HOST_URL) throw new BadRequestError(INVALID_DATA);
+  const uploadFileUrls = ConvertToURLfromFile(files, HOST_URL);
   const result = await GoodsService.createGoods(body, uploadFileUrls);
   res.status(201).json({ result });
 }
