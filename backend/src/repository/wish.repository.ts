@@ -48,9 +48,25 @@ async function findWishByUserId(userId: number): Promise<number[]> {
   }
 }
 
+async function findWishCountByGoodsIdAndUserId(goodsId: number, userId: number): Promise<number> {
+  try {
+    const result = await getRepository(Wish)
+      .createQueryBuilder('wish')
+      .select('wish.goodsId')
+      .where('wish.goodsId = :goodsId', { goodsId })
+      .andWhere('wish.userId = :userId', { userId })
+      .getCount();
+    return result;
+  } catch (error) {
+    console.error(error);
+    throw new DatabaseError(WISH_DB_ERROR);
+  }
+}
+
 export const WishRepository = {
   findWishByUserId,
   findWishByIds,
+  findWishCountByGoodsIdAndUserId,
   createWish,
   deleteWish,
 };
