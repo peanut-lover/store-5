@@ -8,30 +8,39 @@ interface Props {
   totalPage: number;
   currentPage: number;
   rangeOfPage?: number;
-  onClickNextPage?: () => void;
-  onClickPreviousPage?: () => void;
+  setPage: (page: number) => void;
 }
 const DEFAULT_PAGE_RANGE = 5;
-const Paginator: React.FC<Props> = ({
-  totalPage,
-  currentPage,
-  rangeOfPage = DEFAULT_PAGE_RANGE,
-  onClickNextPage,
-  onClickPreviousPage,
-}) => {
+const Paginator: React.FC<Props> = ({ totalPage, currentPage, rangeOfPage = DEFAULT_PAGE_RANGE, setPage }) => {
   const startPage = Math.floor(currentPage / rangeOfPage) * rangeOfPage + 1;
   const endPage = startPage + rangeOfPage < totalPage ? startPage + rangeOfPage : totalPage;
 
   const pages = range(startPage, endPage);
 
-  return (
+  const onClickPage = (page: number) => {
+    setPage(page);
+  };
+
+  const onClickNextPage = () => {
+    const nextPage = Math.min(currentPage + rangeOfPage, totalPage);
+    setPage(nextPage);
+  };
+
+  const onClickPreviousPage = () => {
+    const prevPage = Math.max(currentPage - rangeOfPage, 1);
+    setPage(prevPage);
+  };
+
+  return pages.length === 0 ? null : (
     <PaginatorContainer>
       <PaginationButton onClick={onClickNextPage}>
         <BsFillCaretLeftFill size={20} />
       </PaginationButton>
       <PageList>
         {pages.map((page) => (
-          <PageButton key={page}>{page}</PageButton>
+          <PageButton key={page} onClick={() => onClickPage(page)}>
+            {page}
+          </PageButton>
         ))}
       </PageList>
       <PaginationButton onClick={onClickPreviousPage}>

@@ -22,7 +22,7 @@ export const range = function (start: number, end: number, step: number = 1) {
   }
 
   let i = 0;
-  while (i < len) {
+  while (i <= len) {
     arr.push(start + i * step);
     i += 1;
   }
