@@ -1,24 +1,27 @@
 import React from 'react';
 import { styled } from '@src/lib/CustomStyledComponent';
+import PreviewImage from '@src/portal/ProductUploadModal/ProductImageUploader/PreviewImage/PreviewImage';
 
 interface Props {
   previewImages: string[];
+  onDeleteImage: (index: number) => void;
 }
 
-const ProductImagePreviews: React.FC<Props> = ({ previewImages }) => {
+const ProductImagePreviews: React.FC<Props> = ({ previewImages, onDeleteImage }) => {
   return (
-    <div>
-      <PreviewImage src={'http://localhost:8080/uploads/76bc7da57ee20405767487a84256b0f9'} />
+    <PreviewImagesContainer>
       {previewImages.map((url, i) => (
-        <PreviewImage key={i} src={url} />
+        <PreviewImage key={i} index={i} url={url} onDeleteImage={onDeleteImage} />
       ))}
-    </div>
+    </PreviewImagesContainer>
   );
 };
 
-const PreviewImage = styled('img')`
-  width: 50px;
-  height: 50px;
+const PreviewImagesContainer = styled('ul')`
+  display: flex;
+  padding: 0;
+  margin: 0;
+  overflow-x: auto;
 `;
 
 export default ProductImagePreviews;

@@ -24,16 +24,22 @@ const ProductUploadModal = () => {
     const formData = new FormData();
     files.forEach((file: File) => formData.append('files', file));
     formData.append('title', title);
-    console.log(formData);
   };
+
+  const handleDeleteFile = useCallback(
+    (index: number) => {
+      setFiles((prev) => prev.filter((f, i) => i !== index));
+    },
+    [setFiles]
+  );
 
   return (
     <Portal>
       <ModalContainer>
         <ProductUploadContainer>
-          <ProductImageUploader onHandleUpdateFiles={handleUpdateFiles} />
+          <ProductImageUploader onHandleUpdateFiles={handleUpdateFiles} onHandleDeleteFile={handleDeleteFile} />
           <ProductTitleUploader title={title} onChangeTitle={handleChangeTitle} />
-          <button onClick={handleSubmit}>제출</button>
+          <button onClick={handleSubmit}>상품 등록</button>
         </ProductUploadContainer>
       </ModalContainer>
     </Portal>
@@ -56,8 +62,8 @@ const ProductUploadContainer = styled('div')`
   top: 50%;
   left: 50%;
   transform: translate(-50%, -50%);
-  width: 80%;
-  height: 60%;
+  width: 860px;
+  height: 800px;
   margin: auto;
   background-color: white;
   border-radius: 12px;
