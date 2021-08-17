@@ -1,6 +1,6 @@
 import { styled } from '@src/lib/CustomStyledComponent';
 import { UploaderLabel } from '@src/portal/ProductUploadModal/UploadContentLeft/style';
-import React, { ChangeEvent, useCallback } from 'react';
+import React, { ChangeEvent, useCallback, useEffect } from 'react';
 
 interface Props {
   onHandleProductState: (productState: string) => void;
@@ -15,6 +15,9 @@ const ProductStateUploader: React.FC<Props> = ({ onHandleProductState }) => {
     },
     [onHandleProductState]
   );
+  useEffect(() => {
+    onHandleProductState(PRODUCT_STATE[0]);
+  }, []);
   return (
     <>
       <UploaderLabel>상품 상태</UploaderLabel>
@@ -31,5 +34,6 @@ const ProductStateUploader: React.FC<Props> = ({ onHandleProductState }) => {
 
 const ProductStateSelect = styled('select')`
   width: 60%;
+  margin-bottom: 24px;
 `;
 export default ProductStateUploader;

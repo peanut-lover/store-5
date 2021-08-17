@@ -5,7 +5,8 @@ import wrapAsync from '../utils/wrap-async';
 
 const router = express.Router();
 
-router.get('/', isAuthenticate, wrapAsync(DeliveryController.getDeliveryInfos));
+// router.get('/', isAuthenticate, wrapAsync(DeliveryController.getDeliveryInfos));
+router.get('/', wrapAsync(DeliveryController.getDeliveryInfos));
 router.post('/', isAuthenticate, wrapAsync(DeliveryController.createDeliveryInfo));
 
 export default router;
