@@ -7,7 +7,7 @@ import {
 import { styled } from '@src/lib/CustomStyledComponent';
 
 interface Props {
-  discountRate: number;
+  discountRate: string;
   onChangeDiscountRate: (e: ChangeEvent<HTMLInputElement>) => void;
 }
 
@@ -18,10 +18,10 @@ const ProductDiscountUploader: React.FC<Props> = ({ discountRate, onChangeDiscou
       <ProductUploadInputContainer>
         <UploaderInput
           type='number'
-          maxLength={2}
+          max='99'
+          min='0'
           value={discountRate}
           onInput={onChangeDiscountRate}
-          placeholder='Price'
         ></UploaderInput>
       </ProductUploadInputContainer>
     </UploaderContainer>

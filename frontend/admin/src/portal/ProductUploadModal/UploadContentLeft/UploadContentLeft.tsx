@@ -9,7 +9,7 @@ interface Props {
   title: string;
   price: string;
   stock: string;
-  discountRate: number;
+  discountRate: string;
   onHandleTitle: (e: ChangeEvent<HTMLInputElement>) => void;
   onHandlePrice: (e: ChangeEvent<HTMLInputElement>) => void;
   onHandleStock: (e: ChangeEvent<HTMLInputElement>) => void;

@@ -1,4 +1,4 @@
-import React, { MouseEvent, useState } from 'react';
+import React, { ChangeEvent, MouseEvent, useState } from 'react';
 import { useCallback } from 'react';
 import Portal from '../portal';
 import ProductImageUploader from './ProductImageUploader/ProductImageUploader';
@@ -12,7 +12,7 @@ const ProductUploadModal = () => {
   const [title, handleChangeTitle] = useInput('');
   const [price, handleChangePrice] = useInput('');
   const [stock, handleChangeStock] = useInput('');
-  const [discountRate, handleChangeDiscountRate] = useInput(0);
+  const [discountRate, setDiscountRate] = useState('');
   const [checkGreen, setCheckGreen] = useState(false);
   const [category, setCategory] = useState(0);
   const [productState, setProductState] = useState('');
@@ -64,6 +64,14 @@ const ProductUploadModal = () => {
     },
     [setDeliveryInfo]
   );
+
+  const handleChangeDiscountRate = useCallback(
+    (e: ChangeEvent<HTMLInputElement>) => {
+      if (e.target.value.length > 2) return;
+      setDiscountRate(e.target.value);
+    },
+    [setDiscountRate]
+  );
   return (
     <Portal>
       <ModalContainer>
@@ -88,9 +96,10 @@ const ProductUploadModal = () => {
                 onHandleCategory={handleCategory}
                 onHandleProductState={handleProductState}
               />
-              <button onClick={handleSubmit}>상품 등록</button>
+              <SubmitButton onClick={handleSubmit}>상품 등록</SubmitButton>
             </UploadContentRightContainer>
           </UploadContentContainer>
+          <CloseButton>X</CloseButton>
         </ProductUploadContainer>
       </ModalContainer>
     </Portal>
@@ -133,6 +142,29 @@ const UploadContentContainer = styled('div')`
 
 const UploadContentRightContainer = styled('div')`
   width: 40%;
+`;
+
+const SubmitButton = styled('button')`
+  width: 80%;
+  height: 13%;
+  font-size: 1.6em;
+  background-color: #2ac1bc;
+  border-radius: 12px;
+  color: white;
+  border: none;
+  cursor: pointer;
+`;
+
+const CloseButton = styled('button')`
+  position: absolute;
+  top: -0.5em;
+  right: -0.5em;
+  font-size: 1.8em;
+  border-radius: 50%;
+  background-color: #2ac1bc;
+  color: white;
+  border: none;
+  cursor: pointer;
 `;
 
 export default ProductUploadModal;

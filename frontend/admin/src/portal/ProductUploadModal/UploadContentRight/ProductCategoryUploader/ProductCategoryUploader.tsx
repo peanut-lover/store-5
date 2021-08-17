@@ -54,7 +54,6 @@ const ProductCategoryUploader: React.FC<Props> = ({ onHandleCategory }) => {
     }
   }, []);
 
-  console.log(subCategories);
   return (
     <>
       <UploaderLabel>카테고리</UploaderLabel>
@@ -82,6 +81,7 @@ const ProductCategoryUploader: React.FC<Props> = ({ onHandleCategory }) => {
 const SelectContainer = styled('div')`
   display: flex;
   width: 100%;
+  margin-bottom: 24px;
 `;
 const MainCategorySelect = styled('select')`
   width: 40%;
