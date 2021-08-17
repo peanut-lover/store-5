@@ -69,6 +69,10 @@ const CartPage: React.FC = () => {
     fetchCarts();
   }, []);
 
+  if (!isCartsFetched) {
+    return null;
+  }
+
   if (cartGoodsList.length === 0) {
     return <EmptyCart />;
   }
