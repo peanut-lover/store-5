@@ -34,11 +34,13 @@ const flags = [
   { label: GoodsFlag.high, text: '높은 가격순' },
 ];
 
+const DEFAULT_START_PAGE = 1;
+
 const CategoryGoodsList: React.FC<Props> = ({ category }) => {
   const [goodsListMap, setGoodsListMap] = useState<GoodsListMap | null>(null);
   const [searchQuery, setSearchQuery] = useState<GetGoodsByCategoryProps>({
     categoryName: category,
-    page: 1,
+    page: DEFAULT_START_PAGE,
     flag: GoodsFlag.latest,
   });
 
@@ -53,6 +55,13 @@ const CategoryGoodsList: React.FC<Props> = ({ category }) => {
       ...searchQuery,
       page: 1,
       flag,
+    });
+  };
+
+  const setPage = (page: number) => {
+    setSearchQuery({
+      ...searchQuery,
+      page,
     });
   };
 
@@ -75,7 +84,7 @@ const CategoryGoodsList: React.FC<Props> = ({ category }) => {
           <CategoryFlagContainer>{CategoryFlags}</CategoryFlagContainer>
         </CategoryGoodsListHeader>
         <GoodsSection goodsList={goodsListMap.goodsList} itemBoxSize='middle' />
-        <Paginator totalPage={10} currentPage={2} />
+        <Paginator totalPage={goodsListMap.meta.totalPage} currentPage={goodsListMap.meta.page} setPage={setPage} />
       </CategoryGoodsListContainer>
     )
   );

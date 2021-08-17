@@ -17,23 +17,26 @@ interface GoodsListMap {
   };
 }
 
+const DEFAULT_START_PAGE = 1;
+
 const appendQuotationMarks = (text: string) => `"${text}"`;
 
 const KeywordGoods: React.FC = () => {
   const { keyword = '' } = useParams();
   const [goodsListMap, setGoodsListMap] = useState<GoodsListMap | null>(null);
+  const [page, setPage] = useState(DEFAULT_START_PAGE);
 
   const fetchGoodsList = async () => {
     const data = await getGoodsByKeyword({
       keyword,
-      page: 1,
+      page,
     });
     setGoodsListMap(data.result);
   };
 
   useEffect(() => {
     fetchGoodsList();
-  }, [keyword]);
+  }, [keyword, page]);
 
   const decodeKeyword = decodeURI(keyword);
   return (
@@ -46,7 +49,7 @@ const KeywordGoods: React.FC = () => {
           </CategoryGoodsListCount>
         </CategoryGoodsListHeader>
         <GoodsSection goodsList={goodsListMap.goodsList} itemBoxSize='middle' />
-        <Paginator totalPage={10} currentPage={2} />
+        <Paginator totalPage={goodsListMap.meta.totalPage} currentPage={goodsListMap.meta.page} setPage={setPage} />
       </CategoryGoodsListContainer>
     )
   );
