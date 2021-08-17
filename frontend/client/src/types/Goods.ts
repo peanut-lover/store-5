@@ -8,7 +8,7 @@ export interface Goods {
   isNew?: boolean;
   isSale?: boolean;
   discountRate: number;
-  isWished?: boolean;
+  isWish?: boolean;
 }
 
 export type ThumbnailGoods = Goods;
