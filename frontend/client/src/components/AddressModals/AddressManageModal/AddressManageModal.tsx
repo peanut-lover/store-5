@@ -110,10 +110,9 @@ const AddressManageModal: React.FC<Props> = ({ onClose, onSelect }) => {
 
   const Page = page.component;
   const targetAddress = page.address;
-
   const defaultAddress = addresses.find((address) => address.isDefault);
   const anotherAddresses = addresses.filter((addresses) => !addresses.isDefault);
-  const resortedAddress = [defaultAddress, ...anotherAddresses];
+  const resortedAddress = defaultAddress ? [defaultAddress, ...anotherAddresses] : anotherAddresses;
   return (
     <Modal title={page.title} onClose={onClose} disabled={disabled}>
       <Page
