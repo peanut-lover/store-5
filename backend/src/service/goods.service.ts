@@ -54,7 +54,7 @@ async function getAllSaleGoodsByCategory({
 
   return {
     meta: getListGoodsMeta(page, limit, totalCount),
-    goods: goodsList,
+    goodsList,
   };
 }
 
@@ -84,7 +84,7 @@ async function getAllSaleGoodsByKeyword({
 
   return {
     meta: getListGoodsMeta(page, limit, totalCount),
-    goods: goodsList,
+    goodsList,
   };
 }
 
