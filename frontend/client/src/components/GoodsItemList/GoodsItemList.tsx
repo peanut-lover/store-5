@@ -16,7 +16,7 @@ const GoodsItemList: React.FC<Props> = ({ goodsList, itemBoxSize = 'big' }) => {
           <GoodsItem
             key={goods.id}
             id={goods.id}
-            thumbnailImg={goods.thumbnailImg}
+            thumbnailUrl={goods.thumbnailUrl}
             title={goods.title}
             price={goods.price}
             isBest={goods.isBest}

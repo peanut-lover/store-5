@@ -14,16 +14,16 @@ const mockProductImagePath =
 const mock_best_products: ThumbnailGoods[] = [
   {
     id: 1,
-    thumbnailImg: mockProductImagePath,
+    thumbnailUrl: mockProductImagePath,
     title: '맥쥬짠',
     price: 10000,
     isGreen: true,
     isBest: true,
     discountRate: 0,
   },
-  { id: 2, thumbnailImg: mockProductImagePath, title: '맥쥬짠', price: 10000, isNew: true, discountRate: 0 },
+  { id: 2, thumbnailUrl: mockProductImagePath, title: '맥쥬짠', price: 10000, isNew: true, discountRate: 0 },
   { id: 3, title: 'NoImage 맥쥬짠', price: 10000, isSale: true, discountRate: 20 },
-  { id: 4, thumbnailImg: mockProductImagePath, title: '맥쥬짠', price: 10000, discountRate: 0 },
+  { id: 4, thumbnailUrl: mockProductImagePath, title: '맥쥬짠', price: 10000, discountRate: 0 },
 ];
 
 const mock_promotions: Promotion[] = [

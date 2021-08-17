@@ -39,8 +39,8 @@ const SideBar: React.FC<SideBarProps> = ({ goodsList }) => {
         <RecentGoodsList>
           {goodsList?.slice(recentGoodsIdx, recentGoodsIdx + COUNT_OF_SHOWN_GOODS).map((goods) => (
             <GoodsThumbnailBox key={goods.id}>
-              {goods.thumbnailImg ? (
-                <GoodsThumbnail src={goods.thumbnailImg} />
+              {goods.thumbnailUrl ? (
+                <GoodsThumbnail src={goods.thumbnailUrl} />
               ) : (
                 <EmptyGoodsThumbnail>No Image</EmptyGoodsThumbnail>
               )}

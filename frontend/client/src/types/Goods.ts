@@ -1,6 +1,6 @@
 export interface Goods {
   id: number;
-  thumbnailImg?: string; // thumbnailImg
+  thumbnailUrl?: string; // thumbnailUrl
   title: string;
   price: number;
   isBest?: boolean;

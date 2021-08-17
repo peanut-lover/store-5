@@ -11,7 +11,7 @@ export type GoodsItemSize = 'small' | 'middle' | 'big';
 
 interface Props {
   id: number;
-  thumbnailImg?: string;
+  thumbnailUrl?: string;
   title: string;
   price: number;
   isBest?: boolean;
@@ -24,7 +24,7 @@ interface Props {
 
 const GoodsItem: React.FC<Props> = ({
   id,
-  thumbnailImg = '',
+  thumbnailUrl = '',
   title,
   price,
   isBest = false,
@@ -57,7 +57,7 @@ const GoodsItem: React.FC<Props> = ({
       </TagContainer>
 
       <GoodsImageContainer onMouseEnter={handleOnMouseEnter} onMouseLeave={handleOnMouseLeave} size={itemBoxSize}>
-        {thumbnailImg ? <GoodsImage src={thumbnailImg} /> : <GoodsEmptyImage />}
+        {thumbnailUrl ? <GoodsImage src={thumbnailUrl} /> : <GoodsEmptyImage />}
 
         {isHoverGoodsImage && <></>}
         <GoodsImageOverlay />
