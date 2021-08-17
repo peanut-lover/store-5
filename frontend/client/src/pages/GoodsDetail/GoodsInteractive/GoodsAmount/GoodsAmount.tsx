@@ -41,7 +41,8 @@ const GoodsAmount: React.FC<Props> = ({
   const handleChangeEvent = useCallback((e) => {
     const target = e.target;
     target.value = target.value.replace(/[^\d]/g, '');
-    target.value !== '' && handleAmount(Number(target.value));
+    target.value += target.value === '' ? 0 : '';
+    handleAmount(Number(target.value));
   }, []);
 
   const handleAmount = (value: number) => {

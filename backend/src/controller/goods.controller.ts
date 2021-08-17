@@ -32,7 +32,7 @@ async function createGoods(req: CreateGoodsRequest, res: Response) {
 // TODO: 테스트 문의
 async function getGoodsDetail(req: Request, res: Response) {
   const goodsId = Number(req.params.id);
-  const userId = req.userId ?? 1;
+  const userId = req.userId;
   const result = await GoodsService.getDetailById(goodsId, userId);
   res.status(200).json({ result });
 }

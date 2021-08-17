@@ -16,6 +16,10 @@ export type ThumbnailGoods = Goods;
 export type DetailGoods = Goods & {
   deliveryFee: number;
   deliveryDetail: string;
+  category: {
+    id: number;
+    name: string;
+  };
   goodsImgs?: string[];
 };
 

@@ -1,3 +1,4 @@
+import theme from '@src/theme/theme';
 import React, { useState } from 'react';
 import styled from 'styled-components';
 import ImageItem from './ImageItem/ImageItem';
@@ -22,6 +23,15 @@ const ImageListContainer = styled.div`
   align-self: baseline;
   max-height: 25rem;
   overflow-y: auto;
+  &::-webkit-scrollbar {
+    width: 6px;
+  }
+  &::-webkit-scrollbar-track {
+    background-color: ${theme.dustWhite};
+  }
+  &::-webkit-scrollbar-thumb {
+    background-color: ${theme.line};
+  }
 `;
 
 export default ImageList;
