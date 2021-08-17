@@ -1,5 +1,5 @@
 import { GoodsImg } from './../entity/GoodsImg';
-import { getConnection, MoreThan } from 'typeorm';
+import { ColumnTypeUndefinedError, getConnection, MoreThan } from 'typeorm';
 import { Goods } from '../entity/Goods';
 import { GoodsRepository } from '../repository/goods.repository';
 import {
@@ -170,6 +170,11 @@ async function getAllByCategory({ categoryName, page, flag, limit, state }: GetA
   };
 }
 
+async function getGoodsStockById(goodsId: number): Promise<number> {
+  const stock = await GoodsRepository.findStockById(goodsId);
+  return stock;
+}
+
 function setAllByCategoryOption(category: number, page: number, limit: number, flag: string): FindAllCategoryProps {
   return {
     category: category,
@@ -229,4 +234,5 @@ export const GoodsService = {
   getAllSaleGoodsByKeyword,
   getAllSaleGoodsByCategory,
   getMainGoodsListMap,
+  getGoodsStockById,
 };

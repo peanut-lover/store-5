@@ -149,6 +149,15 @@ async function searchGoodsFromKeyword(keyword: string): Promise<SearchedGoodsFro
   });
 }
 
+async function findStockById(goodsId: number): Promise<number> {
+  const goodsRepo = getRepository(Goods);
+  const goods = await goodsRepo.findOne({
+    select: ['stock'],
+    where: { id: goodsId },
+  });
+  return goods?.stock ?? 0;
+}
+
 export const GoodsRepository = {
   findGoodsDetailById,
   findAllByCategory,
@@ -158,4 +167,5 @@ export const GoodsRepository = {
   findTotalCountByKeyword,
   findSellCountAverage,
   searchGoodsFromKeyword,
+  findStockById,
 };

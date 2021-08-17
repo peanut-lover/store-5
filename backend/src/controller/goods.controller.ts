@@ -29,9 +29,11 @@ async function createGoods(req: CreateGoodsRequest, res: Response) {
   res.status(201).json({ result });
 }
 
+// TODO: 테스트 문의
 async function getGoodsDetail(req: Request, res: Response) {
   const goodsId = Number(req.params.id);
-  const result = await GoodsService.getDetailById(goodsId);
+  const userId = req.userId ?? 1;
+  const result = await GoodsService.getDetailById(goodsId, userId);
   res.status(200).json({ result });
 }
 
@@ -71,10 +73,17 @@ async function getMainGoodsListMap(req: Request, res: Response) {
   return res.json({ result });
 }
 
+async function getGoodsStockById(req: Request, res: Response) {
+  const goodsId = Number(req.params.id);
+  const result = await GoodsService.getGoodsStockById(goodsId);
+  return res.json({ result });
+}
+
 export const GoodsController = {
   createGoods,
   getGoodsDetail,
   getAllGoodsCategory,
   getAllSaleGoodsByKeyword,
   getMainGoodsListMap,
+  getGoodsStockById,
 };
