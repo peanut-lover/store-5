@@ -34,7 +34,6 @@ const GoodsItemList: React.FC<Props> = ({ goodsList, itemBoxSize = 'big' }) => {
 const GoodsItemListContainer = styled.div`
   display: flex;
   flex-direction: row;
-  justify-content: center;
   flex-wrap: wrap;
 `;
 
