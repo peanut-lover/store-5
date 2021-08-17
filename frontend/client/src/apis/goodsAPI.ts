@@ -1,4 +1,4 @@
-import { MainGoodsListResult, ThumbnailGoods } from '@src/types/Goods';
+import { DetailGoods, MainGoodsListResult, ThumbnailGoods } from '@src/types/Goods';
 import { APIResponse, checkedFetch } from './base';
 interface GoodsByCategoryResult {
   goodsList: ThumbnailGoods[];
@@ -52,6 +52,14 @@ export const getGoodsByKeyword = async ({
 
 export const getMainGoodsListMap = async (): Promise<APIResponse<MainGoodsListResult>> => {
   const res = await checkedFetch(`/api/goods/main`, {
+    method: 'GET',
+    credentials: 'include',
+  });
+  return await res.json();
+};
+
+export const getGoodsDetail = async (id: number): Promise<APIResponse<DetailGoods>> => {
+  const res = await checkedFetch(`/api/goods/${id}`, {
     method: 'GET',
     credentials: 'include',
   });

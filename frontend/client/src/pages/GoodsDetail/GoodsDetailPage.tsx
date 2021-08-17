@@ -6,6 +6,7 @@ import GoodsInfo from './GoodsInfo/GoodsInfo';
 import GoodsInteractive from './GoodsInteractive/GoodsInteractive';
 import GoodsImageSection from './GoodsImageSection/GoodsImageSection';
 import GoodsSection from '@src/components/GoodsSection/GoodsSection';
+import { getGoodsDetail } from '@src/apis/goodsAPI';
 
 const mockImagePath =
   'https://user-images.githubusercontent.com/20085849/128860803-24b0e9a7-1482-4ca6-9a8c-ba30e7271e7a.jpeg';
@@ -25,7 +26,7 @@ const mock_products: DetailGoods[] = [
     isNew: true,
     isGreen: true,
     isBest: true,
-    imgs: TMP_IMAGES,
+    goodsImgs: TMP_IMAGES,
     deliveryDetail: '',
     deliveryFee: 0,
     discountRate: 0,
@@ -38,7 +39,7 @@ const mock_products: DetailGoods[] = [
     isNew: true,
     isGreen: true,
     isBest: true,
-    imgs: TMP_IMAGES,
+    goodsImgs: TMP_IMAGES,
     deliveryDetail: '',
     deliveryFee: 0,
     discountRate: 0,
@@ -51,7 +52,7 @@ const mock_products: DetailGoods[] = [
     isNew: true,
     isGreen: true,
     isBest: true,
-    imgs: TMP_IMAGES,
+    goodsImgs: TMP_IMAGES,
     deliveryDetail: '',
     deliveryFee: 0,
     discountRate: 0,
@@ -61,34 +62,32 @@ const mock_products: DetailGoods[] = [
 const RelationSectionTitle = '연관 검색어';
 
 const GoodsDetailPage = () => {
-  const [goods, setGoods] = useState<DetailGoods | null>({
-    id: 1,
-    title: '플리츠마마X배달의민족. 텀블러백',
-    price: 49000,
-    discountRate: 50,
-    deliveryFee: 2500,
-    deliveryDetail: '오후 2시 당일배송마감',
-    isWished: false,
-    imgs: TMP_IMAGES,
-  });
-
+  const [goods, setGoods] = useState<DetailGoods | null>(null);
   const { id } = useParams();
+
+  const fetchGoodsDetail = async (goodsId: number) => {
+    try {
+      const data = await getGoodsDetail(goodsId);
+      console.log(data);
+      setGoods(data.result);
+    } catch (e) {
+      setGoods(null);
+    }
+  };
 
   useEffect(() => {
     const idAsNumber = Number(id);
-
     if (isNaN(idAsNumber)) {
       throw new Error('올바르지 않은 상품 id입니다.');
     }
-    // TODO: API에서 업데이트 받아서 정보 변경
-    // setGoods(content);
+    fetchGoodsDetail(idAsNumber);
   }, []);
 
   return (
     <GoodsDetailContainer>
       {goods && (
         <GoodsMainContainer>
-          {goods.imgs && <GoodsImageSection imgs={goods.imgs} />}
+          {goods.goodsImgs && <GoodsImageSection imgs={goods.goodsImgs} />}
           <GoodsContentContainer>
             <GoodsInfo goods={goods}></GoodsInfo>
             <GoodsInteractive goods={goods} />
