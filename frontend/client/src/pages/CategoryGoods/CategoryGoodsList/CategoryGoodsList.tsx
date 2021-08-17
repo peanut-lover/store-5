@@ -1,5 +1,6 @@
 import { getGoodsByCategory, GetGoodsByCategoryProps } from '@src/apis/goodsAPI';
 import GoodsSection from '@src/components/GoodsSection/GoodsSection';
+import CategoryFlag from '@src/pages/CategoryGoods/CategoryGoodsList/CategoryFlag';
 import Paginator from '@src/pages/CategoryGoods/CategoryGoodsList/Paginator';
 import theme from '@src/theme/theme';
 import { ThumbnailGoods } from '@src/types/Goods';
@@ -45,16 +46,27 @@ const CategoryGoodsList: React.FC<Props> = ({ category }) => {
   });
 
   const fetchGoodsList = async () => {
-    const data = await getGoodsByCategory(searchQuery);
-    setGoodsListMap(data.result);
+    try {
+      const data = await getGoodsByCategory(searchQuery);
+      setGoodsListMap(data.result);
+    } catch (e) {
+      setGoodsListMap(null);
+    }
   };
 
   // TODO: 플래그 변경시 page는 1? 아니면 유지?
-  const onChangeFlag = (flag: string) => {
+  const setSearchFlag = (flag: string) => {
     setSearchQuery({
       ...searchQuery,
       page: 1,
       flag,
+    });
+  };
+
+  const setCategory = (category: string) => {
+    setSearchQuery({
+      ...searchQuery,
+      categoryName: category,
     });
   };
 
@@ -69,11 +81,9 @@ const CategoryGoodsList: React.FC<Props> = ({ category }) => {
     fetchGoodsList();
   }, [searchQuery]);
 
-  const CategoryFlags = flags.map((flag) => (
-    <CategoryFlag onClick={() => onChangeFlag(flag.label)} active={flag.label === searchQuery.flag}>
-      {flag.text}
-    </CategoryFlag>
-  ));
+  useEffect(() => {
+    setCategory(category);
+  }, [category]);
 
   return (
     // TODO: Empty UI 필요
@@ -81,7 +91,17 @@ const CategoryGoodsList: React.FC<Props> = ({ category }) => {
       <CategoryGoodsListContainer>
         <CategoryGoodsListHeader>
           <CategoryGoodsListCount>총 {goodsListMap.meta.totalCount}개</CategoryGoodsListCount>
-          <CategoryFlagContainer>{CategoryFlags}</CategoryFlagContainer>
+          <CategoryFlagContainer>
+            {flags.map((flag) => (
+              <CategoryFlag
+                key={flag.label}
+                flagLabel={flag.label}
+                flagText={flag.text}
+                active={flag.label === searchQuery.flag}
+                setSearchFlag={setSearchFlag}
+              />
+            ))}
+          </CategoryFlagContainer>
         </CategoryGoodsListHeader>
         <GoodsSection goodsList={goodsListMap.goodsList} itemBoxSize='middle' />
         <Paginator totalPage={goodsListMap.meta.totalPage} currentPage={goodsListMap.meta.page} setPage={setPage} />
@@ -110,21 +130,6 @@ const CategoryFlagContainer = styled.div`
   width: 80%;
   justify-content: flex-end;
   column-gap: 1.25rem;
-`;
-
-const CategoryFlag = styled.button<{ active: boolean }>`
-  opacity: 0.8;
-  transition: opacity 0.15s linear;
-  border: 0;
-  background-color: transparent;
-  cursor: pointer;
-  font-size: 16px;
-  font-weight: 600;
-  font-family: 'Do Hyeon', sans-serif;
-  color: ${(props) => (props.active ? theme.primary : 'black')};
-  :hover {
-    opacity: 1;
-  }
 `;
 
 export default CategoryGoodsList;

@@ -3,7 +3,6 @@ import { getGoodsByKeyword } from '@src/apis/goodsAPI';
 import React, { useEffect, useState } from 'react';
 import GoodsSection from '@src/components/GoodsSection/GoodsSection';
 import Paginator from '@src/pages/CategoryGoods/CategoryGoodsList/Paginator';
-import theme from '@src/theme/theme';
 import { ThumbnailGoods } from '@src/types/Goods';
 import styled from 'styled-components';
 
@@ -27,11 +26,15 @@ const KeywordGoods: React.FC = () => {
   const [page, setPage] = useState(DEFAULT_START_PAGE);
 
   const fetchGoodsList = async () => {
-    const data = await getGoodsByKeyword({
-      keyword,
-      page,
-    });
-    setGoodsListMap(data.result);
+    try {
+      const data = await getGoodsByKeyword({
+        keyword,
+        page,
+      });
+      setGoodsListMap(data.result);
+    } catch (e) {
+      setGoodsListMap(null);
+    }
   };
 
   useEffect(() => {
