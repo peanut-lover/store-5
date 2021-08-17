@@ -4,6 +4,7 @@ import { BadRequestError } from '../errors/client.error';
 import { GoodsService } from '../service/goods.service';
 import { GetAllByCategoryProps, GetAllByKeywordProps, GoodsFlag, GoodsState } from '../types/Goods';
 import { CreateGoodsRequest } from '../types/request/goods.request';
+import ConvertToURLfromFile from '../utils/convert.url.from.file';
 
 export const GoodsStateMap = {
   sale: 'S',
@@ -24,10 +25,7 @@ async function createGoods(req: CreateGoodsRequest, res: Response) {
   if (!files || !Array.isArray(files)) throw new BadRequestError(INVALID_DATA);
 
   // TODO: 파일 이미지를 URL로 변환하는 작업 util 함수로 빼는 게 적절할 것인가?
-  const uploadFileUrls = files.reduce((acc: string[], { path }) => {
-    acc.push(`http://${req.get('host')}/${path}`);
-    return acc;
-  }, []);
+  const uploadFileUrls = ConvertToURLfromFile(files);
   const result = await GoodsService.createGoods(body, uploadFileUrls);
   res.status(201).json({ result });
 }
