@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useEffect, useState } from 'react';
 import styled from 'styled-components';
 import { ThumbnailGoods } from '@src/types/Goods';
 import GoodsSection from '@src/components/GoodsSection/GoodsSection';
@@ -8,6 +8,7 @@ import Footer from '@src/components/Footer/Footer';
 import SideBar from './SideBar/SideBar';
 
 import { styled as CustomStyled } from '@src/lib/CustomStyledComponent';
+import { getPromotions } from '@src/apis/promotionAPI';
 
 const mockProductImagePath =
   'https://user-images.githubusercontent.com/20085849/128866958-900ad32a-cd32-4b97-be79-1dbbc9dcb02d.jpeg';
@@ -63,40 +64,34 @@ const mock_new_products: ThumbnailGoods[] = [
   { id: 8, thumbnailImg: mockProductImagePath, title: '맥쥬짠', price: 10000, isNew: true, discountRate: 0 },
 ];
 
-const mock_promotions: Promotion[] = [
-  {
-    id: 1,
-    imgUrl: 'https://user-images.githubusercontent.com/20085849/128992411-3b983b09-b0af-408a-bf56-4bde93c4b543.gif',
-    goodsId: 1,
-  },
-  {
-    id: 2,
-    imgUrl: 'https://user-images.githubusercontent.com/20085849/128992519-06368afd-3f31-459d-9050-101e730e304d.gif',
-    goodsId: 2,
-  },
-  {
-    id: 3,
-    imgUrl: 'https://user-images.githubusercontent.com/20085849/128992450-eb086cff-3b2a-4d4a-8b01-e3a8a8eaa754.gif',
-    goodsId: 3,
-  },
-];
+const Main = () => {
+  const [promotions, setPromotions] = useState<Promotion[]>([]);
+  const fetchPromotions = async () => {
+    const { result } = await getPromotions();
+    setPromotions(result);
+  };
 
-const Main = () => (
-  <>
-    <PromotionContainer>
-      <PromotionCarousel promotions={mock_promotions} />
-    </PromotionContainer>
-    <MainContentContainer>
-      <GoodsSection sectionTitle='잘나가요' goodsList={mock_best_products} itemBoxSize='big' />
-      <GoodsSection sectionTitle='새로 나왔어요' goodsList={mock_new_products} itemBoxSize='big' />
-      <GoodsSection sectionTitle='지금 할인 중' goodsList={mock_new_products} itemBoxSize='big' />
-    </MainContentContainer>
-    <SideBar goodsList={mock_best_products} />
-    <FooterContainer>
-      <Footer />
-    </FooterContainer>
-  </>
-);
+  useEffect(() => {
+    fetchPromotions();
+  }, []);
+
+  return (
+    <>
+      <PromotionContainer>
+        <PromotionCarousel promotions={promotions} />
+      </PromotionContainer>
+      <MainContentContainer>
+        <GoodsSection sectionTitle='잘나가요' goodsList={mock_best_products} itemBoxSize='big' />
+        <GoodsSection sectionTitle='새로 나왔어요' goodsList={mock_new_products} itemBoxSize='big' />
+        <GoodsSection sectionTitle='지금 할인 중' goodsList={mock_new_products} itemBoxSize='big' />
+      </MainContentContainer>
+      <SideBar goodsList={mock_best_products} />
+      <FooterContainer>
+        <Footer />
+      </FooterContainer>
+    </>
+  );
+};
 
 const PromotionContainer = styled.div`
   min-height: 300px;
