@@ -21,6 +21,7 @@ export interface GetGoodsByKeywordProps {
   page: number;
 }
 
+// TODO: 상품 수가 충분해지면 페이지당 상품 수 조정
 const LIMIT = 5;
 
 export const getGoodsByCategory = async ({
