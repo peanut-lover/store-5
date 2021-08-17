@@ -1,3 +1,4 @@
+import theme from '@src/theme/theme';
 import React, { useCallback } from 'react';
 import styled from 'styled-components';
 
@@ -16,7 +17,7 @@ const ImageItem: React.FC<Props> = ({ index, src, isActivated, setActive }: Prop
 };
 
 const ImageItemContainer = styled.img<{ isActivated: boolean }>`
-  border: 1px solid ${(props) => (props.isActivated ? 'red' : 'transparent')};
+  border: 1px solid ${(props) => (props.isActivated ? theme.primary : 'transparent')};
   cursor: pointer;
   width: 100%;
 `;
