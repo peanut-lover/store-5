@@ -34,7 +34,7 @@ async function getAllSaleGoodsByCategory({
   flag,
   limit,
   userId,
-}: GetAllByCategoryProps): Promise<GoodsListResponse | undefined> {
+}: GetAllByCategoryProps): Promise<GoodsListResponse> {
   // TODO: 함수로 빼도 될듯?
   const category = await CategoryRepository.getCategoryByName(categoryName);
   if (!category) throw new BadRequestError(GOODS_DB_ERROR);
@@ -63,7 +63,7 @@ async function getAllSaleGoodsByKeyword({
   page,
   limit,
   userId,
-}: GetAllByKeywordProps): Promise<GoodsListResponse | undefined> {
+}: GetAllByKeywordProps): Promise<GoodsListResponse> {
   const option: FindAllKeywordProps = {
     keyword,
     offset: pagination.calculateOffset(page, limit),
@@ -90,9 +90,9 @@ async function getAllSaleGoodsByKeyword({
 
 // TODO: 각 조회를 하나의 함수로 분리?
 async function getMainGoodsListMap(): Promise<{
-  bestGoodsList: TaggedGoodsType[] | undefined;
-  latestGoodsList: TaggedGoodsType[] | undefined;
-  discountGoodsList: TaggedGoodsType[] | undefined;
+  bestGoodsList: TaggedGoodsType[];
+  latestGoodsList: TaggedGoodsType[];
+  discountGoodsList: TaggedGoodsType[];
 }> {
   const bestProps: FindAllColumnNameProps = {
     columnName: 'countOfSell',

@@ -33,10 +33,8 @@ async function getAllGoodsCategory(req: Request, res: Response) {
     userId: req.userId,
   };
 
-  const data = await GoodsService.getAllSaleGoodsByCategory(GoodsListParams);
-  return res.json({
-    result: data,
-  });
+  const result = await GoodsService.getAllSaleGoodsByCategory(GoodsListParams);
+  return res.json({ result });
 }
 
 async function getAllSaleGoodsByKeyword(req: Request, res: Response) {
@@ -50,17 +48,13 @@ async function getAllSaleGoodsByKeyword(req: Request, res: Response) {
     userId: req.userId,
   };
 
-  const data = await GoodsService.getAllSaleGoodsByKeyword(GoodsListParams);
-  return res.json({
-    result: data,
-  });
+  const result = await GoodsService.getAllSaleGoodsByKeyword(GoodsListParams);
+  return res.json({ result });
 }
 
 async function getMainGoodsListMap(req: Request, res: Response) {
-  const data = await GoodsService.getMainGoodsListMap();
-  return res.json({
-    result: data,
-  });
+  const result = await GoodsService.getMainGoodsListMap();
+  return res.json({ result });
 }
 
 export const GoodsController = {

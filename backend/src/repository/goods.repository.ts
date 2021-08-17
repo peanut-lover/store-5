@@ -45,7 +45,7 @@ async function findAllByCategory({
   limit,
   order,
   sort,
-}: FindAllCategoryProps): Promise<TaggedGoodsType[] | undefined> {
+}: FindAllCategoryProps): Promise<TaggedGoodsType[]> {
   try {
     const goodsRepo = getRepository(Goods);
     const data = await goodsRepo.find({
@@ -66,11 +66,7 @@ async function findAllByCategory({
   }
 }
 
-async function findAllByKeyword({
-  keyword,
-  offset,
-  limit,
-}: FindAllKeywordProps): Promise<TaggedGoodsType[] | undefined> {
+async function findAllByKeyword({ keyword, offset, limit }: FindAllKeywordProps): Promise<TaggedGoodsType[]> {
   try {
     const goodsRepo = getRepository(Goods);
     return await goodsRepo.find({
@@ -91,10 +87,7 @@ async function findAllByKeyword({
   }
 }
 
-async function findAllByColumnName({
-  columnName,
-  limit,
-}: FindAllColumnNameProps): Promise<TaggedGoodsType[] | undefined> {
+async function findAllByColumnName({ columnName, limit }: FindAllColumnNameProps): Promise<TaggedGoodsType[]> {
   try {
     const goodsRepo = getRepository(Goods);
     const data = await goodsRepo.find({
