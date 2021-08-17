@@ -1,6 +1,7 @@
 import { getGoodsByCategory, GetGoodsByCategoryProps } from '@src/apis/goodsAPI';
 import GoodsSection from '@src/components/GoodsSection/GoodsSection';
 import Paginator from '@src/pages/CategoryGoods/CategoryGoodsList/Paginator';
+import theme from '@src/theme/theme';
 import { ThumbnailGoods } from '@src/types/Goods';
 import React, { useEffect, useState } from 'react';
 import styled from 'styled-components';
@@ -21,10 +22,17 @@ interface GoodsListMap {
 
 const GoodsFlag = {
   best: 'best',
+  latest: 'latest',
   low: 'low',
   high: 'high',
-  latest: 'latest',
 };
+
+const flags = [
+  { label: GoodsFlag.best, text: '인기순' },
+  { label: GoodsFlag.latest, text: '신규순' },
+  { label: GoodsFlag.low, text: '낮은 가격순' },
+  { label: GoodsFlag.high, text: '높은 가격순' },
+];
 
 const CategoryGoodsList: React.FC<Props> = ({ category }) => {
   const [goodsListMap, setGoodsListMap] = useState<GoodsListMap | null>(null);
@@ -52,18 +60,19 @@ const CategoryGoodsList: React.FC<Props> = ({ category }) => {
     fetchGoodsList();
   }, [searchQuery]);
 
+  const CategoryFlags = flags.map((flag) => (
+    <CategoryFlag onClick={() => onChangeFlag(flag.label)} active={flag.label === searchQuery.flag}>
+      {flag.text}
+    </CategoryFlag>
+  ));
+
   return (
     // TODO: Empty UI 필요
     goodsListMap && (
       <CategoryGoodsListContainer>
         <CategoryGoodsListHeader>
           <CategoryGoodsListCount>총 {goodsListMap.meta.totalCount}개</CategoryGoodsListCount>
-          <CategoryFlagContainer>
-            <CategoryFlag onClick={() => onChangeFlag(GoodsFlag.best)}>인기순</CategoryFlag>
-            <CategoryFlag onClick={() => onChangeFlag(GoodsFlag.latest)}>신규순</CategoryFlag>
-            <CategoryFlag onClick={() => onChangeFlag(GoodsFlag.low)}>낮은 가격순</CategoryFlag>
-            <CategoryFlag onClick={() => onChangeFlag(GoodsFlag.high)}>높은 가격순</CategoryFlag>
-          </CategoryFlagContainer>
+          <CategoryFlagContainer>{CategoryFlags}</CategoryFlagContainer>
         </CategoryGoodsListHeader>
         <GoodsSection goodsList={goodsListMap.goodsList} itemBoxSize='middle' />
         <Paginator totalPage={10} currentPage={2} />
@@ -94,7 +103,7 @@ const CategoryFlagContainer = styled.div`
   column-gap: 1.25rem;
 `;
 
-const CategoryFlag = styled.button`
+const CategoryFlag = styled.button<{ active: boolean }>`
   opacity: 0.8;
   transition: opacity 0.15s linear;
   border: 0;
@@ -103,6 +112,7 @@ const CategoryFlag = styled.button`
   font-size: 16px;
   font-weight: 600;
   font-family: 'Do Hyeon', sans-serif;
+  color: ${(props) => (props.active ? theme.primary : 'black')};
   :hover {
     opacity: 1;
   }
