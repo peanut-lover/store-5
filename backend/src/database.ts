@@ -15,6 +15,7 @@ import { Wish } from './entity/Wish';
 import { CategoryRepository } from './repository/category.repository';
 import { UserRepository } from './repository/user.repository';
 import { UserAddressRepository } from './repository/user.address.repository';
+import { PromotionRepository } from './repository/promotion.repository';
 
 export default async function () {
   await createConnection({
@@ -41,7 +42,18 @@ export default async function () {
 async function populate() {
   await createDefaultUser('아이유');
   await createDefaultAddress();
+  await createDefaultCategory();
+  await createDefaultPromotions();
+}
 
+async function createDefaultUser(name: string) {
+  const result = await UserRepository.findByGitHubId('1');
+  if (!result) {
+    await UserRepository.create('1', name);
+  }
+}
+
+async function createDefaultCategory() {
   const categories = [
     { name: 'A' },
     { parent: 'A', name: 'A1' },
@@ -53,13 +65,6 @@ async function populate() {
   ];
   for (const category of categories) {
     await createCategory(category.name, category.parent);
-  }
-}
-
-async function createDefaultUser(name: string) {
-  const result = await UserRepository.findByGitHubId('1');
-  if (!result) {
-    await UserRepository.create('1', name);
   }
 }
 
@@ -103,3 +108,20 @@ async function createDefaultAddress() {
 async function createDefaultOrderList() {}
 
 async function createDefaultPayment() {}
+
+async function createDefaultPromotions() {
+  const examplePromotionImgs = [
+    'https://user-images.githubusercontent.com/20085849/128992411-3b983b09-b0af-408a-bf56-4bde93c4b543.gif',
+    'https://user-images.githubusercontent.com/20085849/128992519-06368afd-3f31-459d-9050-101e730e304d.gif',
+    'https://user-images.githubusercontent.com/20085849/128992450-eb086cff-3b2a-4d4a-8b01-e3a8a8eaa754.gif',
+  ];
+  const promotion = await PromotionRepository.getPromotions();
+
+  for (const img of examplePromotionImgs) {
+    const exist = promotion.find((p) => p.imgUrl === img);
+    if (!exist) {
+      const newPromotion = await PromotionRepository.createPromotion(img);
+      console.log('프로모션 생성 :' + newPromotion.imgUrl);
+    }
+  }
+}

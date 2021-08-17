@@ -19,6 +19,16 @@ async function createPromotion(body: CreatePromotionBody): Promise<PromotionResp
   };
 }
 
+async function getPromotions(): Promise<PromotionResponse[]> {
+  const promotions = await PromotionRepository.getPromotions();
+
+  return promotions.map((p) => ({
+    id: p.id,
+    imgUrl: p.imgUrl,
+  }));
+}
+
 export const PromotionService = {
   createPromotion,
+  getPromotions,
 };
