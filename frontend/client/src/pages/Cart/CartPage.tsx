@@ -1,43 +1,22 @@
+import { deleteCarts, getCarts, updateCart } from '@src/apis/cartAPI';
 import PageHeader from '@src/components/PageHeader/PageHeader';
 import { usePushHistory } from '@src/lib/CustomRouter';
 import { CartGoods } from '@src/types/Goods';
 import React, { useCallback, useState } from 'react';
+import { useEffect } from 'react';
 import CartGoodsListContainer from './CartGoodsListContainer/CartGoodsListContainer';
 import CartOrder from './CartOrder/CartOrder';
 import EmptyCart from './EmptyCart/EmptyCart';
 import Layout from './Layout/Layout';
 
-const mock: CartGoods[] = [
-  {
-    id: 1,
-    thumbnailUrl:
-      'https://user-images.githubusercontent.com/20085849/128866958-900ad32a-cd32-4b97-be79-1dbbc9dcb02d.jpeg',
-    title: '든든 오뚜기 오쉐프_마요네즈',
-    price: 34500,
-    discountRate: 20,
-    amount: 2,
-    stock: 5,
-    isSelected: false,
-  },
-  {
-    id: 2,
-    thumbnailUrl:
-      'https://user-images.githubusercontent.com/20085849/128866958-900ad32a-cd32-4b97-be79-1dbbc9dcb02d.jpeg',
-    title: '허약 마요네즈',
-    price: 9000,
-    discountRate: 0,
-    amount: 1,
-    stock: 8,
-    isSelected: false,
-  },
-];
-
 const CartPage: React.FC = () => {
   const pushHistory = usePushHistory();
-  const [cartGoodsList, setCartGoodsList] = useState<CartGoods[]>(mock);
+  const [cartGoodsList, setCartGoodsList] = useState<CartGoods[]>([]);
+  const [isCartsFetched, setIsCartsFetched] = useState(false);
 
   const handleDeleteCartGoodsAll = useCallback(
-    (ids: number[]) => {
+    async (ids: number[]) => {
+      await deleteCarts(ids);
       const filteredCartGoodsList = cartGoodsList.filter(({ id }) => !ids.includes(id));
       setCartGoodsList(filteredCartGoodsList);
     },
@@ -45,7 +24,8 @@ const CartPage: React.FC = () => {
   );
 
   const handleChangeAmount = useCallback(
-    (id: number, amount: number) => {
+    async (id: number, amount: number) => {
+      await updateCart(id, { amount });
       const changedCartGoodsList = cartGoodsList.map((cartGoods) => {
         if (cartGoods.id === id) return { ...cartGoods, amount };
         return cartGoods;
@@ -78,6 +58,16 @@ const CartPage: React.FC = () => {
   const handleClickOrderButton = () => {
     pushHistory('/order');
   };
+
+  useEffect(() => {
+    const fetchCarts = async () => {
+      const { result } = await getCarts();
+      setCartGoodsList(result.map((cartGoods) => ({ ...cartGoods, isSelected: true })));
+      setIsCartsFetched(true);
+    };
+
+    fetchCarts();
+  }, []);
 
   if (cartGoodsList.length === 0) {
     return <EmptyCart />;
