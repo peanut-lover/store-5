@@ -26,18 +26,24 @@ async function updateCart(req: UpdateCartRequest, res: Response) {
   res.status(200).json({ result });
 }
 
-async function deleteCart(req: Request, res: Response) {
+async function deleteCarts(req: Request, res: Response) {
   const userId = req.userId;
-  const cartId = Number(req.params.id);
-  await CartService.deleteCart(userId, cartId);
-  res.sendStatus(204);
+  if (!req.query.id) {
+    throw new BadRequestError('id query param should be exist');
+  }
+  const cartIds = (req.query.id as string)
+    .split(',')
+    .map((id) => Number(id))
+    .filter((id) => !isNaN(id));
+  await CartService.deleteCarts(userId, cartIds);
+  res.status(204).json({ success: true });
 }
 
 const CartController = {
   getAllCart,
   createCart,
   updateCart,
-  deleteCart,
+  deleteCarts,
 };
 
 export default CartController;

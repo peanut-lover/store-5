@@ -23,9 +23,13 @@ async function updateCart(userId: number, cartId: number, body: CartBody): Promi
   return await CartRepository.updateCart(cartId, body);
 }
 
-async function deleteCart(userId: number, cartId: number): Promise<DeleteResult> {
-  await checkMineCart(userId, cartId);
-  return await CartRepository.deleteCart(cartId);
+async function deleteCarts(userId: number, cartIds: number[]) {
+  async function getDeletePromise(cartId: number) {
+    await checkMineCart(userId, cartId);
+    await CartRepository.deleteCart(cartId);
+  }
+
+  await Promise.all(cartIds.map((cartId) => getDeletePromise(cartId)));
 }
 
 async function checkMineCart(userId: number, cartId: number): Promise<boolean> {
@@ -38,7 +42,7 @@ const CartService = {
   getAllCartByUserId,
   createCart,
   updateCart,
-  deleteCart,
+  deleteCarts,
 };
 
 export default CartService;
