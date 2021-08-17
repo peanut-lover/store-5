@@ -1,4 +1,4 @@
-import { createConnection, getRepository, Like } from 'typeorm';
+import { createConnection, getRepository, IsNull, Like, Not } from 'typeorm';
 import { databaseConfig } from './config';
 import { DeliveryInfo } from './entity/DeliveryInfo';
 import { Cart } from './entity/Cart';
@@ -45,6 +45,7 @@ async function populate() {
   await createDefaultAddress();
   await createDefaultCategory();
   await createDefaultPromotions();
+  await createDefaultGoods();
 }
 
 async function createDefaultUser(name: string) {
@@ -110,10 +111,11 @@ async function createDefaultOrderList() {}
 
 async function createDefaultPayment() {}
 
-// TODO 100개가 너무 적다면 300개? :)
 async function createDefaultGoods() {
-  const DUMMY_LENGTH = 100;
-  const goodsList = createDummy(DUMMY_LENGTH);
+  const childCategories = await getRepository(Category).find({ select: ['id'], where: { parent: Not(IsNull()) } });
+  const childIds = childCategories.map((category) => category.id);
+  const DUMMY_LENGTH = 30;
+  const goodsList = createDummy(DUMMY_LENGTH, childIds);
   const skip = await getRepository(Goods).find({ where: { title: Like('%상품명 랜덤%') } });
   if (skip.length >= DUMMY_LENGTH) return;
   for (const goods of goodsList) {
@@ -122,7 +124,7 @@ async function createDefaultGoods() {
   }
 }
 
-function createDummy(length: number) {
+function createDummy(length: number, ids: number[]) {
   const THUMBNAIL_URLS = [
     'https://user-images.githubusercontent.com/20085849/128866958-900ad32a-cd32-4b97-be79-1dbbc9dcb02d.jpeg',
     'https://user-images.githubusercontent.com/45394360/129675520-751e7b2a-0d8c-48dd-b737-dcfcad3c91ca.jpg',
@@ -145,7 +147,10 @@ function createDummy(length: number) {
     'https://user-images.githubusercontent.com/45394360/129676354-1fcde62d-7e8a-4f2f-961c-93caaaccdff4.jpg',
     'https://user-images.githubusercontent.com/45394360/129676355-15c47cee-5afe-4f17-9a0d-2ebb932a8b46.jpg',
   ];
+  // 더미 데이터 관련 상수
   const TITLE_SUFFIX = 10000;
+  const MIN_PRICE = 1000;
+  const MAX_PRICE = 100000;
   const result = Array(length)
     .fill('')
     .map((_) => {
@@ -154,11 +159,11 @@ function createDummy(length: number) {
         countOfSell: Math.floor(Math.random() * 100 + 1),
         isGreen: !Math.round(Math.random()),
         title: `상품명 랜덤 - ${Math.floor(Math.random() * TITLE_SUFFIX)}`,
-        price: Math.floor(Math.random() * 100 + 1),
+        price: (Math.floor(Math.random() * MAX_PRICE) / 10) * 10 + MIN_PRICE,
         stock: 1 * Math.round(Math.random() * 50),
-        discountRate: Math.floor(Math.random() * 50 + 1),
+        discountRate: Math.floor(Math.random() * 50),
         state: GoodsStateMap.sale,
-        category: Math.ceil(Math.random() * 3),
+        category: ids[Math.floor(Math.random() * ids.length)],
         delivery: 1,
       };
     });
