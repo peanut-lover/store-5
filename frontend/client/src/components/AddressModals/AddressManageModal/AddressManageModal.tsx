@@ -37,12 +37,14 @@ const AddressManageModal: React.FC<Props> = ({ onClose, onSelect }) => {
 
   const handleCreate = async (address: AddressCore) => {
     setDisabled(true);
-    // await
-    await new Promise((resolve, reject) => {
-      setTimeout(resolve, 1500);
-    });
-    setDisabled(false);
-    handleGoToSelectPage();
+    try {
+      await AddressAPI.createAddress(address);
+      setDisabled(false);
+      handleGoToSelectPage();
+    } catch (err) {
+      alert('서버 문제로 정보업데이트에 실패했습니다.');
+      console.error(err);
+    }
   };
 
   const handleUpdate = async (addressId: number, address: AddressCore) => {
@@ -60,12 +62,15 @@ const AddressManageModal: React.FC<Props> = ({ onClose, onSelect }) => {
 
   const handleDelete = async (addressId: number) => {
     setDisabled(true);
-    // await
-    await new Promise((resolve, reject) => {
-      setTimeout(resolve, 1500);
-    });
-    setDisabled(false);
-    handleGoToSelectPage();
+    try {
+      await AddressAPI.deleteAddress(addressId);
+      setDisabled(false);
+      handleGoToSelectPage();
+    } catch (err) {
+      console.error(err);
+      alert('서버에서 Address를 삭제하는데 실패했습니다.');
+      onClose?.();
+    }
   };
 
   const handleGoToSelectPage = async () => {
@@ -105,10 +110,14 @@ const AddressManageModal: React.FC<Props> = ({ onClose, onSelect }) => {
 
   const Page = page.component;
   const targetAddress = page.address;
+
+  const defaultAddress = addresses.find((address) => address.isDefault);
+  const anotherAddresses = addresses.filter((addresses) => !addresses.isDefault);
+  const resortedAddress = [defaultAddress, ...anotherAddresses];
   return (
     <Modal title={page.title} onClose={onClose} disabled={disabled}>
       <Page
-        addressList={addresses}
+        addressList={resortedAddress}
         address={targetAddress}
         disabled={disabled}
         onSelect={handleSelect}

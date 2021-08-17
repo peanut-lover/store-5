@@ -43,9 +43,23 @@ const updateAddress = async (addressId: number, address: AddressCore): Promise<A
   return await res.json();
 };
 
+const deleteAddress = async (addressId: number): Promise<boolean> => {
+  await checkedFetch(`/api/user/address/${addressId}`, {
+    method: 'DELETE',
+    headers: {
+      Accept: 'application/json',
+      'Content-Type': 'application/json',
+    },
+    credentials: 'include',
+  });
+  // No Exception is Success!
+  return true;
+};
+
 export const AddressAPI = {
   getAddresses,
   getAddressById,
   createAddress,
   updateAddress,
+  deleteAddress,
 };

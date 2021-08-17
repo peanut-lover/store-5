@@ -26,22 +26,24 @@ const AddressSelectPage: React.FC<Props> = ({
 
   return (
     <Wrapper>
-      {addressList.map((address) => (
-        <AddressCard
-          key={address.id}
-          address={address}
-          onClick={() => {
-            onSelect?.(address);
-          }}
-          onDelete={() => {
-            setDeleteTargetId(address.id);
-          }}
-          onEdit={() => {
-            onGoToUpdate?.(address.id);
-          }}
-          disabled={disabled}
-        />
-      ))}
+      <AddressInfoList>
+        {addressList.map((address) => (
+          <AddressCard
+            key={address.id}
+            address={address}
+            onClick={() => {
+              onSelect?.(address);
+            }}
+            onDelete={() => {
+              setDeleteTargetId(address.id);
+            }}
+            onEdit={() => {
+              onGoToUpdate?.(address.id);
+            }}
+            disabled={disabled}
+          />
+        ))}
+      </AddressInfoList>
       {deleteTargetId !== null && (
         <ConfirmModal
           onConfirm={() => {
@@ -64,6 +66,14 @@ const AddressSelectPage: React.FC<Props> = ({
 const Wrapper = styled.div`
   display: flex;
   flex-direction: column;
+  min-height: 600px;
+  position: relative;
+`;
+
+const AddressInfoList = styled.div`
+  max-height: 400px;
+  overflow-y: scroll;
+  margin-bottom: 20px;
 `;
 
 export default AddressSelectPage;
