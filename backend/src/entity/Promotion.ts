@@ -15,7 +15,7 @@ export class Promotion {
   id: number;
 
   @Column({ type: 'varchar', length: 400 })
-  img_url: string;
+  imgUrl: string;
 
   @CreateDateColumn({ type: 'timestamp' })
   createdAt: Date;

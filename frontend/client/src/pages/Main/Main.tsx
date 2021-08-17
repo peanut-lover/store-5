@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from 'react';
+import React, { useEffect, useState } from 'react';
 import styled from 'styled-components';
 import { MainGoodsListResult, ThumbnailGoods } from '@src/types/Goods';
 import GoodsSection from '@src/components/GoodsSection/GoodsSection';
@@ -7,6 +7,7 @@ import { Promotion } from '@src/types/Promotion';
 import Footer from '@src/components/Footer/Footer';
 import SideBar from './SideBar/SideBar';
 import { getMainGoodsListMap } from '@src/apis/goodsAPI';
+import { getPromotions } from '@src/apis/promotionAPI';
 
 const mockProductImagePath =
   'https://user-images.githubusercontent.com/20085849/128866958-900ad32a-cd32-4b97-be79-1dbbc9dcb02d.jpeg';
@@ -26,25 +27,13 @@ const mock_best_products: ThumbnailGoods[] = [
   { id: 4, thumbnailUrl: mockProductImagePath, title: '맥쥬짠', price: 10000, discountRate: 0 },
 ];
 
-const mock_promotions: Promotion[] = [
-  {
-    id: 1,
-    imgUrl: 'https://user-images.githubusercontent.com/20085849/128992411-3b983b09-b0af-408a-bf56-4bde93c4b543.gif',
-    goodsId: 1,
-  },
-  {
-    id: 2,
-    imgUrl: 'https://user-images.githubusercontent.com/20085849/128992519-06368afd-3f31-459d-9050-101e730e304d.gif',
-    goodsId: 2,
-  },
-  {
-    id: 3,
-    imgUrl: 'https://user-images.githubusercontent.com/20085849/128992450-eb086cff-3b2a-4d4a-8b01-e3a8a8eaa754.gif',
-    goodsId: 3,
-  },
-];
-
 const Main = () => {
+  const [promotions, setPromotions] = useState<Promotion[]>([]);
+  const fetchPromotions = async () => {
+    const { result } = await getPromotions();
+    setPromotions(result);
+  };
+
   const [mainGoodsListMap, setMainGoodsListMap] = useState<MainGoodsListResult | null>(null);
 
   const fetchMainGoodsListMap = async () => {
@@ -53,6 +42,7 @@ const Main = () => {
   };
 
   useEffect(() => {
+    fetchPromotions();
     fetchMainGoodsListMap();
   }, []);
 
@@ -60,7 +50,7 @@ const Main = () => {
     mainGoodsListMap && (
       <>
         <PromotionContainer>
-          <PromotionCarousel promotions={mock_promotions} />
+          <PromotionCarousel promotions={promotions} />
         </PromotionContainer>
         <MainContentContainer>
           <GoodsSection sectionTitle='잘나가요' goodsList={mainGoodsListMap.bestGoodsList} itemBoxSize='big' />
