@@ -62,7 +62,7 @@ module.exports = {
 
   output: {
     path: path.join(__dirname, '/dist'),
-    filename: 'bundle.js',
+    filename: 'admin_bundle.js',
     publicPath: '/',
   },
 
@@ -72,6 +72,7 @@ module.exports = {
       React: 'react',
     }),
     new HtmlWebpackPlugin({
+      filename: 'admin_index.html',
       template: './public/index.html',
     }),
   ],

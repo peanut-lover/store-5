@@ -18,8 +18,6 @@ import { UserRepository } from './repository/user.repository';
 import { UserAddressRepository } from './repository/user.address.repository';
 import { GoodsStateMap } from './controller/goods.controller';
 import { PromotionRepository } from './repository/promotion.repository';
-import { GoodsService } from './service/goods.service';
-import { GoodsRepository } from './repository/goods.repository';
 
 export default async function () {
   await createConnection({
@@ -50,7 +48,6 @@ async function populate() {
   await createDefaultPromotions();
   await createDefaultGoods();
   await createDefaultDeliveryInfo();
-  await createDefaultProduct();
 }
 
 async function createDefaultUser(name: string) {
@@ -120,22 +117,6 @@ async function createDefaultDeliveryInfo() {
     deliveryFee: 5000,
     deliveryDetail: '배송 지역이 너무멀어요',
   });
-}
-async function createDefaultProduct() {
-  const goods = await GoodsRepository.findGoodsDetailById(1);
-  if (goods) return;
-  const body = {
-    title: '테스트 product',
-    category: 1,
-    isGreen: true,
-    price: 13000,
-    stock: 100,
-    state: 'S',
-    discountRate: 10,
-    deliveryInfo: 1,
-  };
-  const images = ['https://i.pinimg.com/474x/a6/37/06/a63706239671ff07ee06ab1fa761afae.jpg'];
-  await GoodsService.createGoods(body, images);
 }
 
 async function createDefaultOrderList() {}

@@ -1,5 +1,5 @@
 import React from 'react';
-import styled from 'styled-components';
+import { styled } from '@src/lib/CustomStyledComponent';
 
 interface Props {
   previewImages: string[];
@@ -16,7 +16,7 @@ const ProductImagePreviews: React.FC<Props> = ({ previewImages }) => {
   );
 };
 
-const PreviewImage = styled.img`
+const PreviewImage = styled('img')`
   width: 50px;
   height: 50px;
 `;
