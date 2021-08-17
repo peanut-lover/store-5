@@ -34,7 +34,7 @@ async function createGoods(requestGoods: CreateGoodsRequest) {
     price: 300,
     stock: 100,
     discountRate: 10,
-    state: 'S',
+    state: GoodsStateMap.sale,
   });
 }
 
@@ -114,7 +114,7 @@ async function findTotalCountByCategory(category: number): Promise<number> {
       where: {
         // TODO: 어드민 연동시 모든 state와 모든 stock에 해당하는 상품을 가져와야 함
         category,
-        state: 'S',
+        state: GoodsStateMap.sale,
         stock: MoreThan(0),
       },
     });
@@ -132,7 +132,7 @@ async function findTotalCountByKeyword(keyword: string): Promise<number> {
       where: {
         // TODO: 어드민 연동시 모든 state와 모든 stock에 해당하는 상품을 가져와야 함
         title: Like(`%${keyword}%`),
-        state: 'S',
+        state: GoodsStateMap.sale,
         stock: MoreThan(0),
       },
     });

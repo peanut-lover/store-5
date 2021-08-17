@@ -1,5 +1,6 @@
 import { Goods } from '../entity/Goods';
 
+// 'S' = 판매중, 'T' = 임시, 'D' = 삭제
 export type GoodsState = 'S' | 'T' | 'D';
 
 export type GoodsFlag = 'best' | 'low' | 'high' | 'latest';
@@ -32,7 +33,6 @@ export interface GetAllByCategoryProps {
   page: number;
   flag: GoodsFlag;
   limit: number;
-  // 'S' = 판매중, 'T' = 임시, 'D' = 삭제
   state: GoodsState;
   // 비회원 undefined
   userId?: number;
@@ -43,7 +43,6 @@ export interface GetAllByKeywordProps {
   keyword: string;
   page: number;
   limit: number;
-  // 'S' = 판매중, 'T' = 임시, 'D' = 삭제
   state: GoodsState;
   // 비회원 undefined
   userId?: number;

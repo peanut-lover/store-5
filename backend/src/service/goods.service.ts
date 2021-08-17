@@ -19,6 +19,7 @@ import { pagination } from '../utils/pagination';
 import { BadRequestError } from '../errors/client.error';
 import { GOODS_DB_ERROR } from '../constants/database-error-name';
 import { CategoryRepository } from '../repository/category.repository';
+import { GoodsStateMap } from '../controller/goods.controller';
 
 async function getDetailById(id: number): Promise<DetailGoodsResponse> {
   const data = await GoodsRepository.findGoodsDetailById({ id });
@@ -159,7 +160,7 @@ function setAllByCategoryOption(category: number, page: number, limit: number, f
     offset: pagination.calculateOffset(page, limit),
     limit: limit,
     where: {
-      state: 'S',
+      state: GoodsStateMap.sale,
       stock: MoreThan(0),
     },
     order: getCategoryByFlag(flag),
