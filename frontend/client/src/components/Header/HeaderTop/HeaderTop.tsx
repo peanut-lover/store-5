@@ -34,9 +34,9 @@ const HeaderTop: React.FC<Props> = ({ userName, onLogout }) => {
             <UserName>{`${userName}님,`}</UserName>
             <span>{HELLO}</span>
           </ProfileContainer>
-          <Link to='/admin'>
+          <a href='/admin'>
             <Span>관리자페이지</Span>
-          </Link>
+          </a>
           <Button onClick={handleClickLogout}>로그아웃</Button>
         </UserContentContainer>
       ) : (

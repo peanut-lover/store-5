@@ -32,6 +32,9 @@ server.use(
 );
 
 server.use('/api', router);
+server.get('/admin', (req, res) => {
+  res.sendFile(path.join(__dirname, '../public/admin_index.html'));
+});
 
 // fallback to index.html
 server.get('*', (req, res) => {
