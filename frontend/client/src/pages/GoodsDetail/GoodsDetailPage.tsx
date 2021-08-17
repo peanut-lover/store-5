@@ -27,7 +27,7 @@ const GoodsDetailPage = () => {
       throw new Error('올바르지 않은 상품 id입니다.');
     }
     fetchGoodsDetail(idAsNumber);
-  }, []);
+  }, [id]);
 
   return (
     <GoodsDetailContainer>
