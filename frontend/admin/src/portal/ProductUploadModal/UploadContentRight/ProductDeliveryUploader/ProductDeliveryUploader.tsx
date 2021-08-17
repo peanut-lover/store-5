@@ -1,6 +1,10 @@
 import React from 'react';
 
-const ProductDeliveryUploader = () => {
+interface Props {
+  onHandleDeliveryInfo: (id: number) => void;
+}
+
+const ProductDeliveryUploader: React.FC<Props> = ({ onHandleDeliveryInfo }) => {
   return <div>hi</div>;
 };
 

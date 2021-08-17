@@ -1,6 +1,11 @@
 import React from 'react';
 
-const ProductGreenUploader = () => {
+interface Props {
+  checkGreen: boolean;
+  onHandleCheckGreen: () => void;
+}
+
+const ProductGreenUploader: React.FC<Props> = ({ checkGreen, onHandleCheckGreen }) => {
   return <div>hi</div>;
 };
 
