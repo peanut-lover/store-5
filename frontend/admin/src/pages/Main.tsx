@@ -1,6 +1,6 @@
 import React from 'react';
-import ProductUploadModal from '../portal/ProductUploadModal/ProductUploadModal';
 import { styled } from '@src/lib/CustomStyledComponent';
+import ProductUploadModal from '@src/portal/ProductUploadModal/ProductUploadModal';
 
 const Main = () => {
   return (
