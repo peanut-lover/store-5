@@ -1,4 +1,4 @@
-name: Clinet App CI
+name: Admin App CI
 
 on:
   pull_request:
