@@ -23,7 +23,7 @@ import { CategoryRepository } from '../repository/category.repository';
 import { GoodsStateMap } from '../controller/goods.controller';
 import { CreateGoodsBody } from '../types/request/goods.request';
 
-async function createGoods(body: CreateGoodsBody, uploadFileUrls: string[]) {
+async function createGoods(body: CreateGoodsBody, uploadFileUrls: string[]): Promise<Goods> {
   return await getConnection().transaction(async (transactionalEntityManager) => {
     const goods = await transactionalEntityManager.save(Goods, { ...body, thumbnailUrl: uploadFileUrls[0] });
     await Promise.all(

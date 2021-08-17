@@ -32,7 +32,7 @@ export class Goods {
   @Column({ type: 'int' })
   discountRate: number;
 
-  @Column({ type: 'int' })
+  @Column({ type: 'int', default: 0 })
   countOfSell: number;
 
   @Column({ type: 'varchar', length: 5 })

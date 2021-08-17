@@ -1,4 +1,5 @@
 import { createConnection, getRepository, IsNull, Like, Not } from 'typeorm';
+import { DeliveryInfoRepository } from './repository/delivery.info.repository';
 import { databaseConfig } from './config';
 import { DeliveryInfo } from './entity/DeliveryInfo';
 import { Cart } from './entity/Cart';
@@ -47,6 +48,8 @@ async function populate() {
   await createDefaultCategory();
   await createDefaultPromotions();
   await createDefaultGoods();
+  await createDefaultDeliveryInfo();
+  await createDefaultProduct();
 }
 
 async function createDefaultUser(name: string) {
@@ -108,6 +111,15 @@ async function createDefaultAddress() {
   await UserAddressRepository.createDefaultAddress(1, body);
 }
 
+async function createDefaultDeliveryInfo() {
+  const res = await DeliveryInfoRepository.getDeliveryInfos();
+  if (res.length > 0) return;
+  await DeliveryInfoRepository.createDeliveryInfo({
+    name: '산간',
+    deliveryFee: 5000,
+    deliveryDetail: '배송 지역이 너무멀어요',
+  });
+}
 async function createDefaultProduct() {
   const body = {
     title: '테스트 product',
