@@ -8,15 +8,14 @@ import { TaggedGoodsType } from '../types/response/goods.response';
 import { SearchedGoodsFromKeyword } from '../types/response/search.response';
 import { GoodsStateMap } from '../controller/goods.controller';
 
-async function findGoodsDetailById({ id }: { id: number }) {
+async function findGoodsDetailById(goodsId: number): Promise<Goods | undefined> {
   try {
-    const result = await getRepository(Goods).findOne({
+    return await getRepository(Goods).findOne({
       relations: ['category', 'deliveryInfo', 'goodsImgs'],
       where: {
-        id,
+        id: goodsId,
       },
     });
-    return result;
   } catch (error) {
     console.error(error);
     throw new DatabaseError(GOODS_DB_ERROR);

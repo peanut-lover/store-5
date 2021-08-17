@@ -33,8 +33,8 @@ async function createGoods(body: CreateGoodsBody, uploadFileUrls: string[]): Pro
   });
 }
 
-async function getDetailById(id: number): Promise<DetailGoodsResponse> {
-  const data = await GoodsRepository.findGoodsDetailById({ id });
+async function getDetailById(goodsId: number): Promise<DetailGoodsResponse> {
+  const data = await GoodsRepository.findGoodsDetailById(goodsId);
   const imgs = data?.goodsImgs.map((goodsImg) => goodsImg.url);
   const res = JSON.parse(JSON.stringify(data));
   delete res.goodsImgs;

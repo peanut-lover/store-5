@@ -19,6 +19,7 @@ import { UserAddressRepository } from './repository/user.address.repository';
 import { GoodsStateMap } from './controller/goods.controller';
 import { PromotionRepository } from './repository/promotion.repository';
 import { GoodsService } from './service/goods.service';
+import { GoodsRepository } from './repository/goods.repository';
 
 export default async function () {
   await createConnection({
@@ -121,6 +122,8 @@ async function createDefaultDeliveryInfo() {
   });
 }
 async function createDefaultProduct() {
+  const goods = await GoodsRepository.findGoodsDetailById(1);
+  if (goods) return;
   const body = {
     title: '테스트 product',
     category: 1,
