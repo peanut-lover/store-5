@@ -119,7 +119,10 @@ async function findTotalCountByCategory(category: number): Promise<number> {
     const goodsRepo = getRepository(Goods);
     const count = await goodsRepo.count({
       where: {
+        // TODO: 어드민 연동시 모든 state와 모든 stock에 해당하는 상품을 가져와야 함
         category,
+        state: 'S',
+        stock: MoreThan(0),
       },
     });
     return count;
@@ -133,7 +136,12 @@ async function findTotalCountByKeyword(keyword: string): Promise<number> {
   try {
     const goodsRepo = getRepository(Goods);
     const count = await goodsRepo.count({
-      where: { title: Like(`%${keyword}%`) },
+      where: {
+        // TODO: 어드민 연동시 모든 state와 모든 stock에 해당하는 상품을 가져와야 함
+        title: Like(`%${keyword}%`),
+        state: 'S',
+        stock: MoreThan(0),
+      },
     });
     return count;
   } catch (err) {
