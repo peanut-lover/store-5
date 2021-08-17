@@ -1,4 +1,5 @@
 import { Request, Response } from 'express';
+import { BadRequestError } from '../errors/client.error';
 import CartService from '../service/cart.service';
 import { CreateCartRequest, UpdateCartRequest } from '../types/request/cart.request';
 
@@ -10,7 +11,10 @@ async function getAllCart(req: Request, res: Response) {
 
 async function createCart(req: CreateCartRequest, res: Response) {
   const userId = req.userId;
-  const { goodsId } = req.body;
+  const goodsId = Number(req.body.goodsId);
+  if (isNaN(goodsId)) {
+    throw new BadRequestError('goodsId should be number');
+  }
   const result = await CartService.createCart(userId, goodsId, req.body);
   res.status(201).json({ result });
 }
