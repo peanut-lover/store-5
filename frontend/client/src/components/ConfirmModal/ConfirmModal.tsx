@@ -9,14 +9,14 @@ interface Props {
 }
 
 const ConfirmModal: React.FC<Props> = ({ children, onConfirm, onCancel }) => {
-  const dim = useRef(null);
+  const dimRef = useRef(null);
 
   return (
     <Portal>
       <Dim
-        ref={dim}
+        ref={dimRef}
         onClick={(e) => {
-          if (e.target !== dim.current) {
+          if (e.target !== dimRef.current) {
             return;
           }
           onCancel();
