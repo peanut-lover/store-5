@@ -16,6 +16,11 @@ export interface GetGoodsByCategoryProps {
   flag: string;
 }
 
+export interface GetGoodsByKeywordProps {
+  keyword: string;
+  page: number;
+}
+
 const LIMIT = 5;
 
 export const getGoodsByCategory = async ({
@@ -30,6 +35,17 @@ export const getGoodsByCategory = async ({
       credentials: 'include',
     }
   );
+  return await res.json();
+};
+
+export const getGoodsByKeyword = async ({
+  keyword,
+  page,
+}: GetGoodsByKeywordProps): Promise<APIResponse<GoodsByCategoryResult>> => {
+  const res = await checkedFetch(`/api/goods/keyword?keyword=${keyword}&page=${page}&limit=${LIMIT}`, {
+    method: 'GET',
+    credentials: 'include',
+  });
   return await res.json();
 };
 
