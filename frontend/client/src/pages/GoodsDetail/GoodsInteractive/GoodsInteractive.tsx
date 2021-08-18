@@ -30,7 +30,7 @@ const GoodsInteractive: React.FC<Props> = ({
       const result = await createCart({ goodsId: id, amount });
       // 장바구니 이동 안내 모달
     }
-  }, []);
+  }, [amount]);
 
   const fetchCheckStock = async (goodsId: number) => {
     try {

@@ -12,27 +12,19 @@ interface Props {
   fetchCheckStock: (goodsId: number) => Promise<void>;
 }
 
-// TODO: 구매 관련 경로로 이동처리, goodsId와 amount를 전달
-// 더 좋은 방법에 대한 고견을 여쭤보고 싶습니다.. :)
 const GoodsButtons: React.FC<Props> = ({ goodsId, amount, isWish, fetchCheckStock, onToggleWish, addToCart }) => {
   const onOrder = useCallback(async () => {
     await fetchCheckStock(goodsId);
-    const linkWrapper = hiddenLink?.current as HTMLElement;
-    const link = linkWrapper.firstElementChild as HTMLElement;
-    link.click();
+    // 페이지 이동 처리
+    // TODO: 어진님이 이미 작업하셔서 패스했습니다! 감사합니다!! :)
   }, [amount]);
 
-  // any => StyledComponent HiddenLink
-  const hiddenLink = useRef<any>(null);
   return (
     <>
       <GoodsButtonsContainer>
         <WishButton onClick={onToggleWish}>{isWish ? <FaHeart /> : <FaRegHeart />}</WishButton>
         <CartButton onClick={addToCart}>장바구니</CartButton>
         <OrderButton onClick={onOrder}>바로 구매</OrderButton>
-        <HiddenLink ref={hiddenLink}>
-          <Link to={`/order/${goodsId}?amount=${amount}`}></Link>
-        </HiddenLink>
       </GoodsButtonsContainer>
     </>
   );
@@ -79,10 +71,6 @@ const OrderButton = styled.button`
   &:hover {
     opacity: 0.85;
   }
-`;
-
-const HiddenLink = styled.div`
-  display: none;
 `;
 
 export default GoodsButtons;
