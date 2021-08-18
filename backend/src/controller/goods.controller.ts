@@ -75,6 +75,21 @@ async function getAllSaleGoodsByKeyword(req: Request, res: Response) {
   return res.status(200).json({ result });
 }
 
+async function getAllSaleGoodsByUserId(req: Request, res: Response) {
+  const { page, keyword, limit, state = GoodsStateMap.sale } = req.query;
+  // TODO : 타입 체크
+  const GoodsListParams: GetAllByKeywordProps = {
+    keyword: String(keyword),
+    page: Number(page),
+    limit: Number(limit),
+    state: String(state) as GoodsState,
+    userId: req.userId,
+  };
+
+  const result = await GoodsService.getAllSaleGoodsByKeyword(GoodsListParams);
+  return res.status(200).json({ result });
+}
+
 async function getMainGoodsListMap(req: Request, res: Response) {
   const result = await GoodsService.getMainGoodsListMap();
   return res.status(200).json({ result });
