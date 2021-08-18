@@ -1,21 +1,46 @@
-import React from 'react';
-import { useState } from 'react';
+import styled from 'styled-components';
+import React, { useMemo, useState } from 'react';
+
+import { useRecoilValue } from 'recoil';
+import { orderState } from '@src/recoil/orderState';
+
 import PageHeader from '@src/components/PageHeader/PageHeader';
 import Layout from '@src/pages/Cart/Layout/Layout';
-import styled from 'styled-components';
 import Divider from '@src/components/Divider/Divider';
 import Button from '@src/components/PrimaryButton/PrimaryButton';
 import CheckButtonWithLabel from '@src/components/CheckButtonWithLabel/CheckButtonWithLabel';
 import HighlightedText from '@src/components/HighlightedText/HighlightedText';
 import Topic from '@src/components/Topic/Topic';
-import { GoodsBeforeOrder } from '@src/types/Goods';
+import { AddressInfo } from '@src/types/Address';
+import { getDiscountedPrice, getPriceText } from '@src/utils/price';
 import OrderGoodsList from './OrderGoodsList/OrderGoodsList';
 import AddressSection from './AddressSection/AddressSection';
+import { usePushHistory } from '@src/lib/CustomRouter';
 
-const mock: GoodsBeforeOrder[] = [];
-
+// TODO: NoData, Payment fetching, 체크박스 및 배송지 벨리데이션 후 Alert
 const OrderPage: React.FC = () => {
-  const [orderGoodsList, setOrderGoodsList] = useState<GoodsBeforeOrder[]>(mock);
+  const orderGoodsList = useRecoilValue(orderState);
+  const [selectedAddress, setSelectedAddress] = useState<AddressInfo | null>(null);
+  const pushHistory = usePushHistory();
+
+  const reducedPrice = useMemo(
+    () =>
+      orderGoodsList.reduce(
+        (prev, cartGoods) =>
+          prev + cartGoods.amount * getDiscountedPrice(cartGoods.goods.price, cartGoods.goods.discountRate),
+        0
+      ),
+    [orderGoodsList]
+  );
+  // TODO: 배송비 정책 결정하고 대응 수정하기
+  // 임시적으로 30000원 이상이면 배송비 0원, 아니면 2500원 부여
+  const deliveryPrice = orderGoodsList.length !== 0 && reducedPrice < 30000 ? 2500 : 0;
+  const totalPrice = reducedPrice + deliveryPrice;
+
+  if (orderGoodsList.length === 0) {
+    pushHistory('/');
+    return null;
+  }
 
   return (
     <Layout
@@ -24,10 +49,10 @@ const OrderPage: React.FC = () => {
         <FlexColumn gap='4rem'>
           <div>
             <Topic>배송정보</Topic>
-            <AddressSection />
+            <AddressSection onChangeSelectedAddress={setSelectedAddress} />
           </div>
           <div>
-            <Topic>주문 상품 (1건)</Topic>
+            <Topic>주문 상품 ({orderGoodsList.length}건)</Topic>
             <OrderGoodsList orderGoodsList={orderGoodsList} />
           </div>
         </FlexColumn>
@@ -39,16 +64,16 @@ const OrderPage: React.FC = () => {
               <Topic>결제금액</Topic>
               <FlexRowSpaceBetween>
                 <div>상품금액</div>
-                <div>42,800원</div>
+                <div>{getPriceText(reducedPrice)}원</div>
               </FlexRowSpaceBetween>
               <FlexRowSpaceBetween>
                 <div>배송비</div>
-                <div>+0원</div>
+                <div>+{getPriceText(deliveryPrice)}원</div>
               </FlexRowSpaceBetween>
               <Divider lineStyle='dashed' />
               <FlexRowSpaceBetween>
                 <HighlightedText>총 결제금액</HighlightedText>
-                <HighlightedText>42,800원</HighlightedText>
+                <HighlightedText>{getPriceText(totalPrice)}원</HighlightedText>
               </FlexRowSpaceBetween>
             </FlexColumn>
           </PaddingBox>
@@ -65,7 +90,7 @@ const OrderPage: React.FC = () => {
           <PaddingBox>
             <FlexColumn gap='1rem'>
               <CheckButtonWithLabel isChecked={true} onClick={() => {}} label='결제 진행에 필요한 사항 동의' />
-              <Button fullWidth>42,800원 결제하기</Button>
+              <Button fullWidth>{getPriceText(totalPrice)}원 결제하기</Button>
             </FlexColumn>
           </PaddingBox>
         </BorderBox>

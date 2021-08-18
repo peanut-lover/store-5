@@ -1,5 +1,6 @@
 import { deleteCarts, getCarts, updateCart } from '@src/apis/cartAPI';
 import PageHeader from '@src/components/PageHeader/PageHeader';
+import usePushToOrderPage from '@src/hooks/usePushToOrderPage';
 import { usePushHistory } from '@src/lib/CustomRouter';
 import { CartGoods } from '@src/types/Goods';
 import React, { useCallback, useState } from 'react';
@@ -10,7 +11,7 @@ import EmptyCart from './EmptyCart/EmptyCart';
 import Layout from './Layout/Layout';
 
 const CartPage: React.FC = () => {
-  const pushHistory = usePushHistory();
+  const pushToOrderPage = usePushToOrderPage();
   const [cartGoodsList, setCartGoodsList] = useState<CartGoods[]>([]);
   const [isCartsFetched, setIsCartsFetched] = useState(false);
 
@@ -46,16 +47,15 @@ const CartPage: React.FC = () => {
   const handleChangeIsSelected = useCallback(
     (id: number, isSelected: boolean) => {
       const changedCartGoodsList = cartGoodsList.map((cartGoods) => {
-   return { ...cartGoods, isSelected : cartGoods.id === id };
+        return { ...cartGoods, isSelected: cartGoods.id === id };
       });
       setCartGoodsList(changedCartGoodsList);
     },
     [cartGoodsList, setCartGoodsList]
   );
 
-  // TODO: 상품을 주문/결제 페이지에 전달하기
   const handleClickOrderButton = () => {
-    pushHistory('/order');
+    pushToOrderPage(cartGoodsList);
   };
 
   useEffect(() => {
