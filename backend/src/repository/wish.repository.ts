@@ -63,9 +63,24 @@ async function findWishCountByGoodsIdAndUserId(goodsId: number, userId: number):
   }
 }
 
+async function findWishCountByUserId(userId: number): Promise<number> {
+  try {
+    const result = await getRepository(Wish)
+      .createQueryBuilder('wish')
+      .select('wish.goodsId')
+      .where('wish.userId = :userId', { userId })
+      .getCount();
+    return result;
+  } catch (error) {
+    console.error(error);
+    throw new DatabaseError(WISH_DB_ERROR);
+  }
+}
+
 export const WishRepository = {
   findWishByUserId,
   findWishByIds,
+  findWishCountByUserId,
   findWishCountByGoodsIdAndUserId,
   createWish,
   deleteWish,
