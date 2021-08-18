@@ -2,7 +2,7 @@ import { getRepository, Like, MoreThan } from 'typeorm';
 import { GOODS_DB_ERROR } from '../constants/database-error-name';
 import { DatabaseError } from '../errors/base.error';
 import { Goods } from '../entity/Goods';
-import { FindAllCategoryProps, FindAllColumnNameProps, FindAllKeywordProps } from '../types/Goods';
+import { FindAllCategoryProps, FindAllColumnNameProps, FindAllKeywordProps, FindAllUserIdProps } from '../types/Goods';
 import { TaggedGoodsType } from '../types/response/goods.response';
 import { SearchedGoodsFromKeyword } from '../types/response/search.response';
 import { GoodsStateMap } from '../controller/goods.controller';
@@ -80,7 +80,7 @@ async function findAllByColumnName({ columnName, limit }: FindAllColumnNameProps
         stock: MoreThan(0),
       },
       order: {
-        [columnName]: 'ASC',
+        createdAt: 'DESC',
       },
     });
     return data;
@@ -88,6 +88,26 @@ async function findAllByColumnName({ columnName, limit }: FindAllColumnNameProps
     console.error(err);
     throw new DatabaseError(GOODS_DB_ERROR);
   }
+}
+
+async function findAllWishByUserId({ offset, limit, userId }: FindAllUserIdProps): Promise<TaggedGoodsType[]> {
+  try {
+    const data = await getRepository(Goods)
+      .createQueryBuilder('goods')
+      .leftJoinAndSelect('wish', 'w', 'w.goodsId = goods.id')
+      .where(`w.userId = ${userId}`)
+      .orderBy('w.createdAt', 'DESC')
+      .offset(offset)
+      .limit(limit)
+      .getMany();
+
+    return data;
+  } catch (err) {
+    console.error(err);
+    throw new DatabaseError(GOODS_DB_ERROR);
+  }
+
+  return [];
 }
 
 async function findTotalCountByCategory(category: number): Promise<number> {
@@ -163,6 +183,7 @@ export const GoodsRepository = {
   findAllByCategory,
   findAllByColumnName,
   findAllByKeyword,
+  findAllWishByUserId,
   findTotalCountByCategory,
   findTotalCountByKeyword,
   findSellCountAverage,
