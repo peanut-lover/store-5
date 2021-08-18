@@ -1,21 +1,38 @@
-import React from 'react';
+import React, { RefObject, useCallback, useRef } from 'react';
 import styled from 'styled-components';
 import { FaRegHeart, FaHeart } from 'react-icons/fa';
+import { Link } from '@src/lib/CustomRouter';
 
 interface Props {
   isWish: boolean;
+  goodsId: number;
+  amount: number;
   onToggleWish: () => void;
-  onAddToCart: () => void;
-  onAddToOrder: () => void;
+  addToCart: () => void;
+  fetchCheckStock: (goodsId: number) => Promise<void>;
 }
 
-const GoodsButtons: React.FC<Props> = ({ isWish, onToggleWish, onAddToCart, onAddToOrder }) => {
+// TODO: 구매 관련 경로로 이동처리, goodsId와 amount를 전달
+// 더 좋은 방법에 대한 고견을 여쭤보고 싶습니다.. :)
+const GoodsButtons: React.FC<Props> = ({ goodsId, amount, isWish, fetchCheckStock, onToggleWish, addToCart }) => {
+  const onOrder = useCallback(async () => {
+    await fetchCheckStock(goodsId);
+    const linkWrapper = hiddenLink?.current as HTMLElement;
+    const link = linkWrapper.firstElementChild as HTMLElement;
+    link.click();
+  }, [amount]);
+
+  // any => StyledComponent HiddenLink
+  const hiddenLink = useRef<any>(null);
   return (
     <>
       <GoodsButtonsContainer>
         <WishButton onClick={onToggleWish}>{isWish ? <FaHeart /> : <FaRegHeart />}</WishButton>
-        <CartButton onClick={onAddToCart}>장바구니</CartButton>
-        <OrderButton onClick={onAddToOrder}>바로 구매</OrderButton>
+        <CartButton onClick={addToCart}>장바구니</CartButton>
+        <OrderButton onClick={onOrder}>바로 구매</OrderButton>
+        <HiddenLink ref={hiddenLink}>
+          <Link to={`/order/${goodsId}?amount=${amount}`}></Link>
+        </HiddenLink>
       </GoodsButtonsContainer>
     </>
   );
@@ -62,6 +79,10 @@ const OrderButton = styled.button`
   &:hover {
     opacity: 0.85;
   }
+`;
+
+const HiddenLink = styled.div`
+  display: none;
 `;
 
 export default GoodsButtons;

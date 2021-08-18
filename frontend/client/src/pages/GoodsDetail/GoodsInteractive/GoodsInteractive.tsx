@@ -4,6 +4,7 @@ import { DetailGoods } from '@src/types/Goods';
 import React, { useState, useCallback, useEffect } from 'react';
 import { deleteWish, postWish } from '@src/apis/wishAPI';
 import { getGoodsStockCount } from '@src/apis/goodsAPI';
+import { createCart } from '@src/apis/cartAPI';
 
 interface Props {
   goods: DetailGoods;
@@ -20,8 +21,15 @@ const GoodsInteractive: React.FC<Props> = ({
     const result = await (isWished ? deleteWish(id) : postWish(id));
     if (result) setIsWished(!isWished);
   }, [isWished]);
-  const handleAddToCart = useCallback(() => {
+
+  const addToCart = useCallback(async () => {
     console.log('장바구니 추가 API', 'goods id:', id);
+    if (isOver) {
+      // 수량 초과 모달
+    } else {
+      const result = await createCart({ goodsId: id, amount });
+      // 장바구니 이동 안내 모달
+    }
   }, []);
 
   const fetchCheckStock = async (goodsId: number) => {
@@ -56,7 +64,7 @@ const GoodsInteractive: React.FC<Props> = ({
         amount={amount}
         goodsId={id}
         onToggleWish={handleToWish}
-        onAddToCart={handleAddToCart}
+        addToCart={addToCart}
         fetchCheckStock={fetchCheckStock}
       />
     </div>
