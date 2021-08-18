@@ -1,7 +1,8 @@
-import React from 'react';
+import React, { useCallback, useState } from 'react';
 import GoodsItem, { GoodsItemSize } from '@src/components/GoodsItem/GoodsItem';
 import { Goods } from '@src/types/Goods';
 import styled from 'styled-components';
+import CartModal from '@src/portal/CartModal/CartModal';
 
 interface Props {
   goodsList: Goods[];
@@ -9,6 +10,18 @@ interface Props {
 }
 
 const GoodsItemList: React.FC<Props> = ({ goodsList, itemBoxSize = 'big' }) => {
+  const [openCartModal, setOpenCartModal] = useState(false);
+  const [openGoodsId, setOpenGoodsModal] = useState<number | null>(null);
+
+  const handleCloseCartModal = useCallback(() => {
+    setOpenCartModal(false);
+  }, []);
+
+  const handleClickCart = useCallback((goodsId: number) => {
+    setOpenCartModal(true);
+    setOpenGoodsModal(goodsId);
+  }, []);
+
   return (
     <GoodsItemListContainer>
       {goodsList &&
@@ -26,8 +39,10 @@ const GoodsItemList: React.FC<Props> = ({ goodsList, itemBoxSize = 'big' }) => {
             isSale={goods.isSale}
             discountRate={goods.discountRate}
             itemBoxSize={itemBoxSize}
+            handleClickCart={handleClickCart}
           />
         ))}
+      {openCartModal && <CartModal goodsId={openGoodsId} onClose={handleCloseCartModal} />}
     </GoodsItemListContainer>
   );
 };
