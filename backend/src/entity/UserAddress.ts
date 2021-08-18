@@ -32,9 +32,6 @@ export class UserAddress {
   @Column({ type: 'boolean' })
   isDefault: boolean;
 
-  @Column({ type: 'int' })
-  amount: number;
-
   @CreateDateColumn({ type: 'timestamp' })
   createdAt: Date;
 

@@ -1,9 +1,10 @@
-import { Address } from '@src/types/Address';
+import HighlightedText from '@src/components/HighlightedText/HighlightedText';
+import { AddressInfo } from '@src/types/Address';
 import React from 'react';
 import styled from 'styled-components';
 
 interface Props {
-  address: Address;
+  address: AddressInfo;
   onClick?: () => void;
   onDelete?: () => void;
   onEdit?: () => void;
@@ -11,7 +12,7 @@ interface Props {
 }
 
 const AddressCard: React.FC<Props> = ({ address: addressProp, onClick, onDelete, onEdit, disabled }) => {
-  const { name, receiver, zipCode, address, subAddress } = addressProp;
+  const { name, receiver, zipCode, address, subAddress, isDefault } = addressProp;
 
   return (
     <Wrapper
@@ -19,10 +20,11 @@ const AddressCard: React.FC<Props> = ({ address: addressProp, onClick, onDelete,
       onClick={() => {
         !disabled && onClick?.();
       }}
+      isPrimary={isDefault}
     >
       <InfoGroup>
         <SmallStrong>
-          {receiver} ({name})
+          {isDefault && <HighlightedText>기본 주소</HighlightedText>} {receiver} ({name})
         </SmallStrong>
         <ZipCode>우편번호: {zipCode}</ZipCode>
         <MediumStrong>{`${address} ${subAddress}`}</MediumStrong>
@@ -57,16 +59,23 @@ const AddressCard: React.FC<Props> = ({ address: addressProp, onClick, onDelete,
   );
 };
 
-const Wrapper = styled.div<{ clickable: boolean }>`
+interface InfoGroupProps {
+  theme: { primary: string };
+  isPrimary?: boolean;
+  clickable: boolean;
+}
+
+const Wrapper = styled.div<InfoGroupProps>`
   ${({ clickable }) => clickable && 'cursor: pointer;'}
   padding: 1rem;
   position: relative;
   background-color: white;
   transition: 0.2s linear;
-  border: 1px solid white;
-
+  border: 2px solid ${(props) => (props.isPrimary ? props.theme.primary : 'white')};
+  width: 100%;
+  opacity: 0.8;
   :hover {
-    ${({ clickable }) => clickable && 'border: 1px solid black;'}
+    ${({ clickable }) => clickable && 'opacity:1;'}
   }
 `;
 

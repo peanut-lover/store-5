@@ -7,6 +7,10 @@ export interface AddressCore {
   isDefault: boolean;
 }
 
-export type Address = AddressCore & {
+export type AddressInfo = AddressCore & {
+  id: number;
+};
+
+export type AddressUpdateResult = {
   id: number;
 };

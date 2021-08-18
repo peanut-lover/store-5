@@ -4,7 +4,7 @@ interface Props {
   fullWidth?: boolean;
 }
 
-const Button = styled.button<Props>`
+const PrimaryButton = styled.button<Props>`
   cursor: pointer;
   color: white;
   border: none;
@@ -28,4 +28,4 @@ const Button = styled.button<Props>`
   }
 `;
 
-export default Button;
+export default PrimaryButton;

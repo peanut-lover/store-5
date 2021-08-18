@@ -4,13 +4,13 @@ import PageHeader from '@src/components/PageHeader/PageHeader';
 import Layout from '@src/pages/Cart/Layout/Layout';
 import styled from 'styled-components';
 import Divider from '@src/components/Divider/Divider';
-import Button from '@src/components/Button/Button';
+import Button from '@src/components/PrimaryButton/PrimaryButton';
 import CheckButtonWithLabel from '@src/components/CheckButtonWithLabel/CheckButtonWithLabel';
 import HighlightedText from '@src/components/HighlightedText/HighlightedText';
 import Topic from '@src/components/Topic/Topic';
 import { OrderGoods } from '@src/types/Goods';
 import OrderGoodsList from './OrderGoodsList/OrderGoodsList';
-import AddressInfo from './AddressInfo/AddressInfo';
+import AddressSection from './AddressSection/AddressSection';
 
 const mock: OrderGoods[] = [
   {
@@ -45,7 +45,7 @@ const OrderPage: React.FC = () => {
         <FlexColumn gap='4rem'>
           <div>
             <Topic>배송정보</Topic>
-            <AddressInfo />
+            <AddressSection />
           </div>
           <div>
             <Topic>주문 상품 (1건)</Topic>
