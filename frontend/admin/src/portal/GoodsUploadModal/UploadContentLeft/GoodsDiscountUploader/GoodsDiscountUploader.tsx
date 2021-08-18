@@ -10,7 +10,7 @@ interface Props {
 const GoodsDiscountUploader: React.FC<Props> = ({ discountRate, onChangeDiscountRate }) => {
   return (
     <UploaderContainer>
-      <UploaderLabel>할인률</UploaderLabel>
+      <UploaderLabel>할인율</UploaderLabel>
       <UploaderInputContainer>
         <UploaderInput type='number' max='99' min='0' value={discountRate} onInput={onChangeDiscountRate} />
         <span>%</span>

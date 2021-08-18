@@ -1,8 +1,8 @@
 import { styled } from '@src/lib/CustomStyledComponent';
-import GoodsCategoryUploader from '@src/portal/GoodsUploadModal/UploadContentRight/GoodsCategoryUploader/GoodsCategoryUploader';
-import GoodsDeliveryUploader from '@src/portal/GoodsUploadModal/UploadContentRight/GoodsDeliveryUploader/GoodsDeliveryUploader';
-import GoodsGreenUploader from '@src/portal/GoodsUploadModal/UploadContentRight/GoodsGreenUploader/GoodsGreenUploader';
-import GoodsStateUploader from '@src/portal/GoodsUploadModal/UploadContentRight/GoodsStateUploader/GoodsStateUploader';
+import GoodsCategoryUploader from './GoodsCategoryUploader/GoodsCategoryUploader';
+import GoodsDeliveryUploader from './GoodsDeliveryUploader/GoodsDeliveryUploader';
+import GoodsGreenUploader from './GoodsGreenUploader/GoodsGreenUploader';
+import GoodsStateUploader from './GoodsStateUploader/GoodsStateUploader';
 import React from 'react';
 
 interface Props {

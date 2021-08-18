@@ -1,4 +1,5 @@
 import { styled } from '@src/lib/CustomStyledComponent';
+import { theme } from '@src/theme/theme';
 import React from 'react';
 
 interface Props {
@@ -8,8 +9,10 @@ interface Props {
 }
 const PreviewImage: React.FC<Props> = ({ index, url, onDeleteImage }) => (
   <PreviewImageContainer key={index}>
-    {index === 0 && <Thumbnail>썸네일</Thumbnail>}
-    <ImageDeleteButton onClick={() => onDeleteImage(index)}>X</ImageDeleteButton>
+    {index === 0 && <Thumbnail bgColor={theme.greenColor}>썸네일</Thumbnail>}
+    <ImageDeleteButton onClick={() => onDeleteImage(index)} bgColor={theme.greenColor}>
+      X
+    </ImageDeleteButton>
     <PreviewImageItem src={url} />
   </PreviewImageContainer>
 );
@@ -18,24 +21,24 @@ const PreviewImageContainer = styled('div')`
   position: relative;
 `;
 
-const Thumbnail = styled('div')`
+const Thumbnail = styled('div')<{ bgColor: string }>`
   position: absolute;
   width: 52px;
   top: 30px;
   left: 30px;
   border-radius: 8px;
   color: #fff;
-  background-color: #2ac1bc;
+  background-color: ${(props) => props.bgColor};
   text-align: center;
 `;
-const ImageDeleteButton = styled('button')`
+const ImageDeleteButton = styled('button')<{ bgColor: string }>`
   position: absolute;
   top: 16px;
   right: 12px;
   font-size: 1.2em;
   border-radius: 50%;
   border: none;
-  background-color: #2ac1bc;
+  background-color: ${(props) => props.bgColor};
   color: #fff;
   cursor: pointer;
 `;

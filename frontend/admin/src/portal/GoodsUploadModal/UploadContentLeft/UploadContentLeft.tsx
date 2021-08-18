@@ -1,8 +1,8 @@
 import { styled } from '@src/lib/CustomStyledComponent';
-import GoodsDiscountUploader from '@src/portal/GoodsUploadModal/UploadContentLeft/GoodsDiscountUploader/GoodsDiscountUploader';
-import GoodsPriceUploader from '@src/portal/GoodsUploadModal/UploadContentLeft/GoodsPriceUploader/GoodsPriceUploader';
-import GoodsStockUploader from '@src/portal/GoodsUploadModal/UploadContentLeft/GoodsStockUploader/GoodsStockUploader';
-import GoodsTitleUploader from '@src/portal/GoodsUploadModal/UploadContentLeft/GoodsTitleUploader/GoodsTitleUploader';
+import GoodsDiscountUploader from './GoodsDiscountUploader/GoodsDiscountUploader';
+import GoodsPriceUploader from './GoodsPriceUploader/GoodsPriceUploader';
+import GoodsStockUploader from './GoodsStockUploader/GoodsStockUploader';
+import GoodsTitleUploader from './GoodsTitleUploader/GoodsTitleUploader';
 import React, { ChangeEvent } from 'react';
 
 interface Props {
