@@ -43,3 +43,14 @@ export type OrderGoods = Goods & {
   amount: number;
   stock: number;
 };
+
+// TODO: 이름 바꿀 필요가 있음. GoodsPaginationResult
+export interface GoodsPaginationResult {
+  goodsList: ThumbnailGoods[];
+  meta: {
+    page: number;
+    limit: number;
+    totalPage: number;
+    totalCount: number;
+  };
+}

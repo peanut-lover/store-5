@@ -2,7 +2,6 @@ import React from 'react';
 import styled from 'styled-components';
 import { BsFillCaretLeftFill, BsFillCaretRightFill } from 'react-icons/bs';
 import { range } from '@src/utils/range';
-import { Link } from '@src/lib/CustomRouter';
 import theme from '@src/theme/theme';
 
 interface Props {

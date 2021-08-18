@@ -54,14 +54,14 @@ const MyAddressView = () => {
   );
 };
 
-const AddressControlButtonContainer = styled.div`
-  display: flex;
-  justify-content: space-between;
-`;
-
 const AddressInfoList = styled.ul`
   display: flex;
   flex-direction: column;
+`;
+
+const AddressControlButtonContainer = styled.div`
+  display: flex;
+  justify-content: space-between;
 `;
 
 interface AddressInfoListItem {
