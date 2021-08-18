@@ -6,6 +6,7 @@ import { styled } from '@src/lib/CustomStyledComponent';
 import useInput from '../../hooks/useInput';
 import UploadContentLeft from '@src/portal/ProductUploadModal/UploadContentLeft/UploadContentLeft';
 import UploadContentRight from '@src/portal/ProductUploadModal/UploadContentRight/UploadContentRight';
+import { GoodsAPI } from '@src/apis/goodsAPI';
 
 const ProductUploadModal = () => {
   const [files, setFiles] = useState<File[]>([]); // 이미지 file 저장
@@ -19,7 +20,7 @@ const ProductUploadModal = () => {
   const [deliveryInfo, setDeliveryInfo] = useState<number>(0);
   const [submitActive, setSubmitActive] = useState<string>('');
 
-  const handleSubmit = (e: MouseEvent) => {
+  const handleSubmit = async (e: MouseEvent) => {
     const formData = new FormData();
     files.forEach((file: File) => formData.append('files', file));
     formData.append('title', title);
@@ -30,6 +31,8 @@ const ProductUploadModal = () => {
     formData.append('deliveryInfo', `${deliveryInfo}`);
     formData.append('category', `${category}`);
     formData.append('state', productState);
+    const { result } = await GoodsAPI.createGoods(formData);
+    console.log(result);
   };
 
   const handleUpdateFiles = useCallback(

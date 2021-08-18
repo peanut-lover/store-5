@@ -3,7 +3,7 @@ import { INVALID_DATA } from '../constants/client-error-name';
 import { BadRequestError } from '../errors/client.error';
 import { GoodsService } from '../service/goods.service';
 import { GetAllByCategoryProps, GetAllByKeywordProps, GoodsFlag, GoodsState } from '../types/Goods';
-import { CreateGoodsRequest } from '../types/request/goods.request';
+import { CreateGoodsBody, CreateGoodsRequest } from '../types/request/goods.request';
 import ConvertToURLfromFile from '../utils/convert.url.from.file';
 
 export const GoodsStateMap = {
@@ -20,10 +20,17 @@ const GoodsFlag = {
 };
 
 async function createGoods(req: CreateGoodsRequest, res: Response) {
-  const body = req.body;
+  const body: CreateGoodsBody = {
+    ...req.body,
+    price: Number(req.body.price),
+    discountRate: Number(req.body.discountRate),
+    category: Number(req.body.category),
+    deliveryInfo: Number(req.body.deliveryInfo),
+  };
   const files = req.files;
   const HOST_URL = req.get('host');
   if (!files || !Array.isArray(files) || !HOST_URL) throw new BadRequestError(INVALID_DATA);
+
   const uploadFileUrls = ConvertToURLfromFile(files, HOST_URL);
   const result = await GoodsService.createGoods(body, uploadFileUrls);
   res.status(201).json({ result });

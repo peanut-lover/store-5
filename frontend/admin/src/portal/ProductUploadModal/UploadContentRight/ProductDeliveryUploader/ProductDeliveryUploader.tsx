@@ -1,4 +1,4 @@
-import { getDeliveryInfos } from '@src/apis/deliveryAPI';
+import { DeliveryAPI } from '@src/apis/deliveryAPI';
 import { styled } from '@src/lib/CustomStyledComponent';
 import { UploaderLabel } from '@src/portal/ProductUploadModal/UploadContentLeft/style';
 import { DeliveryInfo } from '@src/types/DeliveryInfo';
@@ -20,7 +20,7 @@ const ProductDeliveryUploader: React.FC<Props> = ({ onHandleDeliveryInfo }) => {
 
   useEffect(() => {
     const updateDeliveryInfos = async () => {
-      const { result } = await getDeliveryInfos();
+      const { result } = await DeliveryAPI.getDeliveryInfos();
       setDeliveryInfos(result);
       if (result.length > 0) onHandleDeliveryInfo(result[0].id);
     };

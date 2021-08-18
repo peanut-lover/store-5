@@ -1,4 +1,4 @@
-import { getAllCategory } from '@src/apis/categoryAPI';
+import { CategoryAPI } from '@src/apis/categoryAPI';
 import { styled } from '@src/lib/CustomStyledComponent';
 import { UploaderLabel } from '@src/portal/ProductUploadModal/UploadContentLeft/style';
 import { Category } from '@src/types/Category';
@@ -40,7 +40,7 @@ const ProductCategoryUploader: React.FC<Props> = ({ onHandleCategory }) => {
     const fetchCategory = async () => {
       const {
         result: { categories },
-      } = await getAllCategory();
+      } = await CategoryAPI.getAllCategory();
       if (categories.length > 0) {
         setMainCategory(categories[0].name);
         onHandleCategory(categories[0].id);

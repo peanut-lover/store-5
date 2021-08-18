@@ -10,7 +10,7 @@ const router = express.Router();
 
 router.post(
   '/',
-  isAuthenticate,
+  // isAuthenticate,
   uploadProductFiles.array('files', MAX_UPLOAD_FILE),
   wrapAsync(GoodsController.createGoods)
 );
