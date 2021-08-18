@@ -9,6 +9,6 @@ const router = express.Router();
 router.get('/', isAuthenticate, wrapAsync(CartController.getAllCart));
 router.post('/', isAuthenticate, wrapAsync(CartController.createCart));
 router.patch('/:id', isAuthenticate, checkNumberInParams, wrapAsync(CartController.updateCart));
-router.delete('/:id', isAuthenticate, checkNumberInParams, wrapAsync(CartController.deleteCart));
+router.delete('/', isAuthenticate, wrapAsync(CartController.deleteCarts));
 
 export default router;
