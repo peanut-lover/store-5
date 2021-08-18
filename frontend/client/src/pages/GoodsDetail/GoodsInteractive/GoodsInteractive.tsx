@@ -2,7 +2,7 @@ import GoodsButtons from './GoodsButtons/GoodsButtons';
 import GoodsAmount from './GoodsAmount/GoodsAmount';
 import { DetailGoods } from '@src/types/Goods';
 import React, { useState, useCallback, useEffect } from 'react';
-import { deleteWish, postWish } from '@src/apis/wishAPI';
+import { deleteWish, postWish } from '@src/apis/wishAPI-tmp';
 import { getGoodsStockCount } from '@src/apis/goodsAPI';
 import { createCart } from '@src/apis/cartAPI';
 
