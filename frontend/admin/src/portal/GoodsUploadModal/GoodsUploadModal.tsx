@@ -1,14 +1,18 @@
 import React, { ChangeEvent, MouseEvent, useEffect, useState } from 'react';
 import { useCallback } from 'react';
 import Portal from '../portal';
-import ProductImageUploader from './ProductImageUploader/ProductImageUploader';
+import ProductImageUploader from './GoodsImageUploader/GoodsImageUploader';
 import { styled } from '@src/lib/CustomStyledComponent';
 import useInput from '../../hooks/useInput';
-import UploadContentLeft from '@src/portal/ProductUploadModal/UploadContentLeft/UploadContentLeft';
-import UploadContentRight from '@src/portal/ProductUploadModal/UploadContentRight/UploadContentRight';
+import UploadContentLeft from '@src/portal/GoodsUploadModal/UploadContentLeft/UploadContentLeft';
+import UploadContentRight from '@src/portal/GoodsUploadModal/UploadContentRight/UploadContentRight';
 import { GoodsAPI } from '@src/apis/goodsAPI';
 
-const ProductUploadModal = () => {
+interface Props {
+  onClose: () => void;
+}
+
+const GoodsUploadModal: React.FC<Props> = ({ onClose }) => {
   const [files, setFiles] = useState<File[]>([]); // 이미지 file 저장
   const [title, handleChangeTitle] = useInput('');
   const [price, handleChangePrice] = useInput('');
@@ -31,8 +35,12 @@ const ProductUploadModal = () => {
     formData.append('deliveryInfo', `${deliveryInfo}`);
     formData.append('category', `${category}`);
     formData.append('state', productState);
-    const { result } = await GoodsAPI.createGoods(formData);
-    console.log(result);
+    try {
+      const { result } = await GoodsAPI.createGoods(formData);
+      if (result) onClose();
+    } catch (err) {
+      console.error(err);
+    }
   };
 
   const handleUpdateFiles = useCallback(
@@ -127,7 +135,7 @@ const ProductUploadModal = () => {
               </SubmitButton>
             </UploadContentRightContainer>
           </UploadContentContainer>
-          <CloseButton>X</CloseButton>
+          <CloseButton onClick={onClose}>X</CloseButton>
         </ProductUploadContainer>
       </ModalContainer>
     </Portal>
@@ -196,4 +204,4 @@ const CloseButton = styled('button')`
   cursor: pointer;
 `;
 
-export default ProductUploadModal;
+export default GoodsUploadModal;

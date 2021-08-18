@@ -13,7 +13,7 @@ export const UploaderLabel = styled('label')`
   color: #2ac1bc;
 `;
 
-export const ProductUploadInputContainer = styled('div')`
+export const GoodsUploadInputContainer = styled('div')`
   box-sizing: border-box;
   display: flex;
   justify-content: space-between;

@@ -2,21 +2,21 @@ import React from 'react';
 
 import { BsCheckCircle } from 'react-icons/bs';
 import {
-  ProductUploadInputContainer,
+  GoodsUploadInputContainer,
   UploaderContainer,
   UploaderInput,
   UploaderLabel,
-} from '@src/portal/ProductUploadModal/UploadContentLeft/style';
+} from '@src/portal/GoodsUploadModal/UploadContentLeft/style';
 
 interface Props {
   title: string;
   onChangeTitle: (e: React.ChangeEvent<HTMLInputElement>) => void;
 }
-const ProductTitleUploader: React.FC<Props> = ({ title, onChangeTitle }) => {
+const GoodsTitleUploader: React.FC<Props> = ({ title, onChangeTitle }) => {
   return (
     <UploaderContainer>
       <UploaderLabel>제목</UploaderLabel>
-      <ProductUploadInputContainer>
+      <GoodsUploadInputContainer>
         <UploaderInput
           type='text'
           maxLength={30}
@@ -25,9 +25,9 @@ const ProductTitleUploader: React.FC<Props> = ({ title, onChangeTitle }) => {
           placeholder='Title'
         ></UploaderInput>
         {title && <BsCheckCircle size='1.4em' color='#2ac1bc' />}
-      </ProductUploadInputContainer>
+      </GoodsUploadInputContainer>
     </UploaderContainer>
   );
 };
 
-export default ProductTitleUploader;
+export default GoodsTitleUploader;

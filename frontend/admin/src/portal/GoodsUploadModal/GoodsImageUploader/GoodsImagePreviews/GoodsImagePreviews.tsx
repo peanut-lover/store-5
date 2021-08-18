@@ -1,13 +1,13 @@
 import React from 'react';
 import { styled } from '@src/lib/CustomStyledComponent';
-import PreviewImage from '@src/portal/ProductUploadModal/ProductImageUploader/PreviewImage/PreviewImage';
+import PreviewImage from '@src/portal/GoodsUploadModal/GoodsImageUploader/PreviewImage/PreviewImage';
 
 interface Props {
   previewImages: string[];
   onDeleteImage: (index: number) => void;
 }
 
-const ProductImagePreviews: React.FC<Props> = ({ previewImages, onDeleteImage }) => {
+const GoodsImagePreviews: React.FC<Props> = ({ previewImages, onDeleteImage }) => {
   return (
     <PreviewImagesContainer>
       {previewImages.map((url, i) => (
@@ -24,4 +24,4 @@ const PreviewImagesContainer = styled('ul')`
   overflow-x: auto;
 `;
 
-export default ProductImagePreviews;
+export default GoodsImagePreviews;

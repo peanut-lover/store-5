@@ -1,9 +1,9 @@
 import React, { ChangeEvent } from 'react';
 import {
-  ProductUploadInputContainer,
+  GoodsUploadInputContainer,
   UploaderContainer,
   UploaderLabel,
-} from '@src/portal/ProductUploadModal/UploadContentLeft/style';
+} from '@src/portal/GoodsUploadModal/UploadContentLeft/style';
 import { styled } from '@src/lib/CustomStyledComponent';
 
 interface Props {
@@ -11,11 +11,11 @@ interface Props {
   onChangeDiscountRate: (e: ChangeEvent<HTMLInputElement>) => void;
 }
 
-const ProductDiscountUploader: React.FC<Props> = ({ discountRate, onChangeDiscountRate }) => {
+const GoodsDiscountUploader: React.FC<Props> = ({ discountRate, onChangeDiscountRate }) => {
   return (
     <UploaderContainer>
       <UploaderLabel>할인률</UploaderLabel>
-      <ProductUploadInputContainer>
+      <GoodsUploadInputContainer>
         <UploaderInput
           type='number'
           max='99'
@@ -23,7 +23,7 @@ const ProductDiscountUploader: React.FC<Props> = ({ discountRate, onChangeDiscou
           value={discountRate}
           onInput={onChangeDiscountRate}
         ></UploaderInput>
-      </ProductUploadInputContainer>
+      </GoodsUploadInputContainer>
     </UploaderContainer>
   );
 };
@@ -34,4 +34,4 @@ export const UploaderInput = styled('input')`
   font-size: 1.1em;
   outline: none;
 `;
-export default ProductDiscountUploader;
+export default GoodsDiscountUploader;

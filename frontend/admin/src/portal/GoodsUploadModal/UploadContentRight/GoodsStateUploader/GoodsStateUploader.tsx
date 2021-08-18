@@ -1,5 +1,5 @@
 import { styled } from '@src/lib/CustomStyledComponent';
-import { UploaderLabel } from '@src/portal/ProductUploadModal/UploadContentLeft/style';
+import { UploaderLabel } from '@src/portal/GoodsUploadModal/UploadContentLeft/style';
 import React, { ChangeEvent, useCallback, useEffect } from 'react';
 
 interface Props {
@@ -8,7 +8,7 @@ interface Props {
 
 const PRODUCT_STATE = ['판매중', '임시저장'];
 
-const ProductStateUploader: React.FC<Props> = ({ onHandleProductState }) => {
+const GoodsStateUploader: React.FC<Props> = ({ onHandleProductState }) => {
   const handleProductState = useCallback(
     (e: ChangeEvent<HTMLSelectElement>) => {
       onHandleProductState(e.target.value);
@@ -36,4 +36,4 @@ const ProductStateSelect = styled('select')`
   width: 60%;
   margin-bottom: 24px;
 `;
-export default ProductStateUploader;
+export default GoodsStateUploader;

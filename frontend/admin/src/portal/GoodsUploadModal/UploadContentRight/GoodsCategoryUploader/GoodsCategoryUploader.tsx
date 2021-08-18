@@ -1,13 +1,13 @@
 import { CategoryAPI } from '@src/apis/categoryAPI';
 import { styled } from '@src/lib/CustomStyledComponent';
-import { UploaderLabel } from '@src/portal/ProductUploadModal/UploadContentLeft/style';
+import { UploaderLabel } from '@src/portal/GoodsUploadModal/UploadContentLeft/style';
 import { Category } from '@src/types/Category';
 import React, { ChangeEvent, useCallback, useEffect, useState } from 'react';
 interface Props {
   onHandleCategory: (id: number) => void;
 }
 
-const ProductCategoryUploader: React.FC<Props> = ({ onHandleCategory }) => {
+const GoodsCategoryUploader: React.FC<Props> = ({ onHandleCategory }) => {
   const [mainCategory, setMainCategory] = useState('');
   const [categories, setCategories] = useState<Category[]>([]);
   const mainCategories = categories.map((category) => category.name);
@@ -92,4 +92,4 @@ const MainCategorySelect = styled('select')`
 const SubCategorySelect = styled('select')`
   width: 40%;
 `;
-export default ProductCategoryUploader;
+export default GoodsCategoryUploader;

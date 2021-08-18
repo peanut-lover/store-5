@@ -1,14 +1,14 @@
 import { styled } from '@src/lib/CustomStyledComponent';
-import ImageIconButton from '@src/portal/ProductUploadModal/ProductImageUploader/ImageIconButton/ImageIconButton';
+import ImageIconButton from '@src/portal/GoodsUploadModal/GoodsImageUploader/ImageIconButton/ImageIconButton';
 import React, { useCallback, useRef, useState } from 'react';
-import ProductImagePreviews from './ProductImagePreviews/ProductImagePreviews';
+import GoodsImagePreviews from './GoodsImagePreviews/GoodsImagePreviews';
 
 interface Props {
   onHandleUpdateFiles: (newFiles: File[]) => void;
   onHandleDeleteFile: (index: number) => void;
 }
 
-const ProductImageUploader: React.FC<Props> = ({ onHandleUpdateFiles, onHandleDeleteFile }) => {
+const GoodsImageUploader: React.FC<Props> = ({ onHandleUpdateFiles, onHandleDeleteFile }) => {
   const [previewImages, setPreviewImages] = useState<string[]>([]);
   const imageInput = useRef<HTMLInputElement>(null);
 
@@ -41,7 +41,7 @@ const ProductImageUploader: React.FC<Props> = ({ onHandleUpdateFiles, onHandleDe
   return (
     <ImageUploaderContainer>
       <ImageIconButton onClick={handleImageUpload} />
-      <ProductImagePreviews previewImages={previewImages} onDeleteImage={handleDeleteImage} />
+      <GoodsImagePreviews previewImages={previewImages} onDeleteImage={handleDeleteImage} />
       <input ref={imageInput} type='file' accept='.jpg, .png, .jpeg' hidden multiple onChange={handleAddImages} />
     </ImageUploaderContainer>
   );
@@ -53,4 +53,4 @@ const ImageUploaderContainer = styled('div')`
   align-items: center;
   padding-left: 24px;
 `;
-export default ProductImageUploader;
+export default GoodsImageUploader;

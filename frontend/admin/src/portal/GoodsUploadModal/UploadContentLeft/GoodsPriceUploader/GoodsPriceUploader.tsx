@@ -1,22 +1,22 @@
 import React, { ChangeEvent } from 'react';
 import { BsCheckCircle } from 'react-icons/bs';
 import {
-  ProductUploadInputContainer,
+  GoodsUploadInputContainer,
   UploaderContainer,
   UploaderInput,
   UploaderLabel,
-} from '@src/portal/ProductUploadModal/UploadContentLeft/style';
+} from '@src/portal/GoodsUploadModal/UploadContentLeft/style';
 import formatNumber from '@src/utils/formatNumber';
 
 interface Props {
   price: string;
   onChangePrice: (e: ChangeEvent<HTMLInputElement>) => void;
 }
-const ProductPriceUploader: React.FC<Props> = ({ price, onChangePrice }) => {
+const GoodsPriceUploader: React.FC<Props> = ({ price, onChangePrice }) => {
   return (
     <UploaderContainer>
       <UploaderLabel>가격</UploaderLabel>
-      <ProductUploadInputContainer>
+      <GoodsUploadInputContainer>
         <UploaderInput
           type='text'
           maxLength={30}
@@ -25,9 +25,9 @@ const ProductPriceUploader: React.FC<Props> = ({ price, onChangePrice }) => {
           placeholder='Price'
         ></UploaderInput>
         {price && <BsCheckCircle size='1.4em' color='#2ac1bc' />}
-      </ProductUploadInputContainer>
+      </GoodsUploadInputContainer>
     </UploaderContainer>
   );
 };
 
-export default ProductPriceUploader;
+export default GoodsPriceUploader;

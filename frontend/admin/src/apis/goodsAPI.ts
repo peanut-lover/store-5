@@ -1,7 +1,7 @@
 import { APIResponse, checkedFetch } from '@src/apis/base';
 
+// :Promise<APIResponse<Goods>>
 const createGoods = async (formData: FormData) => {
-  console.log(formData);
   const res = await checkedFetch(`/api/goods`, {
     method: 'POST',
     credentials: 'include',

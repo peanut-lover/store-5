@@ -1,13 +1,13 @@
 import { DeliveryAPI } from '@src/apis/deliveryAPI';
 import { styled } from '@src/lib/CustomStyledComponent';
-import { UploaderLabel } from '@src/portal/ProductUploadModal/UploadContentLeft/style';
+import { UploaderLabel } from '@src/portal/GoodsUploadModal/UploadContentLeft/style';
 import { DeliveryInfo } from '@src/types/DeliveryInfo';
 import React, { ChangeEvent, useCallback, useEffect, useState } from 'react';
 interface Props {
   onHandleDeliveryInfo: (id: number) => void;
 }
 
-const ProductDeliveryUploader: React.FC<Props> = ({ onHandleDeliveryInfo }) => {
+const GoodsDeliveryUploader: React.FC<Props> = ({ onHandleDeliveryInfo }) => {
   const [deliveryInfos, setDeliveryInfos] = useState<DeliveryInfo[]>([]);
 
   const handleDeliveryInfo = useCallback(
@@ -44,4 +44,4 @@ const DeliveryInfoSelect = styled('select')`
   width: 60%;
   margin-bottom: 24px;
 `;
-export default ProductDeliveryUploader;
+export default GoodsDeliveryUploader;

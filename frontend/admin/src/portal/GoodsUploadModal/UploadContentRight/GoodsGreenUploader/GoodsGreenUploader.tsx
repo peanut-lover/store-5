@@ -1,5 +1,5 @@
 import { styled } from '@src/lib/CustomStyledComponent';
-import { UploaderLabel } from '@src/portal/ProductUploadModal/UploadContentLeft/style';
+import { UploaderLabel } from '@src/portal/GoodsUploadModal/UploadContentLeft/style';
 import { BsCheckCircle } from 'react-icons/bs';
 
 import React from 'react';
@@ -9,7 +9,7 @@ interface Props {
   onHandleCheckGreen: () => void;
 }
 
-const ProductGreenUploader: React.FC<Props> = ({ checkGreen, onHandleCheckGreen }) => {
+const GoodsGreenUploader: React.FC<Props> = ({ checkGreen, onHandleCheckGreen }) => {
   return (
     <>
       <UploaderLabel>친환경</UploaderLabel>
@@ -31,4 +31,4 @@ const CheckTitle = styled('div')`
   text-align: start;
   width: 70%;
 `;
-export default ProductGreenUploader;
+export default GoodsGreenUploader;
