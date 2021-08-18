@@ -21,6 +21,7 @@ interface Props {
   isWish?: boolean;
   discountRate?: number;
   itemBoxSize?: GoodsItemSize;
+  handleClickCart: (goodsId: number) => void;
 }
 
 const GoodsItem: React.FC<Props> = ({
@@ -35,6 +36,7 @@ const GoodsItem: React.FC<Props> = ({
   isSale = false,
   discountRate = 0,
   itemBoxSize = 'middle',
+  handleClickCart,
 }) => {
   const push = usePushHistory();
   const handleClickGoodsItem = (e: React.MouseEvent) => {
@@ -48,6 +50,12 @@ const GoodsItem: React.FC<Props> = ({
 
   const handleOnMouseLeave = useCallback((e) => {
     setIsHoverGoodsImage(false);
+  }, []);
+
+  const handleClickUtliButton = useCallback((e: React.MouseEvent) => {
+    e.stopPropagation();
+    e.preventDefault;
+    handleClickCart && handleClickCart(id);
   }, []);
   return (
     <GoodsItemContainer onClick={handleClickGoodsItem} size={itemBoxSize}>
@@ -63,9 +71,8 @@ const GoodsItem: React.FC<Props> = ({
         {isHoverGoodsImage && <></>}
         <GoodsImageOverlay />
         <GoodsUtilBtnContainer>
-          {/* 위시 및 장바구니 처리 */}
           <GoodsUtilBtn>{isWish ? <BsFillHeartFill size={20} /> : <BsHeart size={20} />}</GoodsUtilBtn>
-          <GoodsUtilBtn>
+          <GoodsUtilBtn onClick={handleClickUtliButton}>
             <BsFillBucketFill size={20} />
           </GoodsUtilBtn>
         </GoodsUtilBtnContainer>
