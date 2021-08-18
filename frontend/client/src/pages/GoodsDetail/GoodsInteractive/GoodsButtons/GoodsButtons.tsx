@@ -1,21 +1,30 @@
-import React from 'react';
+import React, { RefObject, useCallback, useRef } from 'react';
 import styled from 'styled-components';
 import { FaRegHeart, FaHeart } from 'react-icons/fa';
+import { Link } from '@src/lib/CustomRouter';
 
 interface Props {
   isWish: boolean;
+  goodsId: number;
+  amount: number;
   onToggleWish: () => void;
-  onAddToCart: () => void;
-  onAddToOrder: () => void;
+  addToCart: () => void;
+  fetchCheckStock: (goodsId: number) => Promise<void>;
 }
 
-const GoodsButtons: React.FC<Props> = ({ isWish, onToggleWish, onAddToCart, onAddToOrder }) => {
+const GoodsButtons: React.FC<Props> = ({ goodsId, amount, isWish, fetchCheckStock, onToggleWish, addToCart }) => {
+  const onOrder = useCallback(async () => {
+    await fetchCheckStock(goodsId);
+    // 페이지 이동 처리
+    // TODO: 어진님이 이미 작업하셔서 패스했습니다! 감사합니다!! :)
+  }, [amount]);
+
   return (
     <>
       <GoodsButtonsContainer>
         <WishButton onClick={onToggleWish}>{isWish ? <FaHeart /> : <FaRegHeart />}</WishButton>
-        <CartButton onClick={onAddToCart}>장바구니</CartButton>
-        <OrderButton onClick={onAddToOrder}>바로 구매</OrderButton>
+        <CartButton onClick={addToCart}>장바구니</CartButton>
+        <OrderButton onClick={onOrder}>바로 구매</OrderButton>
       </GoodsButtonsContainer>
     </>
   );

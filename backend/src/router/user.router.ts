@@ -11,4 +11,5 @@ router.get('/address', isAuthenticate, wrapAsync(UserController.getAddresses));
 router.post('/address', isAuthenticate, wrapAsync(UserController.createAddress));
 router.delete('/address/:id', isAuthenticate, checkNumberInParams, wrapAsync(UserController.deleteAddress));
 router.put('/address/:id', isAuthenticate, checkNumberInParams, wrapAsync(UserController.updateAddress));
+router.get('/wish', isAuthenticate, wrapAsync(UserController.getWishById));
 export default router;

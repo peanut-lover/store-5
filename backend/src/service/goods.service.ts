@@ -13,8 +13,10 @@ import {
   FindAllCategoryProps,
   FindAllColumnNameProps,
   FindAllKeywordProps,
+  FindAllUserIdProps,
   GetAllByCategoryProps,
   GetAllByKeywordProps,
+  GetAllByUserIdProps,
 } from '../types/Goods';
 import { pagination } from '../utils/pagination';
 import { BadRequestError } from '../errors/client.error';
@@ -81,16 +83,45 @@ async function getAllSaleGoodsByKeyword({
   limit,
   userId,
 }: GetAllByKeywordProps): Promise<GoodsListResponse> {
+  const totalCount = await GoodsRepository.findTotalCountByKeyword(keyword);
+  page = Math.min(getTotalPage(totalCount, limit), page);
+
   const option: FindAllKeywordProps = {
     keyword,
     offset: pagination.calculateOffset(page, limit),
     limit,
   };
-  const totalCount = await GoodsRepository.findTotalCountByKeyword(keyword);
-  page = Math.min(getTotalPage(totalCount, limit), page);
+
   const wishSet = userId && new Set(await WishRepository.findWishByUserId(userId));
   const goodsSellCountAverage = await GoodsRepository.findSellCountAverage();
   const goodsList = await GoodsRepository.findAllByKeyword(option);
+  if (!goodsList) throw new BadRequestError(GOODS_DB_ERROR);
+
+  goodsList.forEach((goods) => {
+    if (wishSet) goods.isWish = wishSet.has(goods.id);
+    goods.isBest = goodsSellCountAverage < goods.countOfSell;
+    goods.isNew = isNewGoods(goods.createdAt);
+  });
+
+  return {
+    meta: getListGoodsMeta(page, limit, totalCount),
+    goodsList,
+  };
+}
+
+async function getAllGoodsByUserId({ page, limit, userId }: GetAllByUserIdProps): Promise<GoodsListResponse> {
+  const totalCount = await WishRepository.findWishCountByUserId(userId);
+  page = Math.min(getTotalPage(totalCount, limit), page);
+
+  const option: FindAllUserIdProps = {
+    offset: pagination.calculateOffset(page, limit),
+    limit,
+    userId,
+  };
+
+  const wishSet = new Set(await WishRepository.findWishByUserId(userId));
+  const goodsSellCountAverage = await GoodsRepository.findSellCountAverage();
+  const goodsList = await GoodsRepository.findAllWishByUserId(option);
   if (!goodsList) throw new BadRequestError(GOODS_DB_ERROR);
 
   goodsList.forEach((goods) => {
@@ -233,6 +264,7 @@ export const GoodsService = {
   getAllByCategory,
   getAllSaleGoodsByKeyword,
   getAllSaleGoodsByCategory,
+  getAllGoodsByUserId,
   getMainGoodsListMap,
   getGoodsStockById,
 };

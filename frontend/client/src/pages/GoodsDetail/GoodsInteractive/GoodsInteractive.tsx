@@ -2,7 +2,9 @@ import GoodsButtons from './GoodsButtons/GoodsButtons';
 import GoodsAmount from './GoodsAmount/GoodsAmount';
 import { DetailGoods } from '@src/types/Goods';
 import React, { useState, useCallback, useEffect } from 'react';
+import { deleteWish, postWish } from '@src/apis/wishAPI';
 import { getGoodsStockCount } from '@src/apis/goodsAPI';
+import { createCart } from '@src/apis/cartAPI';
 
 interface Props {
   goods: DetailGoods;
@@ -15,18 +17,20 @@ const GoodsInteractive: React.FC<Props> = ({
   const [isOver, setIsOver] = useState(false);
   const [amount, setAmount] = useState(0);
 
-  // const handleToWish = useCallback(async () => {}, []);
-  const handleAddToCart = useCallback(() => {
-    console.log('장바구니 추가 API', 'goods id:', id);
-  }, []);
-  const handleAddToOrder = useCallback(() => {
-    // TODO: 상품 관련 상태 저장 후
-    console.log('결제화면으로 이동', 'goods id:', id);
-  }, []);
+  const handleToWish = useCallback(async () => {
+    const result = await (isWished ? deleteWish(id) : postWish(id));
+    if (result) setIsWished(!isWished);
+  }, [isWished]);
 
-  const handleChangeAmount = (amount: number) => {
-    setAmount(amount);
-  };
+  const addToCart = useCallback(async () => {
+    console.log('장바구니 추가 API', 'goods id:', id);
+    if (isOver) {
+      // 수량 초과 모달
+    } else {
+      const result = await createCart({ goodsId: id, amount });
+      // 장바구니 이동 안내 모달
+    }
+  }, [amount]);
 
   const fetchCheckStock = async (goodsId: number) => {
     try {
@@ -53,15 +57,15 @@ const GoodsInteractive: React.FC<Props> = ({
         deliveryFee={deliveryFee}
         discountRate={discountRate}
         isOver={isOver}
-        onChangeAmount={handleChangeAmount}
+        setAmount={setAmount}
       />
       <GoodsButtons
         isWish={isWished}
-        onToggleWish={() => {
-          // TODO: implementation
-        }}
-        onAddToCart={handleAddToCart}
-        onAddToOrder={handleAddToOrder}
+        amount={amount}
+        goodsId={id}
+        onToggleWish={handleToWish}
+        addToCart={addToCart}
+        fetchCheckStock={fetchCheckStock}
       />
     </div>
   );

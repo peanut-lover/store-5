@@ -7,12 +7,12 @@ interface Props {
   imgs: string[];
 }
 
-const GoodsImageSectionContainer: React.FC<Props> = ({ imgs }) => {
+const GoodsImageSection: React.FC<Props> = ({ imgs }) => {
   const [active, setActive] = useState(0);
   return (
     <GoodsImageContainer>
-      <ImageList imgs={imgs} active={active} setActive={setActive}></ImageList>
-      <MainImage src={imgs[active]}></MainImage>
+      <ImageList imgs={imgs} active={active} setActive={setActive} />
+      <MainImage src={imgs[active]} />
     </GoodsImageContainer>
   );
 };
@@ -24,4 +24,4 @@ const GoodsImageContainer = styled.div`
   height: 100%;
 `;
 
-export default GoodsImageSectionContainer;
+export default GoodsImageSection;
