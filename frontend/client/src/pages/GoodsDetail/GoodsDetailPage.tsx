@@ -12,7 +12,7 @@ const GoodsDetailPage = () => {
   const [goods, setGoods] = useState<DetailGoods | null>(null);
   const { id } = useParams();
 
-  const fetchGoodsDetail = async (goodsId: number) => {
+  const fetchDetailGoods = async (goodsId: number) => {
     try {
       const data = await getGoodsDetail(goodsId);
       setGoods(data.result);
@@ -26,7 +26,7 @@ const GoodsDetailPage = () => {
     if (isNaN(idAsNumber)) {
       throw new Error('올바르지 않은 상품 id입니다.');
     }
-    fetchGoodsDetail(idAsNumber);
+    fetchDetailGoods(idAsNumber);
   }, [id]);
 
   return (

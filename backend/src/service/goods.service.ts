@@ -109,7 +109,7 @@ async function getAllSaleGoodsByKeyword({
   };
 }
 
-async function getAllSaleGoodsByUserId({ page, limit, userId }: GetAllByUserIdProps): Promise<GoodsListResponse> {
+async function getAllGoodsByUserId({ page, limit, userId }: GetAllByUserIdProps): Promise<GoodsListResponse> {
   const totalCount = await WishRepository.findWishCountByUserId(userId);
   page = Math.min(getTotalPage(totalCount, limit), page);
 
@@ -264,7 +264,7 @@ export const GoodsService = {
   getAllByCategory,
   getAllSaleGoodsByKeyword,
   getAllSaleGoodsByCategory,
-  getAllSaleGoodsByUserId,
+  getAllGoodsByUserId,
   getMainGoodsListMap,
   getGoodsStockById,
 };

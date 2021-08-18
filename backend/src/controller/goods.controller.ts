@@ -75,7 +75,7 @@ async function getAllSaleGoodsByKeyword(req: Request, res: Response) {
   return res.status(200).json({ result });
 }
 
-async function getAllSaleGoodsByUserId(req: Request, res: Response) {
+async function getAllGoodsByUserId(req: Request, res: Response) {
   const { page, keyword, limit, state = GoodsStateMap.sale } = req.query;
   // TODO : 타입 체크
   const GoodsListParams: GetAllByKeywordProps = {

@@ -17,7 +17,7 @@ const CartForm: React.FC<Props> = ({ goodsId }) => {
   const [isOver, setIsOver] = useState(false);
   const [amount, setAmount] = useState(0);
 
-  const fetchGoodsDetail = async (goodsId: number) => {
+  const fetchDetailGoods = async (goodsId: number) => {
     try {
       const data = await getGoodsDetail(goodsId);
       setGoods(data.result);
@@ -47,7 +47,7 @@ const CartForm: React.FC<Props> = ({ goodsId }) => {
   }, [amount]);
 
   useEffect(() => {
-    fetchGoodsDetail(goodsId);
+    fetchDetailGoods(goodsId);
   }, [goodsId]);
 
   useEffect(() => {

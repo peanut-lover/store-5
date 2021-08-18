@@ -12,7 +12,7 @@ const RelationSectionTitle = '연관 상품';
 const RelationSection: React.FC<Props> = ({ categoryName }) => {
   const [relationGoodsList, setRelationGoodsList] = useState<ThumbnailGoods[]>([]);
 
-  const fetchGoodsDetail = async (categoryName: string) => {
+  const fetchDetailGoods = async (categoryName: string) => {
     try {
       const data = await getRelationGoods(categoryName);
       setRelationGoodsList(data.result.goodsList);
@@ -22,7 +22,7 @@ const RelationSection: React.FC<Props> = ({ categoryName }) => {
   };
 
   useEffect(() => {
-    fetchGoodsDetail(categoryName);
+    fetchDetailGoods(categoryName);
   }, []);
 
   return relationGoodsList && <GoodsSection sectionTitle={RelationSectionTitle} goodsList={relationGoodsList} />;

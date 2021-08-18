@@ -48,7 +48,7 @@ async function getWishById(req: Request, res: Response) {
     limit: Number(limit),
     userId: req.userId,
   };
-  const result = await GoodsService.getAllSaleGoodsByUserId(GoodsListParams);
+  const result = await GoodsService.getAllGoodsByUserId(GoodsListParams);
   res.status(200).json({
     result,
   });
