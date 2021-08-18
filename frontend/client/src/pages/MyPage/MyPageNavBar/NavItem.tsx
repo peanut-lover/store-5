@@ -23,6 +23,7 @@ const Wrapper = styled(Link)<{ theme: { line: string } }>`
   align-items: center;
   width: 200px;
   padding: 1rem 0.5rem;
+  margin-bottom: 2px;
   border: 1px solid ${(props) => props.theme.line};
   cursor: pointer;
 `;

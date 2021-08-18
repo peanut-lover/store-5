@@ -1,24 +1,15 @@
-import { getGoodsByCategory, GetGoodsByCategoryProps } from '@src/apis/goodsAPI';
-import GoodsSection from '@src/components/GoodsSection/GoodsSection';
-import CategoryFlag from '@src/pages/CategoryGoods/CategoryGoodsList/CategoryFlag';
-import Paginator from '@src/pages/CategoryGoods/CategoryGoodsList/Paginator';
-import theme from '@src/theme/theme';
-import { ThumbnailGoods } from '@src/types/Goods';
 import React, { useEffect, useState } from 'react';
 import styled from 'styled-components';
 
+import GoodsSection from '@src/components/GoodsSection/GoodsSection';
+import CategoryFlag from '@src/pages/CategoryGoods/CategoryGoodsList/CategoryFlag';
+import Paginator from '@src/components/Paginator/Paginator';
+import { GoodsPaginationResult, ThumbnailGoods } from '@src/types/Goods';
+
+import { getGoodsByCategory, GetGoodsByCategoryProps } from '@src/apis/goodsAPI';
+
 interface Props {
   category: string;
-}
-
-interface GoodsListMap {
-  goodsList: ThumbnailGoods[];
-  meta: {
-    page: number;
-    limit: number;
-    totalPage: number;
-    totalCount: number;
-  };
 }
 
 const GoodsFlag = {
@@ -35,10 +26,11 @@ const flags = [
   { label: GoodsFlag.high, text: '높은 가격순' },
 ];
 
+const LIMIT_COUNT_ITEMS_IN_PAGE = 8;
 const DEFAULT_START_PAGE = 1;
 
 const CategoryGoodsList: React.FC<Props> = ({ category }) => {
-  const [goodsListMap, setGoodsListMap] = useState<GoodsListMap | null>(null);
+  const [goodsListMap, setGoodsListMap] = useState<GoodsPaginationResult | null>(null);
   const [searchQuery, setSearchQuery] = useState<GetGoodsByCategoryProps>({
     categoryName: category,
     page: DEFAULT_START_PAGE,
@@ -47,7 +39,7 @@ const CategoryGoodsList: React.FC<Props> = ({ category }) => {
 
   const fetchGoodsList = async () => {
     try {
-      const data = await getGoodsByCategory(searchQuery);
+      const data = await getGoodsByCategory({ ...searchQuery, limit: LIMIT_COUNT_ITEMS_IN_PAGE });
       setGoodsListMap(data.result);
     } catch (e) {
       setGoodsListMap(null);
@@ -103,7 +95,7 @@ const CategoryGoodsList: React.FC<Props> = ({ category }) => {
             ))}
           </CategoryFlagContainer>
         </CategoryGoodsListHeader>
-        <GoodsSection goodsList={goodsListMap.goodsList} itemBoxSize='middle' />
+        <GoodsSection goodsList={goodsListMap.goodsList} itemBoxSize='big' />
         <Paginator totalPage={goodsListMap.meta.totalPage} currentPage={goodsListMap.meta.page} setPage={setPage} />
       </CategoryGoodsListContainer>
     )
