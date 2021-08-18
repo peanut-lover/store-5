@@ -18,7 +18,8 @@ interface Props {
 
 // TODO: discountRate 관련 렌더링 추가하기
 const CartGoodsListItem: React.FC<Props> = ({ cartGoods, onChangeAmount, onDeleteCartGoods, onChangeIsSelected }) => {
-  const { id, thumbnailUrl, title, price, discountRate, amount, isSelected } = cartGoods;
+  const { id, goods, amount, isSelected } = cartGoods;
+  const { thumbnailUrl, title, price, discountRate } = goods;
 
   const [isDeleteModalOpened, setIsDeleteModalOpened] = useState(false);
   const toggleIsDeleteModalOpened = () => {

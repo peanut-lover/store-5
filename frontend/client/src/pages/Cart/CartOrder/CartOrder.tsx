@@ -15,15 +15,16 @@ const CartOrder: React.FC<Props> = ({ cartGoodsList, onClickOrderButton }) => {
   const reducedPrice = useMemo(
     () =>
       selectedCartGoodsList.reduce(
-        (prev, cartGoods) => prev + cartGoods.amount * getDiscountedPrice(cartGoods.price, cartGoods.discountRate),
+        (prev, cartGoods) =>
+          prev + cartGoods.amount * getDiscountedPrice(cartGoods.goods.price, cartGoods.goods.discountRate),
         0
       ),
     [selectedCartGoodsList]
   );
 
   // TODO: 배송비 정책 결정하고 대응 수정하기
-  // 임시적으로 30000원 이상이면 배송비 0원, 아니면 3000원 부여
-  const deliveryPrice = selectedCartGoodsList.length !== 0 && reducedPrice < 30000 ? 3000 : 0;
+  // 임시적으로 30000원 이상이면 배송비 0원, 아니면 2500원 부여
+  const deliveryPrice = selectedCartGoodsList.length !== 0 && reducedPrice < 30000 ? 2500 : 0;
 
   return (
     <Wrapper>

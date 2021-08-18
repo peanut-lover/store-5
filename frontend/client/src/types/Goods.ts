@@ -9,6 +9,7 @@ export interface Goods {
   isSale?: boolean;
   discountRate: number;
   isWish?: boolean;
+  stock?: number;
 }
 
 export type ThumbnailGoods = Goods;
@@ -23,12 +24,11 @@ export type DetailGoods = Goods & {
   goodsImgs?: string[];
 };
 
-export type CartGoods = Goods & {
-  thumbnailUrl: string;
-  discountRate: number;
+export type CartGoods = {
+  id: number;
   amount: number;
-  stock: number;
   isSelected: boolean;
+  goods: Goods;
 };
 
 export type MainGoodsListResult = {
