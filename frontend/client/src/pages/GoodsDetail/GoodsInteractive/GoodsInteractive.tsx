@@ -2,7 +2,6 @@ import GoodsButtons from './GoodsButtons/GoodsButtons';
 import GoodsAmount from './GoodsAmount/GoodsAmount';
 import { DetailGoods } from '@src/types/Goods';
 import React, { useState, useCallback, useEffect } from 'react';
-import { deleteWish, postWish } from '@src/apis/wishApi';
 import { getGoodsStockCount } from '@src/apis/goodsAPI';
 
 interface Props {
@@ -16,7 +15,7 @@ const GoodsInteractive: React.FC<Props> = ({
   const [isOver, setIsOver] = useState(false);
   const [amount, setAmount] = useState(0);
 
-  const handleToWish = useCallback(async () => {}, []);
+  // const handleToWish = useCallback(async () => {}, []);
   const handleAddToCart = useCallback(() => {
     console.log('장바구니 추가 API', 'goods id:', id);
   }, []);
@@ -58,7 +57,9 @@ const GoodsInteractive: React.FC<Props> = ({
       />
       <GoodsButtons
         isWish={isWished}
-        onToggleWish={handleToWish}
+        onToggleWish={() => {
+          // TODO: implementation
+        }}
         onAddToCart={handleAddToCart}
         onAddToOrder={handleAddToOrder}
       />
