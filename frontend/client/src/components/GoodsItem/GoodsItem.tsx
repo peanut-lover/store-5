@@ -1,7 +1,7 @@
 import { usePushHistory } from '@src/lib/CustomRouter/CustomRouter';
 import React from 'react';
 import styled from 'styled-components';
-import { BsHeart, BsFillBucketFill } from 'react-icons/bs';
+import { BsHeart, BsFillBucketFill, BsFillHeartFill } from 'react-icons/bs';
 import { BestTag, GreenTag, NewTag, SaleTag } from '../Tag';
 import { useCallback } from 'react';
 import { useState } from 'react';
@@ -18,6 +18,7 @@ interface Props {
   isGreen?: boolean;
   isNew?: boolean;
   isSale?: boolean;
+  isWish?: boolean;
   discountRate?: number;
   itemBoxSize?: GoodsItemSize;
 }
@@ -27,6 +28,7 @@ const GoodsItem: React.FC<Props> = ({
   thumbnailUrl = '',
   title,
   price,
+  isWish = false,
   isBest = false,
   isNew = false,
   isGreen = false,
@@ -61,9 +63,8 @@ const GoodsItem: React.FC<Props> = ({
         {isHoverGoodsImage && <></>}
         <GoodsImageOverlay />
         <GoodsUtilBtnContainer>
-          <GoodsUtilBtn>
-            <BsHeart size={20} />
-          </GoodsUtilBtn>
+          {/* 위시 및 장바구니 처리 */}
+          <GoodsUtilBtn>{isWish ? <BsFillHeartFill size={20} /> : <BsHeart size={20} />}</GoodsUtilBtn>
           <GoodsUtilBtn>
             <BsFillBucketFill size={20} />
           </GoodsUtilBtn>
