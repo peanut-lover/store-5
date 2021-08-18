@@ -7,22 +7,34 @@ import React, { useEffect, useState } from 'react';
 import styled from 'styled-components';
 
 const DEFAULT_START_PAGE = 1;
+const LIMIT_COUNT_ITEMS_IN_PAGE = 4;
 
 const MyWishListView = () => {
   const [goodsPaginationResult, setGoodsPaginationResult] = useState<GoodsPaginationResult>();
-  const [page, setPage] = useState(DEFAULT_START_PAGE);
+  const [currentPage, setCurrentPage] = useState(DEFAULT_START_PAGE);
 
   const fetchWishGoodsList = async () => {
-    await getMyWishGoods({ page: 0 });
+    const { result } = await getMyWishGoods({ page: currentPage, limit: LIMIT_COUNT_ITEMS_IN_PAGE });
+    setGoodsPaginationResult(result);
   };
 
-  useEffect(() => {}, []);
+  useEffect(() => {
+    fetchWishGoodsList();
+  }, []);
 
   return (
     <MyWishListViewContainer>
       <Topic>관심 상품 리스트</Topic>
-      {/* <GoodsSection goodsList={goodsListMap.goodsList} itemBoxSize='middle' /> */}
-      {/* <Paginator totalPage={goodsListMap.meta.totalPage} currentPage={goodsListMap.meta.page} setPage={setPage} /> */}
+      {goodsPaginationResult && (
+        <>
+          <GoodsSection goodsList={goodsPaginationResult.goodsList} itemBoxSize='small' />
+          <Paginator
+            totalPage={goodsPaginationResult.meta.totalPage}
+            currentPage={goodsPaginationResult.meta.page}
+            setPage={setCurrentPage}
+          />
+        </>
+      )}
     </MyWishListViewContainer>
   );
 };

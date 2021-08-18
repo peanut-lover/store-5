@@ -49,14 +49,13 @@ const GoodsItem: React.FC<Props> = ({
   }, []);
   return (
     <GoodsItemContainer onClick={handleClickGoodsItem} size={itemBoxSize}>
-      <TagContainer>
-        {isBest && <BestTag />}
-        {isGreen && <GreenTag />}
-        {isNew && <NewTag />}
-        {isSale && <SaleTag />}
-      </TagContainer>
-
       <GoodsImageContainer onMouseEnter={handleOnMouseEnter} onMouseLeave={handleOnMouseLeave} size={itemBoxSize}>
+        <TagContainer>
+          {isBest && <BestTag />}
+          {isGreen && <GreenTag />}
+          {isNew && <NewTag />}
+          {isSale && <SaleTag />}
+        </TagContainer>
         {thumbnailUrl ? <GoodsImage src={thumbnailUrl} /> : <GoodsEmptyImage />}
 
         {isHoverGoodsImage && <></>}
@@ -93,9 +92,10 @@ const ImageContainerHeightMap = {
 const TagContainer = styled.div`
   position: absolute;
   display: flex;
+  flex-wrap: wrap;
   left: 0;
   top: 0;
-  padding: 15px;
+  margin: 0.5rem;
   width: 100%;
   pointer-events: none;
   z-index: 1;

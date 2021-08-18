@@ -44,11 +44,11 @@ interface TagWrapperProps {
 const TagWrapper = styled.div<TagWrapperProps>`
   display: flex;
   align-items: center;
-  border-radius: 8px;
-  padding: 5px;
+  border-radius: 0.4rem;
+  padding: 0.2rem;
   color: ${(props) => props.fontColor ?? 'white'};
   background-color: ${(props) => props.bgColor ?? 'black'};
-  font-size: 16px;
+  font-size: 0.8rem;
   font-weight: 300;
   user-select: none;
 `;

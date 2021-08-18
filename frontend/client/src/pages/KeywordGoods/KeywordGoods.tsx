@@ -13,7 +13,7 @@ const appendQuotationMarks = (text: string) => `"${text}"`;
 
 const KeywordGoods: React.FC = () => {
   const { keyword = '' } = useParams();
-  const [goodsGoodsPaginationResult, setGoodsPaginationResult] = useState<GoodsPaginationResult | null>(null);
+  const [goodsPaginationResult, setGoodsPaginationResult] = useState<GoodsPaginationResult | null>(null);
   const [currentPage, setCurrentPage] = useState(DEFAULT_START_PAGE);
 
   const fetchGoodsList = async () => {
@@ -34,24 +34,24 @@ const KeywordGoods: React.FC = () => {
   }, [keyword, currentPage]);
 
   const decodeKeyword = decodeURI(keyword);
-  if (!goodsGoodsPaginationResult) {
+  if (!goodsPaginationResult) {
     return <h1>데이터를 불러오는데 실패</h1>;
   }
 
   return (
     // TODO: Empty UI 필요
-    goodsGoodsPaginationResult && (
+    goodsPaginationResult && (
       <CategoryGoodsListContainer>
         <CategoryGoodsListHeader>
           <CategoryGoodsListCount>
             {keyword ? `${appendQuotationMarks(decodeKeyword)} 검색결과` : ''} 총{' '}
-            {goodsGoodsPaginationResult.meta.totalCount}개
+            {goodsPaginationResult.meta.totalCount}개
           </CategoryGoodsListCount>
         </CategoryGoodsListHeader>
-        <GoodsSection goodsList={goodsGoodsPaginationResult.goodsList} itemBoxSize='big' />
+        <GoodsSection goodsList={goodsPaginationResult.goodsList} itemBoxSize='big' />
         <Paginator
-          totalPage={goodsGoodsPaginationResult.meta.totalPage}
-          currentPage={goodsGoodsPaginationResult.meta.page}
+          totalPage={goodsPaginationResult.meta.totalPage}
+          currentPage={goodsPaginationResult.meta.page}
           setPage={setCurrentPage}
         />
       </CategoryGoodsListContainer>
