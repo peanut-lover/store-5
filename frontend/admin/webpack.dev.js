@@ -6,6 +6,7 @@ module.exports = merge(common, {
   mode: 'development',
   devtool: 'inline-source-map',
   devServer: {
+    index: 'admin_index.html',
     contentBase: path.join(__dirname, 'dist'),
     index: 'admin_index.html',
     publicPath: '/',
