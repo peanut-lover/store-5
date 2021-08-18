@@ -7,7 +7,7 @@ files:
 permissions:
   - object: /home/ubuntu/
     pattern: '**'
-    mode: 755
+    mode: 777
     owner: ubuntu
     group: ubuntu
 hooks:
