@@ -8,35 +8,14 @@ import Button from '@src/components/PrimaryButton/PrimaryButton';
 import CheckButtonWithLabel from '@src/components/CheckButtonWithLabel/CheckButtonWithLabel';
 import HighlightedText from '@src/components/HighlightedText/HighlightedText';
 import Topic from '@src/components/Topic/Topic';
-import { OrderGoods } from '@src/types/Goods';
+import { GoodsBeforeOrder } from '@src/types/Goods';
 import OrderGoodsList from './OrderGoodsList/OrderGoodsList';
 import AddressSection from './AddressSection/AddressSection';
 
-const mock: OrderGoods[] = [
-  {
-    id: 1,
-    thumbnailUrl:
-      'https://user-images.githubusercontent.com/20085849/128866958-900ad32a-cd32-4b97-be79-1dbbc9dcb02d.jpeg',
-    title: '든든 오뚜기 오쉐프_마요네즈',
-    price: 34500,
-    discountRate: 20,
-    amount: 2,
-    stock: 5,
-  },
-  {
-    id: 2,
-    thumbnailUrl:
-      'https://user-images.githubusercontent.com/20085849/128866958-900ad32a-cd32-4b97-be79-1dbbc9dcb02d.jpeg',
-    title: '허약 마요네즈',
-    price: 9000,
-    discountRate: 0,
-    amount: 1,
-    stock: 8,
-  },
-];
+const mock: GoodsBeforeOrder[] = [];
 
 const OrderPage: React.FC = () => {
-  const [orderGoodsList, setOrderGoodsList] = useState<OrderGoods[]>(mock);
+  const [orderGoodsList, setOrderGoodsList] = useState<GoodsBeforeOrder[]>(mock);
 
   return (
     <Layout

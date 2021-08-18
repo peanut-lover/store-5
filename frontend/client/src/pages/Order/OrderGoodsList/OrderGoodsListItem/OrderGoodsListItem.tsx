@@ -1,14 +1,15 @@
-import { OrderGoods } from '@src/types/Goods';
+import { GoodsBeforeOrder } from '@src/types/Goods';
 import { getDiscountedPrice, getPriceText } from '@src/utils/price';
 import React from 'react';
 import styled from 'styled-components';
 
 interface Props {
-  orderGoods: OrderGoods;
+  orderGoods: GoodsBeforeOrder;
 }
 
 const OrderGoodsListItem: React.FC<Props> = ({ orderGoods }) => {
-  const { id, thumbnailUrl, title, price, discountRate, amount } = orderGoods;
+  const { goods, amount } = orderGoods;
+  const { id, thumbnailUrl, title, price, discountRate } = goods;
 
   return (
     <Wrapper>
