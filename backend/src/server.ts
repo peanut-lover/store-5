@@ -2,6 +2,7 @@ import express from 'express';
 import cors from 'cors';
 import path from 'path';
 import session from 'express-session';
+import morgan from 'morgan';
 import database from './database';
 import errorControl from './middlewares/error.middleware';
 import router from './router/index';
@@ -13,6 +14,7 @@ const server = express();
 server.use(express.json());
 server.use('/uploads', express.static(path.join(__dirname, '../uploads')));
 server.use(express.static(path.join(__dirname, '../public')));
+server.use(morgan('dev'));
 
 server.use(
   cors({
