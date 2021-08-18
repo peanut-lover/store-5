@@ -41,3 +41,14 @@ export type MainGoodsListResult = {
   latestGoodsList: ThumbnailGoods[];
   discountGoodsList: ThumbnailGoods[];
 };
+
+// TODO: 이름 바꿀 필요가 있음. GoodsPaginationResult
+export interface GoodsPaginationResult {
+  goodsList: ThumbnailGoods[];
+  meta: {
+    page: number;
+    limit: number;
+    totalPage: number;
+    totalCount: number;
+  };
+}
