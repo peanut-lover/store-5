@@ -21,8 +21,8 @@ export class OrderItem {
   @Column({ type: 'int' })
   price: number;
 
-  @Column({ type: 'boolean' })
-  discountRate: boolean;
+  @Column({ type: 'int' })
+  discountRate: number;
 
   @Column({ type: 'varchar', length: 5 })
   state: string;
@@ -35,9 +35,9 @@ export class OrderItem {
 
   @ManyToOne(() => Goods, (goods) => goods.id)
   @JoinColumn()
-  goods: Goods;
+  goods: number;
 
   @ManyToOne(() => OrderList, (orderList) => orderList.id)
   @JoinColumn()
-  orderList: OrderList;
+  orderList: number;
 }

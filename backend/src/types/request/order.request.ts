@@ -1,14 +1,15 @@
 import { Request } from 'express';
+import { OrderGoods } from '../Order';
+
 export interface CreateOrderBody {
   state: string;
   orderMemo: string;
   receiver: string;
   zipCode: string;
   address: string;
+  goodsList: OrderGoods[];
   subAddress: string;
-  payment: {
-    id: number;
-  };
+  paymentId: number;
 }
 
 export interface CreateOrderRequest extends Request {

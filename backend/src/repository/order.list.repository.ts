@@ -27,7 +27,7 @@ async function createOrder(userId: number, body: CreateOrderBody): Promise<Order
     return await orderRepo.save({
       user: userId,
       ...body,
-      payment: body.payment.id,
+      payment: body.paymentId,
     });
   } catch (err) {
     console.error(err);
