@@ -27,6 +27,12 @@ export interface FindAllKeywordProps {
   limit: number;
 }
 
+export interface FindAllUserIdProps {
+  userId: number;
+  offset: number;
+  limit: number;
+}
+
 export interface GetAllByCategoryProps {
   // 카테고리 명
   categoryName: string;
@@ -46,4 +52,10 @@ export interface GetAllByKeywordProps {
   state: GoodsState;
   // 비회원 undefined
   userId?: number;
+}
+
+export interface GetAllByUserIdProps {
+  page: number;
+  limit: number;
+  userId: number;
 }
