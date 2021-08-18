@@ -2,12 +2,6 @@ import { DeliveryInfo } from './../../entity/DeliveryInfo';
 import { Response } from 'express';
 import { Goods } from '../../entity/Goods';
 
-export type DetailGoodsResponse = Response &
-  Goods & {
-    goodsImgs: string[] | undefined;
-    deliveryInfo: DeliveryInfo;
-  };
-
 export interface GoodsListMetaData {
   page: number;
   limit: number;
@@ -21,6 +15,12 @@ export type TaggedGoodsType = Goods & {
   isGreen?: boolean;
   isWish?: boolean;
 };
+
+export type DetailGoodsResponse = Response &
+  TaggedGoodsType & {
+    goodsImgs: string[] | undefined;
+    deliveryInfo: DeliveryInfo;
+  };
 
 export interface GoodsListResponse {
   meta?: GoodsListMetaData;

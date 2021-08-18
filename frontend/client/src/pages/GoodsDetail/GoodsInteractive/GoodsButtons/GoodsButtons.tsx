@@ -3,17 +3,17 @@ import styled from 'styled-components';
 import { FaRegHeart, FaHeart } from 'react-icons/fa';
 
 interface Props {
-  isWished: boolean;
+  isWish: boolean;
   onToggleWish: () => void;
   onAddToCart: () => void;
   onAddToOrder: () => void;
 }
 
-const GoodsButtons: React.FC<Props> = ({ isWished, onToggleWish, onAddToCart, onAddToOrder }) => {
+const GoodsButtons: React.FC<Props> = ({ isWish, onToggleWish, onAddToCart, onAddToOrder }) => {
   return (
     <>
       <GoodsButtonsContainer>
-        <WishButton onClick={onToggleWish}>{isWished ? <FaHeart /> : <FaRegHeart />}</WishButton>
+        <WishButton onClick={onToggleWish}>{isWish ? <FaHeart /> : <FaRegHeart />}</WishButton>
         <CartButton onClick={onAddToCart}>장바구니</CartButton>
         <OrderButton onClick={onAddToOrder}>바로 구매</OrderButton>
       </GoodsButtonsContainer>

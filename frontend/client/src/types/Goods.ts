@@ -8,7 +8,7 @@ export interface Goods {
   isNew?: boolean;
   isSale?: boolean;
   discountRate: number;
-  isWished?: boolean;
+  isWish?: boolean;
   stock?: number;
 }
 
@@ -17,7 +17,11 @@ export type ThumbnailGoods = Goods;
 export type DetailGoods = Goods & {
   deliveryFee: number;
   deliveryDetail: string;
-  imgs?: string[];
+  category: {
+    id: number;
+    name: string;
+  };
+  goodsImgs?: string[];
 };
 
 export type CartGoods = {

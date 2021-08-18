@@ -17,6 +17,6 @@ router.post(
 router.get('/category', wrapAsync(GoodsController.getAllGoodsCategory));
 router.get('/keyword', wrapAsync(GoodsController.getAllSaleGoodsByKeyword));
 router.get('/main', wrapAsync(GoodsController.getMainGoodsListMap));
+router.get('/:id/stock', checkNumberInParams, wrapAsync(GoodsController.getGoodsStockById));
 router.get('/:id', checkNumberInParams, wrapAsync(GoodsController.getGoodsDetail));
-
 export default router;

@@ -7,8 +7,9 @@ export interface GoodsInfoProps {
   goods: DetailGoods;
 }
 
+// TODO: deliveryFee, deliveryDetail는 상품 등록 이후 기본값 삭제?
 const GoodsInfo: React.FC<GoodsInfoProps> = ({
-  goods: { title, price, discountRate, deliveryFee, deliveryDetail },
+  goods: { title, price, discountRate, deliveryFee = 0, deliveryDetail = '' },
 }) => {
   const salePrice = getDiscountedPrice(price, discountRate);
 
@@ -28,13 +29,15 @@ const GoodsInfo: React.FC<GoodsInfoProps> = ({
             <span>{getPriceText(salePrice)}</span>원
           </SalePrice>
         </ContentItem>
-        <ContentItem>
-          <span>배송정보</span>
-          <DeliveryInfo>
-            <p>{getPriceText(deliveryFee)}원</p>
-            <p>{deliveryDetail}</p>
-          </DeliveryInfo>
-        </ContentItem>
+        {deliveryFee > 0 && (
+          <ContentItem>
+            <span>배송정보</span>
+            <DeliveryInfo>
+              <p>{getPriceText(deliveryFee)}원</p>
+              <p>{deliveryDetail}</p>
+            </DeliveryInfo>
+          </ContentItem>
+        )}
       </GoodsContent>
     </>
   );

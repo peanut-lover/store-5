@@ -1,5 +1,5 @@
 import { GoodsImg } from './../entity/GoodsImg';
-import { getConnection, MoreThan } from 'typeorm';
+import { ColumnTypeUndefinedError, getConnection, MoreThan } from 'typeorm';
 import { Goods } from '../entity/Goods';
 import { GoodsRepository } from '../repository/goods.repository';
 import {
@@ -33,11 +33,15 @@ async function createGoods(body: CreateGoodsBody, uploadFileUrls: string[]): Pro
   });
 }
 
-async function getDetailById(goodsId: number): Promise<DetailGoodsResponse> {
+// 비회원은 isWish를 확인하지 않습니다.
+async function getDetailById(goodsId: number, userId?: number): Promise<DetailGoodsResponse> {
   const data = await GoodsRepository.findGoodsDetailById(goodsId);
   const imgs = data?.goodsImgs.map((goodsImg) => goodsImg.url);
   const res = JSON.parse(JSON.stringify(data));
   delete res.goodsImgs;
+  if (data && userId) {
+    res.isWish = (await WishRepository.findWishCountByGoodsIdAndUserId(goodsId, userId)) > 0;
+  }
   return { ...res, goodsImgs: imgs };
 }
 
@@ -62,7 +66,7 @@ async function getAllSaleGoodsByCategory({
   goodsList.forEach((goods) => {
     if (wishSet) goods.isWish = wishSet.has(goods.id);
     goods.isBest = goodsSellCountAverage < goods.countOfSell;
-    goods.isNew = checkNewGoods(goods.createdAt);
+    goods.isNew = isNewGoods(goods.createdAt);
   });
 
   return {
@@ -92,7 +96,7 @@ async function getAllSaleGoodsByKeyword({
   goodsList.forEach((goods) => {
     if (wishSet) goods.isWish = wishSet.has(goods.id);
     goods.isBest = goodsSellCountAverage < goods.countOfSell;
-    goods.isNew = checkNewGoods(goods.createdAt);
+    goods.isNew = isNewGoods(goods.createdAt);
   });
 
   return {
@@ -157,13 +161,18 @@ async function getAllByCategory({ categoryName, page, flag, limit, state }: GetA
 
   goodsList.forEach((goods) => {
     goods.isBest = goodsSellCountAverage < goods.countOfSell;
-    goods.isNew = checkNewGoods(goods.createdAt);
+    goods.isNew = isNewGoods(goods.createdAt);
   });
 
   return {
     meta: getListGoodsMeta(page, limit, totalCount),
     goods: goodsList,
   };
+}
+
+async function getGoodsStockById(goodsId: number): Promise<number> {
+  const stock = await GoodsRepository.findStockById(goodsId);
+  return stock;
 }
 
 function setAllByCategoryOption(category: number, page: number, limit: number, flag: string): FindAllCategoryProps {
@@ -198,7 +207,7 @@ function getSortByFlag(flag: string): 'DESC' | 'ASC' {
   return flag === 'low' ? 'ASC' : 'DESC';
 }
 
-function checkNewGoods(date: Date): boolean {
+function isNewGoods(date: Date): boolean {
   const DAY_DIVIDE = 1000 / 60 / 60 / 24;
   const NEW_PRODUCT_BASE_DAY = 7;
   const nowTime = new Date().getTime();
@@ -225,4 +234,5 @@ export const GoodsService = {
   getAllSaleGoodsByKeyword,
   getAllSaleGoodsByCategory,
   getMainGoodsListMap,
+  getGoodsStockById,
 };
