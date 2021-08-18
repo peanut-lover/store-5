@@ -1,4 +1,4 @@
-import React, { ChangeEvent, MouseEvent, useState } from 'react';
+import React, { ChangeEvent, MouseEvent, useEffect, useState } from 'react';
 import { useCallback } from 'react';
 import Portal from '../portal';
 import ProductImageUploader from './ProductImageUploader/ProductImageUploader';
@@ -12,11 +12,25 @@ const ProductUploadModal = () => {
   const [title, handleChangeTitle] = useInput('');
   const [price, handleChangePrice] = useInput('');
   const [stock, handleChangeStock] = useInput('');
-  const [discountRate, setDiscountRate] = useState('');
-  const [checkGreen, setCheckGreen] = useState(false);
-  const [category, setCategory] = useState(0);
-  const [productState, setProductState] = useState('');
-  const [deliveryInfo, setDeliveryInfo] = useState(0);
+  const [discountRate, setDiscountRate] = useState<string>('');
+  const [checkGreen, setCheckGreen] = useState<boolean>(false);
+  const [category, setCategory] = useState<number>(0);
+  const [productState, setProductState] = useState<string>('');
+  const [deliveryInfo, setDeliveryInfo] = useState<number>(0);
+  const [submitActive, setSubmitActive] = useState<string>('');
+
+  const handleSubmit = (e: MouseEvent) => {
+    const formData = new FormData();
+    files.forEach((file: File) => formData.append('files', file));
+    formData.append('title', title);
+    formData.append('price', price);
+    formData.append('stock', stock);
+    formData.append('discountRate', discountRate);
+    formData.append('isGreen', checkGreen ? '1' : '0');
+    formData.append('deliveryInfo', `${deliveryInfo}`);
+    formData.append('category', `${category}`);
+    formData.append('state', productState);
+  };
 
   const handleUpdateFiles = useCallback(
     (newFiles: File[]) => {
@@ -33,12 +47,6 @@ const ProductUploadModal = () => {
     },
     [setFiles]
   );
-  const handleSubmit = (e: MouseEvent) => {
-    e.preventDefault();
-    const formData = new FormData();
-    files.forEach((file: File) => formData.append('files', file));
-    formData.append('title', title);
-  };
 
   const handleCheckGreen = useCallback(() => {
     setCheckGreen((prev) => !prev);
@@ -72,6 +80,21 @@ const ProductUploadModal = () => {
     },
     [setDiscountRate]
   );
+
+  useEffect(() => {
+    const updateSubmitActiveFalse = () => {
+      if (submitActive) return setSubmitActive('');
+    };
+    const checkFormIsValidated = () => {
+      if (!(title.length > 0 && price.length > 0 && stock.length > 0)) return updateSubmitActiveFalse();
+      if (!productState) return updateSubmitActiveFalse();
+      if (deliveryInfo === 0 || category === 0) return updateSubmitActiveFalse();
+      if (files.length === 0) return updateSubmitActiveFalse();
+      return setSubmitActive('true');
+    };
+    checkFormIsValidated();
+  }, [title, price, stock, category, productState, deliveryInfo, files]);
+
   return (
     <Portal>
       <ModalContainer>
@@ -96,7 +119,9 @@ const ProductUploadModal = () => {
                 onHandleCategory={handleCategory}
                 onHandleProductState={handleProductState}
               />
-              <SubmitButton onClick={handleSubmit}>상품 등록</SubmitButton>
+              <SubmitButton onClick={handleSubmit} active={submitActive}>
+                상품 등록
+              </SubmitButton>
             </UploadContentRightContainer>
           </UploadContentContainer>
           <CloseButton>X</CloseButton>
@@ -144,15 +169,16 @@ const UploadContentRightContainer = styled('div')`
   width: 40%;
 `;
 
-const SubmitButton = styled('button')`
+const SubmitButton = styled('button')<{ active: string }>`
   width: 80%;
   height: 13%;
   font-size: 1.6em;
-  background-color: #2ac1bc;
   border-radius: 12px;
   color: white;
   border: none;
-  cursor: pointer;
+  background-color: ${(props) => (props.active ? '#2ac1bc' : 'lightgray')};
+  pointer-events: ${(props) => (props.active ? 'auto' : 'none')};
+  cursor: ${(props) => (props.active ? 'pointer' : 'none')};
 `;
 
 const CloseButton = styled('button')`
