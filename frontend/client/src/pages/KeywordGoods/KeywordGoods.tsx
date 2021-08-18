@@ -16,7 +16,6 @@ const KeywordGoods: React.FC = () => {
   const [goodsGoodsPaginationResult, setGoodsPaginationResult] = useState<GoodsPaginationResult | null>(null);
   const [currentPage, setCurrentPage] = useState(DEFAULT_START_PAGE);
 
-  console.log(currentPage);
   const fetchGoodsList = async () => {
     try {
       const data = await getGoodsByKeyword({
