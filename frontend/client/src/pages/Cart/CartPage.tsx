@@ -47,7 +47,8 @@ const CartPage: React.FC = () => {
   const handleChangeIsSelected = useCallback(
     (id: number, isSelected: boolean) => {
       const changedCartGoodsList = cartGoodsList.map((cartGoods) => {
-        return { ...cartGoods, isSelected: cartGoods.id === id };
+        if (cartGoods.id === id) return { ...cartGoods, isSelected };
+        return cartGoods;
       });
       setCartGoodsList(changedCartGoodsList);
     },
@@ -55,7 +56,8 @@ const CartPage: React.FC = () => {
   );
 
   const handleClickOrderButton = () => {
-    pushToOrderPage(cartGoodsList);
+    const filteredCartGoodsList = cartGoodsList.filter((cartGoods) => cartGoods.isSelected);
+    pushToOrderPage(filteredCartGoodsList);
   };
 
   useEffect(() => {
