@@ -42,6 +42,7 @@ const CartForm: React.FC<Props> = ({ goodsId }) => {
       // 수량 초과 모달
     } else {
       // 장바구니 이동
+      const result = await createCart({ goodsId, amount });
     }
   }, [amount]);
 
