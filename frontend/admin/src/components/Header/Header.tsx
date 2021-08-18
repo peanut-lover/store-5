@@ -20,7 +20,14 @@ const Header = () => {
   );
 };
 
-const HeaderContainer = styled('header')``;
+const HeaderContainer = styled('header')`
+  display: flex;
+  flex-direction: column;
+  height: 100%;
+  width: 10%;
+  padding: 16px;
+  background-color: gray;
+`;
 
 const LogoContainer = styled('div')``;
 
