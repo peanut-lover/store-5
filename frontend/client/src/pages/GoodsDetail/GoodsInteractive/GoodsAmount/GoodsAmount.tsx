@@ -9,6 +9,11 @@ function getTotalPrice(amount: number, price: number, deliveryFee: number, disco
   return amount * getDiscountedPrice(price, discountRate) + deliveryFee;
 }
 
+function validateAndReplaceInput(value: string): string {
+  value = value.replace(/[^\d]/g, '');
+  return value;
+}
+
 interface Props {
   title: string;
   price: number;
@@ -16,7 +21,7 @@ interface Props {
   deliveryFee: number;
   discountRate: number;
   isOver: boolean;
-  onChangeAmount: (amount: number) => void;
+  setAmount: (amount: number) => void;
 }
 
 const GoodsAmount: React.FC<Props> = ({
@@ -26,35 +31,30 @@ const GoodsAmount: React.FC<Props> = ({
   discountRate,
   amount,
   isOver = false,
-  onChangeAmount,
+  setAmount,
 }) => {
   const totalPrice = getTotalPrice(amount, price, deliveryFee, discountRate);
 
   const onPlusEvent = useCallback(() => {
-    handleAmount(amount + 1);
+    setAmount(amount + 1);
   }, [amount]);
 
   const onMinusEvent = useCallback(() => {
-    handleAmount(amount - 1);
+    setAmount(amount > 0 ? amount - 1 : 0);
   }, [amount]);
 
-  const handleChangeEvent = useCallback((e) => {
+  const onChangeAmount = useCallback((e) => {
     const target = e.target;
-    target.value = target.value.replace(/[^\d]/g, '');
-    target.value += target.value === '' ? 0 : '';
-    handleAmount(Number(target.value));
+    target.value = validateAndReplaceInput(target.value);
+    setAmount(Number(target.value));
   }, []);
 
-  const handleAmount = (value: number) => {
-    if (value < 0) value = 0;
-    onChangeAmount(value);
-  };
   return (
     <>
       <GoodsAmountContainer>
         <p>{title}</p>
         <HandleAmount>
-          <Counter value={amount} onChange={handleChangeEvent} />
+          <Counter value={amount} onChange={onChangeAmount} />
           <HandleAmountButtons>
             <UpButton onClick={onPlusEvent}>
               <FaAngleUp />
