@@ -3,7 +3,7 @@
 HOME=/home/ubuntu
 cd $HOME
 
-pm2 delete all
+pm2 delete all > $HOME/deploy_before.txt
 rm -rf store-5
 
 touch $HOME/touch_CICD.txt
