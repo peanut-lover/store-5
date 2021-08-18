@@ -8,6 +8,7 @@ interface Props {
 }
 const PreviewImage: React.FC<Props> = ({ index, url, onDeleteImage }) => (
   <PreviewImageContainer key={index}>
+    {index === 0 && <Thumbnail>썸네일</Thumbnail>}
     <ImageDeleteButton onClick={() => onDeleteImage(index)}>X</ImageDeleteButton>
     <PreviewImageItem src={url} />
   </PreviewImageContainer>
@@ -17,6 +18,16 @@ const PreviewImageContainer = styled('div')`
   position: relative;
 `;
 
+const Thumbnail = styled('div')`
+  position: absolute;
+  width: 52px;
+  top: 30px;
+  left: 30px;
+  border-radius: 8px;
+  color: #fff;
+  background-color: #2ac1bc;
+  text-align: center;
+`;
 const ImageDeleteButton = styled('button')`
   position: absolute;
   top: 16px;
@@ -25,7 +36,7 @@ const ImageDeleteButton = styled('button')`
   border-radius: 50%;
   border: none;
   background-color: #2ac1bc;
-  color: white;
+  color: #fff;
   cursor: pointer;
 `;
 

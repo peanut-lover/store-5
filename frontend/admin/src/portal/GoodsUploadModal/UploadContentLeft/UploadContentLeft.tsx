@@ -1,8 +1,8 @@
 import { styled } from '@src/lib/CustomStyledComponent';
-import ProductDiscountUploader from '@src/portal/ProductUploadModal/UploadContentLeft/ProductDiscountUploader/ProductDiscountUploader';
-import ProductPriceUploader from '@src/portal/ProductUploadModal/UploadContentLeft/ProductPriceUploader/ProductPriceUploader';
-import ProductStockUploader from '@src/portal/ProductUploadModal/UploadContentLeft/ProductStockUploader/ProductStockUploader';
-import ProductTitleUploader from '@src/portal/ProductUploadModal/UploadContentLeft/ProductTitleUploader/ProductTitleUploader';
+import GoodsDiscountUploader from '@src/portal/GoodsUploadModal/UploadContentLeft/GoodsDiscountUploader/GoodsDiscountUploader';
+import GoodsPriceUploader from '@src/portal/GoodsUploadModal/UploadContentLeft/GoodsPriceUploader/GoodsPriceUploader';
+import GoodsStockUploader from '@src/portal/GoodsUploadModal/UploadContentLeft/GoodsStockUploader/GoodsStockUploader';
+import GoodsTitleUploader from '@src/portal/GoodsUploadModal/UploadContentLeft/GoodsTitleUploader/GoodsTitleUploader';
 import React, { ChangeEvent } from 'react';
 
 interface Props {
@@ -28,10 +28,10 @@ const UploadContentLeft: React.FC<Props> = ({
 }) => {
   return (
     <UploadContentLeftContainer>
-      <ProductTitleUploader title={title} onChangeTitle={onHandleTitle} />
-      <ProductPriceUploader price={price} onChangePrice={onHandlePrice} />
-      <ProductStockUploader stock={stock} onChangeStock={onHandleStock} />
-      <ProductDiscountUploader discountRate={discountRate} onChangeDiscountRate={onHandleDiscount} />
+      <GoodsTitleUploader title={title} onChangeTitle={onHandleTitle} />
+      <GoodsPriceUploader price={price} onChangePrice={onHandlePrice} />
+      <GoodsStockUploader stock={stock} onChangeStock={onHandleStock} />
+      <GoodsDiscountUploader discountRate={discountRate} onChangeDiscountRate={onHandleDiscount} />
     </UploadContentLeftContainer>
   );
 };
