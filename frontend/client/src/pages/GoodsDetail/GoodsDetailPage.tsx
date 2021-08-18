@@ -36,7 +36,7 @@ const GoodsDetailPage = () => {
           <GoodsMainContainer>
             {goods.goodsImgs && <GoodsImageSection imgs={goods.goodsImgs} />}
             <GoodsContentContainer>
-              <GoodsInfo goods={goods}></GoodsInfo>
+              <GoodsInfo goods={goods} />
               <GoodsInteractive goods={goods} />
             </GoodsContentContainer>
           </GoodsMainContainer>

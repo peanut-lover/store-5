@@ -7,7 +7,7 @@ interface Props {
   imgs: string[];
 }
 
-const GoodsImageSectionContainer: React.FC<Props> = ({ imgs }) => {
+const GoodsImageSection: React.FC<Props> = ({ imgs }) => {
   const [active, setActive] = useState(0);
   return (
     <GoodsImageContainer>
@@ -24,4 +24,4 @@ const GoodsImageContainer = styled.div`
   height: 100%;
 `;
 
-export default GoodsImageSectionContainer;
+export default GoodsImageSection;
