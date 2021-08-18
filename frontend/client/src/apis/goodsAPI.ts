@@ -89,44 +89,9 @@ export const getMyWishGoods = async ({
   limit = LIMIT,
 }: GetMyWishGoodsProps): Promise<APIResponse<GoodsPaginationResult>> => {
   // TODO: implementation real api
-  return new Promise((resolve, reject) => {
-    resolve({
-      result: {
-        goodsList: [
-          {
-            id: 1,
-            thumbnailUrl:
-              'https://user-images.githubusercontent.com/45394360/129675539-001126ce-f551-4180-8259-21b5950c0117.jpg', // thumbnailUrl
-            title: '내가 찜한 제품1',
-            price: 10000,
-            isBest: true,
-            isGreen: true,
-            isNew: true,
-            isSale: false,
-            discountRate: 20,
-            isWish: true,
-          },
-          {
-            id: 2,
-            thumbnailUrl:
-              'https://user-images.githubusercontent.com/45394360/129675539-001126ce-f551-4180-8259-21b5950c0117.jpg', // thumbnailUrl
-            title: '내가 찜한 제품2',
-            price: 10000,
-            isBest: true,
-            isGreen: true,
-            isNew: true,
-            isSale: false,
-            discountRate: 20,
-            isWish: true,
-          },
-        ],
-        meta: {
-          page: page,
-          limit: limit,
-          totalPage: 5,
-          totalCount: 50,
-        },
-      },
-    });
+  const res = await checkedFetch(`/api/user/wish?limit=${limit}&page=${page}`, {
+    method: 'GET',
+    credentials: 'include',
   });
+  return await res.json();
 };
