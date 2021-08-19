@@ -7,7 +7,7 @@ import Topic from '@src/components/Topic/Topic';
 import Paginator from '@src/components/Paginator/Paginator';
 
 const DEFAULT_START_PAGE = 1;
-const LIMIT_COUNT_ORDER = 4;
+const LIMIT_COUNT_ORDER = 10;
 
 const MyOrderListView = () => {
   const [orderPaginationResult, setOrderPaginationResult] = useState<OrderPaginationResult | null>(null);
@@ -19,7 +19,12 @@ const MyOrderListView = () => {
   };
 
   useEffect(() => {
-    fetchOrderList();
+    try {
+      fetchOrderList();
+    } catch (err) {
+      console.error(err);
+      alert('주문정보 불러오는데 실패했습니다. 서버오류');
+    }
   }, [currentPage]);
 
   return (

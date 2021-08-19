@@ -29,7 +29,12 @@ const MyAddressView = () => {
   }
 
   useEffect(() => {
-    fetchAddresses();
+    try {
+      fetchAddresses();
+    } catch (err) {
+      console.error(err);
+      alert('사용자 주소를 불러오는데 실패했습니다. 서버오류');
+    }
   }, []);
 
   const defaultAddress = addresses.find((address) => address.isDefault);
