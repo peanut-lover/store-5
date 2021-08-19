@@ -17,6 +17,8 @@ const GoodsTableBody: React.FC<Props> = ({ goodsList }) => {
   );
 };
 
-const GoodsTableBodyContainer = styled('tbody')``;
+const GoodsTableBodyContainer = styled('tbody')`
+  font-size: 14px;
+`;
 
 export default GoodsTableBody;

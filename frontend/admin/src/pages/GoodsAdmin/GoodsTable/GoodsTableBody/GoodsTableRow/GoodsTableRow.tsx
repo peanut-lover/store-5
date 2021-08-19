@@ -29,9 +29,17 @@ const GoodsTableRow: React.FC<Props> = ({ goods }) => {
   );
 };
 
-const GoodsTableRowContainer = styled('tr')``;
-const TableData = styled('td')``;
-const ThumbnailImg = styled('img')``;
+const GoodsTableRowContainer = styled('tr')`
+  margin-bottom: 0.5rem;
+  height: 55px;
+`;
+const TableData = styled('td')`
+  vertical-align: middle;
+`;
+const ThumbnailImg = styled('img')`
+  width: 40px;
+  height: 40px;
+`;
 
 // const GoodsItemRow =
 

@@ -20,10 +20,18 @@ const GoodsTableHead = () => {
   );
 };
 
-const GoodsTableHeadContainer = styled('thead')``;
+const GoodsTableHeadContainer = styled('thead')`
+  font-weight: 600;
+  font-size: 14px;
+  height: 40px;
+`;
 
 const TableRow = styled('tr')``;
 
-const TableHeadData = styled('th')``;
+const TableHeadData = styled('th')`
+  padding: 4px;
+
+  vertical-align: middle;
+`;
 
 export default GoodsTableHead;

@@ -3,21 +3,32 @@ import { styled } from '@src/lib/CustomStyledComponent';
 import { GoodsItem } from '@src/types/Goods';
 import GoodsTableHead from '@src/pages/GoodsAdmin/GoodsTable/GoodsTableHead/GoodsTableHead';
 import GoodsTableBody from '@src/pages/GoodsAdmin/GoodsTable/GoodsTableBody/GoodsTableBody';
+import Paginator from '@src/components/Paginator/Paginator';
+import Search from '@src/pages/GoodsAdmin/GoodsTable/Search/Search';
 
 // function
 
 // TODO : salePrice 전달해주기
 const GoodsTable = () => {
-  //   // const tmp = useReducer(reduce, state);
+  // const tmp = useReducer(reduce, state);
+  const fn = () => {};
+
   return (
-    <GoodsTableContainer>
-      <GoodsTableHead />
-      <GoodsTableBody goodsList={goodsList} />
-    </GoodsTableContainer>
+    <>
+      <Search />
+      <GoodsTableContainer>
+        <GoodsTableHead />
+        <GoodsTableBody goodsList={goodsList} />
+      </GoodsTableContainer>
+      <Paginator totalPage={5} currentPage={1} setPage={fn} />
+    </>
   );
 };
 
-const GoodsTableContainer = styled('table')``;
+const GoodsTableContainer = styled('table')`
+  width: 100%;
+  text-align: center;
+`;
 
 export default GoodsTable;
 
