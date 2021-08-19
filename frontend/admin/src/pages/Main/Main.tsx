@@ -18,8 +18,6 @@ const Main = () => {
   );
 };
 
-const MainContainer = styled('div')`
-  width: 1200px;
-`;
+const MainContainer = styled('div')``;
 
 export default Main;
