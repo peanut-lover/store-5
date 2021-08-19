@@ -1,10 +1,11 @@
 import useInput from '@src/hooks/useInput';
 import { styled } from '@src/lib/CustomStyledComponent';
 import { BsSearch } from 'react-icons/bs';
-import React, { useCallback, useRef } from 'react';
+import React, { useCallback } from 'react';
 import SearchAPI from '@src/apis/searchAPI';
 import { debounce } from '@src/utils/debounce';
 import useAutoSearch from '@src/hooks/useAutoSearch';
+import GoodsSearchList from '@src/components/GoodsSearchInput/GoodsSearchList/GoodsSearchList';
 
 const INPUT_PLACEHOLDER = '상품을 검색해주세요.';
 
@@ -22,20 +23,24 @@ const GoodsSearchInput: React.FC = () => {
     [SearchAPI.getAutoSearchList]
   );
   return (
-    <SearchInputForm>
-      <SearchInput
-        type='text'
-        value={searchValue}
-        onChange={onChangeSearchValue}
-        onInput={handleKeywordMatching}
-        placeholder={INPUT_PLACEHOLDER}
-      />
-      <BsSearch size='1.3em' />
-    </SearchInputForm>
+    <>
+      <SearchInputForm>
+        <SearchInput
+          type='text'
+          value={searchValue}
+          onChange={onChangeSearchValue}
+          onInput={handleKeywordMatching}
+          placeholder={INPUT_PLACEHOLDER}
+        />
+        <BsSearch size='1.3em' />
+        <GoodsSearchList searchList={autoSearchList} />
+      </SearchInputForm>
+    </>
   );
 };
 
 const SearchInputForm = styled('form')`
+  position: relative;
   display: flex;
   align-items: center;
   justify-content: center;
