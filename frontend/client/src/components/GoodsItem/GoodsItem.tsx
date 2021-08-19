@@ -1,11 +1,10 @@
 import { usePushHistory } from '@src/lib/CustomRouter/CustomRouter';
-import React from 'react';
+import React, { useCallback, useState } from 'react';
 import styled from 'styled-components';
 import { BsHeart, BsFillBucketFill, BsFillHeartFill } from 'react-icons/bs';
 import { BestTag, GreenTag, NewTag, SaleTag } from '../Tag';
-import { useCallback } from 'react';
-import { useState } from 'react';
 import { getPriceText } from '@src/utils/price';
+import { deleteWish, postWish } from '@src/apis/wishAPI';
 
 export type GoodsItemSize = 'small' | 'middle' | 'big';
 
@@ -39,6 +38,7 @@ const GoodsItem: React.FC<Props> = ({
   handleClickCart,
 }) => {
   const push = usePushHistory();
+  const [isWished, setIsWished] = useState(isWish);
   const handleClickGoodsItem = (e: React.MouseEvent) => {
     push('/detail/' + id);
   };
@@ -54,9 +54,21 @@ const GoodsItem: React.FC<Props> = ({
 
   const handleClickUtliButton = useCallback((e: React.MouseEvent) => {
     e.stopPropagation();
-    e.preventDefault;
     handleClickCart && handleClickCart(id);
   }, []);
+
+  const handleToWish = useCallback(
+    async (e: React.MouseEvent) => {
+      e.stopPropagation();
+      try {
+        const result = await (isWished ? deleteWish(id) : postWish(id));
+        if (result) setIsWished(!isWished);
+      } catch (error) {
+        console.log(error);
+      }
+    },
+    [isWished]
+  );
   return (
     <GoodsItemContainer onClick={handleClickGoodsItem} size={itemBoxSize}>
       <GoodsImageContainer onMouseEnter={handleOnMouseEnter} onMouseLeave={handleOnMouseLeave} size={itemBoxSize}>
@@ -71,7 +83,9 @@ const GoodsItem: React.FC<Props> = ({
         {isHoverGoodsImage && <></>}
         <GoodsImageOverlay />
         <GoodsUtilBtnContainer>
-          <GoodsUtilBtn>{isWish ? <BsFillHeartFill size={20} /> : <BsHeart size={20} />}</GoodsUtilBtn>
+          <GoodsUtilBtn onClick={handleToWish}>
+            {isWished ? <BsFillHeartFill size={20} /> : <BsHeart size={20} />}
+          </GoodsUtilBtn>
           <GoodsUtilBtn onClick={handleClickUtliButton}>
             <BsFillBucketFill size={20} />
           </GoodsUtilBtn>

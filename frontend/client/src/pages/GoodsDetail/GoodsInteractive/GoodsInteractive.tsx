@@ -38,14 +38,14 @@ const GoodsInteractive: React.FC<Props> = ({ goods }) => {
 
   const handleAddToOrder = async () => {
     await fetchCheckStock;
-    if (isOver) return;
+    if (isOver || disabled || amount === 0) return;
     const orderGoods: GoodsBeforeOrder = { goods, amount };
     pushToOrderPage([orderGoods]);
   };
 
   const addToCart = useCallback(async () => {
     await fetchCheckStock;
-    if (isOver) return;
+    if (isOver || disabled || amount === 0) return;
     setDisabled(true);
     try {
       await createCart({ goodsId: id, amount });

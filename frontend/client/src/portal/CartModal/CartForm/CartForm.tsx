@@ -44,7 +44,7 @@ const CartForm: React.FC<Props> = ({ goodsId }) => {
 
   const addToCart = useCallback(async () => {
     await fetchCheckStock;
-    if (isOver) return;
+    if (isOver || disabled || amount === 0) return;
     setDisabled(true);
     try {
       await createCart({ goodsId, amount });
@@ -54,7 +54,7 @@ const CartForm: React.FC<Props> = ({ goodsId }) => {
     } finally {
       setDisabled(false);
     }
-  }, [amount]);
+  }, [amount, isOver]);
 
   useEffect(() => {
     fetchDetailGoods(goodsId);
