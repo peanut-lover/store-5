@@ -1,7 +1,6 @@
 #!/bin/bash
 
 HOME=/home/ubuntu
-
 cd $HOME
 
 export NVM_DIR="$HOME/.nvm"
