@@ -7,6 +7,7 @@ import useInput from '../../hooks/useInput';
 import UploadContentLeft from '@src/portal/GoodsUploadModal/UploadContentLeft/UploadContentLeft';
 import UploadContentRight from '@src/portal/GoodsUploadModal/UploadContentRight/UploadContentRight';
 import { GoodsAPI } from '@src/apis/goodsAPI';
+import convertGoodsState from '@src/utils/convertGoodsState';
 
 interface Props {
   onClose: () => void;
@@ -34,7 +35,7 @@ const GoodsUploadModal: React.FC<Props> = ({ onClose }) => {
     formData.append('isGreen', checkGreen ? '1' : '0');
     formData.append('deliveryInfo', `${deliveryInfo}`);
     formData.append('category', `${category}`);
-    formData.append('state', productState);
+    formData.append('state', convertGoodsState(productState));
     try {
       const { result } = await GoodsAPI.createGoods(formData);
       if (result) onClose();
