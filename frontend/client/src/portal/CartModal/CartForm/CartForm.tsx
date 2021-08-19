@@ -43,13 +43,12 @@ const CartForm: React.FC<Props> = ({ goodsId }) => {
   };
 
   const addToCart = useCallback(async () => {
-    if (disabled) return;
+    await fetchCheckStock;
+    if (isOver) return;
     setDisabled(true);
     try {
-      if (!isOver) {
-        await createCart({ goodsId, amount });
-        push('/cart');
-      }
+      await createCart({ goodsId, amount });
+      push('/cart');
     } catch (error) {
       console.log(error);
     } finally {
