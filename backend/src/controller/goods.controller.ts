@@ -2,7 +2,7 @@ import { Request, Response } from 'express';
 import { INVALID_DATA } from '../constants/client-error-name';
 import { BadRequestError } from '../errors/client.error';
 import { GoodsService } from '../service/goods.service';
-import { GetAllByCategoryProps, GetAllByKeywordProps, GoodsFlag, GoodsState } from '../types/Goods';
+import { GetAllByAdminProps, GetAllByCategoryProps, GetAllByKeywordProps, GoodsFlag, GoodsState } from '../types/Goods';
 import { CreateGoodsBody, CreateGoodsRequest } from '../types/request/goods.request';
 import ConvertToURLfromFile from '../utils/convert.url.from.file';
 
@@ -88,6 +88,21 @@ async function getGoodsStockById(req: Request, res: Response) {
   return res.status(200).json({ result });
 }
 
+async function getGoodsForAdmin(req: Request, res: Response) {
+  const { page, keyword, limit, order, sort } = req.query;
+  // TODO : 타입 체크
+  const GoodsListParams: GetAllByAdminProps = {
+    page: Number(page),
+    limit: Number(limit),
+  };
+  if (keyword) GoodsListParams.keyword = String(keyword);
+  if (order) GoodsListParams.order = String(order);
+  if (sort) GoodsListParams.keyword = String(sort);
+
+  const result = await GoodsService.getGoodsForAdmin(GoodsListParams);
+  return res.status(200).json({ result });
+}
+
 export const GoodsController = {
   createGoods,
   getGoodsDetail,
@@ -95,4 +110,5 @@ export const GoodsController = {
   getAllSaleGoodsByKeyword,
   getMainGoodsListMap,
   getGoodsStockById,
+  getGoodsForAdmin,
 };
