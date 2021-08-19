@@ -6,7 +6,7 @@ HOME=/home/ubuntu
 
 cd $HOME
 
-pm2 delete all > $HOME/deploy_before.txt
+pm2 delete all 2> $HOME/deploy_before.txt
 
 rm -rf store-5
 
