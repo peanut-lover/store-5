@@ -17,7 +17,7 @@ const PromotionImageUploader: React.FC<Props> = ({ onUploadFile }) => {
   const handleUploadImage = useCallback(
     (e: ChangeEvent<HTMLInputElement>) => {
       const files = e.target.files;
-      if (!files) return;
+      if (!files || !files[0]) return;
       const file = files[0];
       setPreviewImage(URL.createObjectURL(file));
       onUploadFile(file);
@@ -42,5 +42,7 @@ const ImageUploaderContainer = styled('div')`
   background-color: #fff;
   border-bottom: 1px solid lightgray;
   cursor: pointer;
+  border-top-left-radius: 12px;
+  border-top-right-radius: 12px;
 `;
 export default PromotionImageUploader;

@@ -165,7 +165,7 @@ async function searchGoodsFromKeyword(keyword: string): Promise<SearchedGoodsFro
   return await goodsRepo.find({
     select: ['id', 'thumbnailUrl', 'title'],
     where: { title: Like(`%${keyword}%`) },
-    take: 5,
+    take: 10,
   });
 }
 

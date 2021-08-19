@@ -1,4 +1,4 @@
-import React, { useCallback, useState } from 'react';
+import React, { useCallback, useEffect, useState } from 'react';
 import { styled } from '@src/lib/CustomStyledComponent';
 import Portal from '@src/portal/portal';
 import PromotionImageUploader from '@src/portal/PromotionUploadModal/PromotionImageUploader/PromotionImageUploader';
@@ -9,6 +9,7 @@ import PromotionSelectedGoods from '@src/portal/PromotionUploadModal/PromotionSe
 const PromotionUploadModal = () => {
   const [promotionFile, setPromotionFile] = useState<File>();
   const [selectedGoods, setSelectedGoods] = useState<AutoSearch>();
+  const [submitDisabled, setSubmitDisabled] = useState<boolean>(true);
 
   const handleUploadFile = useCallback(
     (f: File) => {
@@ -24,14 +25,28 @@ const PromotionUploadModal = () => {
     [setSelectedGoods]
   );
 
+  const handleSubmit = () => {
+    const formData = new FormData();
+  };
+
+  useEffect(() => {
+    if (promotionFile && selectedGoods && submitDisabled) {
+      setSubmitDisabled(false);
+    } else if ((!promotionFile || !selectedGoods) && !submitDisabled) {
+      setSubmitDisabled(true);
+    }
+  }, [promotionFile, selectedGoods, submitDisabled, setSubmitDisabled]);
+
   return (
     <Portal>
       <ModalContainer>
         <PromotionUploadContainer>
-          <PromotionImageUploader onUploadFile={handleUploadFile} />
-          <GoodsSearchInput onUpdateSelectedGoods={handleSelectedGoods} />
-          {selectedGoods && <PromotionSelectedGoods selectedGoods={selectedGoods} />}
-          <UploadButton>등록</UploadButton>
+          <PositionContainer>
+            <PromotionImageUploader onUploadFile={handleUploadFile} />
+            <GoodsSearchInput onUpdateSelectedGoods={handleSelectedGoods} />
+            {selectedGoods && <PromotionSelectedGoods selectedGoods={selectedGoods} />}
+            <UploadButton disabled={submitDisabled}>등록</UploadButton>
+          </PositionContainer>
         </PromotionUploadContainer>
       </ModalContainer>
     </Portal>
@@ -61,6 +76,25 @@ const PromotionUploadContainer = styled('div')`
   border-radius: 12px;
 `;
 
-const UploadButton = styled('button')``;
+const PositionContainer = styled('div')`
+  position: relative;
+  width: 100%;
+  height: 100%;
+`;
+
+const UploadButton = styled('button')<{ disabled: boolean }>`
+  position: absolute;
+  left: 25%;
+  bottom: 50px;
+  width: 50%;
+  height: 8%;
+  font-size: 1.6em;
+  border-radius: 12px;
+  color: white;
+  border: none;
+  background-color: ${(props) => (props.disabled ? 'lightgray' : '#2ac1bc')};
+  pointer-events: ${(props) => (props.disabled ? 'none' : 'auto')};
+  cursor: ${(props) => (props.disabled ? 'none' : 'pointer')};
+`;
 
 export default PromotionUploadModal;

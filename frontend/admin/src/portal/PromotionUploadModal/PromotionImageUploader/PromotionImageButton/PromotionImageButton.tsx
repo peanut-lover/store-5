@@ -7,7 +7,7 @@ const PromotionImageButton = () => {
   return (
     <Button>
       <AiOutlinePicture size='3em' color={theme.greenColor} />
-      <Span>Upload</Span>
+      <Span>프로모션 이미지</Span>
     </Button>
   );
 };
@@ -19,9 +19,13 @@ const Button = styled(`button`)`
   justify-content: center;
   background-color: transparent;
   border: none;
+  border-top-left-radius: 12px;
+  border-top-right-radius: 12px;
 `;
 
 const Span = styled('span')`
-  font-size: 1.5em;
+  margin-top: 1em;
+  font-size: 1em;
+  color: gray;
 `;
 export default PromotionImageButton;

@@ -41,7 +41,7 @@ const GoodsInfoContainer = styled('div')`
   height: 70px;
 `;
 const GoodsItemImage = styled('img')`
-  width: 20%;
+  width: 25%;
   height: 100%;
   object-fit: cover;
   border-radius: 8px;

@@ -8,7 +8,11 @@ interface Props {
 }
 const GoodsSearchList: React.FC<Props> = ({ searchList, onUpdateSelectedGoods }) => {
   return (
-    <SearchListContainer>
+    <SearchListContainer
+      onMouseDown={(e) => {
+        e.preventDefault();
+      }}
+    >
       {searchList.map((item) => (
         <GoodsSearchItem key={item.id} searchGoods={item} onUpdateSelectedGoods={onUpdateSelectedGoods} />
       ))}

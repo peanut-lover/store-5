@@ -1,7 +1,7 @@
 import useInput from '@src/hooks/useInput';
 import { styled } from '@src/lib/CustomStyledComponent';
 import { BsSearch } from 'react-icons/bs';
-import React, { useCallback, useState } from 'react';
+import React, { FormEvent, useCallback, useState } from 'react';
 import SearchAPI from '@src/apis/searchAPI';
 import { debounce } from '@src/utils/debounce';
 import useAutoSearch from '@src/hooks/useAutoSearch';
@@ -19,38 +19,56 @@ const GoodsSearchInput: React.FC<Props> = ({ onUpdateSelectedGoods }) => {
   const [autoSearchList, fetchAutoSearch] = useAutoSearch();
   const [isInputFocused, setIsInputFocused] = useState(false);
 
+  const handleSubmit = (e: FormEvent) => {
+    e.preventDefault();
+    if (autoSearchList) {
+      onUpdateSelectedGoods(autoSearchList[0]);
+      setIsInputFocused(false);
+    }
+  };
+
   const handleKeywordMatching = useCallback(
     (e) => {
+      if (!isInputFocused) setIsInputFocused(true);
       const keyword = e.target.value;
       debounce(async () => {
         await fetchAutoSearch(keyword);
       }, 100);
     },
-    [SearchAPI.getAutoSearchList]
+    [SearchAPI.getAutoSearchList, isInputFocused]
   );
 
   const handleInputFocuseFalse = useCallback(() => {
     setIsInputFocused(false);
   }, [setIsInputFocused]);
+
   const handleInputFocuseTrue = useCallback(() => {
     setIsInputFocused(true);
   }, [setIsInputFocused]);
 
+  const handleSelectedGoods = useCallback(
+    (goods: AutoSearch) => {
+      onUpdateSelectedGoods(goods);
+      setIsInputFocused(false);
+    },
+    [onUpdateSelectedGoods, setIsInputFocused]
+  );
+
   return (
     <>
-      <SearchInputForm>
+      <SearchInputForm onSubmit={handleSubmit}>
         <SearchInput
           type='text'
           value={searchValue}
           onChange={onChangeSearchValue}
           onInput={handleKeywordMatching}
           onBlur={handleInputFocuseFalse}
-          onFocus={handleInputFocuseTrue}
+          onClick={handleInputFocuseTrue}
           placeholder={INPUT_PLACEHOLDER}
         />
         <BsSearch size='1.3em' cursor='pointer' />
         {autoSearchList.length > 0 && isInputFocused && (
-          <GoodsSearchList searchList={autoSearchList} onUpdateSelectedGoods={onUpdateSelectedGoods} />
+          <GoodsSearchList searchList={autoSearchList} onUpdateSelectedGoods={handleSelectedGoods} />
         )}
       </SearchInputForm>
     </>
