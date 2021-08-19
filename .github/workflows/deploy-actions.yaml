@@ -32,7 +32,9 @@ jobs:
         working-directory: ./frontend/client
 
       - name: Build in Client App
-        run: npm run build
+        run: |
+          npm run build
+          rm -r node_modules
         working-directory: ./frontend/client
 
       - name: Install Dependency in Admin App
@@ -43,6 +45,7 @@ jobs:
       - name: Build Dependency in Admin App
         run: |
           npm run build
+          rm -r node_modules
         working-directory: ./frontend/admin
 
       - name: Install Dependency in Server
@@ -50,7 +53,9 @@ jobs:
         working-directory: ./backend
 
       - name: Build in Server
-        run: npm run build
+        run: |
+          npm run build
+          rm -r node_modules
         working-directory: ./backend
 
       - name: Move Bundle Files to Server Public
