@@ -5,12 +5,6 @@ import { GetAllOrderByUserIdProps } from '../types/Order';
 import { BadRequestError } from '../errors/client.error';
 import { INVALID_DATA } from '../constants/client-error-name';
 
-async function getOrders(req: Request, res: Response) {
-  const userId = req.userId;
-  const result = await OrderService.getOrders(userId);
-  res.status(200).send({ result });
-}
-
 async function getOrdersPagination(req: Request, res: Response) {
   const { page, limit } = req.query;
   if (page === undefined || limit === undefined) {
@@ -33,7 +27,6 @@ async function createOrder(req: CreateOrderRequest, res: Response) {
 }
 
 export const OrderController = {
-  getOrders,
   getOrdersPagination,
   createOrder,
 };

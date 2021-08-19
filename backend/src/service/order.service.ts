@@ -20,13 +20,6 @@ type OrderGoodsInfo = OrderItem & {
   goods: Goods;
 };
 
-async function getOrders(userId: number): Promise<GetOrderListResponse> {
-  const ordersResponse: GetOrderListResponse = [];
-  const orders = await OrderListRepository.getOrders(userId);
-  await Promise.all(orders.map((order) => processGetOrderData(order, ordersResponse)));
-  return ordersResponse;
-}
-
 async function getOrdersPagination(
   { page, limit }: GetAllOrderByUserIdProps,
   userId: number
@@ -41,8 +34,8 @@ async function getOrdersPagination(
   };
   const orders = await OrderListRepository.getOwnOrdersPagination(option, userId);
 
-  const processedOrderList: OrderListWithThumbnail[] = [];
-  await Promise.all(orders.map((order) => processGetOrderData(order, processedOrderList)));
+  const processedOrderList = await Promise.all(orders.map((order) => processAppendingThumbnailAndTitle(order)));
+
   return {
     meta: {
       page: newPage,
@@ -75,20 +68,26 @@ async function createOrderItem(orderedItem: OrderGoods, orderListId: number): Pr
   });
 }
 
-// TODO: (jiho) 함수형으로 리팩토링 필요해보이는 코드
-async function processGetOrderData(order: OrderList, ordersResponse: GetOrderListResponse) {
+async function processAppendingThumbnailAndTitle(order: OrderList): Promise<OrderListWithThumbnail> {
   const orderItems = await OrderItemRepository.getAllOrderItemByListId(order.id);
   if (orderItems.length < 1) throw new BadRequestError(INVALID_DATA);
-  const orderItemInfo = (await OrderItemRepository.findOrderGoodsInfoById(orderItems[0].id)) as OrderGoodsInfo;
+
+  // 가장 맨 처음 탐색되는 주문 아이템이 thumbnail이 된다.
+  const orderItemInfo = await OrderItemRepository.findOrderGoodsInfoById(orderItems[0].id);
   if (!orderItemInfo) throw new BadRequestError(INVALID_DATA);
+
   const count = orderItems.length - 1;
-  const title = `${orderItemInfo.goods.title}외 ${count}건 주문`;
+  const title = `${orderItemInfo.goods.title} 외 ${count}건 주문`;
   const thumbnailUrl = orderItemInfo.goods.thumbnailUrl;
-  ordersResponse.push({ ...order, title, thumbnailUrl });
+
+  return {
+    ...order,
+    title,
+    thumbnailUrl,
+  };
 }
 
 export const OrderService = {
-  getOrders,
   getOrdersPagination,
   createOrder,
 };

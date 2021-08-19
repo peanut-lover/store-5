@@ -35,9 +35,9 @@ export class OrderItem {
 
   @ManyToOne(() => Goods, (goods) => goods.id)
   @JoinColumn()
-  goods: number;
+  goods: Goods;
 
   @ManyToOne(() => OrderList, (orderList) => orderList.id)
   @JoinColumn()
-  orderList: number;
+  orderList: OrderList;
 }
