@@ -11,8 +11,8 @@ export interface Order {
   title: string;
   payment: Payment;
   zipCode: string;
-  updatedAt: Date;
-  createdAt: Date;
+  updatedAt: string;
+  createdAt: string;
 }
 
 export interface OrderPaginationResult {
