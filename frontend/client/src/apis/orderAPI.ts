@@ -1,3 +1,4 @@
+import { Order, OrderPaginationResult } from '@src/types/Order';
 import { APIResponse, checkedFetch } from './base';
 
 interface GoodsInfoForOrder {
@@ -15,7 +16,7 @@ interface SubmitOrderBody {
   paymentId: number;
 }
 
-export const submitOrder = async (orderData: SubmitOrderBody): Promise<APIResponse<any>> => {
+export const submitOrder = async (orderData: SubmitOrderBody): Promise<boolean> => {
   const res = await checkedFetch(`/api/order`, {
     method: 'POST',
     credentials: 'include',
@@ -24,5 +25,23 @@ export const submitOrder = async (orderData: SubmitOrderBody): Promise<APIRespon
       'Content-Type': 'application/json',
     },
   });
+  return true;
+};
+
+export const getOrders = async (page: number, limit: number): Promise<APIResponse<OrderPaginationResult>> => {
+  const res = await checkedFetch(`/api/order?page=${page}&limit=${limit}`, {
+    method: 'GET',
+    credentials: 'include',
+    headers: {
+      'Content-Type': 'application/json',
+    },
+  });
   return await res.json();
 };
+
+const OrderAPI = {
+  submitOrder,
+  getOrders,
+};
+
+export default OrderAPI;

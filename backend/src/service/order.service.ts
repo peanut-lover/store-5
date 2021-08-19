@@ -7,8 +7,14 @@ import { OrderItemRepository } from '../repository/order.item.repository';
 import { GoodsRepository } from '../repository/goods.repository';
 import { BadRequestError } from '../errors/client.error';
 import { INVALID_DATA } from '../constants/client-error-name';
-import { OrderGoods } from '../types/Order';
-import { GetOrderListResponse } from '../types/response/order.response';
+import { GetAllOrderByUserIdProps, OrderGoods } from '../types/Order';
+import {
+  GetOrderListResponse,
+  OrderListPaginationResponse,
+  OrderListWithThumbnail,
+} from '../types/response/order.response';
+import { getTotalPage, pagination } from '../utils/pagination';
+import { PaginationProps } from '../types/Pagination';
 
 type OrderGoodsInfo = OrderItem & {
   goods: Goods;
@@ -19,6 +25,33 @@ async function getOrders(userId: number): Promise<GetOrderListResponse> {
   const orders = await OrderListRepository.getOrders(userId);
   await Promise.all(orders.map((order) => processGetOrderData(order, ordersResponse)));
   return ordersResponse;
+}
+
+async function getOrdersPagination(
+  { page, limit }: GetAllOrderByUserIdProps,
+  userId: number
+): Promise<OrderListPaginationResponse> {
+  const totalCount = await OrderListRepository.getOwnOrderTotalCount(userId);
+
+  const newPage = Math.min(getTotalPage(totalCount, limit), page);
+
+  const option: PaginationProps = {
+    offset: pagination.calculateOffset(newPage, limit),
+    limit,
+  };
+  const orders = await OrderListRepository.getOwnOrdersPagination(option, userId);
+
+  const processedOrderList: OrderListWithThumbnail[] = [];
+  await Promise.all(orders.map((order) => processGetOrderData(order, processedOrderList)));
+  return {
+    meta: {
+      page: newPage,
+      limit,
+      totalPage: getTotalPage(totalCount, limit),
+      totalCount,
+    },
+    orderList: processedOrderList,
+  };
 }
 
 async function createOrder(userId: number, body: CreateOrderBody): Promise<OrderList> {
@@ -42,6 +75,7 @@ async function createOrderItem(orderedItem: OrderGoods, orderListId: number): Pr
   });
 }
 
+// TODO: (jiho) 함수형으로 리팩토링 필요해보이는 코드
 async function processGetOrderData(order: OrderList, ordersResponse: GetOrderListResponse) {
   const orderItems = await OrderItemRepository.getAllOrderItemByListId(order.id);
   if (orderItems.length < 1) throw new BadRequestError(INVALID_DATA);
@@ -55,5 +89,6 @@ async function processGetOrderData(order: OrderList, ordersResponse: GetOrderLis
 
 export const OrderService = {
   getOrders,
+  getOrdersPagination,
   createOrder,
 };

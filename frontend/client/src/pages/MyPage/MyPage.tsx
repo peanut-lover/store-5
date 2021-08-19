@@ -8,6 +8,7 @@ import MyWishListView from '@src/pages/MyPage/MyWishListView/MyWishListView';
 import styled from 'styled-components';
 import MyAddressView from '@src/pages/MyPage/MyAddressView/MyAddressView';
 import useUserState from '@src/hooks/useUserState';
+import MyOrderListView from '@src/pages/MyPage/MyOrderListView/MyOrderListView';
 
 const MyPage = () => {
   const [user] = useUserState();
@@ -23,6 +24,9 @@ const MyPage = () => {
       </MyPageNavContainer>
       <MyPageContentContainer>
         <Routes>
+          <Route path='/mypage/order'>
+            <MyOrderListView />
+          </Route>
           <Route path='/mypage/address'>
             <MyAddressView />
           </Route>

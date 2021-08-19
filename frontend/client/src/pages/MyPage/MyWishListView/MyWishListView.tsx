@@ -20,7 +20,7 @@ const MyWishListView = () => {
 
   useEffect(() => {
     fetchWishGoodsList();
-  }, []);
+  }, [currentPage]);
 
   return (
     <MyWishListViewContainer>

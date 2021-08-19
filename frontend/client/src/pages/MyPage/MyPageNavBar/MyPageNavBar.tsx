@@ -20,6 +20,9 @@ const MyPageNavBar = () => {
       <SubNav title='상품'>
         <NavItem name='찜 리스트' to={'/mypage/wish'} />
       </SubNav>
+      <SubNav title='주문/배송'>
+        <NavItem name='내 주문' to={'/mypage/order'} />
+      </SubNav>
     </div>
   );
 };
