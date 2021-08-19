@@ -1,3 +1,4 @@
+import { trigger } from '@src/utils/customEvent';
 import React, { useCallback, useMemo, useEffect, useState, useContext, createContext } from 'react';
 
 interface RouterContextType {
@@ -22,10 +23,12 @@ export const Router: React.FC = ({ children }) => {
   const handlePush = useCallback((newLocation) => {
     window.history.pushState({}, '', newLocation);
     setLocation(newLocation);
+    trigger('locationChange', { location: newLocation });
   }, []);
 
   const handleHashChange = useCallback(() => {
     setLocation(window.location.pathname);
+    trigger('locationChange', { location: window.location.pathname });
   }, []);
 
   useEffect(() => {

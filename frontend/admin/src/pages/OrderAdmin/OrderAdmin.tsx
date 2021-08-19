@@ -1,0 +1,7 @@
+import React from 'react';
+
+const OrderAdmin = () => {
+  return <div>주문 관리 페이지</div>;
+};
+
+export default OrderAdmin;
