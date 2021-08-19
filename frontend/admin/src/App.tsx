@@ -13,6 +13,9 @@ export default function App() {
       <Router>
         <Header />
         <Routes>
+          <Route path='/'>
+            <PromotionAdmin />
+          </Route>
           <Route path='/admin'>
             <Routes>
               <Route path='/admin/goods'>

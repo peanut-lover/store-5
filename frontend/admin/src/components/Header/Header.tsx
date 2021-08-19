@@ -5,7 +5,7 @@ import OrderAdminIcon from '@src/components/Header/OrderAdminIcon/OrderAdminIcon
 import PromotionAdminIcon from '@src/components/Header/PromotionAdminIcon/PromotionAdminIcon';
 import { useLocation, usePushHistory } from '@src/lib/CustomRouter/CustomRouter';
 import { styled } from '@src/lib/CustomStyledComponent';
-import React, { useCallback, useEffect, useState } from 'react';
+import React, { useEffect, useState } from 'react';
 
 const Header = () => {
   const [currentPath, setCurrentPath] = useState<string>('/');

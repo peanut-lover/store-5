@@ -10,11 +10,11 @@ interface Props {
 
 const GoodsImageUploader: React.FC<Props> = ({ onHandleUpdateFiles, onHandleDeleteFile }) => {
   const [previewImages, setPreviewImages] = useState<string[]>([]);
-  const imageInput = useRef<HTMLInputElement>(null);
+  const imageInputRef = useRef<HTMLInputElement>(null);
 
   const handleImageUpload = useCallback(() => {
-    imageInput.current && imageInput.current.click();
-  }, [imageInput.current]);
+    imageInputRef.current && imageInputRef.current.click();
+  }, [imageInputRef.current]);
 
   const handleAddImages = useCallback(
     (e) => {
@@ -42,7 +42,7 @@ const GoodsImageUploader: React.FC<Props> = ({ onHandleUpdateFiles, onHandleDele
     <ImageUploaderContainer>
       <ImageIconButton onClick={handleImageUpload} />
       <GoodsImagePreviews previewImages={previewImages} onDeleteImage={handleDeleteImage} />
-      <input ref={imageInput} type='file' accept='.jpg, .png, .jpeg' hidden multiple onChange={handleAddImages} />
+      <input ref={imageInputRef} type='file' accept='.jpg, .png, .jpeg' hidden multiple onChange={handleAddImages} />
     </ImageUploaderContainer>
   );
 };
