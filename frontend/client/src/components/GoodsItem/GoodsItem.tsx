@@ -5,6 +5,7 @@ import { BsHeart, BsFillBucketFill, BsFillHeartFill } from 'react-icons/bs';
 import { BestTag, GreenTag, NewTag, SaleTag } from '../Tag';
 import { getPriceText } from '@src/utils/price';
 import { deleteWish, postWish } from '@src/apis/wishAPI';
+import theme from '@src/theme/theme';
 
 export type GoodsItemSize = 'small' | 'middle' | 'big';
 
@@ -84,7 +85,7 @@ const GoodsItem: React.FC<Props> = ({
         <GoodsImageOverlay />
         <GoodsUtilBtnContainer>
           <GoodsUtilBtn onClick={handleToWish}>
-            {isWished ? <BsFillHeartFill size={20} /> : <BsHeart size={20} />}
+            {isWished ? <BsFillHeartFill size={20} fill={theme.primary} /> : <BsHeart size={20} />}
           </GoodsUtilBtn>
           <GoodsUtilBtn onClick={handleClickUtliButton}>
             <BsFillBucketFill size={20} />
