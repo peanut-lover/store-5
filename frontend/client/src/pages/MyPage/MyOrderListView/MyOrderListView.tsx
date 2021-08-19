@@ -66,6 +66,7 @@ const OrderCardList = styled.ul`
   display: flex;
   flex-wrap: wrap;
   flex-direction: column;
+  height: 500px;
 `;
 
 export default MyOrderListView;
