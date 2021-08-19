@@ -25,7 +25,7 @@ const GoodsInteractive: React.FC<Props> = ({ goods }) => {
     if (disabled) return;
     setDisabled(true);
     try {
-      const result = await (isWished ? deleteWish(id) : postWish(id));
+      const result = isWished ? await deleteWish(id) : await postWish(id);
       if (result) setIsWished(!isWished);
     } catch (error) {
       console.log(error);

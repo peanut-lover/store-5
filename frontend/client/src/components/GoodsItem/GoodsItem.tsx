@@ -62,7 +62,7 @@ const GoodsItem: React.FC<Props> = ({
     async (e: React.MouseEvent) => {
       e.stopPropagation();
       try {
-        const result = await (isWished ? deleteWish(id) : postWish(id));
+        const result = isWished ? await deleteWish(id) : await postWish(id);
         if (result) setIsWished(!isWished);
       } catch (error) {
         console.log(error);
