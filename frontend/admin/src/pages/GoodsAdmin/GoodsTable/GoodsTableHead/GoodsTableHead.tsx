@@ -1,20 +1,68 @@
 import React from 'react';
+import { FaAngleDown } from 'react-icons/fa';
 import { styled } from '@src/lib/CustomStyledComponent';
 
 const GoodsTableHead = () => {
+  const handleSortGoods = () => {
+    console.log(1);
+  };
   return (
     <GoodsTableHeadContainer>
       <TableRow>
-        <TableHeadData>썸네일</TableHeadData>
-        <TableHeadData>상품명</TableHeadData>
-        <TableHeadData>가격</TableHeadData>
-        <TableHeadData>할인율</TableHeadData>
-        <TableHeadData>재고</TableHeadData>
-        <TableHeadData>판매량</TableHeadData>
-        <TableHeadData>등록일</TableHeadData>
-        <TableHeadData>최종 수정일</TableHeadData>
-        <TableHeadData>상태</TableHeadData>
-        <TableHeadData>카테고리</TableHeadData>
+        <TableHeadData>
+          <SortButton onClick={handleSortGoods}>
+            <ButtonText>썸네일</ButtonText>
+            <FaAngleDown />
+          </SortButton>
+        </TableHeadData>
+        <TableHeadData>
+          <SortButton onClick={handleSortGoods}>
+            <ButtonText>상품명</ButtonText>
+            <FaAngleDown />
+          </SortButton>
+        </TableHeadData>
+        <TableHeadData>
+          <SortButton onClick={handleSortGoods}>
+            <ButtonText>가격</ButtonText>
+            <FaAngleDown />
+          </SortButton>
+        </TableHeadData>
+        <TableHeadData>
+          <SortButton onClick={handleSortGoods}>
+            <ButtonText>할인율</ButtonText>
+            <FaAngleDown />
+          </SortButton>
+        </TableHeadData>
+        <TableHeadData>
+          <SortButton onClick={handleSortGoods}>
+            <ButtonText>재고</ButtonText>
+            <FaAngleDown />
+          </SortButton>
+        </TableHeadData>
+        <TableHeadData>
+          <SortButton onClick={handleSortGoods}>
+            <ButtonText>판매량</ButtonText>
+            <FaAngleDown />
+          </SortButton>
+        </TableHeadData>
+        <TableHeadData>
+          <SortButton onClick={handleSortGoods}>
+            <ButtonText>상품 등록일</ButtonText>
+            <FaAngleDown />
+          </SortButton>
+        </TableHeadData>
+        <TableHeadData>
+          <SortButton onClick={handleSortGoods}>
+            <ButtonText>최종 수정일</ButtonText>
+            <FaAngleDown />
+          </SortButton>
+        </TableHeadData>
+        <TableHeadData>
+          <ButtonText>상태</ButtonText>
+        </TableHeadData>
+        <TableHeadData>
+          <ButtonText>카테고리</ButtonText>
+        </TableHeadData>
       </TableRow>
     </GoodsTableHeadContainer>
   );
@@ -30,8 +78,21 @@ const TableRow = styled('tr')``;
 
 const TableHeadData = styled('th')`
   padding: 4px;
-
   vertical-align: middle;
+`;
+
+const SortButton = styled('button')`
+  border: 0;
+  font-size: 14px;
+  font-weight: 600;
+  padding: 0.25rem;
+  background-color: transparent;
+  cursor: pointer;
+`;
+
+const ButtonText = styled('span')`
+  display: inline-block;
+  margin-right: 0.25rem;
 `;
 
 export default GoodsTableHead;
