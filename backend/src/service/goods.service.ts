@@ -1,5 +1,5 @@
 import { GoodsImg } from './../entity/GoodsImg';
-import { ColumnTypeUndefinedError, getConnection, MoreThan } from 'typeorm';
+import { getConnection, MoreThan } from 'typeorm';
 import { Goods } from '../entity/Goods';
 import { GoodsRepository } from '../repository/goods.repository';
 import {
@@ -137,7 +137,7 @@ async function getAllGoodsByUserId({ page, limit, userId }: GetAllByUserIdProps)
 }
 
 // TODO: 각 조회를 하나의 함수로 분리?
-async function getMainGoodsListMap(): Promise<{
+async function getMainGoodsListMap(userId?: number): Promise<{
   bestGoodsList: TaggedGoodsType[];
   latestGoodsList: TaggedGoodsType[];
   discountGoodsList: TaggedGoodsType[];
@@ -158,6 +158,14 @@ async function getMainGoodsListMap(): Promise<{
   const bestGoodsList = await GoodsRepository.findAllByColumnName(bestProps);
   const latestGoodsList = await GoodsRepository.findAllByColumnName(latestProps);
   const discountGoodsList = await GoodsRepository.findAllByColumnName(discountProps);
+  if (userId) {
+    const wishSet = new Set(await WishRepository.findWishByUserId(userId));
+    if (wishSet) {
+      bestGoodsList.forEach((goods) => (goods.isWish = wishSet.has(goods.id)));
+      latestGoodsList.forEach((goods) => (goods.isWish = wishSet.has(goods.id)));
+      discountGoodsList.forEach((goods) => (goods.isWish = wishSet.has(goods.id)));
+    }
+  }
   return {
     bestGoodsList,
     latestGoodsList,

@@ -36,16 +36,16 @@ async function createGoods(req: CreateGoodsRequest, res: Response) {
   res.status(201).json({ result });
 }
 
-// TODO: 테스트 문의
 async function getGoodsDetail(req: Request, res: Response) {
   const goodsId = Number(req.params.id);
-  const userId = req.userId;
+  const userId = req.session.userId;
   const result = await GoodsService.getDetailById(goodsId, userId);
   res.status(200).json({ result });
 }
 
 async function getAllGoodsCategory(req: Request, res: Response) {
   const { page, category, flag = GoodsFlag.latest, limit, state = GoodsStateMap.sale } = req.query;
+  const userId = req.session.userId;
   // TODO : 타입 체크
   const GoodsListParams: GetAllByCategoryProps = {
     categoryName: String(category),
@@ -53,7 +53,7 @@ async function getAllGoodsCategory(req: Request, res: Response) {
     flag: String(flag) as GoodsFlag,
     limit: Number(limit),
     state: String(state) as GoodsState,
-    userId: req.userId,
+    userId,
   };
 
   const result = await GoodsService.getAllSaleGoodsByCategory(GoodsListParams);
@@ -62,28 +62,14 @@ async function getAllGoodsCategory(req: Request, res: Response) {
 
 async function getAllSaleGoodsByKeyword(req: Request, res: Response) {
   const { page, keyword, limit, state = GoodsStateMap.sale } = req.query;
+  const userId = req.session.userId;
   // TODO : 타입 체크
   const GoodsListParams: GetAllByKeywordProps = {
     keyword: String(keyword),
     page: Number(page),
     limit: Number(limit),
     state: String(state) as GoodsState,
-    userId: req.userId,
-  };
-
-  const result = await GoodsService.getAllSaleGoodsByKeyword(GoodsListParams);
-  return res.status(200).json({ result });
-}
-
-async function getAllGoodsByUserId(req: Request, res: Response) {
-  const { page, keyword, limit, state = GoodsStateMap.sale } = req.query;
-  // TODO : 타입 체크
-  const GoodsListParams: GetAllByKeywordProps = {
-    keyword: String(keyword),
-    page: Number(page),
-    limit: Number(limit),
-    state: String(state) as GoodsState,
-    userId: req.userId,
+    userId,
   };
 
   const result = await GoodsService.getAllSaleGoodsByKeyword(GoodsListParams);
@@ -91,7 +77,8 @@ async function getAllGoodsByUserId(req: Request, res: Response) {
 }
 
 async function getMainGoodsListMap(req: Request, res: Response) {
-  const result = await GoodsService.getMainGoodsListMap();
+  const userId = req.session.userId;
+  const result = await GoodsService.getMainGoodsListMap(userId);
   return res.status(200).json({ result });
 }
 

@@ -1,5 +1,6 @@
 import { createCart } from '@src/apis/cartAPI';
 import { getGoodsDetail, getGoodsStockCount } from '@src/apis/goodsAPI';
+import { usePushHistory } from '@src/lib/CustomRouter';
 import MainImage from '@src/pages/GoodsDetail/GoodsImageSection/Mainimage/MainImage';
 import GoodsInfo from '@src/pages/GoodsDetail/GoodsInfo/GoodsInfo';
 import GoodsAmount from '@src/pages/GoodsDetail/GoodsInteractive/GoodsAmount/GoodsAmount';
@@ -12,10 +13,14 @@ interface Props {
   goodsId: number;
 }
 
+// TODO: 에러 및 구매 불가 안내 (토스트 팝업)
 const CartForm: React.FC<Props> = ({ goodsId }) => {
+  const push = usePushHistory();
+
   const [goods, setGoods] = useState<DetailGoods | null>(null);
   const [isOver, setIsOver] = useState(false);
   const [amount, setAmount] = useState(0);
+  const [disabled, setDisabled] = useState(false);
 
   const fetchDetailGoods = async (goodsId: number) => {
     try {
@@ -38,13 +43,17 @@ const CartForm: React.FC<Props> = ({ goodsId }) => {
   };
 
   const addToCart = useCallback(async () => {
-    if (isOver) {
-      // 수량 초과 모달
-    } else {
-      // 장바구니 이동
-      const result = await createCart({ goodsId, amount });
+    if (isOver || disabled || amount === 0) return;
+    setDisabled(true);
+    try {
+      await createCart({ goodsId, amount });
+      push('/cart');
+    } catch (error) {
+      console.log(error);
+    } finally {
+      setDisabled(false);
     }
-  }, [amount]);
+  }, [amount, disabled, isOver]);
 
   useEffect(() => {
     fetchDetailGoods(goodsId);

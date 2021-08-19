@@ -156,7 +156,7 @@ const TotalPrice = styled.div`
 `;
 
 const OverStock = styled.div`
-  font-size: 1.875rem;
+  font-size: 1.25rem;
   color: ${theme.warning};
 `;
 

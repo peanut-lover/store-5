@@ -2,6 +2,7 @@ import React, { RefObject, useCallback, useRef } from 'react';
 import styled from 'styled-components';
 import { FaRegHeart, FaHeart } from 'react-icons/fa';
 import { Link } from '@src/lib/CustomRouter';
+import theme from '@src/theme/theme';
 
 interface Props {
   isWish: boolean;
@@ -13,19 +14,11 @@ interface Props {
   onOrder: () => void;
 }
 
-const GoodsButtons: React.FC<Props> = ({
-  goodsId,
-  amount,
-  isWish,
-  fetchCheckStock,
-  onToggleWish,
-  addToCart,
-  onOrder,
-}) => {
+const GoodsButtons: React.FC<Props> = ({ isWish, onToggleWish, addToCart, onOrder }) => {
   return (
     <>
       <GoodsButtonsContainer>
-        <WishButton onClick={onToggleWish}>{isWish ? <FaHeart /> : <FaRegHeart />}</WishButton>
+        <WishButton onClick={onToggleWish}>{isWish ? <FaHeart fill={theme.primary} /> : <FaRegHeart />}</WishButton>
         <CartButton onClick={addToCart}>장바구니</CartButton>
         <OrderButton onClick={onOrder}>바로 구매</OrderButton>
       </GoodsButtonsContainer>

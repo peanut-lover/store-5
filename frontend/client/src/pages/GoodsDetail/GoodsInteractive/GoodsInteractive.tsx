@@ -6,59 +6,76 @@ import { deleteWish, postWish } from '@src/apis/wishAPI';
 import { getGoodsStockCount } from '@src/apis/goodsAPI';
 import { createCart } from '@src/apis/cartAPI';
 import usePushToOrderPage from '@src/hooks/usePushToOrderPage';
+import { usePushHistory } from '@src/lib/CustomRouter';
 
 interface Props {
   goods: DetailGoods;
 }
 
+// TODO: 에러 및 구매 불가 안내 (토스트 팝업)
 const GoodsInteractive: React.FC<Props> = ({ goods }) => {
   const { id, title, price, deliveryFee = 0, discountRate = 0, isWish = false } = goods;
   const pushToOrderPage = usePushToOrderPage();
-
+  const push = usePushHistory();
   const [isWished, setIsWished] = useState(isWish);
   const [isOver, setIsOver] = useState(false);
   const [amount, setAmount] = useState(0);
-
+  const [disabled, setDisabled] = useState(false);
   const handleToWish = useCallback(async () => {
-    const result = await (isWished ? deleteWish(id) : postWish(id));
-    if (result) setIsWished(!isWished);
-  }, [isWished]);
+    if (disabled) return;
+    setDisabled(true);
+    try {
+      const result = isWished ? await deleteWish(id) : await postWish(id);
+      if (result) setIsWished(!isWished);
+    } catch (error) {
+      console.log(error);
+    } finally {
+      setDisabled(false);
+    }
+  }, [isWished, disabled]);
 
-  // const handleToWish = useCallback(async () => {}, []);
-  const handleAddToCart = useCallback(() => {
-    console.log('장바구니 추가 API', 'goods id:', id);
-  }, []);
-
-  const handleAddToOrder = () => {
+  const handleAddToOrder = useCallback(async () => {
+    if (isOver || disabled || amount === 0) return;
     const orderGoods: GoodsBeforeOrder = { goods, amount };
     pushToOrderPage([orderGoods]);
-  };
+  }, [isOver, disabled, amount]);
 
   const addToCart = useCallback(async () => {
-    console.log('장바구니 추가 API', 'goods id:', id);
-    if (isOver) {
-      // 수량 초과 모달
-    } else {
-      const result = await createCart({ goodsId: id, amount });
-      // 장바구니 이동 안내 모달
-    }
-  }, [amount]);
-
-  const fetchCheckStock = async (goodsId: number) => {
+    if (isOver || disabled || amount === 0) return;
+    setDisabled(true);
     try {
-      const data = await getGoodsStockCount(goodsId);
+      await createCart({ goodsId: id, amount });
+      push('/cart');
+    } catch (error) {
+      console.log(error);
+    } finally {
+      setDisabled(false);
+    }
+  }, [isOver, amount, disabled]);
+
+  const fetchCheckStock = async () => {
+    if (disabled) return;
+    setDisabled(true);
+    try {
+      const data = await getGoodsStockCount(id);
       const stock = data.result;
       if (stock < amount) setIsOver(true);
       else setIsOver(false);
     } catch (e) {
-      // TODO: 구매 불가능한 상태에 대한 처리 필요.
       setIsOver(false);
+    } finally {
+      setDisabled(false);
     }
   };
 
   useEffect(() => {
-    fetchCheckStock(id);
+    fetchCheckStock();
   }, [amount]);
+
+  useEffect(() => {
+    setIsWished(isWish);
+    setAmount(0);
+  }, [id]);
 
   return (
     <div>
