@@ -10,15 +10,18 @@ interface Props {
   onToggleWish: () => void;
   addToCart: () => void;
   fetchCheckStock: (goodsId: number) => Promise<void>;
+  onOrder: () => void;
 }
 
-const GoodsButtons: React.FC<Props> = ({ goodsId, amount, isWish, fetchCheckStock, onToggleWish, addToCart }) => {
-  const onOrder = useCallback(async () => {
-    await fetchCheckStock(goodsId);
-    // 페이지 이동 처리
-    // TODO: 어진님이 이미 작업하셔서 패스했습니다! 감사합니다!! :)
-  }, [amount]);
-
+const GoodsButtons: React.FC<Props> = ({
+  goodsId,
+  amount,
+  isWish,
+  fetchCheckStock,
+  onToggleWish,
+  addToCart,
+  onOrder,
+}) => {
   return (
     <>
       <GoodsButtonsContainer>

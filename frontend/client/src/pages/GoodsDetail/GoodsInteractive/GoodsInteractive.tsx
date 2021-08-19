@@ -72,6 +72,7 @@ const GoodsInteractive: React.FC<Props> = ({ goods }) => {
         setAmount={setAmount}
       />
       <GoodsButtons
+        onOrder={handleAddToOrder}
         isWish={isWished}
         amount={amount}
         goodsId={id}
