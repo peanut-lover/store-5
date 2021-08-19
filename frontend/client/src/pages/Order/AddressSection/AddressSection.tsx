@@ -30,11 +30,16 @@ const AddressInfo: React.FC<Prop> = ({ onChangeSelectedAddress }) => {
 
   useEffect(() => {
     async function fetchAddress() {
-      const { result } = await AddressAPI.getAddresses();
-      let targetAddress = result.find((addressInfo) => addressInfo.isDefault);
-      if (!targetAddress) targetAddress = result[0];
-      handleSelectedAddress(targetAddress);
-      setIsAddressFetched(true);
+      try {
+        const { result } = await AddressAPI.getAddresses();
+        let targetAddress = result.find((addressInfo) => addressInfo.isDefault);
+        if (!targetAddress) targetAddress = result[0];
+        handleSelectedAddress(targetAddress);
+        setIsAddressFetched(true);
+      } catch (err) {
+        alert('서버 문제로 정보업데이트에 실패했습니다.');
+        console.error(err);
+      }
     }
 
     fetchAddress();

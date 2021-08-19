@@ -15,9 +15,14 @@ const PaymentRadioSelector: React.FC<Props> = ({ selectedPaymentId, onSelectPaym
 
   useEffect(() => {
     async function fetchPayments() {
-      const { result } = await getPayments();
-      setPayments(result);
-      setIsFetched(true);
+      try {
+        const { result } = await getPayments();
+        setPayments(result);
+        setIsFetched(true);
+      } catch (err) {
+        alert('서버 문제로 정보업데이트에 실패했습니다.');
+        console.error(err);
+      }
     }
     fetchPayments();
   }, []);
