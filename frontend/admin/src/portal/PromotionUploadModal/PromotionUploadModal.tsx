@@ -1,7 +1,8 @@
+import React, { useCallback, useState } from 'react';
 import { styled } from '@src/lib/CustomStyledComponent';
 import Portal from '@src/portal/portal';
 import PromotionImageUploader from '@src/portal/PromotionUploadModal/PromotionImageUploader/PromotionImageUploader';
-import React, { useCallback, useState } from 'react';
+import GoodsSearchInput from '@src/components/GoodsSearchInput/GoodsSearchInput';
 
 const PromotionUploadModal = () => {
   const [promotionFile, setPromotionFile] = useState<File>();
@@ -17,6 +18,9 @@ const PromotionUploadModal = () => {
       <ModalContainer>
         <PromotionUploadContainer>
           <PromotionImageUploader onUploadFile={handleUploadFile} />
+          <GoodsSearchInput />
+          <div>검색된 Goods</div>
+          <button>등록</button>
         </PromotionUploadContainer>
       </ModalContainer>
     </Portal>

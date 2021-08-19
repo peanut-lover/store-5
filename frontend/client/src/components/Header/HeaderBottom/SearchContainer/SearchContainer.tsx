@@ -1,4 +1,4 @@
-import React, { useState, useCallback, useReducer, useRef, useEffect } from 'react';
+import React, { useState, useCallback, useRef, useEffect } from 'react';
 import { BsSearch } from 'react-icons/bs';
 import styled from 'styled-components';
 import SearchHistoryEmpty from './SearchHistoryEmpty/SearchHistoryEmpty';
