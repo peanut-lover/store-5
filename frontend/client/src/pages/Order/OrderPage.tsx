@@ -16,11 +16,20 @@ import { getDiscountedPrice, getPriceText } from '@src/utils/price';
 import OrderGoodsList from './OrderGoodsList/OrderGoodsList';
 import AddressSection from './AddressSection/AddressSection';
 import { usePushHistory } from '@src/lib/CustomRouter';
+import PaymentRadioSelector from './PaymentRadioSelector/PaymentRadioSelector';
+import { submitOrder } from '@src/apis/orderAPI';
 
-// TODO: NoData, Payment fetching, 체크박스 및 배송지 벨리데이션 후 Alert
+const NEED_ADDRESS_MESSAGE = '배송지를 입력해주세요!';
+const NEED_PAYMENT_MESSAGE = '결제수단을 선택해주세요!';
+const NEED_AGREEMENT_MESSAGE = '결제 진행에 필요한 사항을 동의해주세요!';
+const DEFAULT_ORDER_MEMO = '부재 시 연락바랍니다.';
+
 const OrderPage: React.FC = () => {
   const orderGoodsList = useRecoilValue(orderState);
   const [selectedAddress, setSelectedAddress] = useState<AddressInfo | null>(null);
+  const [selectedPaymentId, setSelectedPaymentId] = useState<number | null>(null);
+  const [isAgreementChecked, setIsAgreementChecked] = useState(false);
+
   const pushHistory = usePushHistory();
 
   const reducedPrice = useMemo(
@@ -32,11 +41,30 @@ const OrderPage: React.FC = () => {
       ),
     [orderGoodsList]
   );
+
   // TODO: 배송비 정책 결정하고 대응 수정하기
   // 임시적으로 30000원 이상이면 배송비 0원, 아니면 2500원 부여
   const deliveryPrice = orderGoodsList.length !== 0 && reducedPrice < 30000 ? 2500 : 0;
   const totalPrice = reducedPrice + deliveryPrice;
 
+  // TODO: alert -> toast
+  const handleSubmit = async () => {
+    if (!selectedAddress) return alert(NEED_ADDRESS_MESSAGE);
+    if (!selectedPaymentId) return alert(NEED_PAYMENT_MESSAGE);
+    if (!isAgreementChecked) return alert(NEED_AGREEMENT_MESSAGE);
+
+    const submitOrderBody = {
+      ...selectedAddress,
+      orderMemo: DEFAULT_ORDER_MEMO,
+      paymentId: selectedPaymentId,
+      goodsList: orderGoodsList.map(({ amount, goods }) => ({ amount, id: goods.id })),
+    };
+
+    const { result } = await submitOrder(submitOrderBody);
+    console.log(result);
+  };
+
+  // TODO: NoData | NoAuthentication
   if (orderGoodsList.length === 0) {
     pushHistory('/');
     return null;
@@ -81,16 +109,22 @@ const OrderPage: React.FC = () => {
           <PaddingBox>
             <FlexColumn gap='1.5rem'>
               <Topic>결제수단 선택</Topic>
-              <CheckButtonWithLabel isCircle isChecked={true} onClick={() => {}} label='신용・체크카드' />
-              <CheckButtonWithLabel isCircle isChecked={true} onClick={() => {}} label='무통장입금(가상계좌)' />
-              <CheckButtonWithLabel isCircle isChecked={true} onClick={() => {}} label='네이버페이' />
+              <PaymentRadioSelector selectedPaymentId={selectedPaymentId} onSelectPayment={setSelectedPaymentId} />
             </FlexColumn>
           </PaddingBox>
           <Divider size={8} color='#eee' />
           <PaddingBox>
             <FlexColumn gap='1rem'>
-              <CheckButtonWithLabel isChecked={true} onClick={() => {}} label='결제 진행에 필요한 사항 동의' />
-              <Button fullWidth>{getPriceText(totalPrice)}원 결제하기</Button>
+              <CheckButtonWithLabel
+                isChecked={isAgreementChecked}
+                onClick={() => {
+                  setIsAgreementChecked(!isAgreementChecked);
+                }}
+                label='결제 진행에 필요한 사항 동의'
+              />
+              <Button fullWidth onClick={handleSubmit}>
+                {getPriceText(totalPrice)}원 결제하기
+              </Button>
             </FlexColumn>
           </PaddingBox>
         </BorderBox>
