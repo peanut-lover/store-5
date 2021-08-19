@@ -1,6 +1,6 @@
 import React from 'react';
 import { styled } from '@src/lib/CustomStyledComponent';
-import GoodsTable from './GoodsList/GoodsList';
+import GoodsTable from './GoodsTable/GoodsTable';
 
 const GoodsAdmin = () => {
   return (

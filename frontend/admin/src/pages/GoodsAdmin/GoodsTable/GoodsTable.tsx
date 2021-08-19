@@ -1,17 +1,18 @@
 import React, { useReducer } from 'react';
 import { styled } from '@src/lib/CustomStyledComponent';
-import GoodsTableRow from './GoodsTableRow/GoodsTableRow';
 import { GoodsItem } from '@src/types/Goods';
+import GoodsTableHead from '@src/pages/GoodsAdmin/GoodsTable/GoodsTableHead/GoodsTableHead';
+import GoodsTableBody from '@src/pages/GoodsAdmin/GoodsTable/GoodsTableBody/GoodsTableBody';
 
 // function
 
+// TODO : salePrice 전달해주기
 const GoodsTable = () => {
   //   // const tmp = useReducer(reduce, state);
   return (
     <GoodsTableContainer>
-      {goodsList.map((goods) => (
-        <GoodsTableRow goods={goods} />
-      ))}
+      <GoodsTableHead />
+      <GoodsTableBody goodsList={goodsList} />
     </GoodsTableContainer>
   );
 };
