@@ -9,8 +9,8 @@ interface Props {
 }
 const PreviewImage: React.FC<Props> = ({ index, url, onDeleteImage }) => (
   <PreviewImageContainer key={index}>
-    {index === 0 && <Thumbnail bgColor={theme.greenColor}>썸네일</Thumbnail>}
-    <ImageDeleteButton onClick={() => onDeleteImage(index)} bgColor={theme.greenColor}>
+    {index === 0 && <Thumbnail bgcolor={theme.greenColor}>썸네일</Thumbnail>}
+    <ImageDeleteButton onClick={() => onDeleteImage(index)} bgcolor={theme.greenColor}>
       X
     </ImageDeleteButton>
     <PreviewImageItem src={url} />
@@ -21,24 +21,24 @@ const PreviewImageContainer = styled('div')`
   position: relative;
 `;
 
-const Thumbnail = styled('div')<{ bgColor: string }>`
+const Thumbnail = styled('div')<{ bgcolor: string }>`
   position: absolute;
   width: 52px;
   top: 30px;
   left: 30px;
   border-radius: 8px;
   color: #fff;
-  background-color: ${(props) => props.bgColor};
+  background-color: ${(props) => props.bgcolor};
   text-align: center;
 `;
-const ImageDeleteButton = styled('button')<{ bgColor: string }>`
+const ImageDeleteButton = styled('button')<{ bgcolor: string }>`
   position: absolute;
   top: 16px;
   right: 12px;
   font-size: 1.2em;
   border-radius: 50%;
   border: none;
-  background-color: ${(props) => props.bgColor};
+  background-color: ${(props) => props.bgcolor};
   color: #fff;
   cursor: pointer;
 `;
