@@ -10,3 +10,20 @@ export interface CreatedGoods {
   state: string;
   thumbnailUrl: string;
 }
+
+export type GoodsItem = CreatedGoods & {
+  category: {
+    name: string;
+    id: number;
+  };
+  createdAt: string | Date;
+  updatedAt: string | Date;
+};
+
+export interface GetGoodsByOptionProps {
+  title?: string;
+  order: string;
+  page?: number;
+  limit?: number;
+  sort?: 'DESC' | 'ASC';
+}
