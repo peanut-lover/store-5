@@ -24,24 +24,22 @@ export type DetailGoods = Goods & {
   goodsImgs?: string[];
 };
 
-export type CartGoods = {
+export interface CartGoods {
   id: number;
   amount: number;
-  isSelected: boolean;
   goods: Goods;
-};
+  isSelected: boolean;
+}
+
+export interface GoodsBeforeOrder {
+  amount: number;
+  goods: Goods;
+}
 
 export type MainGoodsListResult = {
   bestGoodsList: ThumbnailGoods[];
   latestGoodsList: ThumbnailGoods[];
   discountGoodsList: ThumbnailGoods[];
-};
-
-export type OrderGoods = Goods & {
-  thumbnailUrl: string;
-  discountRate: number;
-  amount: number;
-  stock: number;
 };
 
 // TODO: 이름 바꿀 필요가 있음. GoodsPaginationResult

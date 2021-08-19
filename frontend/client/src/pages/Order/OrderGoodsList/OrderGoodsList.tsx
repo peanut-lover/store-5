@@ -1,16 +1,16 @@
-import { OrderGoods } from '@src/types/Goods';
+import { GoodsBeforeOrder } from '@src/types/Goods';
 import React from 'react';
 import OrderGoodsListItem from './OrderGoodsListItem/OrderGoodsListItem';
 
 interface Props {
-  orderGoodsList: OrderGoods[];
+  orderGoodsList: GoodsBeforeOrder[];
 }
 
 const OrderGoodsList: React.FC<Props> = ({ orderGoodsList }) => {
   return (
     <>
       {orderGoodsList.map((orderGoods) => (
-        <OrderGoodsListItem key={orderGoods.id} orderGoods={orderGoods} />
+        <OrderGoodsListItem key={orderGoods.goods.id} orderGoods={orderGoods} />
       ))}
     </>
   );
