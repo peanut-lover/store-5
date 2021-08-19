@@ -20,10 +20,20 @@ export type GoodsItem = CreatedGoods & {
   updatedAt: string | Date;
 };
 
+export interface GoodsPaginationResult {
+  goodsList: GoodsItem[];
+  meta: {
+    page: number;
+    limit: number;
+    totalPage: number;
+    totalCount: number;
+  };
+}
+
 export interface GetGoodsByOptionProps {
-  title?: string;
-  order: string;
-  page?: number;
-  limit?: number;
-  sort?: 'DESC' | 'ASC';
+  page: number;
+  limit: number;
+  keyword?: string;
+  order?: string;
+  sort?: 'ASC' | 'DESC';
 }
