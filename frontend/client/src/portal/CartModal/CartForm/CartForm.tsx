@@ -13,6 +13,7 @@ interface Props {
   goodsId: number;
 }
 
+// TODO: 에러 및 구매 불가 안내 (토스트 팝업)
 const CartForm: React.FC<Props> = ({ goodsId }) => {
   const push = usePushHistory();
 

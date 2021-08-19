@@ -12,6 +12,7 @@ interface Props {
   goods: DetailGoods;
 }
 
+// TODO: 에러 및 구매 불가 안내 (토스트 팝업)
 const GoodsInteractive: React.FC<Props> = ({ goods }) => {
   const { id, title, price, deliveryFee = 0, discountRate = 0, isWish = false } = goods;
   const pushToOrderPage = usePushToOrderPage();
