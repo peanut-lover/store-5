@@ -17,12 +17,10 @@ const GoodsInteractive: React.FC<Props> = ({ goods }) => {
   const { id, title, price, deliveryFee = 0, discountRate = 0, isWish = false } = goods;
   const pushToOrderPage = usePushToOrderPage();
   const push = usePushHistory();
-
   const [isWished, setIsWished] = useState(isWish);
   const [isOver, setIsOver] = useState(false);
   const [amount, setAmount] = useState(0);
   const [disabled, setDisabled] = useState(false);
-
   const handleToWish = useCallback(async () => {
     if (disabled) return;
     setDisabled(true);
@@ -34,17 +32,15 @@ const GoodsInteractive: React.FC<Props> = ({ goods }) => {
     } finally {
       setDisabled(false);
     }
-  }, [isWished]);
+  }, [isWished, disabled]);
 
-  const handleAddToOrder = async () => {
-    await fetchCheckStock;
+  const handleAddToOrder = useCallback(async () => {
     if (isOver || disabled || amount === 0) return;
     const orderGoods: GoodsBeforeOrder = { goods, amount };
     pushToOrderPage([orderGoods]);
-  };
+  }, [isOver, disabled, amount]);
 
   const addToCart = useCallback(async () => {
-    await fetchCheckStock;
     if (isOver || disabled || amount === 0) return;
     setDisabled(true);
     try {
@@ -55,13 +51,13 @@ const GoodsInteractive: React.FC<Props> = ({ goods }) => {
     } finally {
       setDisabled(false);
     }
-  }, [amount, isOver]);
+  }, [isOver, amount, disabled]);
 
-  const fetchCheckStock = async (goodsId: number) => {
+  const fetchCheckStock = async () => {
     if (disabled) return;
     setDisabled(true);
     try {
-      const data = await getGoodsStockCount(goodsId);
+      const data = await getGoodsStockCount(id);
       const stock = data.result;
       if (stock < amount) setIsOver(true);
       else setIsOver(false);
@@ -73,8 +69,13 @@ const GoodsInteractive: React.FC<Props> = ({ goods }) => {
   };
 
   useEffect(() => {
-    fetchCheckStock(id);
+    fetchCheckStock();
   }, [amount]);
+
+  useEffect(() => {
+    setIsWished(isWish);
+    setAmount(0);
+  }, [id]);
 
   return (
     <div>
