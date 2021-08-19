@@ -1,17 +1,23 @@
 import useInput from '@src/hooks/useInput';
 import { styled } from '@src/lib/CustomStyledComponent';
 import { BsSearch } from 'react-icons/bs';
-import React, { useCallback } from 'react';
+import React, { useCallback, useState } from 'react';
 import SearchAPI from '@src/apis/searchAPI';
 import { debounce } from '@src/utils/debounce';
 import useAutoSearch from '@src/hooks/useAutoSearch';
 import GoodsSearchList from '@src/components/GoodsSearchInput/GoodsSearchList/GoodsSearchList';
+import { AutoSearch } from '@src/types/Search';
 
 const INPUT_PLACEHOLDER = '상품을 검색해주세요.';
 
-const GoodsSearchInput: React.FC = () => {
+interface Props {
+  onUpdateSelectedGoods: (goods: AutoSearch) => void;
+}
+
+const GoodsSearchInput: React.FC<Props> = ({ onUpdateSelectedGoods }) => {
   const [searchValue, onChangeSearchValue] = useInput('');
   const [autoSearchList, fetchAutoSearch] = useAutoSearch();
+  const [isInputFocused, setIsInputFocused] = useState(false);
 
   const handleKeywordMatching = useCallback(
     (e) => {
@@ -22,6 +28,14 @@ const GoodsSearchInput: React.FC = () => {
     },
     [SearchAPI.getAutoSearchList]
   );
+
+  const handleInputFocuseFalse = useCallback(() => {
+    setIsInputFocused(false);
+  }, [setIsInputFocused]);
+  const handleInputFocuseTrue = useCallback(() => {
+    setIsInputFocused(true);
+  }, [setIsInputFocused]);
+
   return (
     <>
       <SearchInputForm>
@@ -30,10 +44,14 @@ const GoodsSearchInput: React.FC = () => {
           value={searchValue}
           onChange={onChangeSearchValue}
           onInput={handleKeywordMatching}
+          onBlur={handleInputFocuseFalse}
+          onFocus={handleInputFocuseTrue}
           placeholder={INPUT_PLACEHOLDER}
         />
-        <BsSearch size='1.3em' />
-        <GoodsSearchList searchList={autoSearchList} />
+        <BsSearch size='1.3em' cursor='pointer' />
+        {autoSearchList.length > 0 && isInputFocused && (
+          <GoodsSearchList searchList={autoSearchList} onUpdateSelectedGoods={onUpdateSelectedGoods} />
+        )}
       </SearchInputForm>
     </>
   );
@@ -46,6 +64,7 @@ const SearchInputForm = styled('form')`
   justify-content: center;
   margin: auto;
   margin-top: 20px;
+  height: 80px;
   width: 70%;
   padding: 16px;
   border: 1px solid rgb(221, 221, 221);
@@ -55,8 +74,8 @@ const SearchInputForm = styled('form')`
 
 const SearchInput = styled('input')`
   width: 70%;
-  line-height: 2em;
   font-size: 1.2em;
+  height: 70px;
   margin: 0px;
   outline: none;
   border: none;

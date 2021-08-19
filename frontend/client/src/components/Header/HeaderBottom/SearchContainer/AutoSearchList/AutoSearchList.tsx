@@ -36,6 +36,11 @@ const AutoSearchListContainer = styled.ul`
   border-bottom-left-radius: 12px;
   border-bottom-right-radius: 12px;
   box-shadow: rgb(0 0 0 / 10%) 0px 4px 12px 0px;
+  -ms-overflow-style: none; /* IE and Edge */
+  scrollbar-width: none; /* Firefox */
+  ::-webkit-scrollbar {
+    display: none;
+  }
 `;
 
 export default AutoSearchList;

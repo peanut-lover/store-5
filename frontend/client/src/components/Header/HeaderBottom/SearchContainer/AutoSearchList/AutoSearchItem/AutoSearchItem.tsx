@@ -1,5 +1,6 @@
 import { usePushHistory } from '@src/lib/CustomRouter';
 import { AutoSearch } from '@src/types/Search';
+import { debounceClear } from '@src/utils/debounce';
 import React from 'react';
 import styled from 'styled-components';
 
@@ -12,8 +13,8 @@ const AutoSearchItem: React.FC<Props> = ({ onAddHistory, searchedItem, onClose }
   const push = usePushHistory();
   const handleClick = async () => {
     await onAddHistory(searchedItem.title);
-    onClose();
     push(`/detail/${searchedItem.id}`);
+    onClose();
   };
   return (
     <AutoSearchItemContainer onClick={handleClick}>

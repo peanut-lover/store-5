@@ -3,9 +3,12 @@ import { styled } from '@src/lib/CustomStyledComponent';
 import Portal from '@src/portal/portal';
 import PromotionImageUploader from '@src/portal/PromotionUploadModal/PromotionImageUploader/PromotionImageUploader';
 import GoodsSearchInput from '@src/components/GoodsSearchInput/GoodsSearchInput';
+import { AutoSearch } from '@src/types/Search';
+import PromotionSelectedGoods from '@src/portal/PromotionUploadModal/PromotionSelectedGoods/PromotionSelectedGoods';
 
 const PromotionUploadModal = () => {
   const [promotionFile, setPromotionFile] = useState<File>();
+  const [selectedGoods, setSelectedGoods] = useState<AutoSearch>();
 
   const handleUploadFile = useCallback(
     (f: File) => {
@@ -13,14 +16,22 @@ const PromotionUploadModal = () => {
     },
     [setPromotionFile]
   );
+
+  const handleSelectedGoods = useCallback(
+    (goods: AutoSearch) => {
+      setSelectedGoods(goods);
+    },
+    [setSelectedGoods]
+  );
+
   return (
     <Portal>
       <ModalContainer>
         <PromotionUploadContainer>
           <PromotionImageUploader onUploadFile={handleUploadFile} />
-          <GoodsSearchInput />
-          <div>검색된 Goods</div>
-          <button>등록</button>
+          <GoodsSearchInput onUpdateSelectedGoods={handleSelectedGoods} />
+          {selectedGoods && <PromotionSelectedGoods selectedGoods={selectedGoods} />}
+          <UploadButton>등록</UploadButton>
         </PromotionUploadContainer>
       </ModalContainer>
     </Portal>
@@ -49,5 +60,7 @@ const PromotionUploadContainer = styled('div')`
   background-color: white;
   border-radius: 12px;
 `;
+
+const UploadButton = styled('button')``;
 
 export default PromotionUploadModal;
