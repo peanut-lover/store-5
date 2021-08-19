@@ -18,6 +18,8 @@ import { UserRepository } from './repository/user.repository';
 import { UserAddressRepository } from './repository/user.address.repository';
 import { GoodsStateMap } from './controller/goods.controller';
 import { PromotionRepository } from './repository/promotion.repository';
+import { PaymentRepository } from './repository/payment.repository';
+import CartService from './service/cart.service';
 
 export default async function () {
   await createConnection({
@@ -48,6 +50,8 @@ async function populate() {
   await createDefaultPromotions();
   await createDefaultGoods();
   await createDefaultDeliveryInfo();
+  await createDefaultPayment();
+  await createDefaultCart();
 }
 
 async function createDefaultUser(name: string) {
@@ -121,7 +125,19 @@ async function createDefaultDeliveryInfo() {
 
 async function createDefaultOrderList() {}
 
-async function createDefaultPayment() {}
+async function createDefaultPayment() {
+  const res = await PaymentRepository.getPayments();
+  if (res.length > 0) return;
+  await PaymentRepository.createPayment('네이버페이', '네이버페이');
+  await PaymentRepository.createPayment('카카오페이', '카카오페이');
+  await PaymentRepository.createPayment('신용카드', '신용카드');
+}
+
+async function createDefaultCart() {
+  await CartService.createCart(1, 1, { amount: 1 });
+  await CartService.createCart(1, 2, { amount: 1 });
+  await CartService.createCart(1, 3, { amount: 1 });
+}
 
 async function createDefaultGoods() {
   const childCategories = await getRepository(Category).find({ select: ['id'], where: { parent: Not(IsNull()) } });
