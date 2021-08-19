@@ -6,6 +6,8 @@ HOME=/home/ubuntu
 
 cd $HOME
 
+npm --version
+
 npm install pm2 -g
 
 pm2 delete all 2> $HOME/deploy_before.txt
