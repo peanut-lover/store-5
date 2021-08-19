@@ -85,7 +85,7 @@ const SearchContainer: React.FC<Props> = ({ onClose }) => {
           </Button>
         </Form>
         {autoSearchList.length > 0 && inputFocused && (
-          <AutoSearchList onAddHistory={handleAddHistory} autoSearchList={autoSearchList} />
+          <AutoSearchList onAddHistory={handleAddHistory} autoSearchList={autoSearchList} onClose={onClose} />
         )}
       </FormContainer>
       <Line />

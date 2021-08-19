@@ -6,11 +6,13 @@ import styled from 'styled-components';
 export interface Props {
   onAddHistory: (keyword: string) => Promise<void>;
   searchedItem: AutoSearch;
+  onClose: () => void;
 }
-const AutoSearchItem: React.FC<Props> = ({ onAddHistory, searchedItem }) => {
+const AutoSearchItem: React.FC<Props> = ({ onAddHistory, searchedItem, onClose }) => {
   const push = usePushHistory();
   const handleClick = async () => {
     await onAddHistory(searchedItem.title);
+    onClose();
     push(`/detail/${searchedItem.id}`);
   };
   return (

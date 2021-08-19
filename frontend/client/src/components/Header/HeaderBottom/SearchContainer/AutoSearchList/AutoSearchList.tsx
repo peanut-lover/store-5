@@ -7,14 +7,15 @@ import AutoSearchItem from '@src/components/Header/HeaderBottom/SearchContainer/
 interface Props {
   autoSearchList: AutoSearch[];
   onAddHistory: (keyword: string) => Promise<void>;
+  onClose: () => void;
 }
 
-const AutoSearchList: React.FC<Props> = ({ autoSearchList, onAddHistory }) => {
+const AutoSearchList: React.FC<Props> = ({ autoSearchList, onAddHistory, onClose }) => {
   return (
     <AutoSearchListContainer onMouseDown={(e) => e.preventDefault()}>
       {autoSearchList.map((item, i) => (
         <Link key={i} to={`/goods?keyword=${item.title}`}>
-          <AutoSearchItem onAddHistory={onAddHistory} searchedItem={item} />
+          <AutoSearchItem onAddHistory={onAddHistory} searchedItem={item} onClose={onClose} />
         </Link>
       ))}
     </AutoSearchListContainer>
