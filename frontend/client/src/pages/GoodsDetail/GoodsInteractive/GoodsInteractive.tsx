@@ -1,18 +1,20 @@
 import GoodsButtons from './GoodsButtons/GoodsButtons';
 import GoodsAmount from './GoodsAmount/GoodsAmount';
-import { DetailGoods } from '@src/types/Goods';
+import { DetailGoods, GoodsBeforeOrder } from '@src/types/Goods';
 import React, { useState, useCallback, useEffect } from 'react';
 import { deleteWish, postWish } from '@src/apis/wishAPI';
 import { getGoodsStockCount } from '@src/apis/goodsAPI';
 import { createCart } from '@src/apis/cartAPI';
+import usePushToOrderPage from '@src/hooks/usePushToOrderPage';
 
 interface Props {
   goods: DetailGoods;
 }
 
-const GoodsInteractive: React.FC<Props> = ({
-  goods: { id, title, price, deliveryFee = 0, discountRate = 0, isWish = false },
-}) => {
+const GoodsInteractive: React.FC<Props> = ({ goods }) => {
+  const { id, title, price, deliveryFee = 0, discountRate = 0, isWish = false } = goods;
+  const pushToOrderPage = usePushToOrderPage();
+
   const [isWished, setIsWished] = useState(isWish);
   const [isOver, setIsOver] = useState(false);
   const [amount, setAmount] = useState(0);
@@ -21,6 +23,16 @@ const GoodsInteractive: React.FC<Props> = ({
     const result = await (isWished ? deleteWish(id) : postWish(id));
     if (result) setIsWished(!isWished);
   }, [isWished]);
+
+  // const handleToWish = useCallback(async () => {}, []);
+  const handleAddToCart = useCallback(() => {
+    console.log('장바구니 추가 API', 'goods id:', id);
+  }, []);
+
+  const handleAddToOrder = () => {
+    const orderGoods: GoodsBeforeOrder = { goods, amount };
+    pushToOrderPage([orderGoods]);
+  };
 
   const addToCart = useCallback(async () => {
     console.log('장바구니 추가 API', 'goods id:', id);
