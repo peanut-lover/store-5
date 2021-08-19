@@ -77,7 +77,7 @@ const OrderPage: React.FC = () => {
   }
 
   if (isOrdered) {
-    return <AfterOrder />;
+    return <AfterOrder orderGoodsList={orderGoodsList} />;
   }
 
   return (

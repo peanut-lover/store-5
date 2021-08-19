@@ -1,8 +1,16 @@
+import Divider from '@src/components/Divider/Divider';
+import Topic from '@src/components/Topic/Topic';
 import { usePushHistory } from '@src/lib/CustomRouter/CustomRouter';
+import { GoodsBeforeOrder } from '@src/types/Goods';
 import React from 'react';
 import styled from 'styled-components';
+import OrderGoodsList from '../OrderGoodsList/OrderGoodsList';
 
-const AfterOrder: React.FC = () => {
+interface Props {
+  orderGoodsList: GoodsBeforeOrder[];
+}
+
+const AfterOrder: React.FC<Props> = ({ orderGoodsList }) => {
   const pushHistory = usePushHistory();
 
   const handleClickGoToMain = () => {
@@ -11,6 +19,9 @@ const AfterOrder: React.FC = () => {
 
   return (
     <Wrapper>
+      <Topic>주문 상품 ({orderGoodsList.length}건)</Topic>
+      <OrderGoodsList orderGoodsList={orderGoodsList} />
+      <Divider />
       <Title>주문이 완료되었습니다.</Title>
       <Button onClick={handleClickGoToMain}>메인으로 가기</Button>
     </Wrapper>
