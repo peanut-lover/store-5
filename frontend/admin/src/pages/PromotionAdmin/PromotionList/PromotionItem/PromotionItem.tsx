@@ -20,6 +20,8 @@ const PromotionContainer = styled('div')`
   position: relative;
   padding: 25px;
   width: 50%;
+  min-width: 440px;
+  min-height: 320px;
 `;
 
 const PromotionImage = styled('img')`
@@ -29,8 +31,8 @@ const PromotionImage = styled('img')`
 
 const PromotionDeleteButton = styled('button')<{ bgcolor: string }>`
   position: absolute;
-  top: -0.5em;
-  right: -0.5em;
+  top: 15px;
+  right: 15px;
   font-size: 1.8em;
   border-radius: 50%;
   background-color: ${(props) => props.bgcolor};

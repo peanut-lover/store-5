@@ -3,7 +3,7 @@ import GoodsAdminIcon from '@src/components/Header/GoodsAdminIcon/GoodsAdminIcon
 import LogoIcon from '@src/components/Header/LogoIcon/LogoIcon';
 import OrderAdminIcon from '@src/components/Header/OrderAdminIcon/OrderAdminIcon';
 import PromotionAdminIcon from '@src/components/Header/PromotionAdminIcon/PromotionAdminIcon';
-import { useLocation, usePushHistory } from '@src/lib/CustomRouter/CustomRouter';
+import { useLocation } from '@src/lib/CustomRouter/CustomRouter';
 import { styled } from '@src/lib/CustomStyledComponent';
 import React, { useEffect, useState } from 'react';
 

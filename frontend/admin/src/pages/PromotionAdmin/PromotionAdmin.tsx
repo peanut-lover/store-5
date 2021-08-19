@@ -1,4 +1,5 @@
 import PromotionAPI from '@src/apis/promotionAPI';
+import { styled } from '@src/lib/CustomStyledComponent';
 import PromotionList from '@src/pages/PromotionAdmin/PromotionList/PromotionList';
 import PromotionUploadModal from '@src/portal/PromotionUploadModal/PromotionUploadModal';
 import { Promotion } from '@src/types/Promotion';
@@ -25,13 +26,19 @@ const PromotionAdmin = () => {
     fetchingPromotions();
   }, []);
   return (
-    <div>
+    <PromotionAdminContainer>
       프로모션 관리 페이지
       <button onClick={() => setOpenPromotionModal(true)}>프로모션 등록</button>
       <PromotionList promotions={promotions} />
       {openPromotionModal && <PromotionUploadModal onClose={handleCloseModal} />}
-    </div>
+    </PromotionAdminContainer>
   );
 };
+
+const PromotionAdminContainer = styled('div')`
+  position: relative;
+  width: 100%;
+  min-width: 1080px;
+`;
 
 export default PromotionAdmin;

@@ -21,6 +21,7 @@ const PromotionListContainer = styled('ul')`
   position: relative;
   display: flex;
   width: 90%;
+  min-width: 972px;
   height: 70%;
   margin: auto;
   margin-top: 10%;
