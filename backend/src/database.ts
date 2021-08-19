@@ -19,7 +19,7 @@ import { UserAddressRepository } from './repository/user.address.repository';
 import { GoodsStateMap } from './controller/goods.controller';
 import { PromotionRepository } from './repository/promotion.repository';
 import { PaymentRepository } from './repository/payment.repository';
-import CartRepository from './repository/cart.repository';
+import CartService from './service/cart.service';
 
 export default async function () {
   await createConnection({
@@ -134,9 +134,9 @@ async function createDefaultPayment() {
 }
 
 async function createDefaultCart() {
-  await CartRepository.createCart(1, 1, { amount: 1 });
-  await CartRepository.createCart(1, 2, { amount: 1 });
-  await CartRepository.createCart(1, 3, { amount: 1 });
+  await CartService.createCart(1, 1, { amount: 1 });
+  await CartService.createCart(1, 2, { amount: 1 });
+  await CartService.createCart(1, 3, { amount: 1 });
 }
 
 async function createDefaultGoods() {
