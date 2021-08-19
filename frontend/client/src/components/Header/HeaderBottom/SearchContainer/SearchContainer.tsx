@@ -29,8 +29,8 @@ const SearchContainer: React.FC<Props> = ({ onClose }) => {
       if (searchInput.length === 0) return;
       await setSearchHistory([searchInput, ...searchHistory]);
       setSearchInput('');
-      push(`/keyword/${searchInput}`);
       debounceClear();
+      push(`/keyword/${searchInput}`);
       onClose();
     },
     [searchInput]

@@ -6,7 +6,7 @@ import {
   UploaderInput,
   UploaderLabel,
 } from '@src/portal/GoodsUploadModal/UploadContentLeft/style';
-import formatNumber from '@src/utils/formatNumber';
+import formatNumber from '@src/utils/formatToNumber';
 
 interface Props {
   price: string;
