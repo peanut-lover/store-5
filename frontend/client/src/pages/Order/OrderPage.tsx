@@ -18,6 +18,7 @@ import AddressSection from './AddressSection/AddressSection';
 import { usePushHistory } from '@src/lib/CustomRouter';
 import PaymentRadioSelector from './PaymentRadioSelector/PaymentRadioSelector';
 import { submitOrder } from '@src/apis/orderAPI';
+import AfterOrder from './AfterOrder/AfterOrder';
 
 const NEED_ADDRESS_MESSAGE = '배송지를 입력해주세요!';
 const NEED_PAYMENT_MESSAGE = '결제수단을 선택해주세요!';
@@ -29,6 +30,7 @@ const OrderPage: React.FC = () => {
   const [selectedAddress, setSelectedAddress] = useState<AddressInfo | null>(null);
   const [selectedPaymentId, setSelectedPaymentId] = useState<number | null>(null);
   const [isAgreementChecked, setIsAgreementChecked] = useState(false);
+  const [isOrdered, setIsOrdered] = useState(false);
 
   const pushHistory = usePushHistory();
 
@@ -53,21 +55,29 @@ const OrderPage: React.FC = () => {
     if (!selectedPaymentId) return alert(NEED_PAYMENT_MESSAGE);
     if (!isAgreementChecked) return alert(NEED_AGREEMENT_MESSAGE);
 
+    const { receiver, zipCode, address, subAddress } = selectedAddress;
     const submitOrderBody = {
-      ...selectedAddress,
+      receiver,
+      zipCode,
+      address,
+      subAddress,
       orderMemo: DEFAULT_ORDER_MEMO,
       paymentId: selectedPaymentId,
       goodsList: orderGoodsList.map(({ amount, goods }) => ({ amount, id: goods.id })),
     };
 
-    const { result } = await submitOrder(submitOrderBody);
-    console.log(result);
+    await submitOrder(submitOrderBody);
+    setIsOrdered(true);
   };
 
   // TODO: NoData | NoAuthentication
   if (orderGoodsList.length === 0) {
     pushHistory('/');
     return null;
+  }
+
+  if (isOrdered) {
+    return <AfterOrder />;
   }
 
   return (
