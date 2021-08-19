@@ -5,8 +5,13 @@ import PromotionImageUploader from '@src/portal/PromotionUploadModal/PromotionIm
 import GoodsSearchInput from '@src/components/GoodsSearchInput/GoodsSearchInput';
 import { AutoSearch } from '@src/types/Search';
 import PromotionSelectedGoods from '@src/portal/PromotionUploadModal/PromotionSelectedGoods/PromotionSelectedGoods';
+import { theme } from '@src/theme/theme';
 
-const PromotionUploadModal = () => {
+interface Props {
+  onClose: () => void;
+}
+
+const PromotionUploadModal: React.FC<Props> = ({ onClose }) => {
   const [promotionFile, setPromotionFile] = useState<File>();
   const [selectedGoods, setSelectedGoods] = useState<AutoSearch>();
   const [submitDisabled, setSubmitDisabled] = useState<boolean>(true);
@@ -27,6 +32,13 @@ const PromotionUploadModal = () => {
 
   const handleSubmit = () => {
     const formData = new FormData();
+    if (!promotionFile || !selectedGoods) return;
+    formData.append('file', promotionFile);
+    formData.append('goodsId', `${selectedGoods.id}`);
+    try {
+    } catch (err) {
+      console.error(err);
+    }
   };
 
   useEffect(() => {
@@ -47,6 +59,9 @@ const PromotionUploadModal = () => {
             {selectedGoods && <PromotionSelectedGoods selectedGoods={selectedGoods} />}
             <UploadButton disabled={submitDisabled}>등록</UploadButton>
           </PositionContainer>
+          <CloseButton onClick={onClose} bgcolor={theme.greenColor}>
+            X
+          </CloseButton>
         </PromotionUploadContainer>
       </ModalContainer>
     </Portal>
@@ -95,6 +110,18 @@ const UploadButton = styled('button')<{ disabled: boolean }>`
   background-color: ${(props) => (props.disabled ? 'lightgray' : '#2ac1bc')};
   pointer-events: ${(props) => (props.disabled ? 'none' : 'auto')};
   cursor: ${(props) => (props.disabled ? 'none' : 'pointer')};
+`;
+
+const CloseButton = styled('button')<{ bgcolor: string }>`
+  position: absolute;
+  top: -0.5em;
+  right: -0.5em;
+  font-size: 1.8em;
+  border-radius: 50%;
+  background-color: ${(props) => props.bgcolor};
+  color: white;
+  border: none;
+  cursor: pointer;
 `;
 
 export default PromotionUploadModal;
