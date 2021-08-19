@@ -179,10 +179,3 @@ export function useParams() {
 export function usePushHistory() {
   return useContext(RouterContext).push;
 }
-
-/**
- * location 정보를 추출한다.
- */
-export function useLocation() {
-  return useContext(RouterContext).location;
-}
