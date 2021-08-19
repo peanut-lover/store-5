@@ -59,3 +59,11 @@ export interface GetAllByUserIdProps {
   limit: number;
   userId: number;
 }
+
+export interface GetAllByAdminProps {
+  page: number;
+  limit: number;
+  keyword?: string;
+  sort?: string;
+  order?: string;
+}
