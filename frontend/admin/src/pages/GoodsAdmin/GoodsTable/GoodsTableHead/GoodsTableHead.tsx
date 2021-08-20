@@ -4,17 +4,12 @@ import { styled } from '@src/lib/CustomStyledComponent';
 
 const GoodsTableHead = () => {
   const handleSortGoods = () => {
-    console.log(1);
+    // TODO: 정렬 관련 처리
   };
   return (
     <GoodsTableHeadContainer>
       <TableRow>
-        <TableHeadData>
-          <SortButton onClick={handleSortGoods}>
-            <ButtonText>썸네일</ButtonText>
-            <FaAngleDown />
-          </SortButton>
-        </TableHeadData>
+        <TableHeadData>썸네일</TableHeadData>
         <TableHeadData>
           <SortButton onClick={handleSortGoods}>
             <ButtonText>상품명</ButtonText>
@@ -57,12 +52,8 @@ const GoodsTableHead = () => {
             <FaAngleDown />
           </SortButton>
         </TableHeadData>
-        <TableHeadData>
-          <ButtonText>상태</ButtonText>
-        </TableHeadData>
-        <TableHeadData>
-          <ButtonText>카테고리</ButtonText>
-        </TableHeadData>
+        <TableHeadData>상태</TableHeadData>
+        <TableHeadData>카테고리</TableHeadData>
       </TableRow>
     </GoodsTableHeadContainer>
   );
