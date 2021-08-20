@@ -31,6 +31,7 @@ const HeaderContainer = styled('header')`
   position: relative;
   display: flex;
   flex-direction: column;
+  flex-shrink: 0;
   height: 100%;
   width: 170px;
   padding: 16px;

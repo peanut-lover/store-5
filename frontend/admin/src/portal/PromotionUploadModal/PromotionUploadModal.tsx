@@ -6,6 +6,7 @@ import GoodsSearchInput from '@src/components/GoodsSearchInput/GoodsSearchInput'
 import { AutoSearch } from '@src/types/Search';
 import PromotionSelectedGoods from '@src/portal/PromotionUploadModal/PromotionSelectedGoods/PromotionSelectedGoods';
 import { theme } from '@src/theme/theme';
+import PromotionAPI from '@src/apis/promotionAPI';
 
 interface Props {
   onClose: () => void;
@@ -30,13 +31,17 @@ const PromotionUploadModal: React.FC<Props> = ({ onClose }) => {
     [setSelectedGoods]
   );
 
-  const handleSubmit = () => {
+  const handleSubmit = async () => {
     const formData = new FormData();
     if (!promotionFile || !selectedGoods) return;
     formData.append('file', promotionFile);
     formData.append('goodsId', `${selectedGoods.id}`);
     try {
+      const { result } = await PromotionAPI.createPromotion(formData);
+      if (result) onClose();
     } catch (err) {
+      // TODO: 임시 alert 추후에 수정해야함
+      alert('프로모션 등록 실패');
       console.error(err);
     }
   };
@@ -57,7 +62,9 @@ const PromotionUploadModal: React.FC<Props> = ({ onClose }) => {
             <PromotionImageUploader onUploadFile={handleUploadFile} />
             <GoodsSearchInput onUpdateSelectedGoods={handleSelectedGoods} />
             {selectedGoods && <PromotionSelectedGoods selectedGoods={selectedGoods} />}
-            <UploadButton disabled={submitDisabled}>등록</UploadButton>
+            <UploadButton onClick={handleSubmit} disabled={submitDisabled}>
+              등록
+            </UploadButton>
           </PositionContainer>
           <CloseButton onClick={onClose} bgcolor={theme.greenColor}>
             X
