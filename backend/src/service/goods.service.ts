@@ -18,6 +18,7 @@ import {
   GetAllByCategoryProps,
   GetAllByKeywordProps,
   GetAllByUserIdProps,
+  PaginationProps,
 } from '../types/Goods';
 import { getTotalPage, pagination } from '../utils/pagination';
 import { BadRequestError } from '../errors/client.error';
@@ -174,11 +175,22 @@ async function getMainGoodsListMap(userId?: number): Promise<{
   };
 }
 
-async function getGoodsForAdmin({ page, keyword, limit, order, sort }: GetAllByAdminProps) {
-  // return {
-  //   meta: getListGoodsMeta(page, limit, totalCount),
-  //   goods: goodsList,
-  // };
+// TODO: keyword, order, sort
+async function getGoodsForAdmin(page: number, limit: number, keyword?: string, order?: string, sort?: string) {
+  const totalCount = await GoodsRepository.findTotalCount();
+  const newPage = Math.min(getTotalPage(totalCount, limit), page);
+
+  const option: PaginationProps = {
+    offset: pagination.calculateOffset(newPage, limit),
+    limit,
+  };
+  const goodsList = await GoodsRepository.findAllByOption(option);
+  if (!goodsList) throw new BadRequestError(GOODS_DB_ERROR);
+
+  return {
+    meta: getListGoodsMeta(newPage, limit, totalCount),
+    goodsList,
+  };
 }
 
 async function getGoodsStockById(goodsId: number): Promise<number> {

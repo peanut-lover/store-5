@@ -2,7 +2,13 @@ import { getRepository, Like, MoreThan } from 'typeorm';
 import { GOODS_DB_ERROR } from '../constants/database-error-name';
 import { DatabaseError } from '../errors/base.error';
 import { Goods } from '../entity/Goods';
-import { FindAllCategoryProps, FindAllColumnNameProps, FindAllKeywordProps, FindAllUserIdProps } from '../types/Goods';
+import {
+  FindAllCategoryProps,
+  FindAllColumnNameProps,
+  FindAllKeywordProps,
+  FindAllUserIdProps,
+  PaginationProps,
+} from '../types/Goods';
 import { TaggedGoodsType } from '../types/response/goods.response';
 import { SearchedGoodsFromKeyword } from '../types/response/search.response';
 import { GoodsStateMap } from '../controller/goods.controller';
@@ -72,6 +78,23 @@ async function findAllByKeyword({ keyword, offset, limit }: FindAllKeywordProps)
   }
 }
 
+async function findAllByOption({ offset, limit }: PaginationProps): Promise<TaggedGoodsType[]> {
+  try {
+    const goodsRepo = getRepository(Goods);
+    return await goodsRepo.find({
+      skip: offset,
+      take: limit,
+      order: {
+        createdAt: 'DESC',
+      },
+      relations: ['category'],
+    });
+  } catch (err) {
+    console.error(err);
+    throw new DatabaseError(GOODS_DB_ERROR);
+  }
+}
+
 async function findAllByColumnName({ columnName, limit }: FindAllColumnNameProps): Promise<TaggedGoodsType[]> {
   try {
     const goodsRepo = getRepository(Goods);
@@ -82,7 +105,7 @@ async function findAllByColumnName({ columnName, limit }: FindAllColumnNameProps
         stock: MoreThan(0),
       },
       order: {
-        createdAt: 'DESC',
+        [columnName]: 'DESC',
       },
     });
     return data;
@@ -112,6 +135,24 @@ async function findAllWishByUserId({ offset, limit, userId }: FindAllUserIdProps
   return [];
 }
 
+async function findTotalCountByKeyword(keyword: string): Promise<number> {
+  try {
+    const goodsRepo = getRepository(Goods);
+    const count = await goodsRepo.count({
+      where: {
+        // TODO: 어드민 연동시 모든 state와 모든 stock에 해당하는 상품을 가져와야 함
+        title: Like(`%${keyword}%`),
+        state: GoodsStateMap.sale,
+        stock: MoreThan(0),
+      },
+    });
+    return count;
+  } catch (err) {
+    console.error(err);
+    throw new DatabaseError(GOODS_DB_ERROR);
+  }
+}
+
 async function findTotalCountByCategory(category: number): Promise<number> {
   try {
     const goodsRepo = getRepository(Goods);
@@ -130,17 +171,10 @@ async function findTotalCountByCategory(category: number): Promise<number> {
   }
 }
 
-async function findTotalCountByKeyword(keyword: string): Promise<number> {
+async function findTotalCount(): Promise<number> {
   try {
     const goodsRepo = getRepository(Goods);
-    const count = await goodsRepo.count({
-      where: {
-        // TODO: 어드민 연동시 모든 state와 모든 stock에 해당하는 상품을 가져와야 함
-        title: Like(`%${keyword}%`),
-        state: GoodsStateMap.sale,
-        stock: MoreThan(0),
-      },
-    });
+    const count = await goodsRepo.count();
     return count;
   } catch (err) {
     console.error(err);
@@ -186,8 +220,10 @@ export const GoodsRepository = {
   findAllByColumnName,
   findAllByKeyword,
   findAllWishByUserId,
+  findAllByOption,
   findTotalCountByCategory,
   findTotalCountByKeyword,
+  findTotalCount,
   findSellCountAverage,
   searchGoodsFromKeyword,
   findStockById,

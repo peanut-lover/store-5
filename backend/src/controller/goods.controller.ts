@@ -90,16 +90,18 @@ async function getGoodsStockById(req: Request, res: Response) {
 
 async function getGoodsForAdmin(req: Request, res: Response) {
   const { page, keyword, limit, order, sort } = req.query;
-  // TODO : 타입 체크
-  const GoodsListParams: GetAllByAdminProps = {
-    page: Number(page),
-    limit: Number(limit),
-  };
-  if (keyword) GoodsListParams.keyword = String(keyword);
-  if (order) GoodsListParams.order = String(order);
-  if (sort) GoodsListParams.keyword = String(sort);
 
-  const result = await GoodsService.getGoodsForAdmin(GoodsListParams);
+  if (isNaN(Number(page))) throw new BadRequestError(INVALID_DATA);
+  if (isNaN(Number(limit))) throw new BadRequestError(INVALID_DATA);
+  if (sort && sort !== 'ASC' && sort !== 'DESC') throw new BadRequestError(INVALID_DATA);
+
+  const result = await GoodsService.getGoodsForAdmin(
+    Number(page),
+    Number(limit),
+    String(keyword),
+    String(order),
+    String(sort)
+  );
   return res.status(200).json({ result });
 }
 
