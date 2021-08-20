@@ -19,6 +19,7 @@ import { usePushHistory } from '@src/lib/CustomRouter';
 import PaymentRadioSelector from './PaymentRadioSelector/PaymentRadioSelector';
 import { submitOrder } from '@src/apis/orderAPI';
 import AfterOrder from './AfterOrder/AfterOrder';
+import { usePushToast } from '@src/lib/ToastProvider/ToastProvider';
 
 const NEED_ADDRESS_MESSAGE = '배송지를 입력해주세요!';
 const NEED_PAYMENT_MESSAGE = '결제수단을 선택해주세요!';
@@ -33,6 +34,7 @@ const OrderPage: React.FC = () => {
   const [isOrdered, setIsOrdered] = useState(false);
 
   const pushHistory = usePushHistory();
+  const pushToast = usePushToast();
 
   const reducedPrice = useMemo(
     () =>
@@ -49,11 +51,10 @@ const OrderPage: React.FC = () => {
   const deliveryPrice = orderGoodsList.length !== 0 && reducedPrice < 30000 ? 2500 : 0;
   const totalPrice = reducedPrice + deliveryPrice;
 
-  // TODO: alert -> toast
   const handleSubmit = async () => {
-    if (!selectedAddress) return alert(NEED_ADDRESS_MESSAGE);
-    if (!selectedPaymentId) return alert(NEED_PAYMENT_MESSAGE);
-    if (!isAgreementChecked) return alert(NEED_AGREEMENT_MESSAGE);
+    if (!selectedAddress) return pushToast({ text: NEED_ADDRESS_MESSAGE, color: '#FF0000' });
+    if (!selectedPaymentId) return pushToast({ text: NEED_PAYMENT_MESSAGE, color: '#FF0000' });
+    if (!isAgreementChecked) return pushToast({ text: NEED_AGREEMENT_MESSAGE, color: '#FF0000' });
 
     const { receiver, zipCode, address, subAddress } = selectedAddress;
     const submitOrderBody = {
