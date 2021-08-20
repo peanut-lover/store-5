@@ -67,8 +67,3 @@ export interface GetAllByAdminProps {
   sort?: string;
   order?: string;
 }
-
-export interface PaginationProps {
-  offset: number;
-  limit: number;
-}

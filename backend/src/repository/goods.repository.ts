@@ -2,16 +2,11 @@ import { getRepository, Like, MoreThan } from 'typeorm';
 import { GOODS_DB_ERROR } from '../constants/database-error-name';
 import { DatabaseError } from '../errors/base.error';
 import { Goods } from '../entity/Goods';
-import {
-  FindAllCategoryProps,
-  FindAllColumnNameProps,
-  FindAllKeywordProps,
-  FindAllUserIdProps,
-  PaginationProps,
-} from '../types/Goods';
+import { FindAllCategoryProps, FindAllColumnNameProps, FindAllKeywordProps, FindAllUserIdProps } from '../types/Goods';
 import { TaggedGoodsType } from '../types/response/goods.response';
 import { SearchedGoodsFromKeyword } from '../types/response/search.response';
 import { GoodsStateMap } from '../controller/goods.controller';
+import { PaginationProps } from '../types/Pagination';
 
 const AUTO_SEARCH_GOODS_NUMBER = 10;
 

@@ -18,7 +18,6 @@ import {
   GetAllByCategoryProps,
   GetAllByKeywordProps,
   GetAllByUserIdProps,
-  PaginationProps,
 } from '../types/Goods';
 import { getTotalPage, pagination } from '../utils/pagination';
 import { BadRequestError } from '../errors/client.error';
@@ -26,6 +25,7 @@ import { GOODS_DB_ERROR } from '../constants/database-error-name';
 import { CategoryRepository } from '../repository/category.repository';
 import { GoodsStateMap } from '../controller/goods.controller';
 import { CreateGoodsBody } from '../types/request/goods.request';
+import { PaginationProps } from '../types/Pagination';
 
 async function createGoods(body: CreateGoodsBody, uploadFileUrls: string[]): Promise<Goods> {
   return await getConnection().transaction(async (transactionalEntityManager) => {
