@@ -20,13 +20,19 @@ export const getGoodsByOption = async ({
   sort,
 }: GetGoodsByOptionProps): Promise<APIResponse<GoodsPaginationResult>> => {
   const res = await checkedFetch(
-    `/api/goods/admin?keyword=${keyword}&page=${page}&limit=${limit}&order=${order}&sort=${sort}`,
+    `/api/goods/admin?page=${page}&limit=${limit}
+    ${keyword ? `&keyword=${keyword}` : ''}
+    ${order ? `&order=${order}` : ''}
+    ${sort ? `&sort=${sort}` : ''}`,
     {
       method: 'GET',
       credentials: 'include',
     }
   );
-  return await res.json();
+  const json = await res.json();
+  console.log(json);
+  return json;
+  // return await res.json();
 };
 
 export const GoodsAPI = {
