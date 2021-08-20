@@ -1,16 +1,16 @@
 import React from 'react';
 import { styled } from '@src/lib/CustomStyledComponent';
 import logoIcon from '@src/../public/images/logo.png';
+import { Link } from '@src/lib/CustomRouter';
+import { ADMIN_MAIN_PATH } from '@src/constants/adminPath';
 
-interface Props {
-  onClick: (path: string) => void;
-}
-
-const LogoIcon: React.FC<Props> = ({ onClick }) => {
+const LogoIcon = () => {
   return (
-    <LogoContainer onClick={() => onClick('/')}>
-      <Logo src={logoIcon} />
-    </LogoContainer>
+    <Link to={ADMIN_MAIN_PATH}>
+      <LogoContainer>
+        <Logo src={logoIcon} />
+      </LogoContainer>
+    </Link>
   );
 };
 

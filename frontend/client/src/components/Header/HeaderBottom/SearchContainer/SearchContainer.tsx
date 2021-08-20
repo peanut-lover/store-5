@@ -1,4 +1,4 @@
-import React, { useState, useCallback, useReducer, useRef, useEffect } from 'react';
+import React, { useState, useCallback, useRef, useEffect } from 'react';
 import { BsSearch } from 'react-icons/bs';
 import styled from 'styled-components';
 import SearchHistoryEmpty from './SearchHistoryEmpty/SearchHistoryEmpty';
@@ -7,8 +7,8 @@ import useInput from '@src/hooks/useInput';
 import useSearchHistory from '@src/hooks/useSearchHistory';
 import { debounce, debounceClear } from '@src/utils/debounce';
 import AutoSearchList from './AutoSearchList/AutoSearchList';
-import { usePushHistory } from '@src/lib/CustomRouter';
 import useAutoSearch from '@src/hooks/useAutoSearch';
+import { usePushHistory } from '@src/lib/CustomRouter';
 
 interface Props {
   onClose: () => void;
@@ -17,7 +17,7 @@ interface Props {
 const SearchContainer: React.FC<Props> = ({ onClose }) => {
   const inputRef = useRef<HTMLInputElement>(null);
   const [inputFocused, setInputFocused] = useState(false);
-  const [searchHistory, setSearchHistory, resetSearchHistory] = useSearchHistory();
+  const [searchHistory, handleSearchHistory, resetSearchHistory] = useSearchHistory();
   const [searchInput, onChangeSearchInput, setSearchInput] = useInput('');
   const [autoSearchList, fetchAutoSearch] = useAutoSearch();
 
@@ -27,13 +27,13 @@ const SearchContainer: React.FC<Props> = ({ onClose }) => {
     async (e) => {
       e.preventDefault();
       if (searchInput.length === 0) return;
-      await setSearchHistory([searchInput, ...searchHistory]);
+      await handleSearchHistory([searchInput, ...searchHistory]);
       setSearchInput('');
-      push(`/keyword/${searchInput}`);
       debounceClear();
+      push(`/keyword/${searchInput}`);
       onClose();
     },
-    [searchInput]
+    [searchInput, onClose, push]
   );
 
   const handleAutoSearch = useCallback(
@@ -47,18 +47,20 @@ const SearchContainer: React.FC<Props> = ({ onClose }) => {
   );
 
   const handleAddHistory = useCallback(
-    async (keyword) => {
-      setSearchHistory([keyword, ...searchHistory]);
+    async (keyword: string, itemId: number) => {
+      await handleSearchHistory([keyword, ...searchHistory]);
+      push(`/detail/${itemId}`);
+      onClose();
     },
-    [searchHistory]
+    [searchHistory, push, handleSearchHistory, onClose]
   );
 
   const handleDeleteHistory = useCallback(
     (name: string) => {
       const updated = searchHistory.filter((keyword) => keyword !== name);
-      setSearchHistory(updated);
+      handleSearchHistory(updated);
     },
-    [searchHistory, setSearchHistory]
+    [searchHistory, handleSearchHistory]
   );
 
   const handleResetHistory = useCallback(() => {

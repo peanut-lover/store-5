@@ -7,6 +7,8 @@ import { TaggedGoodsType } from '../types/response/goods.response';
 import { SearchedGoodsFromKeyword } from '../types/response/search.response';
 import { GoodsStateMap } from '../controller/goods.controller';
 
+const AUTO_SEARCH_GOODS_NUMBER = 10;
+
 async function findGoodsDetailById(goodsId: number): Promise<Goods | undefined> {
   try {
     return await getRepository(Goods).findOne({
@@ -165,7 +167,7 @@ async function searchGoodsFromKeyword(keyword: string): Promise<SearchedGoodsFro
   return await goodsRepo.find({
     select: ['id', 'thumbnailUrl', 'title'],
     where: { title: Like(`%${keyword}%`) },
-    take: 5,
+    take: AUTO_SEARCH_GOODS_NUMBER,
   });
 }
 

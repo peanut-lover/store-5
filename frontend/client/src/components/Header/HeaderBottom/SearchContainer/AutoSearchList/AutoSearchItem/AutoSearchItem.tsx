@@ -4,14 +4,12 @@ import React from 'react';
 import styled from 'styled-components';
 
 export interface Props {
-  onAddHistory: (keyword: string) => Promise<void>;
   searchedItem: AutoSearch;
+  onAddHistory: (keyword: string, itemId: number) => Promise<void>;
 }
 const AutoSearchItem: React.FC<Props> = ({ onAddHistory, searchedItem }) => {
-  const push = usePushHistory();
-  const handleClick = async () => {
-    await onAddHistory(searchedItem.title);
-    push(`/detail/${searchedItem.id}`);
+  const handleClick = () => {
+    onAddHistory(searchedItem.title, searchedItem.id);
   };
   return (
     <AutoSearchItemContainer onClick={handleClick}>

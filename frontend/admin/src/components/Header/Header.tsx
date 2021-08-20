@@ -3,37 +3,26 @@ import GoodsAdminIcon from '@src/components/Header/GoodsAdminIcon/GoodsAdminIcon
 import LogoIcon from '@src/components/Header/LogoIcon/LogoIcon';
 import OrderAdminIcon from '@src/components/Header/OrderAdminIcon/OrderAdminIcon';
 import PromotionAdminIcon from '@src/components/Header/PromotionAdminIcon/PromotionAdminIcon';
-import { usePushHistory } from '@src/lib/CustomRouter/CustomRouter';
+import { useLocation } from '@src/lib/CustomRouter/CustomRouter';
 import { styled } from '@src/lib/CustomStyledComponent';
-import { listen } from '@src/utils/customEvent';
-import React, { useCallback, useEffect, useState } from 'react';
+import React, { useEffect, useState } from 'react';
 
 const Header = () => {
   const [currentPath, setCurrentPath] = useState<string>('/');
-  const push = usePushHistory();
-
-  const handleIconClick = useCallback(
-    (path: string) => {
-      push(path);
-    },
-    [setCurrentPath]
-  );
-
+  const path = useLocation();
   useEffect(() => {
-    listen('locationChange', ((e: CustomEvent) => {
-      setCurrentPath(e.detail.location);
-    }) as EventListener);
-  }, []);
+    setCurrentPath(path);
+  }, [path]);
 
   return (
     <HeaderContainer>
       <LogoContainer>
-        <LogoIcon onClick={handleIconClick} />
+        <LogoIcon />
       </LogoContainer>
-      <DashboardIcon onClick={handleIconClick} currentPath={currentPath} />
-      <GoodsAdminIcon onClick={handleIconClick} currentPath={currentPath} />
-      <OrderAdminIcon onClick={handleIconClick} currentPath={currentPath} />
-      <PromotionAdminIcon onClick={handleIconClick} currentPath={currentPath} />
+      <DashboardIcon currentPath={currentPath} />
+      <GoodsAdminIcon currentPath={currentPath} />
+      <OrderAdminIcon currentPath={currentPath} />
+      <PromotionAdminIcon currentPath={currentPath} />
     </HeaderContainer>
   );
 };
@@ -42,6 +31,7 @@ const HeaderContainer = styled('header')`
   position: relative;
   display: flex;
   flex-direction: column;
+  flex-shrink: 0;
   height: 100%;
   width: 170px;
   padding: 16px;
