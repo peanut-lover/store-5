@@ -1,4 +1,16 @@
 import { Payment } from '@src/types/Payment';
+import { ThumbnailGoods } from './Goods';
+
+export interface OrderItem {
+  id: string;
+  amount: number;
+  price: number;
+  discountRate: number;
+  state: string;
+  createdAt: string;
+  updatedAt: string;
+  goods: ThumbnailGoods;
+}
 
 export interface Order {
   id: number;
@@ -13,6 +25,7 @@ export interface Order {
   zipCode: string;
   updatedAt: string;
   createdAt: string;
+  orderItems: OrderItem[];
 }
 
 export interface OrderPaginationResult {

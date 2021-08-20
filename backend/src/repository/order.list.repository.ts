@@ -13,7 +13,7 @@ async function getOrders(userId: number): Promise<OrderList[]> {
   try {
     const orderRepo = getRepository(OrderList);
     return await orderRepo.find({
-      relations: ['payment'],
+      relations: ['payment', 'orderItems'],
       where: {
         user: userId,
       },
@@ -25,13 +25,19 @@ async function getOrders(userId: number): Promise<OrderList[]> {
 }
 
 async function getOwnOrderTotalCount(userId: number): Promise<number> {
-  return await getRepository(OrderList).count();
+  return await getRepository(OrderList).count({
+    where: {
+      user: {
+        id: userId,
+      },
+    },
+  });
 }
 
 async function getOwnOrdersPagination({ offset, limit }: PaginationProps, userId: number): Promise<OrderList[]> {
   try {
     return await getRepository(OrderList).find({
-      relations: ['payment'],
+      relations: ['payment', 'orderItems', 'orderItems.goods'],
       where: {
         user: userId,
       },
@@ -46,9 +52,15 @@ async function getOwnOrdersPagination({ offset, limit }: PaginationProps, userId
 
 async function createOrder(userId: number, body: CreateOrderBody): Promise<OrderList> {
   try {
+    // id created  order_item_id=1 order_item_goods
+    // id created  order_item_id=2 order_item_goods
+    // id created  order_item_id=3 order_item_goods
+
     const orderRepo = getRepository(OrderList);
     return await orderRepo.save({
-      user: userId,
+      user: {
+        id: userId,
+      },
       ...body,
       state: DEFAULT_ORDER_STATE,
       payment: body.paymentId,

@@ -1,4 +1,12 @@
-import { Column, CreateDateColumn, Entity, ManyToOne, PrimaryGeneratedColumn, UpdateDateColumn } from 'typeorm';
+import {
+  Column,
+  CreateDateColumn,
+  Entity,
+  ManyToOne,
+  OneToMany,
+  PrimaryGeneratedColumn,
+  UpdateDateColumn,
+} from 'typeorm';
 import { OrderItem } from './OrderItem';
 import { Payment } from './Payment';
 import { User } from './User';
@@ -36,5 +44,8 @@ export class OrderList {
   payment: number;
 
   @ManyToOne(() => User, (user) => user.id)
-  user: number;
+  user: User;
+
+  @OneToMany(() => OrderItem, (order) => order.orderList)
+  orderItems: OrderItem[];
 }

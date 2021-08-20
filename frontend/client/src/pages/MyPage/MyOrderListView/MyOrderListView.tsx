@@ -5,7 +5,6 @@ import { OrderPaginationResult } from '@src/types/Order';
 import React, { useEffect, useState } from 'react';
 import Topic from '@src/components/Topic/Topic';
 import Paginator from '@src/components/Paginator/Paginator';
-import { convertYYYYMMDD } from '@src/utils/dateHelper';
 import OrderCard from '@src/pages/MyPage/MyOrderListView/OrderCard';
 
 const DEFAULT_START_PAGE = 1;
