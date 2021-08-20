@@ -2,6 +2,7 @@ import React from 'react';
 import { styled } from '@src/lib/CustomStyledComponent';
 import { GoodsItem } from '@src/types/Goods';
 import { getDiscountedPrice, getPriceText } from '@src/utils/price';
+import { convertYYYYMMDD } from '@src/utils/dateHelper';
 
 interface Props {
   goods: GoodsItem;
@@ -17,10 +18,6 @@ const STATE_MAP: StateMap = {
   D: '삭제',
 };
 
-function getDateToStringFormat(date: Date) {
-  return `${date.getFullYear()}-${('0' + date.getMonth()).slice(-2)}-${('0' + date.getDate()).slice(-2)}`;
-}
-
 const GoodsTableRow: React.FC<Props> = ({ goods }) => {
   const { id, thumbnailUrl, title, price, discountRate, stock, countOfSell, createdAt, updatedAt, state, category } =
     goods;
@@ -34,8 +31,8 @@ const GoodsTableRow: React.FC<Props> = ({ goods }) => {
       <TableData>{discountRate}</TableData>
       <TableData>{stock}</TableData>
       <TableData>{countOfSell}</TableData>
-      <TableData>{getDateToStringFormat(new Date(createdAt))}</TableData>
-      <TableData>{getDateToStringFormat(new Date(updatedAt))}</TableData>
+      <TableData>{convertYYYYMMDD(new Date(createdAt))}</TableData>
+      <TableData>{convertYYYYMMDD(new Date(updatedAt))}</TableData>
       <TableData>{STATE_MAP[state]}</TableData>
       <TableData>{category.name}</TableData>
     </GoodsTableRowContainer>
