@@ -50,6 +50,7 @@ const PromotionContainer = styled('div')`
 const PromotionImage = styled('img')`
   width: 100%;
   height: 250px;
+  border-radius: 20px;
 `;
 
 const PromotionDeleteButton = styled('button')<{ bgcolor: string }>`
