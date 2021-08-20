@@ -6,6 +6,9 @@ interface Props {
   color?: string;
 }
 
+const DEAFULT_COLOR = '#000000';
+const SLIDE_DURATION = 0.2;
+
 const Toast: React.FC<Props> = ({ children, displayTime, color }) => {
   return (
     <Wrapper displayTime={displayTime} color={color || DEAFULT_COLOR}>
@@ -13,9 +16,6 @@ const Toast: React.FC<Props> = ({ children, displayTime, color }) => {
     </Wrapper>
   );
 };
-
-const DEAFULT_COLOR = '#000000';
-const SLIDE_DURATION = 0.2;
 
 const Wrapper = styled.div<{ displayTime: number; color: string }>`
   position: fixed;
@@ -26,6 +26,7 @@ const Wrapper = styled.div<{ displayTime: number; color: string }>`
   border-radius: 1rem;
   color: white;
   background-color: ${(props) => props.color}80;
+  transition: linear 1s;
 
   animation-name: slideup, slidedown;
   animation-delay: 0s, ${(props) => props.displayTime / 1000 - SLIDE_DURATION}s;

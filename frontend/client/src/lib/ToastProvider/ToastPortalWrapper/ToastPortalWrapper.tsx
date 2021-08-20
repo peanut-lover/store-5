@@ -4,7 +4,7 @@ import styled from 'styled-components';
 
 interface Props {}
 
-const ToastProtalWrapper: React.FC<Props> = ({ children }) => {
+const ToastPortalWrapper: React.FC<Props> = ({ children }) => {
   return (
     <Portal>
       <Wrapper>{children}</Wrapper>
@@ -16,4 +16,4 @@ const Wrapper = styled.div`
   z-index: 9999999;
 `;
 
-export default ToastProtalWrapper;
+export default ToastPortalWrapper;

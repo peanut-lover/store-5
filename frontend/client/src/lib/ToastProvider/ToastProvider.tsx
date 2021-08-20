@@ -1,10 +1,15 @@
-import Portal from '@src/portal/portal';
 import React, { createContext, useContext, useRef, useState } from 'react';
 import Toast from './Toast/Toast';
-import ToastProtalWrapper from './ToastPortalWrapper/ToastProtalWrapper';
+import ToastPortalWrapper from './ToastPortalWrapper/ToastPortalWrapper';
+
+interface ToastData {
+  text: string;
+  displayTime?: number;
+  color?: string;
+}
 
 interface ToastContextType {
-  pushToast: (toast: ToastState, displayTime?: number) => void;
+  pushToast: (toast: ToastData) => void;
 }
 
 const defaultToastContext: ToastContextType = {
@@ -15,18 +20,16 @@ const defaultToastContext: ToastContextType = {
 
 const ToastContext = createContext<ToastContextType>(defaultToastContext);
 
-interface ToastState {
-  id?: number;
-  text: string;
-  displayTime?: number;
-  color?: string;
+interface ToastState extends ToastData {
+  id: number;
 }
+
 const DEFAULT_DISPLAY_TIME = 3000;
 const ToastProvider: React.FC = ({ children }) => {
   const [toasts, setToasts] = useState<ToastState[]>([]);
   const idCounterRef = useRef(0);
 
-  const pushToast = (newToast: ToastState) => {
+  const pushToast = (newToast: ToastData) => {
     const id = idCounterRef.current++;
     const { displayTime = DEFAULT_DISPLAY_TIME } = newToast;
 
@@ -44,13 +47,13 @@ const ToastProvider: React.FC = ({ children }) => {
   return (
     <ToastContext.Provider value={{ pushToast }}>
       {children}
-      <ToastProtalWrapper>
+      <ToastPortalWrapper>
         {toasts.map((toast) => (
           <Toast key={toast.id} displayTime={toast.displayTime ?? DEFAULT_DISPLAY_TIME} color={toast.color}>
             {toast.text}
           </Toast>
         ))}
-      </ToastProtalWrapper>
+      </ToastPortalWrapper>
     </ToastContext.Provider>
   );
 };
