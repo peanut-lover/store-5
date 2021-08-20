@@ -8,7 +8,11 @@ async function createOrderItem(
   orderListId: number,
   orderItemBody: CreateOrderItem
 ): Promise<OrderItem> {
-  return await getRepository(OrderItem).save({ ...orderItemBody, goods: goodsId, orderList: orderListId });
+  return await getRepository(OrderItem).save({
+    ...orderItemBody,
+    goods: { id: goodsId },
+    orderList: { id: orderListId },
+  });
 }
 
 async function getAllOrderItemByListId(orderListId: number): Promise<OrderItem[]> {

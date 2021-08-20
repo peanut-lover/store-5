@@ -9,3 +9,8 @@ export interface CreateOrderItem {
   discountRate: number;
   state: string;
 }
+
+export interface GetAllOrderByUserIdProps {
+  page: number;
+  limit: number;
+}

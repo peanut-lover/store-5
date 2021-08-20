@@ -7,18 +7,44 @@ import { OrderItemRepository } from '../repository/order.item.repository';
 import { GoodsRepository } from '../repository/goods.repository';
 import { BadRequestError } from '../errors/client.error';
 import { INVALID_DATA } from '../constants/client-error-name';
-import { OrderGoods } from '../types/Order';
-import { GetOrderListResponse } from '../types/response/order.response';
+import { GetAllOrderByUserIdProps, OrderGoods } from '../types/Order';
+import {
+  GetOrderListResponse,
+  OrderListPaginationResponse,
+  OrderListWithThumbnail,
+} from '../types/response/order.response';
+import { getTotalPage, pagination } from '../utils/pagination';
+import { PaginationProps } from '../types/Pagination';
 
 type OrderGoodsInfo = OrderItem & {
   goods: Goods;
 };
 
-async function getOrders(userId: number): Promise<GetOrderListResponse> {
-  const ordersResponse: GetOrderListResponse = [];
-  const orders = await OrderListRepository.getOrders(userId);
-  await Promise.all(orders.map((order) => processGetOrderData(order, ordersResponse)));
-  return ordersResponse;
+async function getOrdersPagination(
+  { page, limit }: GetAllOrderByUserIdProps,
+  userId: number
+): Promise<OrderListPaginationResponse> {
+  const totalCount = await OrderListRepository.getOwnOrderTotalCount(userId);
+
+  const newPage = Math.min(getTotalPage(totalCount, limit), page);
+
+  const option: PaginationProps = {
+    offset: pagination.calculateOffset(newPage, limit),
+    limit,
+  };
+  const orders = await OrderListRepository.getOwnOrdersPagination(option, userId);
+
+  const processedOrderList = await Promise.all(orders.map((order) => processAppendingThumbnailAndTitle(order)));
+
+  return {
+    meta: {
+      page: newPage,
+      limit,
+      totalPage: getTotalPage(totalCount, limit),
+      totalCount,
+    },
+    orderList: processedOrderList,
+  };
 }
 
 async function createOrder(userId: number, body: CreateOrderBody): Promise<OrderList> {
@@ -42,18 +68,26 @@ async function createOrderItem(orderedItem: OrderGoods, orderListId: number): Pr
   });
 }
 
-async function processGetOrderData(order: OrderList, ordersResponse: GetOrderListResponse) {
+async function processAppendingThumbnailAndTitle(order: OrderList): Promise<OrderListWithThumbnail> {
   const orderItems = await OrderItemRepository.getAllOrderItemByListId(order.id);
   if (orderItems.length < 1) throw new BadRequestError(INVALID_DATA);
-  const orderItemInfo = (await OrderItemRepository.findOrderGoodsInfoById(orderItems[0].id)) as OrderGoodsInfo;
+
+  // 가장 맨 처음 탐색되는 주문 아이템이 thumbnail이 된다.
+  const orderItemInfo = await OrderItemRepository.findOrderGoodsInfoById(orderItems[0].id);
   if (!orderItemInfo) throw new BadRequestError(INVALID_DATA);
+
   const count = orderItems.length - 1;
-  const title = `${orderItemInfo.goods.title}외 ${count}건 주문`;
+  const title = `${orderItemInfo.goods.title} 외 ${count}건 주문`;
   const thumbnailUrl = orderItemInfo.goods.thumbnailUrl;
-  ordersResponse.push({ ...order, title, thumbnailUrl });
+
+  return {
+    ...order,
+    title,
+    thumbnailUrl,
+  };
 }
 
 export const OrderService = {
-  getOrders,
+  getOrdersPagination,
   createOrder,
 };

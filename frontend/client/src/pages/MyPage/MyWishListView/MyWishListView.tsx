@@ -19,8 +19,13 @@ const MyWishListView = () => {
   };
 
   useEffect(() => {
-    fetchWishGoodsList();
-  }, []);
+    try {
+      fetchWishGoodsList();
+    } catch (err) {
+      console.error(err);
+      alert('찜 리스트를 불러오는데 실패했습니다. 서버오류');
+    }
+  }, [currentPage]);
 
   return (
     <MyWishListViewContainer>

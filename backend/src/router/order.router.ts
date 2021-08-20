@@ -5,7 +5,7 @@ import isAuthenticate from '../middlewares/is-authenticate';
 
 const router = express.Router();
 
-router.get('/', isAuthenticate, wrapAsync(OrderController.getOrders));
+router.get('/', isAuthenticate, wrapAsync(OrderController.getOrdersPagination));
 router.post('/', isAuthenticate, wrapAsync(OrderController.createOrder));
 
 export default router;

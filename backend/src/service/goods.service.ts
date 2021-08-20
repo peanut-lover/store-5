@@ -18,7 +18,7 @@ import {
   GetAllByKeywordProps,
   GetAllByUserIdProps,
 } from '../types/Goods';
-import { pagination } from '../utils/pagination';
+import { getTotalPage, pagination } from '../utils/pagination';
 import { BadRequestError } from '../errors/client.error';
 import { GOODS_DB_ERROR } from '../constants/database-error-name';
 import { CategoryRepository } from '../repository/category.repository';
@@ -260,10 +260,6 @@ function getListGoodsMeta(page: number, limit: number, totalCount: number): Good
     totalPage: getTotalPage(totalCount, limit),
     totalCount,
   };
-}
-
-function getTotalPage(totalCount: number, limit: number): number {
-  return Math.ceil(totalCount / limit);
 }
 
 export const GoodsService = {

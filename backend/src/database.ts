@@ -134,9 +134,9 @@ async function createDefaultPayment() {
 }
 
 async function createDefaultCart() {
-  await CartService.createCart(1, 1, { amount: 1 });
-  await CartService.createCart(1, 2, { amount: 1 });
-  await CartService.createCart(1, 3, { amount: 1 });
+  // await CartService.createCart(1, 1, { amount: 1 });
+  // await CartService.createCart(1, 2, { amount: 1 });
+  // await CartService.createCart(1, 3, { amount: 1 });
 }
 
 async function createDefaultGoods() {
