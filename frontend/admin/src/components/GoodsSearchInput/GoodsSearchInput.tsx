@@ -35,16 +35,16 @@ const GoodsSearchInput: React.FC<Props> = ({ onUpdateSelectedGoods }) => {
         await fetchAutoSearch(keyword);
       }, 100);
     },
-    [SearchAPI.getAutoSearchList, isInputFocused]
+    [isInputFocused]
   );
 
   const handleInputFocuseFalse = useCallback(() => {
     setIsInputFocused(false);
-  }, [setIsInputFocused]);
+  }, []);
 
   const handleInputFocuseTrue = useCallback(() => {
     setIsInputFocused(true);
-  }, [setIsInputFocused]);
+  }, []);
 
   const handleSelectedGoods = useCallback(
     (goods: AutoSearch) => {

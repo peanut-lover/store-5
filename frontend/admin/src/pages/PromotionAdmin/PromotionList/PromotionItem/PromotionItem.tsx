@@ -2,6 +2,7 @@ import { styled } from '@src/lib/CustomStyledComponent';
 import ConfirmModal from '@src/portal/ConfirmModal/ConfirmModal';
 import { theme } from '@src/theme/theme';
 import { Promotion } from '@src/types/Promotion';
+import { FaTimes } from 'react-icons/fa';
 import React, { useCallback, useState } from 'react';
 
 const PROMOTION_DELETE_MESSAGE = '해당 프로모션을 삭제하시겠습니까?';
@@ -23,7 +24,7 @@ const PromotionItem: React.FC<Props> = ({ promotion }) => {
     <PromotionContainer>
       <PromotionImage src={promotion.imgUrl} />
       <PromotionDeleteButton onClick={handleOpenDeleteModal} bgcolor={theme.greenColor}>
-        X
+        <FaTimes />
       </PromotionDeleteButton>
       {openDeleteModal && (
         <ConfirmModal
@@ -55,6 +56,8 @@ const PromotionImage = styled('img')`
 
 const PromotionDeleteButton = styled('button')<{ bgcolor: string }>`
   position: absolute;
+  display: flex;
+  align-items: center;
   top: 15px;
   right: 15px;
   font-size: 1.8em;

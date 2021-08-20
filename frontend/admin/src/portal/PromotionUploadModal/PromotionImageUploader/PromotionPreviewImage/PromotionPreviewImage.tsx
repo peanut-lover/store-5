@@ -6,11 +6,7 @@ interface Props {
 }
 
 const PromotionPreviewImage: React.FC<Props> = ({ url }) => {
-  return (
-    <>
-      <PreviewImage src={url} />
-    </>
-  );
+  return <PreviewImage src={url} />;
 };
 
 const PreviewImage = styled('img')`

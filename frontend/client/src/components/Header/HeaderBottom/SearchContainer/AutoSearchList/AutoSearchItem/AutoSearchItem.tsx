@@ -1,20 +1,15 @@
 import { usePushHistory } from '@src/lib/CustomRouter';
 import { AutoSearch } from '@src/types/Search';
-import { debounceClear } from '@src/utils/debounce';
 import React from 'react';
 import styled from 'styled-components';
 
 export interface Props {
-  onAddHistory: (keyword: string) => Promise<void>;
   searchedItem: AutoSearch;
-  onClose: () => void;
+  onAddHistory: (keyword: string, itemId: number) => Promise<void>;
 }
-const AutoSearchItem: React.FC<Props> = ({ onAddHistory, searchedItem, onClose }) => {
-  const push = usePushHistory();
-  const handleClick = async () => {
-    await onAddHistory(searchedItem.title);
-    push(`/detail/${searchedItem.id}`);
-    onClose();
+const AutoSearchItem: React.FC<Props> = ({ onAddHistory, searchedItem }) => {
+  const handleClick = () => {
+    onAddHistory(searchedItem.title, searchedItem.id);
   };
   return (
     <AutoSearchItemContainer onClick={handleClick}>

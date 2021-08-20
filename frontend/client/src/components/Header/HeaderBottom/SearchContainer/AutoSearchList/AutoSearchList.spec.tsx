@@ -13,7 +13,6 @@ describe('AutoSearchList Component', () => {
           { id: 2, title: 'test2', thumbnailUrl: 'http:asd' },
         ]}
         onAddHistory={async () => {}}
-        onClose={() => {}}
       ></AutoSearchList>
     );
     expect(wrapper.getByText('test1')).toBeInTheDocument();
@@ -25,7 +24,6 @@ describe('AutoSearchList Component', () => {
       <AutoSearchList
         autoSearchList={[{ id: 1, title: '문구', thumbnailUrl: 'http:' }]}
         onAddHistory={async () => {}}
-        onClose={() => {}}
       ></AutoSearchList>
     );
     expect(wrapper.getByText('문구')).toBeInTheDocument();
@@ -40,7 +38,6 @@ describe('AutoSearchList Component', () => {
           { id: 3, title: '제발', thumbnailUrl: 'http:' },
         ]}
         onAddHistory={async () => {}}
-        onClose={() => {}}
       ></AutoSearchList>
     );
     expect(wrapper.getByText('빈물건')).toBeInTheDocument();

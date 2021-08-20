@@ -10,9 +10,7 @@ interface Props {
 const GoodsSearchItem: React.FC<Props> = ({ searchGoods, onUpdateSelectedGoods }) => {
   const handleClick = () => {
     onUpdateSelectedGoods({
-      id: searchGoods.id,
-      thumbnailUrl: searchGoods.thumbnailUrl,
-      title: searchGoods.title,
+      ...searchGoods,
     });
   };
   return (
