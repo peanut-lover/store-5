@@ -14,6 +14,7 @@ import {
   FindAllColumnNameProps,
   FindAllKeywordProps,
   FindAllUserIdProps,
+  GetAllByAdminProps,
   GetAllByCategoryProps,
   GetAllByKeywordProps,
   GetAllByUserIdProps,
@@ -24,6 +25,7 @@ import { GOODS_DB_ERROR } from '../constants/database-error-name';
 import { CategoryRepository } from '../repository/category.repository';
 import { GoodsStateMap } from '../controller/goods.controller';
 import { CreateGoodsBody } from '../types/request/goods.request';
+import { PaginationProps } from '../types/Pagination';
 
 async function createGoods(body: CreateGoodsBody, uploadFileUrls: string[]): Promise<Goods> {
   return await getConnection().transaction(async (transactionalEntityManager) => {
@@ -173,39 +175,21 @@ async function getMainGoodsListMap(userId?: number): Promise<{
   };
 }
 
-// 백오피스용 목록 조회 함수입니다, 추가적인 작업 예정 :)
-async function getAllByCategory({ categoryName, page, flag, limit, state }: GetAllByCategoryProps) {
-  // TODO: 함수로 빼도 될듯?
-  const category = await CategoryRepository.getCategoryByName(categoryName);
-  if (!category) throw new BadRequestError(GOODS_DB_ERROR);
-  const totalCount = await GoodsRepository.findTotalCountByCategory(category.id);
-  page = Math.min(getTotalPage(totalCount, limit), page);
+// TODO: keyword, order, sort
+async function getGoodsForAdmin(page: number, limit: number, keyword?: string, order?: string, sort?: string) {
+  const totalCount = await GoodsRepository.findTotalCount();
+  const newPage = Math.min(getTotalPage(totalCount, limit), page);
 
-  const option: FindAllCategoryProps = {
-    category: category.id,
-    offset: pagination.calculateOffset(page, limit),
-    limit: limit,
-    where: {
-      state,
-      stock: MoreThan(0),
-    },
-    order: getCategoryByFlag(flag),
-    sort: getSortByFlag(flag),
+  const option: PaginationProps = {
+    offset: pagination.calculateOffset(newPage, limit),
+    limit,
   };
-
-  const goodsList = await GoodsRepository.findAllByCategory(option);
+  const goodsList = await GoodsRepository.findAllByOption(option);
   if (!goodsList) throw new BadRequestError(GOODS_DB_ERROR);
 
-  const goodsSellCountAverage = await GoodsRepository.findSellCountAverage();
-
-  goodsList.forEach((goods) => {
-    goods.isBest = goodsSellCountAverage < goods.countOfSell;
-    goods.isNew = isNewGoods(goods.createdAt);
-  });
-
   return {
-    meta: getListGoodsMeta(page, limit, totalCount),
-    goods: goodsList,
+    meta: getListGoodsMeta(newPage, limit, totalCount),
+    goodsList,
   };
 }
 
@@ -265,7 +249,7 @@ function getListGoodsMeta(page: number, limit: number, totalCount: number): Good
 export const GoodsService = {
   createGoods,
   getDetailById,
-  getAllByCategory,
+  getGoodsForAdmin,
   getAllSaleGoodsByKeyword,
   getAllSaleGoodsByCategory,
   getAllGoodsByUserId,

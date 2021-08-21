@@ -2,7 +2,7 @@ import { Request, Response } from 'express';
 import { INVALID_DATA } from '../constants/client-error-name';
 import { BadRequestError } from '../errors/client.error';
 import { GoodsService } from '../service/goods.service';
-import { GetAllByCategoryProps, GetAllByKeywordProps, GoodsFlag, GoodsState } from '../types/Goods';
+import { GetAllByAdminProps, GetAllByCategoryProps, GetAllByKeywordProps, GoodsFlag, GoodsState } from '../types/Goods';
 import { CreateGoodsBody, CreateGoodsRequest } from '../types/request/goods.request';
 import ConvertToURLfromFile from '../utils/convert.url.from.file';
 
@@ -88,6 +88,23 @@ async function getGoodsStockById(req: Request, res: Response) {
   return res.status(200).json({ result });
 }
 
+async function getGoodsForAdmin(req: Request, res: Response) {
+  const { page, keyword, limit, order, sort } = req.query;
+
+  if (isNaN(Number(page))) throw new BadRequestError(INVALID_DATA);
+  if (isNaN(Number(limit))) throw new BadRequestError(INVALID_DATA);
+  if (sort && sort !== 'ASC' && sort !== 'DESC') throw new BadRequestError(INVALID_DATA);
+
+  const result = await GoodsService.getGoodsForAdmin(
+    Number(page),
+    Number(limit),
+    String(keyword),
+    String(order),
+    String(sort)
+  );
+  return res.status(200).json({ result });
+}
+
 export const GoodsController = {
   createGoods,
   getGoodsDetail,
@@ -95,4 +112,5 @@ export const GoodsController = {
   getAllSaleGoodsByKeyword,
   getMainGoodsListMap,
   getGoodsStockById,
+  getGoodsForAdmin,
 };

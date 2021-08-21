@@ -39,6 +39,7 @@ const HeaderContainer = styled('header')`
   box-shadow: 6px 1px 6px rgba(0, 0, 0, 0.1);
   -webkit-box-shadow: 6px 1px 6px rgba(0, 0, 0, 0.1);
   -moz-box-shadow: 6px 1px 6px rgba(0, 0, 0, 0.1);
+  flex-shrink: 0;
 `;
 
 const LogoContainer = styled('div')`
