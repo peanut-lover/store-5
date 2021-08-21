@@ -28,10 +28,12 @@ import { CategoryRepository } from '../repository/category.repository';
 import { GoodsStateMap } from '../controller/goods.controller';
 import { CreateGoodsBody } from '../types/request/goods.request';
 import { PaginationProps } from '../types/Pagination';
-import { INVALID_DATA } from '../constants/client-error-name';
+import { isBoolean, isNumber } from '../utils/check.primitive.type';
 
 const INVALID_DISCOUNT_RATE = '할인율은 0~99% 범위 내에서 가능합니다.';
 const INVALID_DELIVERY_INFO = '해당 배송 정보는 없는 정보입니다.';
+const MIN_DISCOUNT_RATE = 0;
+const MAX_DISCOUNT_RATE = 99;
 
 async function createGoods(body: CreateGoodsBody, uploadFileUrls: string[]): Promise<Goods> {
   await checkValidateCreateGoods(body);
@@ -287,9 +289,16 @@ function getListGoodsMeta(page: number, limit: number, totalCount: number): Good
 
 async function checkValidateCreateGoods(body: CreateGoodsBody): Promise<void> {
   const { title, category, isGreen, price, stock, state, discountRate, deliveryInfo } = body;
-  if (!title || !category || !isGreen || !price || !stock || !state || !deliveryInfo)
+  if (!title || !state) throw new BadRequestError(INVALID_DATA);
+
+  if (!isBoolean(isGreen)) throw new BadRequestError(INVALID_DATA);
+
+  if (!isNumber(category) || !isNumber(price) || !isNumber(stock) || !isNumber(deliveryInfo))
     throw new BadRequestError(INVALID_DATA);
-  if (discountRate < 0 || discountRate > 99) throw new BadRequestError(INVALID_DISCOUNT_RATE);
+
+  if (discountRate < MIN_DISCOUNT_RATE || discountRate > MAX_DISCOUNT_RATE)
+    throw new BadRequestError(INVALID_DISCOUNT_RATE);
+
   const foundDeliveryInfo = await DeliveryInfoRepository.getDeliveryInfoById(deliveryInfo);
   if (!foundDeliveryInfo) throw new BadRequestError(INVALID_DELIVERY_INFO);
 }

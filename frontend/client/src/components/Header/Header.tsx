@@ -65,7 +65,7 @@ const HeaderContainer = styled.header<HeaderContainerProp>`
   position: relative;
   top: 0;
   width: 100%;
-  min-width: 1200px;
+  min-width: 1280px;
   height: 13vh;
   margin: auto;
   z-index: 5;
