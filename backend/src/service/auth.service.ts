@@ -2,10 +2,9 @@ import axios from 'axios';
 import { Session } from 'express-session';
 import { githubConfig } from '../config';
 import { INVALID_ACCESS } from '../constants/client-error-name';
-import { User } from '../entity/User';
 import { BadRequestError } from '../errors/client.error';
 import { UserRepository } from '../repository/user.repository';
-import removeBlank from '../utils/remove-blank';
+import removeBlank from '../utils/remove.blank';
 import { URLSearchParams } from 'url';
 
 type SessionUserId = number | undefined | null;

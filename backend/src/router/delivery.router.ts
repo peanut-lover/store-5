@@ -1,7 +1,7 @@
 import { DeliveryController } from './../controller/delivery.controller';
 import express from 'express';
-import isAuthenticate from '../middlewares/is-authenticate';
-import wrapAsync from '../utils/wrap-async';
+import isAuthenticate from '../middlewares/is.authenticate';
+import wrapAsync from '../utils/wrap.async';
 
 const router = express.Router();
 

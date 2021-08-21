@@ -1,8 +1,8 @@
 import express from 'express';
-import wrapAsync from '../utils/wrap-async';
+import wrapAsync from '../utils/wrap.async';
 import { PromotionController } from '../controller/promotion.controller';
-import uploadProductFiles from '../middlewares/upload-file';
-import checkNumberInParams from '../middlewares/check-number-params';
+import uploadProductFiles from '../middlewares/upload.file';
+import checkNumberInParams from '../middlewares/check.number.params';
 
 const PromotionImageFieldName = 'file';
 

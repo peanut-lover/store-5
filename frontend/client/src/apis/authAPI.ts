@@ -1,51 +1,38 @@
-import { API_BASE_URL } from '@src/constants/config';
+import { APIResponse, checkedFetch } from '@src/apis/base';
 
-async function getCheckLoggedIn() {
-  try {
-    const res = await fetch(`/api/auth/check`, {
-      method: 'GET',
-      credentials: 'include',
-      headers: {
-        'Cache-Control': 'no-cache',
-      },
-    });
-    if (res.ok) {
-      return res.json();
-    }
-    return false;
-  } catch (error) {
-    console.log(error);
-  }
+interface LoginUserInfo {
+  isLoggedIn: boolean;
+  name: string;
 }
 
-async function getSampleLogin() {
-  try {
-    const res = await fetch(`/api/auth/sample`, {
-      method: 'GET',
-      credentials: 'include',
-      headers: {
-        'Cache-Control': 'no-cache',
-      },
-    });
-    if (res.ok) {
-      return res.json();
-    }
-    return false;
-  } catch (error) {
-    console.log(error);
-  }
+async function getCheckLoggedIn(): Promise<APIResponse<LoginUserInfo>> {
+  const res = await checkedFetch(`api/auth/check`, {
+    method: 'GET',
+    credentials: 'include',
+    headers: {
+      'Cache-Control': 'no-cache',
+    },
+  });
+  return res.json();
 }
 
-const logout = async () => {
-  try {
-    const res = await fetch(`/api/auth/logout`, {
-      method: 'POST',
-      credentials: 'include',
-    });
-    return res.ok;
-  } catch (error) {
-    console.error(error);
-  }
+async function getSampleLogin(): Promise<APIResponse<LoginUserInfo>> {
+  const res = await checkedFetch(`/api/auth/sample`, {
+    method: 'GET',
+    credentials: 'include',
+    headers: {
+      'Cache-Control': 'no-cache',
+    },
+  });
+  return res.json();
+}
+
+const logout = async (): Promise<boolean> => {
+  const res = checkedFetch(`/api/auth/logout`, {
+    method: 'POST',
+    credentials: 'include',
+  });
+  return true;
 };
 
 export const AuthAPI = {

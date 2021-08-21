@@ -1,6 +1,6 @@
 import express from 'express';
 import CategoryController from '../controller/category.controller';
-import wrapAsync from '../utils/wrap-async';
+import wrapAsync from '../utils/wrap.async';
 
 const router = express.Router();
 
