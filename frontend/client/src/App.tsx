@@ -9,11 +9,6 @@ import Goods from './pages/GoodsDetail/GoodsDetailPage';
 import MyPage from './pages/MyPage/MyPage';
 import CategoryGoods from '@src/pages/CategoryGoods/CategoryGoods';
 import KeywordGoods from './pages/KeywordGoods/KeywordGoods';
-import withLoggedIn from './utils/withLoggedIn';
-
-const CartPageWithLoggedIn = withLoggedIn(Cart);
-const OrderPageWithLoggedIn = withLoggedIn(Order);
-const MyPageWithLoggedIn = withLoggedIn(MyPage);
 
 export default function App() {
   return (
@@ -22,16 +17,16 @@ export default function App() {
         <Header />
         <Routes>
           <Route path='/cart'>
-            <CartPageWithLoggedIn />
+            <Cart />
           </Route>
           <Route path='/order'>
-            <OrderPageWithLoggedIn />
+            <Order />
           </Route>
           <Route path='/detail/:id'>
             <Goods />
           </Route>
           <Route path='/mypage'>
-            <MyPageWithLoggedIn />
+            <MyPage />
           </Route>
           <Route path='/category/:category'>
             <CategoryGoods />
