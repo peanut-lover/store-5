@@ -3,10 +3,11 @@ import { PROMOTION_DB_ERROR } from '../constants/database.error.name';
 import { Promotion } from '../entity/Promotion';
 import { DatabaseError } from '../errors/base.error';
 
-async function createPromotion(imgUrl: string): Promise<Promotion> {
+async function createPromotion(goodsId: number, imgUrl: string): Promise<Promotion> {
   try {
     const promotionRepo = getRepository(Promotion);
     const newPromotionEntity = promotionRepo.create({
+      goods: { id: goodsId },
       imgUrl,
     });
     return await promotionRepo.save(newPromotionEntity);

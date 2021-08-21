@@ -11,7 +11,12 @@ async function getDeliveryInfos(): Promise<DeliveryInfo[]> {
   return await getRepository(DeliveryInfo).find();
 }
 
+async function getDeliveryInfoById(deliveryInfoId: number): Promise<DeliveryInfo | undefined> {
+  return await getRepository(DeliveryInfo).findOne({ where: { id: deliveryInfoId } });
+}
+
 export const DeliveryInfoRepository = {
   createDeliveryInfo,
   getDeliveryInfos,
+  getDeliveryInfoById,
 };

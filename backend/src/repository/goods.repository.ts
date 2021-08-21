@@ -10,6 +10,15 @@ import { PaginationProps } from '../types/Pagination';
 
 const AUTO_SEARCH_GOODS_NUMBER = 10;
 
+async function findGoodsById(goodsId: number): Promise<Goods | undefined> {
+  try {
+    return await getRepository(Goods).findOne({ where: { id: goodsId } });
+  } catch (error) {
+    console.error(error);
+    throw new DatabaseError(GOODS_DB_ERROR);
+  }
+}
+
 async function findGoodsDetailById(goodsId: number): Promise<Goods | undefined> {
   try {
     return await getRepository(Goods).findOne({
@@ -207,6 +216,7 @@ async function findStockById(goodsId: number): Promise<number> {
 }
 
 export const GoodsRepository = {
+  findGoodsById,
   findGoodsDetailById,
   findAllByCategory,
   findAllByColumnName,

@@ -53,7 +53,6 @@ async function populate() {
   await createDefaultDeliveryInfo();
   await createDefaultGoods();
   await createDefaultPayment();
-  await createDefaultCart();
   await createDefaultOrderList();
 }
 

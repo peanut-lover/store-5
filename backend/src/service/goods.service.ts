@@ -1,3 +1,5 @@
+import { DeliveryInfoRepository } from './../repository/delivery.info.repository';
+import { INVALID_DATA } from './../constants/client.error.name';
 import { GoodsImg } from './../entity/GoodsImg';
 import { getConnection, MoreThan } from 'typeorm';
 import { Goods } from '../entity/Goods';
@@ -28,8 +30,11 @@ import { CreateGoodsBody } from '../types/request/goods.request';
 import { PaginationProps } from '../types/Pagination';
 import { INVALID_DATA } from '../constants/client-error-name';
 
-// TODO: s3 연동 후 validate 추가 할 예정
+const INVALID_DISCOUNT_RATE = '할인율은 0~99% 범위 내에서 가능합니다.';
+const INVALID_DELIVERY_INFO = '해당 배송 정보는 없는 정보입니다.';
+
 async function createGoods(body: CreateGoodsBody, uploadFileUrls: string[]): Promise<Goods> {
+  await checkValidateCreateGoods(body);
   const { title, category, isGreen, price, stock, state, discountRate, deliveryInfo } = body;
 
   if (
@@ -278,6 +283,15 @@ function getListGoodsMeta(page: number, limit: number, totalCount: number): Good
     totalPage: getTotalPage(totalCount, limit),
     totalCount,
   };
+}
+
+async function checkValidateCreateGoods(body: CreateGoodsBody): Promise<void> {
+  const { title, category, isGreen, price, stock, state, discountRate, deliveryInfo } = body;
+  if (!title || !category || !isGreen || !price || !stock || !state || !deliveryInfo)
+    throw new BadRequestError(INVALID_DATA);
+  if (discountRate < 0 || discountRate > 99) throw new BadRequestError(INVALID_DISCOUNT_RATE);
+  const foundDeliveryInfo = await DeliveryInfoRepository.getDeliveryInfoById(deliveryInfo);
+  if (!foundDeliveryInfo) throw new BadRequestError(INVALID_DELIVERY_INFO);
 }
 
 export const GoodsService = {

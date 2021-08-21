@@ -9,7 +9,6 @@ async function createPromotion(req: CreatePromotionRequest, res: Response) {
   const body = req.body;
   const file = req.file;
   if (!file) throw new BadRequestError(INVALID_DATA);
-
   const imagePath = await uploadPromotionImage(file);
   const result = await PromotionService.createPromotion(body, imagePath);
   res.status(201).json({ result });
