@@ -126,8 +126,6 @@ async function findAllWishByUserId({ offset, limit, userId }: FindAllUserIdProps
     console.error(err);
     throw new DatabaseError(GOODS_DB_ERROR);
   }
-
-  return [];
 }
 
 async function findTotalCountByKeyword(keyword: string): Promise<number> {

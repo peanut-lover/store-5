@@ -20,6 +20,7 @@ import { GoodsStateMap } from './controller/goods.controller';
 import { PromotionRepository } from './repository/promotion.repository';
 import { PaymentRepository } from './repository/payment.repository';
 import CartService from './service/cart.service';
+import { OrderListRepository } from './repository/order.list.repository';
 
 export default async function () {
   await createConnection({
@@ -48,9 +49,11 @@ async function populate() {
   await createDefaultAddress();
   await createDefaultCategory();
   await createDefaultPromotions();
-  await createDefaultGoods();
   await createDefaultDeliveryInfo();
+  await createDefaultGoods();
   await createDefaultPayment();
+  await createDefaultCart();
+  await createDefaultOrderList();
 }
 
 async function createDefaultUser(name: string) {
@@ -122,7 +125,18 @@ async function createDefaultDeliveryInfo() {
   });
 }
 
-async function createDefaultOrderList() {}
+async function createDefaultOrderList() {
+  const res = await OrderListRepository.getOrders(1);
+  if (res.length > 0) return;
+  await OrderListRepository.createOrder(1, {
+    orderMemo: '지갑 거덜나네,,',
+    receiver: '아이유',
+    zipCode: '083212',
+    address: '서울 특별시 강남구',
+    subAddress: '역삼동',
+    paymentId: 1,
+  });
+}
 
 async function createDefaultPayment() {
   const res = await PaymentRepository.getPayments();

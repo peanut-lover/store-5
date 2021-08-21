@@ -3,8 +3,8 @@ import { DeliveryService } from '../service/delivery.service';
 import { CreateDeliveryRequest } from '../types/request/delivery.request';
 
 async function createDeliveryInfo(req: CreateDeliveryRequest, res: Response) {
-  const { name, deliveryFee, deliveryDetail } = req.body;
-  const result = await DeliveryService.createDeliveryInfo(name, deliveryFee, deliveryDetail);
+  const body = req.body;
+  const result = await DeliveryService.createDeliveryInfo(body);
   res.status(201).json({ result });
 }
 

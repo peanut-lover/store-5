@@ -28,6 +28,7 @@ import { CreateGoodsBody } from '../types/request/goods.request';
 import { PaginationProps } from '../types/Pagination';
 import { INVALID_DATA } from '../constants/client-error-name';
 
+// TODO: s3 연동 후 validate 추가 할 예정
 async function createGoods(body: CreateGoodsBody, uploadFileUrls: string[]): Promise<Goods> {
   const { title, category, isGreen, price, stock, state, discountRate, deliveryInfo } = body;
 
@@ -61,7 +62,9 @@ async function createGoods(body: CreateGoodsBody, uploadFileUrls: string[]): Pro
     });
 
     await Promise.all(
-      uploadFileUrls.map(async (url) => await transactionalEntityManager.save(GoodsImg, { goods: goods.id, url }))
+      uploadFileUrls.map(
+        async (url) => await transactionalEntityManager.save(GoodsImg, { goods: { id: goods.id }, url })
+      )
     );
 
     return goods;

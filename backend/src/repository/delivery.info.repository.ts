@@ -2,7 +2,8 @@ import { DeliveryInfo } from './../entity/DeliveryInfo';
 import { getRepository } from 'typeorm';
 import { CreateDeliveryInfoBody } from '../types/request/delivery.request';
 
-async function createDeliveryInfo(name: string, deliveryFee: number, deliveryDetail: string): Promise<DeliveryInfo> {
+async function createDeliveryInfo(body: CreateDeliveryInfoBody): Promise<DeliveryInfo> {
+  const { name, deliveryFee, deliveryDetail } = body;
   return await getRepository(DeliveryInfo).save({ name, deliveryFee, deliveryDetail });
 }
 
