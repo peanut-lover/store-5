@@ -1,4 +1,4 @@
-import React, { ChangeEvent } from 'react';
+import React, { ChangeEvent, useState } from 'react';
 import { BsCheckCircle } from 'react-icons/bs';
 import {
   GoodsUploadInputContainer,
@@ -9,22 +9,38 @@ import {
 import formatNumber from '@src/utils/formatToNumber';
 
 interface Props {
-  price: string;
+  price: number;
   onChangePrice: (e: ChangeEvent<HTMLInputElement>) => void;
 }
 const GoodsPriceUploader: React.FC<Props> = ({ price, onChangePrice }) => {
+  const [isEditing, setIsEditing] = useState<boolean>(false);
+
+  const handleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
+    onChangePrice(e);
+  };
+
+  const toggleEditing = () => {
+    setIsEditing(!isEditing);
+  };
+
   return (
     <UploaderContainer>
       <UploaderLabel>가격</UploaderLabel>
       <GoodsUploadInputContainer>
-        <UploaderInput
-          type='text'
-          maxLength={30}
-          value={formatNumber(price)}
-          onInput={onChangePrice}
-          placeholder='Price'
-        ></UploaderInput>
-        {price && <BsCheckCircle size='1.4em' color='#2ac1bc' />}
+        {isEditing ? (
+          <UploaderInput
+            type='number'
+            min={0}
+            value={price}
+            onChange={handleChange}
+            onBlur={toggleEditing}
+            placeholder='Price'
+          />
+        ) : (
+          <UploaderInput type='text' readOnly value={formatNumber(price)} onFocus={toggleEditing} placeholder='Price' />
+        )}
+
+        {price > 0 && <BsCheckCircle size='1.4em' color='#2ac1bc' />}
       </GoodsUploadInputContainer>
     </UploaderContainer>
   );

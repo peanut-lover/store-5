@@ -31,20 +31,6 @@ async function createGoods(req: CreateGoodsRequest, res: Response) {
     deliveryInfo: Number(req.body.deliveryInfo),
   };
 
-  if (
-    body.title === undefined ||
-    body.title === '' ||
-    body.isGreen === undefined ||
-    body.stock === NaN ||
-    body.state === undefined ||
-    body.state === '' ||
-    body.price === NaN ||
-    body.category === NaN ||
-    body.deliveryInfo === NaN
-  ) {
-    new BadRequestError(INVALID_DATA);
-  }
-
   const files = req.files;
 
   if (!files || !Array.isArray(files)) throw new BadRequestError(INVALID_DATA);
