@@ -13,7 +13,6 @@ const GoodsImageSection: React.FC<Props> = ({ imgs }) => {
   const [active, setActive] = useState(0);
 
   const { id } = useParams();
-  console.log(imgs, imgs[active]);
   return (
     <GoodsImageContainer>
       <ImageList imgs={imgs} active={active} setActive={setActive} />

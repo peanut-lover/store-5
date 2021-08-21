@@ -31,7 +31,7 @@ const CartModal: React.FC<Props> = ({ onClose, goodsId }) => {
           <CloseButton onClick={onClose}>
             <FaTimes />
           </CloseButton>
-          <CartForm goodsId={goodsId} />
+          <CartForm goodsId={goodsId} onClose={onClose} />
         </FormContainer>
       </ModalContainer>
     </Portal>

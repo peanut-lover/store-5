@@ -27,6 +27,9 @@ interface Props {
 }
 
 const NEED_LOGIN = '로그인이 필요합니다!';
+const ADD_WISH = '찜하기 목록에 추가하였습니다.';
+const DELETE_WISH = '찜하기 목록에서 삭제하였습니다.';
+const ERROR_WISH = '서버 문제로 요청에 실패하였습니다!';
 
 const GoodsItem: React.FC<Props> = ({
   id,
@@ -73,9 +76,11 @@ const GoodsItem: React.FC<Props> = ({
       }
       try {
         const result = isWished ? await deleteWish(id) : await postWish(id);
+        pushToast({ text: isWished ? DELETE_WISH : ADD_WISH, color: theme.primary });
         if (result) setIsWished(!isWished);
       } catch (error) {
         console.error(error);
+        pushToast({ text: ERROR_WISH, color: theme.error });
       }
     },
     [isWished]

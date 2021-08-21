@@ -7,28 +7,39 @@ import { getGoodsStockCount } from '@src/apis/goodsAPI';
 import { createCart } from '@src/apis/cartAPI';
 import usePushToOrderPage from '@src/hooks/usePushToOrderPage';
 import { usePushHistory } from '@src/lib/CustomRouter';
+import theme from '@src/theme/theme';
+import { usePushToast } from '@src/lib/ToastProvider/ToastProvider';
 
 interface Props {
   goods: DetailGoods;
 }
 
-// TODO: 에러 및 구매 불가 안내 (토스트 팝업)
+const ERROR_SERVER = '서버 문제로 요청에 실패하였습니다!';
+const ADD_WISH = '찜하기 목록에 추가하였습니다.';
+const DELETE_WISH = '찜하기 목록에서 삭제하였습니다.';
+
 const GoodsInteractive: React.FC<Props> = ({ goods }) => {
   const { id, title, price, deliveryFee = 0, discountRate = 0, isWish = false } = goods;
+
+  const pushToast = usePushToast();
   const pushToOrderPage = usePushToOrderPage();
   const push = usePushHistory();
+
   const [isWished, setIsWished] = useState(isWish);
   const [isOver, setIsOver] = useState(false);
   const [amount, setAmount] = useState(0);
   const [disabled, setDisabled] = useState(false);
+
   const handleToWish = useCallback(async () => {
     if (disabled) return;
     setDisabled(true);
     try {
       const result = isWished ? await deleteWish(id) : await postWish(id);
+      pushToast({ text: isWished ? DELETE_WISH : ADD_WISH, color: theme.primary });
       if (result) setIsWished(!isWished);
     } catch (error) {
       console.log(error);
+      pushToast({ text: ERROR_SERVER, color: theme.error });
     } finally {
       setDisabled(false);
     }
@@ -48,6 +59,7 @@ const GoodsInteractive: React.FC<Props> = ({ goods }) => {
       push('/cart');
     } catch (error) {
       console.log(error);
+      pushToast({ text: ERROR_SERVER, color: theme.error });
     } finally {
       setDisabled(false);
     }
