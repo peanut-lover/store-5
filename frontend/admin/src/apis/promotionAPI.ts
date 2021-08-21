@@ -19,7 +19,7 @@ const getPromotions = async (): Promise<APIResponse<Promotion[]>> => {
 };
 
 const deletePromotion = async (promotionId: number): Promise<boolean> => {
-  const res = await checkedFetch(`api/promotion/${promotionId}`, {
+  const res = await checkedFetch(`/api/promotion/${promotionId}`, {
     method: 'DELETE',
     credentials: 'include',
   });
