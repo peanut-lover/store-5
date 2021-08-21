@@ -51,7 +51,6 @@ async function populate() {
   await createDefaultGoods();
   await createDefaultDeliveryInfo();
   await createDefaultPayment();
-  await createDefaultCart();
 }
 
 async function createDefaultUser(name: string) {
@@ -133,12 +132,6 @@ async function createDefaultPayment() {
   await PaymentRepository.createPayment('신용카드', '신용카드');
 }
 
-async function createDefaultCart() {
-  // await CartService.createCart(1, 1, { amount: 1 });
-  // await CartService.createCart(1, 2, { amount: 1 });
-  // await CartService.createCart(1, 3, { amount: 1 });
-}
-
 async function createDefaultGoods() {
   const childCategories = await getRepository(Category).find({ select: ['id'], where: { parent: Not(IsNull()) } });
   const childIds = childCategories.map((category) => category.id);
@@ -147,7 +140,23 @@ async function createDefaultGoods() {
   const skip = await getRepository(Goods).find({ where: { title: Like('%상품명 랜덤%') } });
   if (skip.length >= DUMMY_LENGTH) return;
   for (const goods of goodsList) {
-    const newGoods = await getRepository(Goods).save(goods);
+    const { thumbnailUrl, countOfSell, isGreen, title, price, stock, discountRate, state, category, delivery } = goods;
+    const newGoods = await getRepository(Goods).save({
+      thumbnailUrl,
+      title,
+      price,
+      stock,
+      discountRate,
+      state,
+      isGreen,
+      category: {
+        id: category,
+      },
+      deliveryInfo: {
+        id: delivery,
+      },
+      countOfSell,
+    });
     console.log(`초기 상품 데이터 삽입 : name - ${newGoods.title}, id - ${newGoods.id}`);
   }
 }

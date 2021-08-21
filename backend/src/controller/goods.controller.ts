@@ -2,9 +2,9 @@ import { Request, Response } from 'express';
 import { INVALID_DATA } from '../constants/client-error-name';
 import { BadRequestError } from '../errors/client.error';
 import { GoodsService } from '../service/goods.service';
-import { GetAllByAdminProps, GetAllByCategoryProps, GetAllByKeywordProps, GoodsFlag, GoodsState } from '../types/Goods';
+import { GetAllByCategoryProps, GetAllByKeywordProps, GoodsFlag, GoodsState } from '../types/Goods';
 import { CreateGoodsBody, CreateGoodsRequest } from '../types/request/goods.request';
-import ConvertToURLfromFile from '../utils/convert.url.from.file';
+import { uploadProductImages } from '../utils/aws.upload';
 
 export const GoodsStateMap = {
   sale: 'S',
@@ -27,13 +27,15 @@ async function createGoods(req: CreateGoodsRequest, res: Response) {
     category: Number(req.body.category),
     deliveryInfo: Number(req.body.deliveryInfo),
   };
-  const files = req.files;
-  const HOST_URL = req.get('host');
-  if (!files || !Array.isArray(files) || !HOST_URL) throw new BadRequestError(INVALID_DATA);
 
-  const uploadFileUrls = ConvertToURLfromFile(files, HOST_URL);
-  console.log('upload url', uploadFileUrls);
+  const files = req.files;
+
+  if (!files || !Array.isArray(files)) throw new BadRequestError(INVALID_DATA);
+
+  const uploadFileUrls = await uploadProductImages(files);
+
   const result = await GoodsService.createGoods(body, uploadFileUrls);
+
   res.status(201).json({ result });
 }
 
