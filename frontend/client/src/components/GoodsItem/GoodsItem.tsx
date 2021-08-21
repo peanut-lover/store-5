@@ -6,6 +6,8 @@ import { BestTag, GreenTag, NewTag, SaleTag } from '../Tag';
 import { getPriceText } from '@src/utils/price';
 import { deleteWish, postWish } from '@src/apis/wishAPI';
 import theme from '@src/theme/theme';
+import useUserState from '@src/hooks/useUserState';
+import { usePushToast } from '@src/lib/ToastProvider/ToastProvider';
 
 export type GoodsItemSize = 'small' | 'middle' | 'big';
 
@@ -24,6 +26,8 @@ interface Props {
   handleClickCart: (goodsId: number) => void;
 }
 
+const NEED_LOGIN = '로그인이 필요합니다!';
+
 const GoodsItem: React.FC<Props> = ({
   id,
   thumbnailUrl = '',
@@ -40,6 +44,9 @@ const GoodsItem: React.FC<Props> = ({
 }) => {
   const push = usePushHistory();
   const [isWished, setIsWished] = useState(isWish);
+  const [user] = useUserState();
+  const pushToast = usePushToast();
+
   const handleClickGoodsItem = (e: React.MouseEvent) => {
     push('/detail/' + id);
   };
@@ -61,11 +68,14 @@ const GoodsItem: React.FC<Props> = ({
   const handleToWish = useCallback(
     async (e: React.MouseEvent) => {
       e.stopPropagation();
+      if (!user || !user.isLoggedIn) {
+        return pushToast({ text: NEED_LOGIN, color: theme.error });
+      }
       try {
         const result = isWished ? await deleteWish(id) : await postWish(id);
         if (result) setIsWished(!isWished);
       } catch (error) {
-        console.log(error);
+        console.error(error);
       }
     },
     [isWished]

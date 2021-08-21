@@ -91,8 +91,8 @@ const GoodsInteractive: React.FC<Props> = ({ goods }) => {
       <GoodsButtons
         onOrder={handleAddToOrder}
         isWish={isWished}
-        amount={amount}
         goodsId={id}
+        clickable={!isOver && amount > 0}
         onToggleWish={handleToWish}
         addToCart={addToCart}
         fetchCheckStock={fetchCheckStock}

@@ -3,28 +3,52 @@ import styled from 'styled-components';
 import { FaRegHeart, FaHeart } from 'react-icons/fa';
 import { Link } from '@src/lib/CustomRouter';
 import theme from '@src/theme/theme';
+import useUserState from '@src/hooks/useUserState';
+import { usePushToast } from '@src/lib/ToastProvider/ToastProvider';
 
 interface Props {
   isWish: boolean;
   goodsId: number;
-  amount: number;
+  clickable: boolean;
   onToggleWish: () => void;
   addToCart: () => void;
   fetchCheckStock: (goodsId: number) => Promise<void>;
   onOrder: () => void;
 }
 
-const GoodsButtons: React.FC<Props> = ({ isWish, onToggleWish, addToCart, onOrder }) => {
+const NEED_LOGIN = '로그인이 필요합니다!';
+
+const GoodsButtons: React.FC<Props> = ({ isWish, clickable, onToggleWish, addToCart, onOrder }) => {
+  const [user] = useUserState();
+  const pushToast = usePushToast();
+
+  const handleClickButton = (onCallback: () => void) => {
+    if (!user || !user.isLoggedIn) {
+      pushToast({ text: NEED_LOGIN, color: theme.error });
+    } else {
+      onCallback();
+    }
+  };
   return (
     <>
       <GoodsButtonsContainer>
-        <WishButton onClick={onToggleWish}>{isWish ? <FaHeart fill={theme.primary} /> : <FaRegHeart />}</WishButton>
-        <CartButton onClick={addToCart}>장바구니</CartButton>
-        <OrderButton onClick={onOrder}>바로 구매</OrderButton>
+        <WishButton onClick={() => handleClickButton(onToggleWish)}>
+          {isWish ? <FaHeart fill={theme.primary} /> : <FaRegHeart />}
+        </WishButton>
+        <CartButton clickable={clickable} onClick={() => handleClickButton(addToCart)}>
+          장바구니
+        </CartButton>
+        <OrderButton clickable={clickable} onClick={() => handleClickButton(onOrder)}>
+          바로 구매
+        </OrderButton>
       </GoodsButtonsContainer>
     </>
   );
 };
+
+interface ButtonProps {
+  clickable: boolean;
+}
 
 const GoodsButtonsContainer = styled.div`
   display: flex;
@@ -45,17 +69,21 @@ const WishButton = styled.button`
   justify-content: center;
 `;
 
-const CartButton = styled.button`
+const CartButton = styled.button<ButtonProps>`
   text-align: center;
   width: 30%;
   height: 3.5rem;
   border: 1px solid #bbb;
   background-color: #fff;
   font-weight: 600;
-  cursor: pointer;
+  opacity: ${({ clickable }) => (clickable ? '0.9' : '0.5')};
+  ${({ clickable }) => clickable && 'cursor: pointer;'}
+  &:hover {
+    ${({ clickable }) => clickable && 'opacity:1;'}
+  }
 `;
 
-const OrderButton = styled.button`
+const OrderButton = styled.button<ButtonProps>`
   text-align: center;
   width: 40%;
   height: 3.5rem;
@@ -63,9 +91,10 @@ const OrderButton = styled.button`
   background-color: #000;
   color: #fff;
   font-weight: 600;
-  cursor: pointer;
+  opacity: ${({ clickable }) => (clickable ? '0.9' : '0.5')};
+  ${({ clickable }) => clickable && 'cursor: pointer;'}
   &:hover {
-    opacity: 0.85;
+    ${({ clickable }) => clickable && 'opacity:1;'}
   }
 `;
 
