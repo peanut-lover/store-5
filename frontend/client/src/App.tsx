@@ -11,11 +11,11 @@ import CategoryGoods from '@src/pages/CategoryGoods/CategoryGoods';
 import KeywordGoods from './pages/KeywordGoods/KeywordGoods';
 import withLoggedIn from './utils/withLoggedIn';
 
-export default function App() {
-  const CartPageWithLoggedIn = withLoggedIn(Cart);
-  const OrderPageWithLoggedIn = withLoggedIn(Order);
-  const MyPageWithLoggedIn = withLoggedIn(MyPage);
+const CartPageWithLoggedIn = withLoggedIn(Cart);
+const OrderPageWithLoggedIn = withLoggedIn(Order);
+const MyPageWithLoggedIn = withLoggedIn(MyPage);
 
+export default function App() {
   return (
     <>
       <Router>
