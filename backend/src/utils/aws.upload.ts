@@ -23,7 +23,7 @@ export const uploadMultiImagesToS3 = async (files: Express.Multer.File[], direct
   const uploadPromises = files.map(async (file) => {
     const params = {
       Bucket: awsS3Config.bucketName,
-      Key: directoryPath + '/' + file.originalname,
+      Key: directoryPath + '/' + Date.now() + '-' + file.originalname,
       Body: file.buffer,
       ContentType: file.mimetype,
       ACL: 'public-read',

@@ -21,12 +21,29 @@ const GoodsFlag = {
 
 async function createGoods(req: CreateGoodsRequest, res: Response) {
   const body: CreateGoodsBody = {
-    ...req.body,
+    title: req.body.title,
+    isGreen: Boolean(req.body.isGreen),
+    stock: Number(req.body.stock),
+    state: req.body.state,
     price: Number(req.body.price),
     discountRate: Number(req.body.discountRate),
     category: Number(req.body.category),
     deliveryInfo: Number(req.body.deliveryInfo),
   };
+
+  if (
+    body.title === undefined ||
+    body.title === '' ||
+    body.isGreen === undefined ||
+    body.stock === NaN ||
+    body.state === undefined ||
+    body.state === '' ||
+    body.price === NaN ||
+    body.category === NaN ||
+    body.deliveryInfo === NaN
+  ) {
+    new BadRequestError(INVALID_DATA);
+  }
 
   const files = req.files;
 
