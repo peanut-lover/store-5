@@ -21,6 +21,7 @@ import { PromotionRepository } from './repository/promotion.repository';
 import { PaymentRepository } from './repository/payment.repository';
 import CartService from './service/cart.service';
 import { OrderListRepository } from './repository/order.list.repository';
+import { OrderItemRepository } from './repository/order.item.repository';
 
 export default async function () {
   await createConnection({
@@ -128,13 +129,19 @@ async function createDefaultDeliveryInfo() {
 async function createDefaultOrderList() {
   const res = await OrderListRepository.getOrders(1);
   if (res.length > 0) return;
-  await OrderListRepository.createOrder(1, {
+  const orderList = await OrderListRepository.createOrder(1, {
     orderMemo: '지갑 거덜나네,,',
     receiver: '아이유',
     zipCode: '083212',
     address: '서울 특별시 강남구',
     subAddress: '역삼동',
     paymentId: 1,
+  });
+  await OrderItemRepository.createOrderItem(1, orderList.id, {
+    amount: 4,
+    price: 13000,
+    discountRate: 10,
+    state: 'S',
   });
 }
 
@@ -171,6 +178,7 @@ async function createDefaultGoods() {
       },
       countOfSell,
     });
+    await getRepository(GoodsImg).save({ goods: { id: newGoods.id }, url: goods.thumbnailUrl });
     console.log(`초기 상품 데이터 삽입 : name - ${newGoods.title}, id - ${newGoods.id}`);
   }
 }
