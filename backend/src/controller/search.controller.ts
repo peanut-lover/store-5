@@ -1,5 +1,5 @@
 import { Response, Request } from 'express';
-import { INVALID_DATA } from '../constants/client-error-name';
+import { INVALID_DATA } from '../constants/client.error.name';
 import { BadRequestError } from '../errors/client.error';
 import { SearchService } from '../service/search.service';
 async function getAutoSearchList(req: Request, res: Response) {

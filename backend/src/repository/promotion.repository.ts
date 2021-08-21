@@ -1,5 +1,5 @@
 import { DeleteResult, getRepository } from 'typeorm';
-import { PROMOTION_DB_ERROR } from '../constants/database-error-name';
+import { PROMOTION_DB_ERROR } from '../constants/database.error.name';
 import { Promotion } from '../entity/Promotion';
 import { DatabaseError } from '../errors/base.error';
 

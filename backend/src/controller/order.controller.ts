@@ -3,7 +3,7 @@ import { Request, Response } from 'express';
 import { CreateOrderRequest } from '../types/request/order.request';
 import { GetAllOrderByUserIdProps } from '../types/Order';
 import { BadRequestError } from '../errors/client.error';
-import { INVALID_DATA } from '../constants/client-error-name';
+import { INVALID_DATA } from '../constants/client.error.name';
 
 async function getOrdersPagination(req: Request, res: Response) {
   const { page, limit } = req.query;

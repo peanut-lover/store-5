@@ -2,7 +2,7 @@ import { CreateOrder } from './../types/request/order.request';
 import { OrderList } from '../entity/OrderList';
 import { getRepository } from 'typeorm';
 import { DatabaseError } from '../errors/base.error';
-import { ORDER_LIST_DB_ERROR } from '../constants/database-error-name';
+import { ORDER_LIST_DB_ERROR } from '../constants/database.error.name';
 import { PaginationProps } from '../types/Pagination';
 
 const DEFAULT_ORDER_STATE = '주문완료';
@@ -50,18 +50,19 @@ async function getOwnOrdersPagination({ offset, limit }: PaginationProps, userId
 
 async function createOrder(userId: number, body: CreateOrder): Promise<OrderList> {
   try {
-    // id created  order_item_id=1 order_item_goods
-    // id created  order_item_id=2 order_item_goods
-    // id created  order_item_id=3 order_item_goods
-
+    const { orderMemo, receiver, zipCode, address, subAddress, paymentId } = body;
     const orderRepo = getRepository(OrderList);
     return await orderRepo.save({
       user: {
         id: userId,
       },
-      ...body,
+      orderMemo,
+      receiver,
+      zipCode,
+      address,
+      subAddress,
       state: DEFAULT_ORDER_STATE,
-      payment: { id: body.paymentId },
+      payment: { id: paymentId },
     });
   } catch (err) {
     console.error(err);

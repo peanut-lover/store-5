@@ -1,7 +1,7 @@
 import axios from 'axios';
 import { Session } from 'express-session';
 import { githubConfig } from '../config';
-import { INVALID_ACCESS } from '../constants/client-error-name';
+import { INVALID_ACCESS } from '../constants/client.error.name';
 import { BadRequestError } from '../errors/client.error';
 import { UserRepository } from '../repository/user.repository';
 import removeBlank from '../utils/remove.blank';

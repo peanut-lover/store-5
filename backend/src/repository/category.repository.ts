@@ -1,5 +1,5 @@
 import { getRepository } from 'typeorm';
-import { CATEGORY_DB_ERROR } from '../constants/database-error-name';
+import { CATEGORY_DB_ERROR } from '../constants/database.error.name';
 import { Category } from '../entity/Category';
 import { DatabaseError } from '../errors/base.error';
 

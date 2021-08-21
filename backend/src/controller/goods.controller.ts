@@ -1,5 +1,5 @@
 import { Request, Response } from 'express';
-import { INVALID_DATA } from '../constants/client-error-name';
+import { INVALID_DATA } from '../constants/client.error.name';
 import { BadRequestError } from '../errors/client.error';
 import { GoodsService } from '../service/goods.service';
 import { GetAllByCategoryProps, GetAllByKeywordProps, GoodsFlag, GoodsState } from '../types/Goods';

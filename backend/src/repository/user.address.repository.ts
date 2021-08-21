@@ -1,4 +1,4 @@
-import { USER_ADDRESS_DB_ERROR } from './../constants/database-error-name';
+import { USER_ADDRESS_DB_ERROR } from '../constants/database.error.name';
 import { DatabaseError } from './../errors/base.error';
 import { UserAddress } from './../entity/UserAddress';
 import { DeleteResult, getConnection, getRepository, UpdateResult } from 'typeorm';

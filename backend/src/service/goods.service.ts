@@ -21,7 +21,7 @@ import {
 } from '../types/Goods';
 import { getTotalPage, pagination } from '../utils/pagination';
 import { BadRequestError } from '../errors/client.error';
-import { GOODS_DB_ERROR } from '../constants/database-error-name';
+import { GOODS_DB_ERROR } from '../constants/database.error.name';
 import { CategoryRepository } from '../repository/category.repository';
 import { GoodsStateMap } from '../controller/goods.controller';
 import { CreateGoodsBody } from '../types/request/goods.request';

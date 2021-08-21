@@ -1,5 +1,5 @@
 import { DeleteResult, getRepository } from 'typeorm';
-import { WISH_DB_ERROR } from '../constants/database-error-name';
+import { WISH_DB_ERROR } from '../constants/database.error.name';
 import { Wish } from '../entity/Wish';
 import { DatabaseError } from '../errors/base.error';
 

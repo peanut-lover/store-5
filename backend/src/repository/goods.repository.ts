@@ -1,5 +1,5 @@
 import { getRepository, Like, MoreThan } from 'typeorm';
-import { GOODS_DB_ERROR } from '../constants/database-error-name';
+import { GOODS_DB_ERROR } from '../constants/database.error.name';
 import { DatabaseError } from '../errors/base.error';
 import { Goods } from '../entity/Goods';
 import { FindAllCategoryProps, FindAllColumnNameProps, FindAllKeywordProps, FindAllUserIdProps } from '../types/Goods';

@@ -1,5 +1,5 @@
 import { Request, Response } from 'express';
-import { INVALID_DATA } from '../constants/client-error-name';
+import { INVALID_DATA } from '../constants/client.error.name';
 import { BadRequestError } from '../errors/client.error';
 import { PromotionService } from '../service/promotion.service';
 import { CreatePromotionRequest } from '../types/request/promotion.request';

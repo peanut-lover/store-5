@@ -2,7 +2,6 @@ import { Request } from 'express';
 import { OrderGoods } from '../Order';
 
 export interface CreateOrder {
-  state: string;
   orderMemo: string;
   receiver: string;
   zipCode: string;
