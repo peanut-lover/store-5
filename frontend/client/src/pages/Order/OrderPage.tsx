@@ -1,5 +1,5 @@
 import styled from 'styled-components';
-import React, { useMemo, useState } from 'react';
+import React, { useEffect, useMemo, useState } from 'react';
 
 import { useRecoilValue } from 'recoil';
 import { orderState } from '@src/recoil/orderState';
@@ -71,9 +71,13 @@ const OrderPage: React.FC = () => {
     setIsOrdered(true);
   };
 
-  // TODO: NoData | NoAuthentication
-  if (orderGoodsList.length === 0) {
-    pushHistory('/');
+  const redirectCondition = orderGoodsList.length === 0;
+  useEffect(() => {
+    if (redirectCondition) {
+      pushHistory('/');
+    }
+  }, [orderGoodsList]);
+  if (redirectCondition) {
     return null;
   }
 
