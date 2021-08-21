@@ -1,20 +1,16 @@
 import React from 'react';
-
 import { render, cleanup } from '@testing-library/react';
-
 import SearchHistoryList from './SearchHistoryList';
-import useSearchHistory from '@src/hooks/useSearchHistory';
-import { usePushHistory } from '@src/lib/CustomRouter';
 
 describe('SearchHistoryList Component', () => {
-  const [searchHistory, handleSearchHistory, resetSearchHistory] = useSearchHistory();
-  const push = usePushHistory();
   const handleClickHistory = (keyword: string) => {
-    push(`/keyword/${keyword}`);
+    console.log(`${keyword}로 이동`);
   };
   const handleDeleteHistory = (name: string) => {
-    const updated = searchHistory.filter((keyword) => keyword !== name);
-    handleSearchHistory(updated);
+    console.log(`delete ${name}`);
+  };
+  const resetSearchHistory = () => {
+    console.log(`reset`);
   };
 
   it('should render "test1" "test2" in HistoryList', () => {
