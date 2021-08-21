@@ -50,6 +50,7 @@ const GoodsTable = () => {
     fetchGoodsList();
   }, [searchQuery]);
 
+  // TODO: 로딩 UI 적용
   return (
     goodsListMap && (
       <>

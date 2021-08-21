@@ -169,8 +169,7 @@ async function findTotalCountByCategory(category: number): Promise<number> {
 async function findTotalCount(): Promise<number> {
   try {
     const goodsRepo = getRepository(Goods);
-    const count = await goodsRepo.count();
-    return count;
+    return await goodsRepo.count();
   } catch (err) {
     console.error(err);
     throw new DatabaseError(GOODS_DB_ERROR);

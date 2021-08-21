@@ -10,8 +10,8 @@ interface Props {
 const GoodsTableBody: React.FC<Props> = ({ goodsList }) => {
   return (
     <GoodsTableBodyContainer>
-      {goodsList.map((goods, id) => (
-        <GoodsTableRow goods={goods} key={id} />
+      {goodsList.map((goods) => (
+        <GoodsTableRow goods={goods} key={goods.id} />
       ))}
     </GoodsTableBodyContainer>
   );

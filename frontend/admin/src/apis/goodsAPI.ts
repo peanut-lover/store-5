@@ -29,10 +29,7 @@ export const getGoodsByOption = async ({
       credentials: 'include',
     }
   );
-  const json = await res.json();
-  console.log(json);
-  return json;
-  // return await res.json();
+  return await res.json();
 };
 
 export const GoodsAPI = {

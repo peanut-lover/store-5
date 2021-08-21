@@ -7,6 +7,7 @@ const GoodsTableHead = () => {
     // TODO: 정렬 관련 처리
   };
   return (
+    // TODO: 컴포넌트화
     <GoodsTableHeadContainer>
       <TableRow>
         <TableHeadData>썸네일</TableHeadData>
