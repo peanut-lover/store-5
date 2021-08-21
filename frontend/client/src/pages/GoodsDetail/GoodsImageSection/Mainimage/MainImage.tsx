@@ -1,9 +1,8 @@
 import React, { useEffect, useRef } from 'react';
 import styled from 'styled-components';
 import ImageZoom, { ZoomImageReturnType } from './ZoomImage';
-import emptyImgUrl from './asset/empty-img.png';
 
-const MainImage: React.FC<{ src: string }> = ({ src = emptyImgUrl }) => {
+const MainImage: React.FC<{ src: string }> = ({ src }) => {
   let imageZoom: ZoomImageReturnType;
   const containerRef = useRef<HTMLDivElement>(null);
   useEffect(() => {

@@ -17,6 +17,7 @@ const GoodsDetailPage = () => {
       const data = await getGoodsDetail(goodsId);
       setGoods(data.result);
     } catch (e) {
+      console.error(e);
       setGoods(null);
     }
   };
