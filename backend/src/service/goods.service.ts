@@ -29,6 +29,7 @@ import { GoodsStateMap } from '../controller/goods.controller';
 import { CreateGoodsBody } from '../types/request/goods.request';
 import { PaginationProps } from '../types/Pagination';
 import { isBoolean, isNumber } from '../utils/check.primitive.type';
+import { GoodsImgRepository } from '../repository/goods.img.repository';
 
 const INVALID_DISCOUNT_RATE = '할인율은 0~99% 범위 내에서 가능합니다.';
 const INVALID_DELIVERY_INFO = '해당 배송 정보는 없는 정보입니다.';
@@ -235,8 +236,20 @@ async function getGoodsForAdmin(page: number, limit: number, keyword?: string, o
 }
 
 async function getGoodsStockById(goodsId: number): Promise<number> {
-  const stock = await GoodsRepository.findStockById(goodsId);
-  return stock;
+  return await GoodsRepository.findStockById(goodsId);
+}
+
+async function getGoodsImgById(goodsId: number): Promise<
+  {
+    url: string;
+    id: number;
+  }[]
+> {
+  const goodsImgs = await GoodsImgRepository.findGoodsImgById(goodsId);
+  return goodsImgs.map((goodsImg) => ({
+    id: goodsImg.id,
+    url: goodsImg.url,
+  }));
 }
 
 function setAllByCategoryOption(category: number, page: number, limit: number, flag: string): FindAllCategoryProps {
@@ -312,4 +325,5 @@ export const GoodsService = {
   getAllGoodsByUserId,
   getMainGoodsListMap,
   getGoodsStockById,
+  getGoodsImgById,
 };

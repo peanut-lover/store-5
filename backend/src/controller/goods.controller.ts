@@ -111,6 +111,12 @@ async function getGoodsForAdmin(req: Request, res: Response) {
   return res.status(200).json({ result });
 }
 
+async function getGoodsImgById(req: Request, res: Response) {
+  const goodsId = Number(req.params.id);
+  const result = await GoodsService.getGoodsImgById(goodsId);
+  return res.status(200).json({ result });
+}
+
 export const GoodsController = {
   createGoods,
   getGoodsDetail,
@@ -119,4 +125,5 @@ export const GoodsController = {
   getMainGoodsListMap,
   getGoodsStockById,
   getGoodsForAdmin,
+  getGoodsImgById,
 };
