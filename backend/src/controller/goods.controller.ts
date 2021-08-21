@@ -32,6 +32,7 @@ async function createGoods(req: CreateGoodsRequest, res: Response) {
   if (!files || !Array.isArray(files) || !HOST_URL) throw new BadRequestError(INVALID_DATA);
 
   const uploadFileUrls = ConvertToURLfromFile(files, HOST_URL);
+  console.log('upload url', uploadFileUrls);
   const result = await GoodsService.createGoods(body, uploadFileUrls);
   res.status(201).json({ result });
 }

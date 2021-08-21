@@ -49,11 +49,11 @@ export class Goods {
 
   @ManyToOne(() => Category, (category) => category.id)
   @JoinColumn()
-  category: number;
+  category: Category;
 
   @ManyToOne(() => DeliveryInfo, (deliveryInfo) => deliveryInfo.id)
   @JoinColumn()
-  deliveryInfo: number;
+  deliveryInfo: DeliveryInfo;
 
   @OneToMany(() => GoodsImg, (goodsImg) => goodsImg.goods)
   goodsImgs: GoodsImg[];
