@@ -1,5 +1,6 @@
 import { APIResponse, checkedFetch } from '@src/apis/base';
 import { CreatedGoods, GetGoodsByOptionProps, GoodsPaginationResult } from '@src/types/Goods';
+import { GoodsImg } from '@src/types/GoodsImg';
 
 const createGoods = async (formData: FormData): Promise<APIResponse<CreatedGoods>> => {
   const res = await checkedFetch(`/api/goods`, {
@@ -32,7 +33,16 @@ export const getGoodsByOption = async ({
   return await res.json();
 };
 
+const getGoodsImgById = async (goodsId: number): Promise<APIResponse<GoodsImg[]>> => {
+  const res = await checkedFetch(`/api/goods/${goodsId}/img`, {
+    method: 'GET',
+    credentials: 'include',
+  });
+  return await res.json();
+};
+
 export const GoodsAPI = {
   createGoods,
   getGoodsByOption,
+  getGoodsImgById,
 };
