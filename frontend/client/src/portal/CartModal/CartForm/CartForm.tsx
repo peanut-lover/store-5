@@ -1,10 +1,13 @@
 import { createCart } from '@src/apis/cartAPI';
 import { getGoodsDetail, getGoodsStockCount } from '@src/apis/goodsAPI';
+import useUserState from '@src/hooks/useUserState';
 import { usePushHistory } from '@src/lib/CustomRouter';
+import { usePushToast } from '@src/lib/ToastProvider/ToastProvider';
 import MainImage from '@src/pages/GoodsDetail/GoodsImageSection/Mainimage/MainImage';
 import GoodsInfo from '@src/pages/GoodsDetail/GoodsInfo/GoodsInfo';
 import GoodsAmount from '@src/pages/GoodsDetail/GoodsInteractive/GoodsAmount/GoodsAmount';
 import GoodsInteractive from '@src/pages/GoodsDetail/GoodsInteractive/GoodsInteractive';
+import theme from '@src/theme/theme';
 import { DetailGoods } from '@src/types/Goods';
 import React, { useCallback, useEffect, useState } from 'react';
 import styled from 'styled-components';
@@ -13,9 +16,12 @@ interface Props {
   goodsId: number;
 }
 
-// TODO: 에러 및 구매 불가 안내 (토스트 팝업)
+const NEED_LOGIN = '로그인이 필요합니다!';
+
 const CartForm: React.FC<Props> = ({ goodsId }) => {
   const push = usePushHistory();
+  const [user] = useUserState();
+  const pushToast = usePushToast();
 
   const [goods, setGoods] = useState<DetailGoods | null>(null);
   const [isOver, setIsOver] = useState(false);
@@ -43,6 +49,9 @@ const CartForm: React.FC<Props> = ({ goodsId }) => {
   };
 
   const addToCart = useCallback(async () => {
+    if (!user || !user.isLoggedIn) {
+      return pushToast({ text: NEED_LOGIN, color: theme.error });
+    }
     if (isOver || disabled || amount === 0) return;
     setDisabled(true);
     try {

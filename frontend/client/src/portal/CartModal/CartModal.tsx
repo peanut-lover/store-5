@@ -17,7 +17,6 @@ const CartModal: React.FC<Props> = ({ onClose, goodsId }) => {
     if (modalRef.current && modalRef.current.contains(el)) return;
     onClose();
   }, []);
-
   useEffect(() => {
     document.addEventListener('click', handleClose);
     return () => {
