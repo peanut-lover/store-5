@@ -1,4 +1,4 @@
-import { getRepository } from 'typeorm';
+import { DeleteResult, getRepository } from 'typeorm';
 import { PROMOTION_DB_ERROR } from '../constants/database-error-name';
 import { Promotion } from '../entity/Promotion';
 import { DatabaseError } from '../errors/base.error';
@@ -11,7 +11,7 @@ async function createPromotion(imgUrl: string): Promise<Promotion> {
     });
     return await promotionRepo.save(newPromotionEntity);
   } catch (err) {
-    console.log(err);
+    console.error(err);
     throw new DatabaseError(PROMOTION_DB_ERROR);
   }
 }
@@ -21,7 +21,16 @@ async function getPromotions(): Promise<Promotion[]> {
     const promotionRepo = getRepository(Promotion);
     return await promotionRepo.find();
   } catch (err) {
-    console.log(err);
+    console.error(err);
+    throw new DatabaseError(PROMOTION_DB_ERROR);
+  }
+}
+
+async function deletePromotion(promotionId: number): Promise<DeleteResult> {
+  try {
+    return getRepository(Promotion).delete({ id: promotionId });
+  } catch (err) {
+    console.error(err);
     throw new DatabaseError(PROMOTION_DB_ERROR);
   }
 }
@@ -29,4 +38,5 @@ async function getPromotions(): Promise<Promotion[]> {
 export const PromotionRepository = {
   createPromotion,
   getPromotions,
+  deletePromotion,
 };

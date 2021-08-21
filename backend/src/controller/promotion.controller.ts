@@ -20,7 +20,14 @@ async function getPromotions(req: Request, res: Response) {
   res.status(200).json({ result });
 }
 
+async function deletePromotion(req: Request, res: Response) {
+  const promotionId = Number(req.params.id);
+  await PromotionService.deletePromotion(promotionId);
+  res.sendStatus(204);
+}
+
 export const PromotionController = {
   createPromotion,
   getPromotions,
+  deletePromotion,
 };

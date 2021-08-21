@@ -1,3 +1,4 @@
+import { DeleteResult } from 'typeorm';
 import { BadRequestError } from '../errors/client.error';
 import { PromotionRepository } from '../repository/promotion.repository';
 import { CreatePromotionBody } from '../types/request/promotion.request';
@@ -26,7 +27,12 @@ async function getPromotions(): Promise<PromotionResponse[]> {
   }));
 }
 
+async function deletePromotion(promotionId: number): Promise<DeleteResult> {
+  return await PromotionRepository.deletePromotion(promotionId);
+}
+
 export const PromotionService = {
   createPromotion,
   getPromotions,
+  deletePromotion,
 };
