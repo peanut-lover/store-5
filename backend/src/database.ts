@@ -49,9 +49,9 @@ async function populate() {
   await createDefaultUser('아이유');
   await createDefaultAddress();
   await createDefaultCategory();
-  await createDefaultPromotions();
   await createDefaultDeliveryInfo();
   await createDefaultGoods();
+  await createDefaultPromotions();
   await createDefaultPayment();
   await createDefaultOrderList();
 }
@@ -235,12 +235,13 @@ async function createDefaultPromotions() {
     'https://user-images.githubusercontent.com/20085849/128992450-eb086cff-3b2a-4d4a-8b01-e3a8a8eaa754.gif',
   ];
   const promotion = await PromotionRepository.getPromotions();
-
+  let goodsId = 1;
   for (const img of examplePromotionImgs) {
     const exist = promotion.find((p) => p.imgUrl === img);
     if (!exist) {
-      const newPromotion = await PromotionRepository.createPromotion(img);
-      console.log('프로모션 생성 :' + newPromotion.imgUrl);
+      const newPromotion = await PromotionRepository.createPromotion(goodsId, img);
+      console.log('프로모션 생성 : id' + goodsId + 'url :' + newPromotion.imgUrl);
+      goodsId++;
     }
   }
 }
