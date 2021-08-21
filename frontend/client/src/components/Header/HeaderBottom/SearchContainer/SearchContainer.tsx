@@ -46,6 +46,14 @@ const SearchContainer: React.FC<Props> = ({ onClose }) => {
     [fetchAutoSearch]
   );
 
+  // TODO: 검색 창 사라지게 하는게 좋을까??
+  const handleClickHistory = useCallback(
+    (keyword: string) => {
+      push(`/keyword/${keyword}`);
+    },
+    [push]
+  );
+
   const handleAddHistory = useCallback(
     async (keyword: string, itemId: number) => {
       await handleSearchHistory([keyword, ...searchHistory]);
@@ -96,6 +104,7 @@ const SearchContainer: React.FC<Props> = ({ onClose }) => {
         {searchHistory.length > 0 ? (
           <SearchHistoryList
             searchHistory={searchHistory}
+            onClickHistory={handleClickHistory}
             onDeleteHistory={handleDeleteHistory}
             onResetHistory={handleResetHistory}
           />

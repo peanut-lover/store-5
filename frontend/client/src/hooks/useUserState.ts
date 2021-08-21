@@ -10,7 +10,6 @@ const useUserState = () => {
       case 'SAMPLE_LOGIN':
         {
           const { result } = await AuthAPI.getSampleLogin();
-          console.log(result);
           if (result && result.isLoggedIn) {
             const { isLoggedIn, name } = result;
             setUserRecoil({ isLoggedIn, name });
