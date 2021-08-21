@@ -1,10 +1,10 @@
 import { usePushHistory } from '@src/lib/CustomRouter';
-import { AutoSearch } from '@src/types/Search';
+import { AutoSearchedItem } from '@src/types/Search';
 import React from 'react';
 import styled from 'styled-components';
 
 export interface Props {
-  searchedItem: AutoSearch;
+  searchedItem: AutoSearchedItem;
   onAddHistory: (keyword: string, itemId: number) => Promise<void>;
 }
 const AutoSearchItem: React.FC<Props> = ({ onAddHistory, searchedItem }) => {

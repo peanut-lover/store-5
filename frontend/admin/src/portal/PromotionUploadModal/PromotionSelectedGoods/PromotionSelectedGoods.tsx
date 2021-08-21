@@ -1,10 +1,10 @@
 import { styled } from '@src/lib/CustomStyledComponent';
 import { theme } from '@src/theme/theme';
-import { AutoSearch } from '@src/types/Search';
+import { AutoSearchedItem } from '@src/types/Search';
 import React from 'react';
 
 interface Props {
-  selectedGoods: AutoSearch;
+  selectedGoods: AutoSearchedItem;
 }
 const PromotionSelectedGoods: React.FC<Props> = ({ selectedGoods }) => {
   return (

@@ -1,11 +1,10 @@
 import React from 'react';
 import styled from 'styled-components';
-import { Link } from '@src/lib/CustomRouter/CustomRouter';
-import { AutoSearch } from '@src/types/Search';
+import { AutoSearchedItem } from '@src/types/Search';
 import AutoSearchItem from '@src/components/Header/HeaderBottom/SearchContainer/AutoSearchList/AutoSearchItem/AutoSearchItem';
 
 interface Props {
-  autoSearchList: AutoSearch[];
+  autoSearchList: AutoSearchedItem[];
   onAddHistory: (keyword: string, itemId: number) => Promise<void>;
 }
 

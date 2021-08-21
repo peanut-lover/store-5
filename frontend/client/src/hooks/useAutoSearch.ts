@@ -1,15 +1,21 @@
 import { SearchAPI } from './../apis/searchAPI';
 import React, { Dispatch, SetStateAction, useState } from 'react';
-import { AutoSearch } from '@src/types/Search';
+import { AutoSearchedItem } from '@src/types/Search';
 
-type CustomAutoSearch = [AutoSearch[], (keyword: string) => Promise<void>, Dispatch<SetStateAction<AutoSearch[]>>];
+interface AutoSearchHook {
+  (): [AutoSearchedItem[], (keyword: string) => Promise<void>, Dispatch<SetStateAction<AutoSearchedItem[]>>];
+}
 
-const useAutoSearch = (): CustomAutoSearch => {
-  const [autoSearchList, setAutoSearchList] = useState<AutoSearch[]>([]);
+const useAutoSearch: AutoSearchHook = () => {
+  const [autoSearchList, setAutoSearchList] = useState<AutoSearchedItem[]>([]);
   async function fetchAutoSearchList(keyword: string) {
     if (keyword.length === 0) return setAutoSearchList([]);
-    const data = await SearchAPI.getAutoSearchList(keyword);
-    if (data) return setAutoSearchList(data);
+    try {
+      const { result } = await SearchAPI.getAutoSearchList(keyword);
+      setAutoSearchList(result);
+    } catch (err) {
+      console.error(err);
+    }
   }
   return [autoSearchList, fetchAutoSearchList, setAutoSearchList];
 };
