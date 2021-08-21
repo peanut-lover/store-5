@@ -1,6 +1,4 @@
-export default function formatPrice(price: string) {
-  const number = price.replace(/[^0-9]/g, '');
-  if (!number) return '';
-  const converted = Number(number).toLocaleString();
-  return `${converted}`;
+export default function formatPrice(price: number) {
+  const converted = Number(price).toLocaleString('ko-KR');
+  return `${converted} 원`;
 }

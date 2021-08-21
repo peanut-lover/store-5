@@ -16,9 +16,9 @@ interface Props {
 const GoodsUploadModal: React.FC<Props> = ({ onClose }) => {
   const [files, setFiles] = useState<File[]>([]); // 이미지 file 저장
   const [title, handleChangeTitle] = useInput('');
-  const [price, handleChangePrice] = useInput('');
-  const [stock, handleChangeStock] = useInput('');
-  const [discountRate, setDiscountRate] = useState<string>('');
+  const [price, handleChangePrice] = useInput<number>(0);
+  const [stock, handleChangeStock] = useInput<number>(0);
+  const [discountRate, setDiscountRate] = useState<number>(0);
   const [checkGreen, setCheckGreen] = useState<boolean>(false);
   const [category, setCategory] = useState<number>(0);
   const [productState, setProductState] = useState<string>('');
@@ -29,9 +29,9 @@ const GoodsUploadModal: React.FC<Props> = ({ onClose }) => {
     const formData = new FormData();
     files.forEach((file: File) => formData.append('files', file));
     formData.append('title', title);
-    formData.append('price', price);
-    formData.append('stock', stock);
-    formData.append('discountRate', discountRate);
+    formData.append('price', String(price));
+    formData.append('stock', String(stock));
+    formData.append('discountRate', String(discountRate));
     formData.append('isGreen', checkGreen ? '1' : '0');
     formData.append('deliveryInfo', `${deliveryInfo}`);
     formData.append('category', `${category}`);
@@ -87,8 +87,11 @@ const GoodsUploadModal: React.FC<Props> = ({ onClose }) => {
 
   const handleChangeDiscountRate = useCallback(
     (e: ChangeEvent<HTMLInputElement>) => {
-      if (e.target.value.length > 2) return;
-      setDiscountRate(e.target.value);
+      const tmpNumber = Number(e.target.value);
+      if (isNaN(tmpNumber)) {
+        return;
+      }
+      setDiscountRate(tmpNumber);
     },
     [setDiscountRate]
   );
@@ -98,7 +101,7 @@ const GoodsUploadModal: React.FC<Props> = ({ onClose }) => {
       if (submitActive) return setSubmitActive('');
     };
     const checkFormIsValidated = () => {
-      if (!(title.length > 0 && price.length > 0 && stock.length > 0)) return updateSubmitActiveFalse();
+      if (!(title.length > 0 && price > 0 && stock > 0)) return updateSubmitActiveFalse();
       if (!productState) return updateSubmitActiveFalse();
       if (deliveryInfo === 0 || category === 0) return updateSubmitActiveFalse();
       if (files.length === 0) return updateSubmitActiveFalse();

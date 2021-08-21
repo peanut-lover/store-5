@@ -3,7 +3,7 @@ import { UploaderContainer, UploaderLabel } from '@src/portal/GoodsUploadModal/U
 import { styled } from '@src/lib/CustomStyledComponent';
 
 interface Props {
-  discountRate: string;
+  discountRate: number;
   onChangeDiscountRate: (e: ChangeEvent<HTMLInputElement>) => void;
 }
 

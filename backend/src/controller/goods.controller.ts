@@ -35,14 +35,14 @@ async function createGoods(req: CreateGoodsRequest, res: Response) {
     body.title === undefined ||
     body.title === '' ||
     body.isGreen === undefined ||
-    body.stock === NaN ||
+    isNaN(body.stock) ||
     body.state === undefined ||
     body.state === '' ||
-    body.price === NaN ||
-    body.category === NaN ||
-    body.deliveryInfo === NaN
+    isNaN(body.price) ||
+    isNaN(body.category) ||
+    isNaN(body.deliveryInfo)
   ) {
-    new BadRequestError(INVALID_DATA);
+    throw new BadRequestError(INVALID_DATA);
   }
 
   const files = req.files;

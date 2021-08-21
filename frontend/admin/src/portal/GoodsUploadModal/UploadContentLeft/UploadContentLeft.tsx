@@ -7,9 +7,9 @@ import React, { ChangeEvent } from 'react';
 
 interface Props {
   title: string;
-  price: string;
-  stock: string;
-  discountRate: string;
+  price: number;
+  stock: number;
+  discountRate: number;
   onHandleTitle: (e: ChangeEvent<HTMLInputElement>) => void;
   onHandlePrice: (e: ChangeEvent<HTMLInputElement>) => void;
   onHandleStock: (e: ChangeEvent<HTMLInputElement>) => void;
