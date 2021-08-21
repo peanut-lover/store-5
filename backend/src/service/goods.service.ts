@@ -26,9 +26,23 @@ import { CategoryRepository } from '../repository/category.repository';
 import { GoodsStateMap } from '../controller/goods.controller';
 import { CreateGoodsBody } from '../types/request/goods.request';
 import { PaginationProps } from '../types/Pagination';
+import { INVALID_DATA } from '../constants/client-error-name';
 
 async function createGoods(body: CreateGoodsBody, uploadFileUrls: string[]): Promise<Goods> {
   const { title, category, isGreen, price, stock, state, discountRate, deliveryInfo } = body;
+
+  if (
+    !title ||
+    isGreen === undefined ||
+    isNaN(body.stock) ||
+    !state ||
+    isNaN(body.price) ||
+    isNaN(body.category) ||
+    isNaN(body.deliveryInfo)
+  ) {
+    throw new BadRequestError(INVALID_DATA);
+  }
+
   return await getConnection().transaction(async (transactionalEntityManager) => {
     const goods = await transactionalEntityManager.save(Goods, {
       title,
