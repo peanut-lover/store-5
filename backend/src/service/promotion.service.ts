@@ -5,9 +5,7 @@ import { PromotionResponse } from '../types/response/promotion.response';
 
 const PROMOTION_PARAMETER_ERROR = '프로모션을 등록하기위해서 imgUrl 값은 필수입니다.';
 
-async function createPromotion(body: CreatePromotionBody): Promise<PromotionResponse> {
-  const { imgUrl } = body;
-
+async function createPromotion(body: CreatePromotionBody, imgUrl: string): Promise<PromotionResponse> {
   if (!imgUrl) {
     throw new BadRequestError(PROMOTION_PARAMETER_ERROR);
   }

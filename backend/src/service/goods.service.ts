@@ -28,11 +28,29 @@ import { CreateGoodsBody } from '../types/request/goods.request';
 import { PaginationProps } from '../types/Pagination';
 
 async function createGoods(body: CreateGoodsBody, uploadFileUrls: string[]): Promise<Goods> {
+  const { title, category, isGreen, price, stock, state, discountRate, deliveryInfo } = body;
+
   return await getConnection().transaction(async (transactionalEntityManager) => {
-    const goods = await transactionalEntityManager.save(Goods, { ...body, thumbnailUrl: uploadFileUrls[0] });
+    const goods = await transactionalEntityManager.save(Goods, {
+      title,
+      price,
+      stock,
+      discountRate,
+      state,
+      isGreen,
+      category: {
+        id: category,
+      },
+      deliveryInfo: {
+        id: deliveryInfo,
+      },
+      thumbnailUrl: uploadFileUrls[0],
+    });
+
     await Promise.all(
       uploadFileUrls.map(async (url) => await transactionalEntityManager.save(GoodsImg, { goods: goods.id, url }))
     );
+
     return goods;
   });
 }

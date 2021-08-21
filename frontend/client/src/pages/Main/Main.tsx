@@ -67,8 +67,9 @@ const Main = () => {
 };
 
 const PromotionContainer = styled.div`
-  min-height: 300px;
+  max-height: 300px;
   min-width: 1500px;
+  overflow: hidden;
 `;
 
 const MainContentContainer = styled.div`

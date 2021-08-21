@@ -26,3 +26,17 @@ export const serverConfig = {
   session_secret: process.env.SESSION_SECRET,
   cookie_domain: process.env.COOKIE_DOMAIN,
 };
+
+if (!process.env.AWS_S3_BUCKET_NAME) throw Error('AWS_S3_BUCKET_NAME is Empty');
+if (!process.env.AWS_S3_ACCESS_KEY_ID) throw Error('AWS_S3_ACCESS_KEY_ID is Empty');
+if (!process.env.AWS_S3_SECRET_ACCESS_KEY) throw Error('AWS_S3_SECRET_ACCESS_KEY is Empty');
+if (!process.env.AWS_S3_REGION) throw Error('AWS_S3_REGION is Empty');
+if (!process.env.AWS_S3_UPLOAD_FILE_URL) throw Error('S3 AWS_S3_UPLOAD_FILE_URL is Empty');
+
+export const awsS3Config = {
+  bucketName: process.env.AWS_S3_BUCKET_NAME,
+  accessKeyId: process.env.AWS_S3_ACCESS_KEY_ID,
+  secretAccessKey: process.env.AWS_S3_SECRET_ACCESS_KEY,
+  region: process.env.AWS_S3_REGION,
+  uploadUrl: process.env.AWS_S3_UPLOAD_FILE_URL,
+};
