@@ -6,7 +6,6 @@ import { usePushToast } from '@src/lib/ToastProvider/ToastProvider';
 import MainImage from '@src/pages/GoodsDetail/GoodsImageSection/Mainimage/MainImage';
 import GoodsInfo from '@src/pages/GoodsDetail/GoodsInfo/GoodsInfo';
 import GoodsAmount from '@src/pages/GoodsDetail/GoodsInteractive/GoodsAmount/GoodsAmount';
-import GoodsInteractive from '@src/pages/GoodsDetail/GoodsInteractive/GoodsInteractive';
 import theme from '@src/theme/theme';
 import { DetailGoods } from '@src/types/Goods';
 import React, { useCallback, useEffect, useState } from 'react';

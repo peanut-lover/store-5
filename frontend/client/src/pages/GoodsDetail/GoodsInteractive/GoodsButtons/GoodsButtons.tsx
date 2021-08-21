@@ -1,7 +1,6 @@
 import React, { RefObject, useCallback, useRef } from 'react';
 import styled from 'styled-components';
 import { FaRegHeart, FaHeart } from 'react-icons/fa';
-import { Link } from '@src/lib/CustomRouter';
 import theme from '@src/theme/theme';
 import useUserState from '@src/hooks/useUserState';
 import { usePushToast } from '@src/lib/ToastProvider/ToastProvider';

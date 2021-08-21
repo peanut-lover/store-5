@@ -3,7 +3,6 @@ import styled from 'styled-components';
 import ImageList from './ImageList/ImageList';
 import MainImage from './Mainimage/MainImage';
 import emptyImgUrl from './asset/empty-img.png';
-import { useParams } from '@src/lib/CustomRouter';
 
 interface Props {
   imgs: string[];
@@ -11,8 +10,6 @@ interface Props {
 
 const GoodsImageSection: React.FC<Props> = ({ imgs }) => {
   const [active, setActive] = useState(0);
-
-  const { id } = useParams();
   return (
     <GoodsImageContainer>
       <ImageList imgs={imgs} active={active} setActive={setActive} />
