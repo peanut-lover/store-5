@@ -1,12 +1,10 @@
-import { CreateOrderBody } from './../types/request/order.request';
+import { CreateOrder } from './../types/request/order.request';
 import { OrderList } from '../entity/OrderList';
 import { getRepository } from 'typeorm';
 import { DatabaseError } from '../errors/base.error';
 import { ORDER_LIST_DB_ERROR } from '../constants/database-error-name';
 import { PaginationProps } from '../types/Pagination';
 
-// TODO: thumbnail, 제목 : 볼펜 에디션 외 4건 이런식으로? 팀원들과 의논해야함.
-// 나중으로 일단 미룸
 const DEFAULT_ORDER_STATE = '주문완료';
 
 async function getOrders(userId: number): Promise<OrderList[]> {
@@ -15,7 +13,7 @@ async function getOrders(userId: number): Promise<OrderList[]> {
     return await orderRepo.find({
       relations: ['payment', 'orderItems'],
       where: {
-        user: userId,
+        user: { id: userId },
       },
     });
   } catch (err) {
@@ -39,7 +37,7 @@ async function getOwnOrdersPagination({ offset, limit }: PaginationProps, userId
     return await getRepository(OrderList).find({
       relations: ['payment', 'orderItems', 'orderItems.goods'],
       where: {
-        user: userId,
+        user: { id: userId },
       },
       skip: offset,
       take: limit,
@@ -50,7 +48,7 @@ async function getOwnOrdersPagination({ offset, limit }: PaginationProps, userId
   }
 }
 
-async function createOrder(userId: number, body: CreateOrderBody): Promise<OrderList> {
+async function createOrder(userId: number, body: CreateOrder): Promise<OrderList> {
   try {
     // id created  order_item_id=1 order_item_goods
     // id created  order_item_id=2 order_item_goods
@@ -63,7 +61,7 @@ async function createOrder(userId: number, body: CreateOrderBody): Promise<Order
       },
       ...body,
       state: DEFAULT_ORDER_STATE,
-      payment: body.paymentId,
+      payment: { id: body.paymentId },
     });
   } catch (err) {
     console.error(err);

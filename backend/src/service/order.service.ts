@@ -8,11 +8,7 @@ import { GoodsRepository } from '../repository/goods.repository';
 import { BadRequestError } from '../errors/client.error';
 import { INVALID_DATA } from '../constants/client-error-name';
 import { GetAllOrderByUserIdProps, OrderGoods } from '../types/Order';
-import {
-  GetOrderListResponse,
-  OrderListPaginationResponse,
-  OrderListWithThumbnail,
-} from '../types/response/order.response';
+import { OrderListPaginationResponse, OrderListWithThumbnail } from '../types/response/order.response';
 import { getTotalPage, pagination } from '../utils/pagination';
 import { PaginationProps } from '../types/Pagination';
 
@@ -77,7 +73,7 @@ async function processAppendingThumbnailAndTitle(order: OrderList): Promise<Orde
   if (!orderItemInfo) throw new BadRequestError(INVALID_DATA);
 
   const count = orderItems.length - 1;
-  const title = `${orderItemInfo.goods.title} 외 ${count}건 주문`;
+  const title = createOrderTitle(orderItemInfo.goods.title, count);
   const thumbnailUrl = orderItemInfo.goods.thumbnailUrl;
 
   return {
@@ -85,6 +81,11 @@ async function processAppendingThumbnailAndTitle(order: OrderList): Promise<Orde
     title,
     thumbnailUrl,
   };
+}
+
+function createOrderTitle(title: string, count: number): string {
+  const orderTitle = count > 0 ? `${title} 외 ${count}건 주문` : `${title} 주문`;
+  return orderTitle;
 }
 
 export const OrderService = {

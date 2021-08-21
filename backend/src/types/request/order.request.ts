@@ -1,15 +1,18 @@
 import { Request } from 'express';
 import { OrderGoods } from '../Order';
 
-export interface CreateOrderBody {
+export interface CreateOrder {
   state: string;
   orderMemo: string;
   receiver: string;
   zipCode: string;
   address: string;
-  goodsList: OrderGoods[];
   subAddress: string;
   paymentId: number;
+}
+
+export interface CreateOrderBody extends CreateOrder {
+  goodsList: OrderGoods[];
 }
 
 export interface CreateOrderRequest extends Request {

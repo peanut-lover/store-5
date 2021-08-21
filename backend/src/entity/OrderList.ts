@@ -41,7 +41,7 @@ export class OrderList {
   updatedAt: Date;
 
   @ManyToOne(() => Payment, (payment) => payment.id)
-  payment: number;
+  payment: Payment;
 
   @ManyToOne(() => User, (user) => user.id)
   user: User;
