@@ -9,24 +9,29 @@ import Goods from './pages/GoodsDetail/GoodsDetailPage';
 import MyPage from './pages/MyPage/MyPage';
 import CategoryGoods from '@src/pages/CategoryGoods/CategoryGoods';
 import KeywordGoods from './pages/KeywordGoods/KeywordGoods';
+import withLoggedIn from './utils/withLoggedIn';
 
 export default function App() {
+  const CartPageWithLoggedIn = withLoggedIn(Cart);
+  const OrderPageWithLoggedIn = withLoggedIn(Order);
+  const MyPageWithLoggedIn = withLoggedIn(MyPage);
+
   return (
     <>
       <Router>
         <Header />
         <Routes>
           <Route path='/cart'>
-            <Cart />
+            <CartPageWithLoggedIn />
           </Route>
           <Route path='/order'>
-            <Order />
+            <OrderPageWithLoggedIn />
           </Route>
           <Route path='/detail/:id'>
             <Goods />
           </Route>
           <Route path='/mypage'>
-            <MyPage />
+            <MyPageWithLoggedIn />
           </Route>
           <Route path='/category/:category'>
             <CategoryGoods />
