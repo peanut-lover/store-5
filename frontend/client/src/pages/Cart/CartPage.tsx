@@ -3,6 +3,7 @@ import PageHeader from '@src/components/PageHeader/PageHeader';
 import usePushToOrderPage from '@src/hooks/usePushToOrderPage';
 import { usePushHistory } from '@src/lib/CustomRouter';
 import { CartGoods } from '@src/types/Goods';
+import withLoggedIn from '@src/utils/withLoggedIn';
 import React, { useCallback, useState } from 'react';
 import { useEffect } from 'react';
 import CartGoodsListContainer from './CartGoodsListContainer/CartGoodsListContainer';
@@ -95,4 +96,4 @@ const CartPage: React.FC = () => {
   );
 };
 
-export default CartPage;
+export default withLoggedIn(CartPage);

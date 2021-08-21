@@ -9,6 +9,7 @@ import styled from 'styled-components';
 import MyAddressView from '@src/pages/MyPage/MyAddressView/MyAddressView';
 import useUserState from '@src/hooks/useUserState';
 import MyOrderListView from '@src/pages/MyPage/MyOrderListView/MyOrderListView';
+import withLoggedIn from '@src/utils/withLoggedIn';
 
 const MyPage = () => {
   const [user] = useUserState();
@@ -56,4 +57,4 @@ const MyPageContentContainer = styled.main`
   min-width: 900px;
 `;
 
-export default MyPage;
+export default withLoggedIn(MyPage);

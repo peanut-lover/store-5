@@ -1,5 +1,5 @@
 import styled from 'styled-components';
-import React, { useMemo, useState } from 'react';
+import React, { useEffect, useMemo, useState } from 'react';
 
 import { useRecoilValue } from 'recoil';
 import { orderState } from '@src/recoil/orderState';
@@ -20,6 +20,7 @@ import PaymentRadioSelector from './PaymentRadioSelector/PaymentRadioSelector';
 import { submitOrder } from '@src/apis/orderAPI';
 import AfterOrder from './AfterOrder/AfterOrder';
 import { usePushToast } from '@src/lib/ToastProvider/ToastProvider';
+import withLoggedIn from '@src/utils/withLoggedIn';
 
 const NEED_ADDRESS_MESSAGE = '배송지를 입력해주세요!';
 const NEED_PAYMENT_MESSAGE = '결제수단을 선택해주세요!';
@@ -71,9 +72,13 @@ const OrderPage: React.FC = () => {
     setIsOrdered(true);
   };
 
-  // TODO: NoData | NoAuthentication
-  if (orderGoodsList.length === 0) {
-    pushHistory('/');
+  const redirectCondition = orderGoodsList.length === 0;
+  useEffect(() => {
+    if (redirectCondition) {
+      pushHistory('/');
+    }
+  }, [orderGoodsList]);
+  if (redirectCondition) {
     return null;
   }
 
@@ -164,4 +169,4 @@ const FlexRowSpaceBetween = styled.div`
   justify-content: space-between;
 `;
 
-export default OrderPage;
+export default withLoggedIn(OrderPage);
