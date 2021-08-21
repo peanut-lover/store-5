@@ -10,9 +10,10 @@ import PromotionAPI from '@src/apis/promotionAPI';
 
 interface Props {
   onClose: () => void;
+  updatePromotions: () => Promise<void>;
 }
 
-const PromotionUploadModal: React.FC<Props> = ({ onClose }) => {
+const PromotionUploadModal: React.FC<Props> = ({ updatePromotions, onClose }) => {
   const [promotionFile, setPromotionFile] = useState<File>();
   const [selectedGoods, setSelectedGoods] = useState<AutoSearch>();
   const [submitDisabled, setSubmitDisabled] = useState<boolean>(true);
@@ -38,10 +39,10 @@ const PromotionUploadModal: React.FC<Props> = ({ onClose }) => {
     formData.append('goodsId', `${selectedGoods.id}`);
     try {
       const { result } = await PromotionAPI.createPromotion(formData);
-      if (result) onClose();
+      await updatePromotions();
+      onClose();
     } catch (err) {
-      // TODO: 임시 alert 추후에 수정해야함
-      alert('프로모션 등록 실패');
+      // TODO: alert 추후에 수정해야함
       console.error(err);
     }
   };

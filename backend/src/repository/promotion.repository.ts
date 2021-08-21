@@ -19,7 +19,7 @@ async function createPromotion(imgUrl: string): Promise<Promotion> {
 async function getPromotions(): Promise<Promotion[]> {
   try {
     const promotionRepo = getRepository(Promotion);
-    return await promotionRepo.find();
+    return await promotionRepo.find({ order: { createdAt: 'DESC' } });
   } catch (err) {
     console.error(err);
     throw new DatabaseError(PROMOTION_DB_ERROR);
