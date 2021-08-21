@@ -29,7 +29,6 @@ import { PaginationProps } from '../types/Pagination';
 
 async function createGoods(body: CreateGoodsBody, uploadFileUrls: string[]): Promise<Goods> {
   const { title, category, isGreen, price, stock, state, discountRate, deliveryInfo } = body;
-  console.log(body);
   return await getConnection().transaction(async (transactionalEntityManager) => {
     const goods = await transactionalEntityManager.save(Goods, {
       title,
