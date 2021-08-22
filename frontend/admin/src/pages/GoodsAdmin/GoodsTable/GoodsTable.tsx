@@ -41,6 +41,13 @@ const GoodsTable = () => {
     });
   };
 
+  const setKeyword = (keyword: string) => {
+    setSearchQuery({
+      ...searchQuery,
+      keyword,
+    });
+  };
+
   const handleUpdateGoods = useCallback((goods: GoodsItem) => {
     setUpdateGoods(goods);
   }, []);
@@ -60,7 +67,7 @@ const GoodsTable = () => {
   // TODO: 로딩 UI 적용
   return goodsListMap ? (
     <>
-      <Search />
+      <Search setKeyword={setKeyword} />
       <GoodsTableContainer>
         <GoodsTableHead />
         <GoodsTableBody goodsList={goodsListMap.goodsList} handleUpdateGoods={handleUpdateGoods} />

@@ -3,23 +3,22 @@ import { styled } from '@src/lib/CustomStyledComponent';
 import useInput from '@src/hooks/useInput';
 import { debounce } from '@src/utils/debounce';
 
-const Search = () => {
-  const [searchInput, setSearchInput] = useState('');
-  // const tmp = useReducer(reduce, state);
+interface Props {
+  setKeyword: (keyword: string) => void;
+}
 
-  const fetchAutoSearch = useCallback((e) => {
-    console.log(e);
-  }, []);
+const Search: React.FC<Props> = ({ setKeyword }) => {
+  const [searchInput, setSearchInput] = useState('');
 
   const handleAutoSearch = useCallback(
     (e) => {
       const keyword = e.target.value;
       setSearchInput(keyword);
       debounce(async () => {
-        await fetchAutoSearch(keyword);
+        await setKeyword(keyword);
       }, 200);
     },
-    [fetchAutoSearch]
+    [searchInput]
   );
   return (
     <SearchContainer>
