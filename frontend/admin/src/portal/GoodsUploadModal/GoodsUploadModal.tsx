@@ -120,11 +120,11 @@ const GoodsUploadModal: React.FC<Props> = ({ onClose, goods }) => {
       if (!(title.length > 0 && price > 0 && stock > 0)) return updateSubmitActiveFalse();
       if (!productState) return updateSubmitActiveFalse();
       if (deliveryInfo === 0 || category === 0) return updateSubmitActiveFalse();
-      if (files.length === 0) return updateSubmitActiveFalse();
+      if (files.length === 0 && oldImages.length === 0) return updateSubmitActiveFalse();
       return setSubmitActive('true');
     };
     checkFormIsValidated();
-  }, [title, price, stock, category, productState, deliveryInfo, files]);
+  }, [title, price, stock, category, productState, deliveryInfo, files, oldImages]);
 
   const fetchGoodsImgs = async (goodsId: number) => {
     try {

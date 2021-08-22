@@ -12,16 +12,6 @@ import { useCallback } from 'react';
 const LIMIT_COUNT_ITEMS_IN_PAGE = 10;
 const DEFAULT_START_PAGE = 1;
 
-/*
-  goodsList: GoodsItem[];
-  meta: {
-    page: number;
-    limit: number;
-    totalPage: number;
-    totalCount: number;
-  };
-*/
-
 const GoodsTable = () => {
   // TODO: reducer 적용
   // const tmp = useReducer(reduce, state);
@@ -61,6 +51,10 @@ const GoodsTable = () => {
   useEffect(() => {
     if (updateGoods) setOpenUpdateModal(true);
   }, [updateGoods]);
+
+  useEffect(() => {
+    if (!openUpdateModal) setUpdateGoods(null);
+  }, [openUpdateModal]);
 
   // TODO: 로딩 UI 적용
   return (

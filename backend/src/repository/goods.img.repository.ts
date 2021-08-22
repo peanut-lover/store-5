@@ -8,8 +8,13 @@ async function findGoodsImgById(goodsId: number): Promise<GoodsImg[]> {
   });
 }
 
-async function deleteGoodsImgByNotInImgIds(transactionalEntityManager: EntityManager, imgIds: number[]) {
+async function deleteGoodsImgByNotInImgIds(
+  transactionalEntityManager: EntityManager,
+  goodsId: number,
+  imgIds: number[]
+) {
   return await transactionalEntityManager.delete(GoodsImg, {
+    goods: { id: goodsId },
     id: Not(In(imgIds)),
   });
 }
