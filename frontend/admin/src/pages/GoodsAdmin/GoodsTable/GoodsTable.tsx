@@ -8,6 +8,7 @@ import Search from '@src/pages/GoodsAdmin/GoodsTable/Search/Search';
 import GoodsUpdateModal from '@src/portal/GoodsUploadModal/GoodsUploadModal';
 import { getGoodsByOption } from '@src/apis/goodsAPI';
 import { useCallback } from 'react';
+import Loading from '@src/components/Loading/Loading';
 
 const LIMIT_COUNT_ITEMS_IN_PAGE = 10;
 const DEFAULT_START_PAGE = 1;
@@ -46,7 +47,7 @@ const GoodsTable = () => {
 
   useEffect(() => {
     fetchGoodsList();
-  }, [searchQuery]);
+  }, [searchQuery, updateGoods]);
 
   useEffect(() => {
     if (updateGoods) setOpenUpdateModal(true);
@@ -57,18 +58,18 @@ const GoodsTable = () => {
   }, [openUpdateModal]);
 
   // TODO: 로딩 UI 적용
-  return (
-    goodsListMap && (
-      <>
-        <Search />
-        <GoodsTableContainer>
-          <GoodsTableHead />
-          <GoodsTableBody goodsList={goodsListMap.goodsList} handleUpdateGoods={handleUpdateGoods} />
-        </GoodsTableContainer>
-        <Paginator totalPage={goodsListMap.meta.totalPage} currentPage={goodsListMap.meta.page} setPage={setPage} />
-        {openUpdateModal && <GoodsUpdateModal onClose={() => setOpenUpdateModal(false)} goods={updateGoods} />}
-      </>
-    )
+  return goodsListMap ? (
+    <>
+      <Search />
+      <GoodsTableContainer>
+        <GoodsTableHead />
+        <GoodsTableBody goodsList={goodsListMap.goodsList} handleUpdateGoods={handleUpdateGoods} />
+      </GoodsTableContainer>
+      <Paginator totalPage={goodsListMap.meta.totalPage} currentPage={goodsListMap.meta.page} setPage={setPage} />
+      {openUpdateModal && <GoodsUpdateModal onClose={() => setOpenUpdateModal(false)} goods={updateGoods} />}
+    </>
+  ) : (
+    <Loading />
   );
 };
 
