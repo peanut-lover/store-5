@@ -6,7 +6,7 @@ import { convertYYYYMMDD } from '@src/utils/dateHelper';
 
 interface Props {
   goods: GoodsItem;
-  handleModifyGoods: (goods: GoodsItem) => void;
+  handleUpdateGoods: (goods: GoodsItem) => void;
 }
 
 interface StateMap {
@@ -19,11 +19,11 @@ const STATE_MAP: StateMap = {
   D: '삭제',
 };
 
-const GoodsTableRow: React.FC<Props> = ({ goods, handleModifyGoods }) => {
+const GoodsTableRow: React.FC<Props> = ({ goods, handleUpdateGoods }) => {
   const { id, thumbnailUrl, title, price, discountRate, stock, countOfSell, createdAt, updatedAt, state, category } =
     goods;
   return (
-    <GoodsTableRowContainer onClick={() => handleModifyGoods(goods)}>
+    <GoodsTableRowContainer onClick={() => handleUpdateGoods(goods)}>
       <TableData>
         <ThumbnailImg src={thumbnailUrl} />
       </TableData>

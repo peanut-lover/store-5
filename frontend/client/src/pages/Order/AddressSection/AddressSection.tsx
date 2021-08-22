@@ -64,7 +64,7 @@ const AddressInfo: React.FC<Prop> = ({ onChangeSelectedAddress }) => {
   return (
     <Wrapper>
       <AddressCard address={selectedAddress} />
-      <ModifyButton onClick={toggleIsSelectModalOpened}>변경</ModifyButton>
+      <UpdateButton onClick={toggleIsSelectModalOpened}>변경</UpdateButton>
       {isModalOpened && <AddressManageModal onSelect={handleSelectedAddress} onClose={toggleIsSelectModalOpened} />}
       {/* TODO: 배송메모 input */}
     </Wrapper>
@@ -83,7 +83,7 @@ const EmptyWrapper = styled.div`
   gap: 1rem;
 `;
 
-const ModifyButton = styled.button`
+const UpdateButton = styled.button`
   position: absolute;
   top: 0;
   right: 0;

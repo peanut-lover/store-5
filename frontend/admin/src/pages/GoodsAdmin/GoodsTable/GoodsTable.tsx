@@ -5,7 +5,7 @@ import GoodsTableHead from '@src/pages/GoodsAdmin/GoodsTable/GoodsTableHead/Good
 import GoodsTableBody from '@src/pages/GoodsAdmin/GoodsTable/GoodsTableBody/GoodsTableBody';
 import Paginator from '@src/components/Paginator/Paginator';
 import Search from '@src/pages/GoodsAdmin/GoodsTable/Search/Search';
-import GoodsModifyModal from '@src/portal/GoodsUploadModal/GoodsUploadModal';
+import GoodsUpdateModal from '@src/portal/GoodsUploadModal/GoodsUploadModal';
 import { getGoodsByOption } from '@src/apis/goodsAPI';
 import { useCallback } from 'react';
 
@@ -26,8 +26,8 @@ const GoodsTable = () => {
   // TODO: reducer 적용
   // const tmp = useReducer(reduce, state);
   const [goodsListMap, setGoodsListMap] = useState<GoodsPaginationResult | null>(null);
-  const [openModifyModal, setOpenModifyModal] = useState(false);
-  const [modifyGoods, setModifyGoods] = useState<GoodsItem | null>(null);
+  const [openUpdateModal, setOpenUpdateModal] = useState(false);
+  const [updateGoods, setUpdateGoods] = useState<GoodsItem | null>(null);
   const [searchQuery, setSearchQuery] = useState<GetGoodsByOptionProps>({
     page: DEFAULT_START_PAGE,
     limit: LIMIT_COUNT_ITEMS_IN_PAGE,
@@ -50,8 +50,8 @@ const GoodsTable = () => {
     });
   };
 
-  const handleModifyGoods = useCallback((goods: GoodsItem) => {
-    setModifyGoods(goods);
+  const handleUpdateGoods = useCallback((goods: GoodsItem) => {
+    setUpdateGoods(goods);
   }, []);
 
   useEffect(() => {
@@ -59,8 +59,8 @@ const GoodsTable = () => {
   }, [searchQuery]);
 
   useEffect(() => {
-    if (modifyGoods) setOpenModifyModal(true);
-  }, [modifyGoods]);
+    if (updateGoods) setOpenUpdateModal(true);
+  }, [updateGoods]);
 
   // TODO: 로딩 UI 적용
   return (
@@ -69,10 +69,10 @@ const GoodsTable = () => {
         <Search />
         <GoodsTableContainer>
           <GoodsTableHead />
-          <GoodsTableBody goodsList={goodsListMap.goodsList} handleModifyGoods={handleModifyGoods} />
+          <GoodsTableBody goodsList={goodsListMap.goodsList} handleUpdateGoods={handleUpdateGoods} />
         </GoodsTableContainer>
         <Paginator totalPage={goodsListMap.meta.totalPage} currentPage={goodsListMap.meta.page} setPage={setPage} />
-        {openModifyModal && <GoodsModifyModal onClose={() => setOpenModifyModal(false)} goods={modifyGoods} />}
+        {openUpdateModal && <GoodsUpdateModal onClose={() => setOpenUpdateModal(false)} goods={updateGoods} />}
       </>
     )
   );
