@@ -6,6 +6,8 @@ interface ToastData {
   text: string;
   displayTime?: number;
   color?: string;
+  positionRow?: 'left' | 'center' | 'right';
+  positionColumn?: 'top' | 'bottom';
 }
 
 interface ToastContextType {
@@ -22,35 +24,43 @@ const ToastContext = createContext<ToastContextType>(defaultToastContext);
 
 interface ToastState extends ToastData {
   id: number;
+  onDisplayTimeEnd: () => void;
 }
 
 const DEFAULT_DISPLAY_TIME = 3000;
+
 const ToastProvider: React.FC = ({ children }) => {
   const [toasts, setToasts] = useState<ToastState[]>([]);
   const idCounterRef = useRef(0);
 
   const pushToast = (newToast: ToastData) => {
     const id = idCounterRef.current++;
-    const { displayTime = DEFAULT_DISPLAY_TIME } = newToast;
 
-    setToasts((currentToasts) => {
-      return [...currentToasts, { ...newToast, id }];
-    });
-
-    setTimeout(() => {
+    const onDisplayTimeEnd = () => {
       setToasts((currentToasts) => {
         return currentToasts.filter((toast) => toast.id !== id);
       });
-    }, displayTime);
+    };
+
+    setToasts((currentToasts) => {
+      return [...currentToasts, { ...newToast, id, onDisplayTimeEnd }];
+    });
   };
 
   return (
     <ToastContext.Provider value={{ pushToast }}>
       {children}
       <ToastPortalWrapper>
-        {toasts.map((toast) => (
-          <Toast key={toast.id} displayTime={toast.displayTime ?? DEFAULT_DISPLAY_TIME} color={toast.color}>
-            {toast.text}
+        {toasts.map(({ id, displayTime, color, onDisplayTimeEnd, text, positionRow, positionColumn }) => (
+          <Toast
+            key={id}
+            displayTime={displayTime ?? DEFAULT_DISPLAY_TIME}
+            color={color}
+            onDisplayTimeEnd={onDisplayTimeEnd}
+            positionRow={positionRow}
+            positionColumn={positionColumn}
+          >
+            {text}
           </Toast>
         ))}
       </ToastPortalWrapper>
