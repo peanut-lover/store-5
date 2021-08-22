@@ -16,6 +16,13 @@ router.post(
   wrapAsync(GoodsController.createGoods)
 );
 
+router.patch(
+  '/:id',
+  checkNumberInParams,
+  uploadProductFiles.array(GoodsImageFieldName, MAX_UPLOAD_FILE),
+  wrapAsync(GoodsController.updateGoods)
+);
+
 // TODO: isAuthenticate middleware
 router.get('/admin', wrapAsync(GoodsController.getGoodsForAdmin));
 router.get('/category', wrapAsync(GoodsController.getAllGoodsCategory));

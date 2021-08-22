@@ -10,6 +10,14 @@ export interface CreateGoodsBody {
   deliveryInfo: number;
 }
 
+export type UpdateGoodsBody = CreateGoodsBody & {
+  oldImages: string;
+};
+
 export interface CreateGoodsRequest extends Request {
   body: CreateGoodsBody;
+}
+
+export interface UpdateGoodsRequest extends Request {
+  body: UpdateGoodsBody;
 }
