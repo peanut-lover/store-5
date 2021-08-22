@@ -115,7 +115,7 @@ async function updateGoods(body: UpdateGoodsBody, goodsId: number, uploadFileUrl
 
     if (oldImages) {
       const imgIds = oldImages ? oldImages.split(',').map((img) => Number(img)) : [];
-      await GoodsImgRepository.deleteGoodsImgByNotInImgId(transactionalEntityManager, imgIds);
+      await GoodsImgRepository.deleteGoodsImgByNotInImgIds(transactionalEntityManager, imgIds);
     } else {
       await GoodsImgRepository.deleteGoodsImgByGoodsId(transactionalEntityManager, goodsId);
     }
