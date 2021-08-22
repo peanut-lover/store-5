@@ -10,6 +10,7 @@ import { GoodsAPI } from '@src/apis/goodsAPI';
 import convertGoodsState from '@src/utils/convertGoodsState';
 import { GoodsItem } from '@src/types/Goods';
 import { GoodsImg } from '@src/types/GoodsImg';
+import { FaTimes } from 'react-icons/fa';
 
 interface Props {
   onClose: () => void;
@@ -41,8 +42,11 @@ const GoodsUploadModal: React.FC<Props> = ({ onClose, goods }) => {
     formData.append('deliveryInfo', `${deliveryInfo}`);
     formData.append('category', `${category}`);
     formData.append('state', convertGoodsState(productState));
+    if (oldImages.length > 0) {
+      formData.append('oldImages', oldImages.map((image) => image.id).join());
+    }
     try {
-      const { result } = await GoodsAPI.createGoods(formData);
+      const { result } = goods ? await GoodsAPI.updateGoods(formData, goods.id) : await GoodsAPI.createGoods(formData);
       if (result) onClose();
     } catch (err) {
       console.error(err);
@@ -170,7 +174,9 @@ const GoodsUploadModal: React.FC<Props> = ({ onClose, goods }) => {
               </SubmitButton>
             </UploadContentRightContainer>
           </UploadContentContainer>
-          <CloseButton onClick={onClose}>X</CloseButton>
+          <CloseButton onClick={onClose}>
+            <FaTimes />
+          </CloseButton>
         </ProductUploadContainer>
       </ModalContainer>
     </Portal>
@@ -231,6 +237,10 @@ const CloseButton = styled('button')`
   position: absolute;
   top: -0.5em;
   right: -0.5em;
+  width: 40px;
+  height: 40px;
+  display: flex;
+  align-items: center;
   font-size: 1.8em;
   border-radius: 50%;
   background-color: #2ac1bc;

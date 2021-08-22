@@ -39,6 +39,10 @@ const ImageDeleteButton = styled('button')<{ bgcolor: string }>`
   position: absolute;
   top: 16px;
   right: 12px;
+  width: 32px;
+  height: 32px;
+  display: flex;
+  align-items: center;
   font-size: 1.2em;
   border-radius: 50%;
   border: none;
