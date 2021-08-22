@@ -5,7 +5,9 @@ import GoodsTableHead from '@src/pages/GoodsAdmin/GoodsTable/GoodsTableHead/Good
 import GoodsTableBody from '@src/pages/GoodsAdmin/GoodsTable/GoodsTableBody/GoodsTableBody';
 import Paginator from '@src/components/Paginator/Paginator';
 import Search from '@src/pages/GoodsAdmin/GoodsTable/Search/Search';
+import GoodsModifyModal from '@src/portal/GoodsUploadModal/GoodsUploadModal';
 import { getGoodsByOption } from '@src/apis/goodsAPI';
+import { useCallback } from 'react';
 
 const LIMIT_COUNT_ITEMS_IN_PAGE = 10;
 const DEFAULT_START_PAGE = 1;
@@ -24,6 +26,8 @@ const GoodsTable = () => {
   // TODO: reducer 적용
   // const tmp = useReducer(reduce, state);
   const [goodsListMap, setGoodsListMap] = useState<GoodsPaginationResult | null>(null);
+  const [openModifyModal, setOpenModifyModal] = useState(false);
+  const [modifyGoods, setModifyGoods] = useState<GoodsItem | null>(null);
   const [searchQuery, setSearchQuery] = useState<GetGoodsByOptionProps>({
     page: DEFAULT_START_PAGE,
     limit: LIMIT_COUNT_ITEMS_IN_PAGE,
@@ -46,9 +50,17 @@ const GoodsTable = () => {
     });
   };
 
+  const handleModifyGoods = useCallback((goods: GoodsItem) => {
+    setModifyGoods(goods);
+  }, []);
+
   useEffect(() => {
     fetchGoodsList();
   }, [searchQuery]);
+
+  useEffect(() => {
+    if (modifyGoods) setOpenModifyModal(true);
+  }, [modifyGoods]);
 
   // TODO: 로딩 UI 적용
   return (
@@ -57,9 +69,10 @@ const GoodsTable = () => {
         <Search />
         <GoodsTableContainer>
           <GoodsTableHead />
-          <GoodsTableBody goodsList={goodsListMap.goodsList} />
+          <GoodsTableBody goodsList={goodsListMap.goodsList} handleModifyGoods={handleModifyGoods} />
         </GoodsTableContainer>
         <Paginator totalPage={goodsListMap.meta.totalPage} currentPage={goodsListMap.meta.page} setPage={setPage} />
+        {openModifyModal && <GoodsModifyModal onClose={() => setOpenModifyModal(false)} goods={modifyGoods} />}
       </>
     )
   );
@@ -71,25 +84,3 @@ const GoodsTableContainer = styled('table')`
 `;
 
 export default GoodsTable;
-
-const goodsList: GoodsItem[] = [
-  {
-    id: 20,
-    thumbnailUrl:
-      'https://user-images.githubusercontent.com/45394360/129675529-f90e2e73-222b-4815-9495-98e4b1647cb9.png',
-    title: '상품명 랜덤 - 793',
-    price: 91226,
-    stock: 11,
-    discountRate: 44,
-    countOfSell: 47,
-    state: 'S',
-    isGreen: false,
-    category: {
-      name: '이름',
-      id: 1,
-    },
-    createdAt: '2021-08-17T08:34:00.090Z',
-    updatedAt: '2021-08-17T08:34:00.090Z',
-    deliveryInfo: 1,
-  },
-];
