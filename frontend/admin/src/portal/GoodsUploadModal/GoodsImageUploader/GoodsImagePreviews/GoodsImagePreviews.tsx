@@ -12,7 +12,6 @@ interface Props {
 }
 
 const GoodsImagePreviews: React.FC<Props> = ({ previewImages, onDeleteImage, oldImages, handleDeleteOldImage }) => {
-  console.log(oldImages);
   return (
     <PreviewImagesContainer>
       {oldImages.map((oldImage, i) => (
