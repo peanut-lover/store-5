@@ -9,6 +9,8 @@ interface Props {
 }
 
 const OrderCard: React.FC<Props> = ({ order }) => {
+  const { orderItems } = order;
+  console.log(order);
   return (
     <OrderCardContainer>
       <OrderCardDateAndIdCell>
@@ -16,8 +18,8 @@ const OrderCard: React.FC<Props> = ({ order }) => {
         {convertYYYYMMDD(new Date(order.createdAt))}
       </OrderCardDateAndIdCell>
       <OrderCardProductInfo>
-        <ThumbnailImg src={order.thumbnailUrl} />
-        <OrderCardProductInfoTitle>{order.title}</OrderCardProductInfoTitle>
+        {/* <ThumbnailImg src={mainOrderItem.goods.thumbnailUrl} />
+        <OrderCardProductInfoTitle>{mainOrderItem.goods.title}</OrderCardProductInfoTitle> */}
       </OrderCardProductInfo>
       <OrderCardStateInfo>
         <OrderStateText>

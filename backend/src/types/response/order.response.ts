@@ -1,4 +1,4 @@
-import { OrderList } from '../../entity/OrderList';
+import { Order } from '../../entity/Order';
 
 export interface OrderListMetaData {
   page: number;
@@ -7,14 +7,7 @@ export interface OrderListMetaData {
   totalCount: number;
 }
 
-export interface OrderListWithThumbnail extends OrderList {
-  title: string;
-  thumbnailUrl: string;
-}
-
 export interface OrderListPaginationResponse {
   meta?: OrderListMetaData;
-  orderList?: OrderListWithThumbnail[];
+  orderList?: Order[];
 }
-
-export type GetOrderListResponse = OrderListWithThumbnail[];

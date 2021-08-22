@@ -19,8 +19,6 @@ export interface Order {
   receiver: string;
   state: string;
   subAddress: string;
-  thumbnailUrl: string;
-  title: string;
   payment: Payment;
   zipCode: string;
   updatedAt: string;

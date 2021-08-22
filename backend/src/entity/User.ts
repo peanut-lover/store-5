@@ -1,6 +1,6 @@
 import { Column, CreateDateColumn, Entity, OneToMany, PrimaryGeneratedColumn, UpdateDateColumn } from 'typeorm';
 import { Cart } from './Cart';
-import { OrderList } from './OrderList';
+import { Order } from './Order';
 import { UserAddress } from './UserAddress';
 import { Wish } from './Wish';
 

@@ -1,5 +1,5 @@
 import { CreateOrder } from './../types/request/order.request';
-import { OrderList } from '../entity/OrderList';
+import { Order } from '../entity/Order';
 import { getRepository } from 'typeorm';
 import { DatabaseError } from '../errors/base.error';
 import { ORDER_LIST_DB_ERROR } from '../constants/database.error.name';
@@ -7,9 +7,9 @@ import { PaginationProps } from '../types/Pagination';
 
 const DEFAULT_ORDER_STATE = '주문완료';
 
-async function getOrders(userId: number): Promise<OrderList[]> {
+async function getOrders(userId: number): Promise<Order[]> {
   try {
-    const orderRepo = getRepository(OrderList);
+    const orderRepo = getRepository(Order);
     return await orderRepo.find({
       relations: ['payment', 'orderItems'],
       where: {
@@ -23,7 +23,7 @@ async function getOrders(userId: number): Promise<OrderList[]> {
 }
 
 async function getOwnOrderTotalCount(userId: number): Promise<number> {
-  return await getRepository(OrderList).count({
+  return await getRepository(Order).count({
     where: {
       user: {
         id: userId,
@@ -32,9 +32,9 @@ async function getOwnOrderTotalCount(userId: number): Promise<number> {
   });
 }
 
-async function getOwnOrdersPagination({ offset, limit }: PaginationProps, userId: number): Promise<OrderList[]> {
+async function getOwnOrdersPagination({ offset, limit }: PaginationProps, userId: number): Promise<Order[]> {
   try {
-    return await getRepository(OrderList).find({
+    return await getRepository(Order).find({
       relations: ['payment', 'orderItems', 'orderItems.goods'],
       where: {
         user: { id: userId },
@@ -48,10 +48,10 @@ async function getOwnOrdersPagination({ offset, limit }: PaginationProps, userId
   }
 }
 
-async function createOrder(userId: number, body: CreateOrder): Promise<OrderList> {
+async function createOrder(userId: number, body: CreateOrder): Promise<Order> {
   try {
     const { orderMemo, receiver, zipCode, address, subAddress, paymentId } = body;
-    const orderRepo = getRepository(OrderList);
+    const orderRepo = getRepository(Order);
     return await orderRepo.save({
       user: {
         id: userId,

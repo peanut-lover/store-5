@@ -7,7 +7,7 @@ import { Category } from './entity/Category';
 import { Goods } from './entity/Goods';
 import { GoodsImg } from './entity/GoodsImg';
 import { OrderItem } from './entity/OrderItem';
-import { OrderList } from './entity/OrderList';
+import { Order } from './entity/Order';
 import { Payment } from './entity/Payment';
 import { Promotion } from './entity/Promotion';
 import { User } from './entity/User';
@@ -33,7 +33,7 @@ export default async function () {
       DeliveryInfo,
       Cart,
       OrderItem,
-      OrderList,
+      Order,
       Goods,
       GoodsImg,
       Category,
@@ -53,7 +53,6 @@ async function populate() {
   await createDefaultGoods();
   await createDefaultPromotions();
   await createDefaultPayment();
-  await createDefaultOrderList();
 }
 
 async function createDefaultUser(name: string) {
@@ -122,25 +121,6 @@ async function createDefaultDeliveryInfo() {
     name: '산간',
     deliveryFee: 5000,
     deliveryDetail: '배송 지역이 너무멀어요',
-  });
-}
-
-async function createDefaultOrderList() {
-  const res = await OrderListRepository.getOrders(1);
-  if (res.length > 0) return;
-  const orderList = await OrderListRepository.createOrder(1, {
-    orderMemo: '지갑 거덜나네,,',
-    receiver: '아이유',
-    zipCode: '083212',
-    address: '서울 특별시 강남구',
-    subAddress: '역삼동',
-    paymentId: 1,
-  });
-  await OrderItemRepository.createOrderItem(1, orderList.id, {
-    amount: 4,
-    price: 13000,
-    discountRate: 10,
-    state: 'S',
   });
 }
 
