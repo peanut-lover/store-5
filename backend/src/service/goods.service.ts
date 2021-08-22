@@ -26,7 +26,7 @@ import { BadRequestError } from '../errors/client.error';
 import { GOODS_DB_ERROR } from '../constants/database.error.name';
 import { CategoryRepository } from '../repository/category.repository';
 import { GoodsStateMap } from '../controller/goods.controller';
-import { CreateGoodsBody } from '../types/request/goods.request';
+import { CreateGoodsBody, UpdateGoodsBody } from '../types/request/goods.request';
 import { PaginationProps } from '../types/Pagination';
 import { isBoolean, isNumber } from '../utils/check.primitive.type';
 import { GoodsImgRepository } from '../repository/goods.img.repository';
@@ -68,6 +68,57 @@ async function createGoods(body: CreateGoodsBody, uploadFileUrls: string[]): Pro
       },
       thumbnailUrl: uploadFileUrls[0],
     });
+
+    await Promise.all(
+      uploadFileUrls.map(
+        async (url) => await transactionalEntityManager.save(GoodsImg, { goods: { id: goods.id }, url })
+      )
+    );
+
+    return goods;
+  });
+}
+
+async function updateGoods(body: UpdateGoodsBody, goodsId: number, uploadFileUrls: string[]): Promise<Goods> {
+  await checkValidateCreateGoods(body);
+  const { title, category, isGreen, price, stock, state, discountRate, deliveryInfo, oldImages } = body;
+
+  if (
+    !title ||
+    isGreen === undefined ||
+    isNaN(body.stock) ||
+    !state ||
+    isNaN(body.price) ||
+    isNaN(body.category) ||
+    isNaN(body.deliveryInfo)
+  ) {
+    throw new BadRequestError(INVALID_DATA);
+  }
+
+  return await getConnection().transaction(async (transactionalEntityManager) => {
+    const goods = await transactionalEntityManager.save(Goods, {
+      id: goodsId,
+      title,
+      price,
+      stock,
+      discountRate,
+      state,
+      isGreen,
+      category: {
+        id: category,
+      },
+      deliveryInfo: {
+        id: deliveryInfo,
+      },
+      thumbnailUrl: uploadFileUrls[0],
+    });
+
+    if (oldImages) {
+      const imgIds = oldImages ? oldImages.split(',').map((img) => Number(img)) : [];
+      await GoodsImgRepository.deleteGoodsImgByNotInImgId(transactionalEntityManager, imgIds);
+    } else {
+      await GoodsImgRepository.deleteGoodsImgByGoodsId(transactionalEntityManager, goodsId);
+    }
 
     await Promise.all(
       uploadFileUrls.map(
@@ -318,6 +369,7 @@ async function checkValidateCreateGoods(body: CreateGoodsBody): Promise<void> {
 
 export const GoodsService = {
   createGoods,
+  updateGoods,
   getDetailById,
   getGoodsForAdmin,
   getAllSaleGoodsByKeyword,

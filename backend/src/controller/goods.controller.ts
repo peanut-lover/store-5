@@ -3,7 +3,12 @@ import { INVALID_DATA } from '../constants/client.error.name';
 import { BadRequestError } from '../errors/client.error';
 import { GoodsService } from '../service/goods.service';
 import { GetAllByCategoryProps, GetAllByKeywordProps, GoodsFlag, GoodsState } from '../types/Goods';
-import { CreateGoodsBody, CreateGoodsRequest } from '../types/request/goods.request';
+import {
+  CreateGoodsBody,
+  CreateGoodsRequest,
+  UpdateGoodsBody,
+  UpdateGoodsRequest,
+} from '../types/request/goods.request';
 import { uploadProductImages } from '../utils/aws.upload';
 
 export const GoodsStateMap = {
@@ -38,6 +43,31 @@ async function createGoods(req: CreateGoodsRequest, res: Response) {
   const uploadFileUrls = await uploadProductImages(files);
 
   const result = await GoodsService.createGoods(body, uploadFileUrls);
+
+  res.status(201).json({ result });
+}
+
+async function updateGoods(req: UpdateGoodsRequest, res: Response) {
+  const goodsId = Number(req.params.id);
+  const body: UpdateGoodsBody = {
+    title: req.body.title,
+    isGreen: Boolean(req.body.isGreen),
+    stock: Number(req.body.stock),
+    state: req.body.state,
+    price: Number(req.body.price),
+    discountRate: Number(req.body.discountRate),
+    category: Number(req.body.category),
+    deliveryInfo: Number(req.body.deliveryInfo),
+    oldImages: req.body.oldImages,
+  };
+
+  const files = req.files;
+
+  if (!files || !Array.isArray(files)) throw new BadRequestError(INVALID_DATA);
+
+  const uploadFileUrls = await uploadProductImages(files);
+
+  const result = await GoodsService.updateGoods(body, goodsId, uploadFileUrls);
 
   res.status(201).json({ result });
 }
@@ -119,6 +149,7 @@ async function getGoodsImgById(req: Request, res: Response) {
 
 export const GoodsController = {
   createGoods,
+  updateGoods,
   getGoodsDetail,
   getAllGoodsCategory,
   getAllSaleGoodsByKeyword,
