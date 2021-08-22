@@ -110,7 +110,7 @@ async function updateGoods(body: UpdateGoodsBody, goodsId: number, uploadFileUrl
       deliveryInfo: {
         id: deliveryInfo,
       },
-      thumbnailUrl: uploadFileUrls[0],
+      thumbnailUrl: oldImages ? oldImages[0] : uploadFileUrls[0],
     });
 
     if (oldImages) {

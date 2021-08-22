@@ -11,7 +11,7 @@ export interface CreateGoodsBody {
 }
 
 export type UpdateGoodsBody = CreateGoodsBody & {
-  oldImages: string;
+  oldImages?: string;
 };
 
 export interface CreateGoodsRequest extends Request {
