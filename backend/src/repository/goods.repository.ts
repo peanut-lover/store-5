@@ -2,7 +2,7 @@ import { FindOperator, getRepository, Like, MoreThan } from 'typeorm';
 import { GOODS_DB_ERROR } from '../constants/database.error.name';
 import { DatabaseError } from '../errors/base.error';
 import { Goods } from '../entity/Goods';
-import { FindAllProps } from '../types/Goods';
+import { FindAllProps, FindTotalCountProps, GoodsState } from '../types/Goods';
 import { TaggedGoodsType } from '../types/response/goods.response';
 import { SearchedGoodsFromKeyword } from '../types/response/search.response';
 import { GoodsStateMap } from '../controller/goods.controller';
@@ -45,7 +45,7 @@ async function findAllByOption({
     const where: {
       stock: FindOperator<number>;
       title?: FindOperator<string> | string;
-      state?: string;
+      state?: GoodsState;
     } = {
       stock: MoreThan(stock),
     };
@@ -87,18 +87,27 @@ async function findAllWishByUserId({ offset, limit, userId }: FindAllProps): Pro
   }
 }
 
-async function findTotalCountByOption(keyword: string): Promise<number> {
+async function findTotalCountByOption({ stock, state, title, category }: FindTotalCountProps): Promise<number> {
   try {
-    const goodsRepo = getRepository(Goods);
-    const count = await goodsRepo.count({
-      where: {
-        // TODO: 어드민 연동시 모든 state와 모든 stock에 해당하는 상품을 가져와야 함
-        title: Like(`%${keyword}%`),
-        state: GoodsStateMap.sale,
-        stock: MoreThan(0),
-      },
+    const where: {
+      stock: FindOperator<number>;
+      state?: GoodsState;
+      title?: FindOperator<string> | string;
+      category?: number;
+    } = {
+      stock: MoreThan(stock),
+    };
+    if (stock) {
+      where.state = state;
+    }
+    if (title) {
+      where.title = Like(`%${title}%`);
+    } else if (category) {
+      where.category = category;
+    }
+    return await getRepository(Goods).count({
+      where,
     });
-    return count;
   } catch (err) {
     console.error(err);
     throw new DatabaseError(GOODS_DB_ERROR);

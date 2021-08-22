@@ -17,3 +17,10 @@ export type FindAllProps = PaginationProps & {
   title?: string;
   stock?: number;
 };
+
+export type FindTotalCountProps = {
+  stock: number;
+  state?: GoodsState;
+  title?: string;
+  category?: number;
+};
