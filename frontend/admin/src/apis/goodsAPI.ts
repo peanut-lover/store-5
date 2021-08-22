@@ -1,3 +1,4 @@
+import { GoodsItem } from './../types/Goods';
 import { APIResponse, checkedFetch } from '@src/apis/base';
 import { CreatedGoods, GetGoodsByOptionProps, GoodsPaginationResult } from '@src/types/Goods';
 import { GoodsImg } from '@src/types/GoodsImg';
@@ -50,9 +51,18 @@ const getGoodsImgById = async (goodsId: number): Promise<APIResponse<GoodsImg[]>
   return await res.json();
 };
 
+const getBestSellingGoodsForDashboard = async (): Promise<APIResponse<GoodsItem[]>> => {
+  const res = await checkedFetch(`/api/goods/dashboard/best`, {
+    method: 'GET',
+    credentials: 'include',
+  });
+  return await res.json();
+};
+
 export const GoodsAPI = {
   createGoods,
   updateGoods,
   getGoodsByOption,
   getGoodsImgById,
+  getBestSellingGoodsForDashboard,
 };

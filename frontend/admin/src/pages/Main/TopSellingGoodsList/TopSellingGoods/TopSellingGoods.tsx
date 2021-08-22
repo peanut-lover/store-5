@@ -26,12 +26,15 @@ const TopSellingGoods: React.FC<Props> = ({ item }) => {
 const TopSellingGoodsContainer = styled('div')`
   display: flex;
   align-items: center;
+  height: 20%;
   width: 100%;
   margin-bottom: 16px;
 `;
 const TopSellingGoodsImage = styled('img')`
   width: 25%;
+  height: 100%;
   margin-right: 16px;
+  object-fit: cover;
 `;
 
 const TopSellingGoodsTitle = styled('p')`
@@ -46,7 +49,7 @@ const TopSellingGoodsTitle = styled('p')`
 const SellingGoodsCountContainer = styled('div')<{ bgcolor: string }>`
   padding: 0.5em;
   background-color: ${(props) => props.bgcolor};
-  border-radius: 16px;
+  border-radius: 12px;
 `;
 const TopSellingGoodsCount = styled('span')`
   color: #fff;

@@ -1,44 +1,45 @@
+import { GoodsAPI } from '@src/apis/goodsAPI';
 import { styled } from '@src/lib/CustomStyledComponent';
 import TopSellingGoods from '@src/pages/Main/TopSellingGoodsList/TopSellingGoods/TopSellingGoods';
 import { theme } from '@src/theme/theme';
-import React from 'react';
+import { GoodsItem } from '@src/types/Goods';
+import React, { useEffect, useState } from 'react';
 
 const TopSellingGoodsList = () => {
-  const mock = [
-    {
-      thumbnailUrl:
-        'https://user-images.githubusercontent.com/20085849/128866958-900ad32a-cd32-4b97-be79-1dbbc9dcb02d.jpeg',
-      title: 'dummy1',
-      countOfSell: 1330,
-    },
-    {
-      thumbnailUrl:
-        'https://user-images.githubusercontent.com/20085849/128866958-900ad32a-cd32-4b97-be79-1dbbc9dcb02d.jpeg',
-      title: 'dummy2dsasdasdasdasdasdasdasd',
-      countOfSell: 25500,
-    },
-    {
-      thumbnailUrl:
-        'https://user-images.githubusercontent.com/20085849/128866958-900ad32a-cd32-4b97-be79-1dbbc9dcb02d.jpeg',
-      title: 'dummy1',
-      countOfSell: 33303300,
-    },
-  ];
+  const [goodsList, setGoodsList] = useState<GoodsItem[]>([]);
+  useEffect(() => {
+    async function fetchingGoodsList() {
+      const { result } = await GoodsAPI.getBestSellingGoodsForDashboard();
+      setGoodsList(result);
+    }
+    fetchingGoodsList();
+  }, []);
   return (
-    <TopSellingListContainer>
+    <TopSellingContainer>
       <TopSellingTitle bgcolor={theme.greenColor}>Top Selling Goods</TopSellingTitle>
-      {mock.map((item, i) => (
-        <TopSellingGoods key={i} item={item} />
-      ))}
-    </TopSellingListContainer>
+      <GoodsListContainer>
+        {goodsList.map((item, i) => (
+          <TopSellingGoods key={i} item={item} />
+        ))}
+      </GoodsListContainer>
+    </TopSellingContainer>
   );
 };
 
-const TopSellingListContainer = styled('div')`
+const TopSellingContainer = styled('div')`
   display: flex;
   flex-direction: column;
   width: 30%;
+  height: 50%;
   padding: 16px;
+  overflow: auto;
+`;
+
+const GoodsListContainer = styled('div')`
+  position: relative;
+  display: flex;
+  flex-direction: column;
+  overflow: auto;
 `;
 
 const TopSellingTitle = styled('span')<{ bgcolor: string }>`
