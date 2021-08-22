@@ -1,5 +1,6 @@
 import { getMyWishGoods } from '@src/apis/goodsAPI';
 import GoodsSection from '@src/components/GoodsSection/GoodsSection';
+import HighlightedText from '@src/components/HighlightedText/HighlightedText';
 import Paginator from '@src/components/Paginator/Paginator';
 import Topic from '@src/components/Topic/Topic';
 import { GoodsPaginationResult } from '@src/types/Goods';
@@ -30,7 +31,7 @@ const MyWishListView = () => {
   return (
     <MyWishListViewContainer>
       <Topic>관심 상품 리스트</Topic>
-      {goodsPaginationResult && (
+      {goodsPaginationResult ? (
         <>
           <GoodsSection goodsList={goodsPaginationResult.goodsList} itemBoxSize='small' />
           <Paginator
@@ -38,6 +39,10 @@ const MyWishListView = () => {
             currentPage={goodsPaginationResult.meta.page}
             setPage={setCurrentPage}
           />
+        </>
+      ) : (
+        <>
+          <HighlightedText> 찜 리스트가 비어있습니다! </HighlightedText>
         </>
       )}
     </MyWishListViewContainer>

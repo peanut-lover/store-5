@@ -13,6 +13,11 @@ const LIMIT_COUNT_ORDER = 4;
 const MyOrderListView = () => {
   const [orderPaginationResult, setOrderPaginationResult] = useState<OrderPaginationResult | null>(null);
   const [currentPage, setCurrentPage] = useState(DEFAULT_START_PAGE);
+  const [focusOrderId, setFocusOrderId] = useState<number>(0);
+
+  const handleClickOrder = (orderId: number) => {
+    setFocusOrderId(orderId);
+  };
 
   const fetchOrderList = async () => {
     const { result } = await OrderAPI.getOrders(currentPage, LIMIT_COUNT_ORDER);
@@ -27,16 +32,18 @@ const MyOrderListView = () => {
       alert('주문정보 불러오는데 실패했습니다. 서버오류');
     }
   }, [currentPage]);
+
   return (
     <MyOrderListViewContainer>
-      <Topic>반가워요! 주문 내역입니다.</Topic>
-      <p>주문 조회 내역 총 {orderPaginationResult?.meta.totalCount} 건</p>
+      <Topic>반가워요! 고객님의 주문 내역입니다.</Topic>
+      <OrderCountLabel>주문 조회 내역 총 {orderPaginationResult?.meta.totalCount} 건</OrderCountLabel>
       {orderPaginationResult && (
         <OrderPaginationContainer>
           <OrderCardList>
-            {orderPaginationResult?.orderList.map((order) => (
-              <OrderCard key={order.id} order={order} />
-            ))}
+            {orderPaginationResult?.orderList.map((order) => {
+              const showDetail = order.id === focusOrderId;
+              return <OrderCard key={order.id} order={order} detail={showDetail} onClick={handleClickOrder} />;
+            })}
           </OrderCardList>
 
           <Paginator
@@ -49,6 +56,11 @@ const MyOrderListView = () => {
     </MyOrderListViewContainer>
   );
 };
+
+const OrderCountLabel = styled.p`
+  margin-top: 1rem;
+  margin-bottom: 1rem;
+`;
 
 const MyOrderListViewContainer = styled.div`
   width: 900px;
@@ -65,7 +77,7 @@ const OrderCardList = styled.ul`
   display: flex;
   flex-wrap: wrap;
   flex-direction: column;
-  height: 500px;
+  min-height: 500px;
 `;
 
 export default MyOrderListView;

@@ -41,6 +41,9 @@ async function getOwnOrdersPagination({ offset, limit }: PaginationProps, userId
       },
       skip: offset,
       take: limit,
+      order: {
+        createdAt: 'ASC',
+      },
     });
   } catch (err) {
     console.error(err);

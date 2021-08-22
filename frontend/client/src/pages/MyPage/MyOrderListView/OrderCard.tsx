@@ -1,56 +1,86 @@
 import HighlightedText from '@src/components/HighlightedText/HighlightedText';
 import { Order } from '@src/types/Order';
 import { convertYYYYMMDD } from '@src/utils/dateHelper';
-import React from 'react';
+import React, { useState } from 'react';
 import styled from 'styled-components';
+import OrderItemCard from './OrderItemCard';
 
 interface Props {
   order: Order;
+  onClick: (orderId: number) => void;
+  detail?: boolean;
 }
 
-const OrderCard: React.FC<Props> = ({ order }) => {
+const OrderCard: React.FC<Props> = ({ order, onClick, detail = false }) => {
   const { orderItems } = order;
-
   return (
     <OrderCardContainer>
-      <OrderCardDateAndIdCell>
-        <OrderIdText>{order.id}</OrderIdText>
-        {convertYYYYMMDD(new Date(order.createdAt))}
-      </OrderCardDateAndIdCell>
-      <OrderCardProductInfo>
-        {orderItems.length > 0 ? (
-          <>
-            <ThumbnailImg src={orderItems[0].goods.thumbnailUrl} />
-            <OrderCardProductInfoTitle>{orderItems[0].goods.title}</OrderCardProductInfoTitle>
-          </>
-        ) : (
-          <h1>대표 상품이 없습니다.</h1>
-        )}
-      </OrderCardProductInfo>
-      <OrderCardStateInfo>
-        <OrderStateText>
-          <HighlightedText fontSize={'10px'}>{order.state}</HighlightedText>
-        </OrderStateText>
-      </OrderCardStateInfo>
-      <OrderCardDeliveryInfo>
-        <div>{order.address}</div>
-        <div>{order.subAddress}</div>
-      </OrderCardDeliveryInfo>
-      <OrderControlContainer>
-        <button>자세히 보기</button>
-      </OrderControlContainer>
+      <MainContent onClick={() => onClick(order.id)}>
+        <OrderCardDateAndIdCell>
+          <OrderIdText>{order.id}</OrderIdText>
+          {convertYYYYMMDD(new Date(order.createdAt))}
+        </OrderCardDateAndIdCell>
+        <OrderCardProductInfo>
+          {orderItems.length > 0 ? (
+            <>
+              <ThumbnailImg src={orderItems[0].goods.thumbnailUrl} />
+              <OrderCardProductInfoTitle>
+                <span>{orderItems[0].goods.title}</span>
+                {orderItems.length > 1 && <span> 외 {orderItems.length - 1} 개의 상품</span>}
+              </OrderCardProductInfoTitle>
+            </>
+          ) : (
+            <h1>대표 상품이 없습니다.</h1> // 데이터 무결성 문제.
+          )}
+        </OrderCardProductInfo>
+        <OrderCardStateInfo>
+          <OrderStateText>
+            <HighlightedText fontSize={'10px'}>{order.state}</HighlightedText>
+          </OrderStateText>
+        </OrderCardStateInfo>
+        <OrderCardDeliveryInfo>
+          <div>{order.address}</div>
+          <div>{order.subAddress}</div>
+        </OrderCardDeliveryInfo>
+      </MainContent>
+
+      {detail && (
+        <DetailContent>
+          {orderItems.map((orderItem) => (
+            <OrderItemCard key={orderItem.id} orderItem={orderItem} />
+          ))}
+        </DetailContent>
+      )}
     </OrderCardContainer>
   );
 };
 
-const OrderCardContainer = styled.li`
+const MainContent = styled.div`
   display: grid;
-  grid-template-columns: 1fr 3fr 1fr 1fr 1fr;
+  grid-template-columns: 1fr 3fr 1fr 1fr;
   grid-template-rows: 1fr;
-  border-bottom: 1px solid black;
   height: 120px;
   width: 100%;
   padding: 10px;
+  cursor: pointer;
+`;
+
+const DetailContent = styled.div`
+  display: flex;
+  padding-left: 10px;
+  padding-top: 15px;
+  padding-bottom: 15px;
+  overflow: scroll;
+`;
+
+interface OrderCardContainer {
+  theme: {
+    line: string;
+  };
+}
+const OrderCardContainer = styled.li<OrderCardContainer>`
+  width: 100%;
+  border: 1px solid ${(props) => props.theme.line};
 `;
 
 const OrderCardDateAndIdCell = styled.div`
