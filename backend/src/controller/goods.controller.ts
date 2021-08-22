@@ -99,19 +99,23 @@ async function getAllGoodsForAdmin(req: Request, res: Response) {
 async function getMainGoodsListMap(req: Request, res: Response) {
   const userId = req.session.userId;
   const result = await GoodsService.getMainGoodsListMap(userId);
-  return res.status(200).json({ result });
+  res.status(200).json({ result });
 }
 
 async function getGoodsStockById(req: Request, res: Response) {
   const goodsId = Number(req.params.id);
   const result = await GoodsService.getGoodsStockById(goodsId);
-  return res.status(200).json({ result });
+  res.status(200).json({ result });
 }
 
 async function getGoodsImgById(req: Request, res: Response) {
   const goodsId = Number(req.params.id);
   const result = await GoodsService.getGoodsImgById(goodsId);
   return res.status(200).json({ result });
+
+async function getBestGoodsForDashboard(req: Request, res: Response) {
+  const result = await GoodsService.getBestSellingGoodsForDashboard();
+  res.status(200).json({ result });
 }
 
 export const GoodsController = {
@@ -123,4 +127,5 @@ export const GoodsController = {
   getAllGoodsForClient,
   getAllGoodsForAdmin,
   getGoodsImgById,
+  getBestGoodsForDashboard,
 };

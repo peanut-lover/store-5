@@ -37,6 +37,10 @@ const TopSellingGoodsImage = styled('img')`
 const TopSellingGoodsTitle = styled('p')`
   width: 60%;
   margin-right: 16px;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+  overflow: hidden;
+  text-align: start;
 `;
 
 const SellingGoodsCountContainer = styled('div')<{ bgcolor: string }>`

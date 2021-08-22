@@ -14,7 +14,7 @@ const TopSellingGoodsList = () => {
     {
       thumbnailUrl:
         'https://user-images.githubusercontent.com/20085849/128866958-900ad32a-cd32-4b97-be79-1dbbc9dcb02d.jpeg',
-      title: 'dummy2',
+      title: 'dummy2dsasdasdasdasdasdasdasd',
       countOfSell: 25500,
     },
     {
