@@ -11,6 +11,15 @@ const createGoods = async (formData: FormData): Promise<APIResponse<CreatedGoods
   return await res.json();
 };
 
+const updateGoods = async (formData: FormData, goodsId: number): Promise<APIResponse<CreatedGoods>> => {
+  const res = await checkedFetch(`/api/goods/${goodsId}`, {
+    method: 'PATCH',
+    credentials: 'include',
+    body: formData,
+  });
+  return await res.json();
+};
+
 const DEFAULT_LIMIT = 10;
 
 export const getGoodsByOption = async ({
@@ -43,6 +52,7 @@ const getGoodsImgById = async (goodsId: number): Promise<APIResponse<GoodsImg[]>
 
 export const GoodsAPI = {
   createGoods,
+  updateGoods,
   getGoodsByOption,
   getGoodsImgById,
 };
