@@ -1,28 +1,17 @@
 import { Request, Response } from 'express';
 import { INVALID_DATA } from '../constants/client.error.name';
+import { Goods } from '../entity/Goods';
 import { BadRequestError } from '../errors/client.error';
 import { GoodsService } from '../service/goods.service';
-import { GetAllByCategoryProps, GetAllByKeywordProps, GoodsFlag, GoodsState } from '../types/Goods';
+import { FindAllProps, GoodsState } from '../types/Goods';
 import {
   CreateGoodsBody,
   CreateGoodsRequest,
+  GetAllGoodsQuery,
   UpdateGoodsBody,
   UpdateGoodsRequest,
 } from '../types/request/goods.request';
 import { uploadProductImages } from '../utils/aws.upload';
-
-export const GoodsStateMap = {
-  sale: 'S',
-  temp: 'T',
-  destroy: 'D',
-};
-
-const GoodsFlag = {
-  best: 'best',
-  low: 'low',
-  high: 'high',
-  latest: 'latest',
-};
 
 async function createGoods(req: CreateGoodsRequest, res: Response) {
   const body: CreateGoodsBody = {
@@ -79,36 +68,31 @@ async function getGoodsDetail(req: Request, res: Response) {
   res.status(200).json({ result });
 }
 
-async function getAllGoodsCategory(req: Request, res: Response) {
-  const { page, category, flag = GoodsFlag.latest, limit, state = GoodsStateMap.sale } = req.query;
-  const userId = req.session.userId;
-  // TODO : 타입 체크
-  const GoodsListParams: GetAllByCategoryProps = {
-    categoryName: String(category),
+async function getAllGoodsForClient(req: Request, res: Response) {
+  const { page, limit, flag, category, keyword } = req.query;
+  const query: GetAllGoodsQuery = {
     page: Number(page),
-    flag: String(flag) as GoodsFlag,
     limit: Number(limit),
-    state: String(state) as GoodsState,
-    userId,
   };
-
-  const result = await GoodsService.getAllSaleGoodsByCategory(GoodsListParams);
+  if (category) query.category = Number(category);
+  if (flag) query.flag = String(flag);
+  if (keyword) query.keyword = String(keyword);
+  const userId = req.session.userId;
+  const isAdmin = false;
+  const result = await GoodsService.getGoodsByOption(query, isAdmin, userId);
   return res.status(200).json({ result });
 }
 
-async function getAllSaleGoodsByKeyword(req: Request, res: Response) {
-  const { page, keyword, limit, state = GoodsStateMap.sale } = req.query;
-  const userId = req.session.userId;
-  // TODO : 타입 체크
-  const GoodsListParams: GetAllByKeywordProps = {
-    keyword: String(keyword),
+async function getAllGoodsForAdmin(req: Request, res: Response) {
+  const { page, limit, keyword } = req.query;
+  const query: GetAllGoodsQuery = {
     page: Number(page),
     limit: Number(limit),
-    state: String(state) as GoodsState,
-    userId,
   };
-
-  const result = await GoodsService.getAllSaleGoodsByKeyword(GoodsListParams);
+  if (keyword) query.keyword = String(keyword);
+  const userId = req.session.userId;
+  const isAdmin = true;
+  const result = await GoodsService.getGoodsByOption(query, isAdmin, userId);
   return res.status(200).json({ result });
 }
 
@@ -124,23 +108,6 @@ async function getGoodsStockById(req: Request, res: Response) {
   return res.status(200).json({ result });
 }
 
-async function getGoodsForAdmin(req: Request, res: Response) {
-  const { page, keyword, limit, order, sort } = req.query;
-
-  if (isNaN(Number(page))) throw new BadRequestError(INVALID_DATA);
-  if (isNaN(Number(limit))) throw new BadRequestError(INVALID_DATA);
-  if (sort && sort !== 'ASC' && sort !== 'DESC') throw new BadRequestError(INVALID_DATA);
-
-  const result = await GoodsService.getGoodsForAdmin(
-    Number(page),
-    Number(limit),
-    String(keyword),
-    String(order),
-    String(sort)
-  );
-  return res.status(200).json({ result });
-}
-
 async function getGoodsImgById(req: Request, res: Response) {
   const goodsId = Number(req.params.id);
   const result = await GoodsService.getGoodsImgById(goodsId);
@@ -151,10 +118,9 @@ export const GoodsController = {
   createGoods,
   updateGoods,
   getGoodsDetail,
-  getAllGoodsCategory,
-  getAllSaleGoodsByKeyword,
   getMainGoodsListMap,
   getGoodsStockById,
-  getGoodsForAdmin,
+  getAllGoodsForClient,
+  getAllGoodsForAdmin,
   getGoodsImgById,
 };

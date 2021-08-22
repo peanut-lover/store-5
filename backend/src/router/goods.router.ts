@@ -24,9 +24,9 @@ router.patch(
 );
 
 // TODO: isAuthenticate middleware
-router.get('/admin', wrapAsync(GoodsController.getGoodsForAdmin));
-router.get('/category', wrapAsync(GoodsController.getAllGoodsCategory));
-router.get('/keyword', wrapAsync(GoodsController.getAllSaleGoodsByKeyword));
+router.get('/admin', wrapAsync(GoodsController.getAllGoodsForAdmin));
+router.get('/category', wrapAsync(GoodsController.getAllGoodsForClient));
+router.get('/keyword', wrapAsync(GoodsController.getAllGoodsForClient));
 router.get('/main', wrapAsync(GoodsController.getMainGoodsListMap));
 router.get('/:id/stock', checkNumberInParams, wrapAsync(GoodsController.getGoodsStockById));
 router.get('/:id/img', checkNumberInParams, wrapAsync(GoodsController.getGoodsImgById));
