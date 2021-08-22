@@ -8,11 +8,12 @@ export type GoodsState = 'S' | 'T' | 'D';
 export type GoodsFlag = 'best' | 'low' | 'high' | 'latest';
 
 export type FindAllProps = PaginationProps & {
+  order: keyof Goods;
+  sort: 'ASC' | 'DESC';
   // 비회원 undefined
   userId?: number;
   category?: number;
-  keyword?: string;
-  order?: keyof Goods;
   state?: GoodsState;
-  sort: 'ASC' | 'DESC';
+  title?: string;
+  stock?: number;
 };
