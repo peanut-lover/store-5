@@ -1,23 +1,18 @@
 import React, { useState } from 'react';
 import { styled } from '@src/lib/CustomStyledComponent';
-import GoodsUploadModal from '@src/portal/GoodsUploadModal/GoodsUploadModal';
+import TopSellingGoodsList from '@src/pages/Main/TopSellingGoodsList/TopSellingGoodsList';
 
 const Main = () => {
-  const [openUploadModal, setOpenUploadModal] = useState(false);
   return (
     <MainContainer>
-      <button
-        onClick={() => {
-          setOpenUploadModal(true);
-        }}
-      >
-        제품 등록
-      </button>
-      {openUploadModal && <GoodsUploadModal onClose={() => setOpenUploadModal(false)} />}
+      <TopSellingGoodsList />
     </MainContainer>
   );
 };
 
-const MainContainer = styled('div')``;
+const MainContainer = styled('div')`
+  position: relative;
+  width: 100%;
+`;
 
 export default Main;
