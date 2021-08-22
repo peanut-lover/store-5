@@ -1,5 +1,5 @@
 import { DeleteResult } from 'typeorm';
-import { INVALID_ACCESS } from '../constants/client-error-name';
+import { INVALID_ACCESS } from '../constants/client.error.name';
 import { Cart } from '../entity/Cart';
 import { Goods } from '../entity/Goods';
 import { NotFoundError } from '../errors/client.error';

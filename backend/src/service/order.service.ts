@@ -6,15 +6,12 @@ import { OrderListRepository } from '../repository/order.list.repository';
 import { OrderItemRepository } from '../repository/order.item.repository';
 import { GoodsRepository } from '../repository/goods.repository';
 import { BadRequestError } from '../errors/client.error';
-import { INVALID_DATA } from '../constants/client-error-name';
+import { INVALID_DATA } from '../constants/client.error.name';
 import { GetAllOrderByUserIdProps, OrderGoods } from '../types/Order';
-import {
-  GetOrderListResponse,
-  OrderListPaginationResponse,
-  OrderListWithThumbnail,
-} from '../types/response/order.response';
+import { OrderListPaginationResponse, OrderListWithThumbnail } from '../types/response/order.response';
 import { getTotalPage, pagination } from '../utils/pagination';
 import { PaginationProps } from '../types/Pagination';
+import { PaymentRepository } from '../repository/payment.repository';
 
 type OrderGoodsInfo = OrderItem & {
   goods: Goods;
@@ -48,10 +45,17 @@ async function getOrdersPagination(
 }
 
 async function createOrder(userId: number, body: CreateOrderBody): Promise<OrderList> {
-  const goodsList = [...body.goodsList];
-  const newBody = JSON.parse(JSON.stringify({ ...body }));
-  delete newBody.goodsList;
-  const orderList = await OrderListRepository.createOrder(userId, newBody);
+  const validateResult = await validateCreateOrder(body);
+  if (!validateResult) throw new BadRequestError(INVALID_DATA);
+  const { orderMemo, receiver, zipCode, address, subAddress, paymentId, goodsList } = body;
+  const orderList = await OrderListRepository.createOrder(userId, {
+    orderMemo,
+    receiver,
+    zipCode,
+    address,
+    subAddress,
+    paymentId,
+  });
   await Promise.all(goodsList.map((orderedItem) => createOrderItem(orderedItem, orderList.id)));
   return orderList;
 }
@@ -77,7 +81,7 @@ async function processAppendingThumbnailAndTitle(order: OrderList): Promise<Orde
   if (!orderItemInfo) throw new BadRequestError(INVALID_DATA);
 
   const count = orderItems.length - 1;
-  const title = `${orderItemInfo.goods.title} 외 ${count}건 주문`;
+  const title = createOrderTitle(orderItemInfo.goods.title, count);
   const thumbnailUrl = orderItemInfo.goods.thumbnailUrl;
 
   return {
@@ -85,6 +89,19 @@ async function processAppendingThumbnailAndTitle(order: OrderList): Promise<Orde
     title,
     thumbnailUrl,
   };
+}
+
+function createOrderTitle(title: string, count: number): string {
+  const orderTitle = count > 0 ? `${title} 외 ${count}건 주문` : `${title} 주문`;
+  return orderTitle;
+}
+
+async function validateCreateOrder(body: CreateOrderBody): Promise<boolean> {
+  const { orderMemo, receiver, zipCode, address, subAddress, paymentId, goodsList } = body;
+  if (!orderMemo || !receiver || !zipCode || !address || !subAddress || !paymentId || !goodsList) return false;
+  const payment = await PaymentRepository.getPaymentById(paymentId);
+  if (!payment) return false;
+  return true;
 }
 
 export const OrderService = {

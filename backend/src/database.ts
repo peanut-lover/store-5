@@ -20,6 +20,8 @@ import { GoodsStateMap } from './controller/goods.controller';
 import { PromotionRepository } from './repository/promotion.repository';
 import { PaymentRepository } from './repository/payment.repository';
 import CartService from './service/cart.service';
+import { OrderListRepository } from './repository/order.list.repository';
+import { OrderItemRepository } from './repository/order.item.repository';
 
 export default async function () {
   await createConnection({
@@ -47,10 +49,11 @@ async function populate() {
   await createDefaultUser('아이유');
   await createDefaultAddress();
   await createDefaultCategory();
-  await createDefaultPromotions();
-  await createDefaultGoods();
   await createDefaultDeliveryInfo();
+  await createDefaultGoods();
+  await createDefaultPromotions();
   await createDefaultPayment();
+  await createDefaultOrderList();
 }
 
 async function createDefaultUser(name: string) {
@@ -122,7 +125,24 @@ async function createDefaultDeliveryInfo() {
   });
 }
 
-async function createDefaultOrderList() {}
+async function createDefaultOrderList() {
+  const res = await OrderListRepository.getOrders(1);
+  if (res.length > 0) return;
+  const orderList = await OrderListRepository.createOrder(1, {
+    orderMemo: '지갑 거덜나네,,',
+    receiver: '아이유',
+    zipCode: '083212',
+    address: '서울 특별시 강남구',
+    subAddress: '역삼동',
+    paymentId: 1,
+  });
+  await OrderItemRepository.createOrderItem(1, orderList.id, {
+    amount: 4,
+    price: 13000,
+    discountRate: 10,
+    state: 'S',
+  });
+}
 
 async function createDefaultPayment() {
   const res = await PaymentRepository.getPayments();
@@ -157,6 +177,7 @@ async function createDefaultGoods() {
       },
       countOfSell,
     });
+    await getRepository(GoodsImg).save({ goods: { id: newGoods.id }, url: goods.thumbnailUrl });
     console.log(`초기 상품 데이터 삽입 : name - ${newGoods.title}, id - ${newGoods.id}`);
   }
 }
@@ -214,12 +235,13 @@ async function createDefaultPromotions() {
     'https://user-images.githubusercontent.com/20085849/128992450-eb086cff-3b2a-4d4a-8b01-e3a8a8eaa754.gif',
   ];
   const promotion = await PromotionRepository.getPromotions();
-
+  let goodsId = 1;
   for (const img of examplePromotionImgs) {
     const exist = promotion.find((p) => p.imgUrl === img);
     if (!exist) {
-      const newPromotion = await PromotionRepository.createPromotion(img);
-      console.log('프로모션 생성 :' + newPromotion.imgUrl);
+      const newPromotion = await PromotionRepository.createPromotion(goodsId, img);
+      console.log('프로모션 생성 : id' + goodsId + 'url :' + newPromotion.imgUrl);
+      goodsId++;
     }
   }
 }

@@ -1,5 +1,5 @@
 import { getRepository, Like, MoreThan } from 'typeorm';
-import { GOODS_DB_ERROR } from '../constants/database-error-name';
+import { GOODS_DB_ERROR } from '../constants/database.error.name';
 import { DatabaseError } from '../errors/base.error';
 import { Goods } from '../entity/Goods';
 import { FindAllCategoryProps, FindAllColumnNameProps, FindAllKeywordProps, FindAllUserIdProps } from '../types/Goods';
@@ -9,6 +9,15 @@ import { GoodsStateMap } from '../controller/goods.controller';
 import { PaginationProps } from '../types/Pagination';
 
 const AUTO_SEARCH_GOODS_NUMBER = 10;
+
+async function findGoodsById(goodsId: number): Promise<Goods | undefined> {
+  try {
+    return await getRepository(Goods).findOne({ where: { id: goodsId } });
+  } catch (error) {
+    console.error(error);
+    throw new DatabaseError(GOODS_DB_ERROR);
+  }
+}
 
 async function findGoodsDetailById(goodsId: number): Promise<Goods | undefined> {
   try {
@@ -126,8 +135,6 @@ async function findAllWishByUserId({ offset, limit, userId }: FindAllUserIdProps
     console.error(err);
     throw new DatabaseError(GOODS_DB_ERROR);
   }
-
-  return [];
 }
 
 async function findTotalCountByKeyword(keyword: string): Promise<number> {
@@ -209,6 +216,7 @@ async function findStockById(goodsId: number): Promise<number> {
 }
 
 export const GoodsRepository = {
+  findGoodsById,
   findGoodsDetailById,
   findAllByCategory,
   findAllByColumnName,

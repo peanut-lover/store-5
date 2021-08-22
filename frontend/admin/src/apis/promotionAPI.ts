@@ -18,9 +18,19 @@ const getPromotions = async (): Promise<APIResponse<Promotion[]>> => {
   return res.json();
 };
 
+const deletePromotion = async (promotionId: number): Promise<boolean> => {
+  const res = await checkedFetch(`/api/promotion/${promotionId}`, {
+    method: 'DELETE',
+    credentials: 'include',
+  });
+  // No Exception is Success!
+  return true;
+};
+
 const PromotionAPI = {
   createPromotion,
   getPromotions,
+  deletePromotion,
 };
 
 export default PromotionAPI;

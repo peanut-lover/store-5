@@ -1,7 +1,7 @@
 import { OrderController } from './../controller/order.controller';
 import express from 'express';
-import wrapAsync from '../utils/wrap-async';
-import isAuthenticate from '../middlewares/is-authenticate';
+import wrapAsync from '../utils/wrap.async';
+import isAuthenticate from '../middlewares/is.authenticate';
 
 const router = express.Router();
 

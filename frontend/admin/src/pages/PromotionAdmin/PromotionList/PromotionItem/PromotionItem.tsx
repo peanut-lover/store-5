@@ -4,15 +4,18 @@ import { theme } from '@src/theme/theme';
 import { Promotion } from '@src/types/Promotion';
 import { FaTimes } from 'react-icons/fa';
 import React, { useCallback, useState } from 'react';
+import PromotionAPI from '@src/apis/promotionAPI';
 
 const PROMOTION_DELETE_MESSAGE = '해당 프로모션을 삭제하시겠습니까?';
 
 interface Props {
   promotion: Promotion;
+  onDeletePromotion: (promotionId: number) => Promise<void>;
 }
 
-const PromotionItem: React.FC<Props> = ({ promotion }) => {
+const PromotionItem: React.FC<Props> = ({ promotion, onDeletePromotion }) => {
   const [openDeleteModal, setOpenDeleteModal] = useState<boolean>(false);
+
   const handleOpenDeleteModal = useCallback(() => {
     setOpenDeleteModal(true);
   }, [setOpenDeleteModal]);
@@ -20,6 +23,16 @@ const PromotionItem: React.FC<Props> = ({ promotion }) => {
   const handleCloseDeleteModal = useCallback(() => {
     setOpenDeleteModal(false);
   }, [setOpenDeleteModal]);
+
+  const handleDeletePromotion = useCallback(async () => {
+    try {
+      onDeletePromotion(promotion.id);
+      handleCloseDeleteModal();
+    } catch (error) {
+      console.error(error);
+    }
+  }, []);
+
   return (
     <PromotionContainer>
       <PromotionImage src={promotion.imgUrl} />
@@ -29,9 +42,7 @@ const PromotionItem: React.FC<Props> = ({ promotion }) => {
       {openDeleteModal && (
         <ConfirmModal
           title={PROMOTION_DELETE_MESSAGE}
-          onConfirm={() => {
-            console.log('API');
-          }}
+          onConfirm={handleDeletePromotion}
           onClose={handleCloseDeleteModal}
         />
       )}

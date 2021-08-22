@@ -1,5 +1,5 @@
 import { getRepository } from 'typeorm';
-import { USER_DB_ERROR } from '../constants/database-error-name';
+import { USER_DB_ERROR } from '../constants/database.error.name';
 import { User } from '../entity/User';
 import { DatabaseError } from '../errors/base.error';
 

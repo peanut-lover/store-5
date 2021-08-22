@@ -1,10 +1,10 @@
-import React, { useCallback } from 'react';
-import { AutoSearch } from '@src/types/Search';
+import React from 'react';
+import { AutoSearchedItem } from '@src/types/Search';
 import { styled } from '@src/lib/CustomStyledComponent';
 import GoodsSearchItem from '@src/components/GoodsSearchInput/GoodsSearchList/GoodsSearchItem/GoodsSearchItem';
 interface Props {
-  searchList: AutoSearch[];
-  onUpdateSelectedGoods: (goods: AutoSearch) => void;
+  searchList: AutoSearchedItem[];
+  onUpdateSelectedGoods: (goods: AutoSearchedItem) => void;
 }
 const GoodsSearchList: React.FC<Props> = ({ searchList, onUpdateSelectedGoods }) => {
   return (

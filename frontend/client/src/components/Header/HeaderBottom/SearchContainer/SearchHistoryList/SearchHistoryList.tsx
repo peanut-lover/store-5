@@ -1,13 +1,15 @@
+import { usePushHistory } from '@src/lib/CustomRouter';
 import React, { useCallback } from 'react';
 import styled from 'styled-components';
 
 interface Props {
   searchHistory: string[];
+  onClickHistory: (keyword: string) => void;
   onDeleteHistory: (name: string) => void;
   onResetHistory: () => void;
 }
 
-const SearchHistoryList: React.FC<Props> = ({ searchHistory, onDeleteHistory, onResetHistory }) => {
+const SearchHistoryList: React.FC<Props> = ({ searchHistory, onClickHistory, onDeleteHistory, onResetHistory }) => {
   const handleDeleteHistory = useCallback(
     (e, keyword) => {
       e.stopPropagation();
@@ -27,7 +29,7 @@ const SearchHistoryList: React.FC<Props> = ({ searchHistory, onDeleteHistory, on
     <>
       <SearchHistoryContainer>
         {searchHistory.map((keyword, i) => (
-          <SearchItem key={i}>
+          <SearchItem key={i} onClick={() => onClickHistory(keyword)}>
             <Keyword>{keyword}</Keyword>
             <Button
               onClick={(e) => {

@@ -49,7 +49,7 @@ type HeaderContainerProp = {
 
 const ScrolledStyle = css`
   position: sticky;
-  height: 13vh;
+  height: 10vh;
 `;
 
 const Sentinel = styled.div<HeaderContainerProp>`
@@ -65,7 +65,7 @@ const HeaderContainer = styled.header<HeaderContainerProp>`
   position: relative;
   top: 0;
   width: 100%;
-  min-width: 1080px;
+  min-width: 1280px;
   height: 13vh;
   margin: auto;
   z-index: 5;

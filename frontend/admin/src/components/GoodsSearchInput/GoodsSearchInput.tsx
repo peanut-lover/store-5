@@ -2,16 +2,15 @@ import useInput from '@src/hooks/useInput';
 import { styled } from '@src/lib/CustomStyledComponent';
 import { BsSearch } from 'react-icons/bs';
 import React, { FormEvent, useCallback, useState } from 'react';
-import SearchAPI from '@src/apis/searchAPI';
 import { debounce } from '@src/utils/debounce';
 import useAutoSearch from '@src/hooks/useAutoSearch';
 import GoodsSearchList from '@src/components/GoodsSearchInput/GoodsSearchList/GoodsSearchList';
-import { AutoSearch } from '@src/types/Search';
+import { AutoSearchedItem } from '@src/types/Search';
 
 const INPUT_PLACEHOLDER = '상품을 검색해주세요.';
 
 interface Props {
-  onUpdateSelectedGoods: (goods: AutoSearch) => void;
+  onUpdateSelectedGoods: (goods: AutoSearchedItem) => void;
 }
 
 const GoodsSearchInput: React.FC<Props> = ({ onUpdateSelectedGoods }) => {
@@ -47,7 +46,7 @@ const GoodsSearchInput: React.FC<Props> = ({ onUpdateSelectedGoods }) => {
   }, []);
 
   const handleSelectedGoods = useCallback(
-    (goods: AutoSearch) => {
+    (goods: AutoSearchedItem) => {
       onUpdateSelectedGoods(goods);
       setIsInputFocused(false);
     },

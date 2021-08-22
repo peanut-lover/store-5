@@ -1,10 +1,10 @@
 import express from 'express';
-import { MAX_UPLOAD_FILE } from '../constants/product-default-value';
+import { MAX_UPLOAD_FILE } from '../constants/product.default.value';
 import { GoodsController } from '../controller/goods.controller';
-import checkNumberInParams from '../middlewares/check-number-params';
-
-import uploadProductFiles from '../middlewares/upload-file';
-import wrapAsync from '../utils/wrap-async';
+import checkNumberInParams from '../middlewares/check.number.params';
+import isAuthenticate from '../middlewares/is.authenticate';
+import uploadProductFiles from '../middlewares/upload.file';
+import wrapAsync from '../utils/wrap.async';
 
 const router = express.Router();
 

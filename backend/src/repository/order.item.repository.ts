@@ -1,4 +1,3 @@
-import { Goods } from './../entity/Goods';
 import { getRepository } from 'typeorm';
 import { OrderItem } from '../entity/OrderItem';
 import { CreateOrderItem } from '../types/Order';

@@ -5,17 +5,18 @@ import React from 'react';
 
 interface Props {
   promotions: Promotion[];
+  onDeletePromotion: (promotionId: number) => Promise<void>;
   onOpenModal: () => void;
 }
 
-const PromotionList: React.FC<Props> = ({ promotions, onOpenModal }) => {
+const PromotionList: React.FC<Props> = ({ promotions, onDeletePromotion, onOpenModal }) => {
   return (
     <PromotionListContainer>
       <PromotionAddButtonContainer>
         <PromotionAddButton onClick={onOpenModal}>+</PromotionAddButton>
       </PromotionAddButtonContainer>
       {promotions.map((promotion) => (
-        <PromotionItem key={promotion.id} promotion={promotion} />
+        <PromotionItem key={promotion.id} onDeletePromotion={onDeletePromotion} promotion={promotion} />
       ))}
     </PromotionListContainer>
   );

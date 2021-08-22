@@ -1,5 +1,5 @@
 import { DeleteResult, getRepository } from 'typeorm';
-import { CART_DB_ERROR } from '../constants/database-error-name';
+import { CART_DB_ERROR } from '../constants/database.error.name';
 import { Cart } from '../entity/Cart';
 import { DatabaseError } from '../errors/base.error';
 import { CartBody } from '../types/request/cart.request';

@@ -3,18 +3,19 @@ import { styled } from '@src/lib/CustomStyledComponent';
 import Portal from '@src/portal/portal';
 import PromotionImageUploader from '@src/portal/PromotionUploadModal/PromotionImageUploader/PromotionImageUploader';
 import GoodsSearchInput from '@src/components/GoodsSearchInput/GoodsSearchInput';
-import { AutoSearch } from '@src/types/Search';
+import { AutoSearchedItem } from '@src/types/Search';
 import PromotionSelectedGoods from '@src/portal/PromotionUploadModal/PromotionSelectedGoods/PromotionSelectedGoods';
 import { theme } from '@src/theme/theme';
 import PromotionAPI from '@src/apis/promotionAPI';
 
 interface Props {
   onClose: () => void;
+  updatePromotions: () => Promise<void>;
 }
 
-const PromotionUploadModal: React.FC<Props> = ({ onClose }) => {
+const PromotionUploadModal: React.FC<Props> = ({ updatePromotions, onClose }) => {
   const [promotionFile, setPromotionFile] = useState<File>();
-  const [selectedGoods, setSelectedGoods] = useState<AutoSearch>();
+  const [selectedGoods, setSelectedGoods] = useState<AutoSearchedItem>();
   const [submitDisabled, setSubmitDisabled] = useState<boolean>(true);
 
   const handleUploadFile = useCallback(
@@ -25,7 +26,7 @@ const PromotionUploadModal: React.FC<Props> = ({ onClose }) => {
   );
 
   const handleSelectedGoods = useCallback(
-    (goods: AutoSearch) => {
+    (goods: AutoSearchedItem) => {
       setSelectedGoods(goods);
     },
     [setSelectedGoods]
@@ -38,10 +39,10 @@ const PromotionUploadModal: React.FC<Props> = ({ onClose }) => {
     formData.append('goodsId', `${selectedGoods.id}`);
     try {
       const { result } = await PromotionAPI.createPromotion(formData);
-      if (result) onClose();
+      await updatePromotions();
+      onClose();
     } catch (err) {
-      // TODO: 임시 alert 추후에 수정해야함
-      alert('프로모션 등록 실패');
+      // TODO: alert 추후에 수정해야함
       console.error(err);
     }
   };

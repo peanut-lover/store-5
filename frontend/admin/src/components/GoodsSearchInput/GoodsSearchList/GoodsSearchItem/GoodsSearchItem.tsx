@@ -1,10 +1,10 @@
 import { styled } from '@src/lib/CustomStyledComponent';
-import { AutoSearch } from '@src/types/Search';
+import { AutoSearchedItem } from '@src/types/Search';
 import React from 'react';
 
 interface Props {
-  searchGoods: AutoSearch;
-  onUpdateSelectedGoods: (goods: AutoSearch) => void;
+  searchGoods: AutoSearchedItem;
+  onUpdateSelectedGoods: (goods: AutoSearchedItem) => void;
 }
 
 const GoodsSearchItem: React.FC<Props> = ({ searchGoods, onUpdateSelectedGoods }) => {

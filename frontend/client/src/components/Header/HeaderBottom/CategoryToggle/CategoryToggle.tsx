@@ -23,9 +23,9 @@ const CategoryToggle = () => {
   );
 
   useEffect(() => {
-    document.addEventListener('click', handleCloseCategory);
+    document.addEventListener('mouseover', handleCloseCategory);
     return () => {
-      document.removeEventListener('click', handleCloseCategory);
+      document.removeEventListener('mouseover', handleCloseCategory);
     };
   }, []);
 
@@ -40,7 +40,7 @@ const CategoryToggle = () => {
   }, []);
 
   return (
-    <CategoryToggleContainer ref={categoryRef} onClick={handleOpenCategory}>
+    <CategoryToggleContainer ref={categoryRef} onMouseOver={handleOpenCategory}>
       <GiHamburgerMenu size='1.7em' />
       <CategoryToggleTitle>전체 카테고리</CategoryToggleTitle>
       {openCategory && <Category categories={categories} />}
@@ -51,6 +51,7 @@ const CategoryToggle = () => {
 const CategoryToggleContainer = styled.div`
   display: flex;
   align-items: center;
+  height: 100%;
   color: rgb(115, 103, 92);
   cursor: pointer;
 `;

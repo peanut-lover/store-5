@@ -1,8 +1,8 @@
 import express from 'express';
 import CartController from '../controller/cart.controller';
-import wrapAsync from '../utils/wrap-async';
-import isAuthenticate from '../middlewares/is-authenticate';
-import checkNumberInParams from '../middlewares/check-number-params';
+import wrapAsync from '../utils/wrap.async';
+import isAuthenticate from '../middlewares/is.authenticate';
+import checkNumberInParams from '../middlewares/check.number.params';
 
 const router = express.Router();
 

@@ -1,5 +1,5 @@
 import { DeleteResult } from 'typeorm';
-import { INVALID_ACCESS } from '../constants/client-error-name';
+import { INVALID_ACCESS } from '../constants/client.error.name';
 import { NotFoundError } from '../errors/client.error';
 import { WishRepository } from '../repository/wish.repository';
 import { CreateWishResponse } from '../types/response/wish.response';

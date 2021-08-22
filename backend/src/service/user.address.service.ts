@@ -3,7 +3,7 @@ import {
   UserAddressesResponse,
   UserAddressResponse,
 } from './../types/response/user.response';
-import { INVALID_ACCESS } from '../constants/client-error-name';
+import { INVALID_ACCESS } from '../constants/client.error.name';
 import { NotFoundError } from '../errors/client.error';
 import { UserAddressRepository } from '../repository/user.address.repository';
 import { AddressBody } from '../types/request/user.request';

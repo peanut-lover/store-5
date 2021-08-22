@@ -6,16 +6,17 @@ async function checkLoggedIn(req: Request, res: Response) {
   const userId = req.session.userId;
   if (userId) {
     const name = await AuthService.getUserName(userId);
-    res.status(200).json({ isLoggedIn: true, name });
+    res.status(200).json({ result: { isLoggedIn: true, name } });
   } else {
-    res.sendStatus(300);
+    res.status(200).json({ result: { isLoggedIn: false, name: '' } });
   }
 }
 
 async function getSampleLogin(req: Request, res: Response) {
-  // TODO: 시연용 id = 1 추가해야함!
-  req.session.userId = 1;
-  res.status(200).json({ name: '시연용', isLoggedIn: true });
+  const userId = 1;
+  req.session.userId = userId;
+  const name = await AuthService.getUserName(userId);
+  res.status(200).json({ result: { name, isLoggedIn: true } });
 }
 
 async function getOAuthGitHubCb(req: Request, res: Response) {

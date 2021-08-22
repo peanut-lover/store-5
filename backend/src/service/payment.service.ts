@@ -1,4 +1,4 @@
-import { EXISTED } from './../constants/client-error-name';
+import { EXISTED } from '../constants/client.error.name';
 import { BadRequestError } from '../errors/client.error';
 import { PaymentRepository } from './../repository/payment.repository';
 import { CreatePaymentBody } from '../types/request/payment.request';
