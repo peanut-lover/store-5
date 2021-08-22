@@ -5,7 +5,6 @@ import { Goods } from '../entity/Goods';
 import { FindAllProps, FindTotalCountProps, GoodsState } from '../types/Goods';
 import { TaggedGoodsType } from '../types/response/goods.response';
 import { SearchedGoodsFromKeyword } from '../types/response/search.response';
-import { GoodsStateMap } from '../controller/goods.controller';
 
 const AUTO_SEARCH_GOODS_NUMBER = 10;
 
@@ -36,24 +35,29 @@ async function findAllByOption({
   offset,
   limit,
   stock = 0,
-  state,
-  title,
   order,
   sort,
+  category,
+  state,
+  title,
 }: FindAllProps): Promise<TaggedGoodsType[]> {
   try {
     const where: {
       stock: FindOperator<number>;
       title?: FindOperator<string> | string;
       state?: GoodsState;
+      category?: number;
     } = {
       stock: MoreThan(stock),
     };
+    if (state) {
+      where.state = state;
+    }
     if (title) {
       where.title = Like(`%${title}%`);
     }
-    if (state) {
-      where.state = state;
+    if (category) {
+      where.category = category;
     }
     const goodsRepo = getRepository(Goods);
     return await goodsRepo.find({
@@ -97,12 +101,13 @@ async function findTotalCountByOption({ stock, state, title, category }: FindTot
     } = {
       stock: MoreThan(stock),
     };
-    if (stock) {
+    if (state) {
       where.state = state;
     }
     if (title) {
       where.title = Like(`%${title}%`);
-    } else if (category) {
+    }
+    if (category) {
       where.category = category;
     }
     return await getRepository(Goods).count({

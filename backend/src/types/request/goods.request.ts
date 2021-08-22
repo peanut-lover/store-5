@@ -21,3 +21,11 @@ export interface CreateGoodsRequest extends Request {
 export interface UpdateGoodsRequest extends Request {
   body: UpdateGoodsBody;
 }
+
+export type GetAllGoodsQuery = {
+  page: number;
+  limit: number;
+  category?: number;
+  flag?: string;
+  keyword?: string;
+};
