@@ -15,4 +15,6 @@ router.get('/', wrapAsync(PromotionController.getPromotions));
 router.post('/', uploadProductFiles.single('file'), wrapAsync(PromotionController.createPromotion));
 router.delete('/:id', checkNumberInParams, wrapAsync(PromotionController.deletePromotion));
 
+router.patch('/:id', checkNumberInParams, wrapAsync(PromotionController.increasePromotionView));
+
 export default router;
