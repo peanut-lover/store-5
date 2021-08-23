@@ -5,7 +5,7 @@ import LiveOrderCard from '@src/pages/Main/LiveOrderList/LiveOrderCard/LiveOrder
 import { theme } from '@src/theme/theme';
 import { Order } from '@src/types/Order';
 import { convertYYYYMMDDHHMMSS } from '@src/utils/dateHelper';
-import React, { useCallback, useState } from 'react';
+import React, { useCallback, useEffect, useState } from 'react';
 
 const DEFAULT_LIVE_ORDER_LIMIT = 10;
 const DEFAULT_START_PAGE = 0;
@@ -15,12 +15,18 @@ const LiveOrderList = () => {
   const [updateTime, setUpdateTime] = useState<Date>(new Date());
   const [orders, setOrder] = useState<Order[]>([]);
 
-  const poller = useCallback(async () => {
+  const updateOrders = async () => {
     setUpdateTime(new Date());
     const {
       result: { orderList },
     } = await getOrders({ page: DEFAULT_START_PAGE, limit: DEFAULT_LIVE_ORDER_LIMIT });
     setOrder(orderList);
+  };
+
+  const poller = useCallback(updateOrders, []);
+
+  useEffect(() => {
+    updateOrders();
   }, []);
 
   useInterval(poller, POLLING_INTERVAL_MILLISECONDS); // 1초마다 폴링
