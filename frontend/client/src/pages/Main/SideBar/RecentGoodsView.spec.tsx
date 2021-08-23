@@ -2,7 +2,7 @@ import React from 'react';
 
 import { render, cleanup } from '@testing-library/react';
 
-import Sidebar, { COUNT_OF_SHOWN_GOODS } from './SideBar';
+import Sidebar, { COUNT_OF_SHOWN_GOODS } from './RecentGoodsView';
 import { Goods } from 'src/types/Goods';
 
 describe('Goods Section Component', () => {
