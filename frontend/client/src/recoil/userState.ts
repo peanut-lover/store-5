@@ -6,5 +6,6 @@ export const userState = atom<User>({
   default: {
     isLoggedIn: false,
     name: '',
+    profileImgUrl: null,
   },
 });

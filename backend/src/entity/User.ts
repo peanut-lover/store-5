@@ -15,6 +15,9 @@ export class User {
   @Column({ type: 'varchar', length: 25, nullable: true })
   name: string;
 
+  @Column({ type: 'varchar', length: 400, nullable: true })
+  profileImgUrl: string;
+
   @Column({ type: 'varchar', length: 100, nullable: true })
   email: string;
 

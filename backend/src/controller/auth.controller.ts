@@ -5,8 +5,13 @@ import { AuthService } from '../service/auth.service';
 async function checkLoggedIn(req: Request, res: Response) {
   const userId = req.session.userId;
   if (userId) {
-    const name = await AuthService.getUserName(userId);
-    res.status(200).json({ result: { isLoggedIn: true, name } });
+    const userInfo = await AuthService.getUserNameAndProfileImgUrlById(userId);
+    if (!userInfo) {
+      return res.status(200).json({ result: { isLoggedIn: false, name: '' } });
+    }
+
+    const { name, profileImgUrl } = userInfo;
+    res.status(200).json({ result: { isLoggedIn: true, profileImgUrl, name } });
   } else {
     res.status(200).json({ result: { isLoggedIn: false, name: '' } });
   }
@@ -15,8 +20,14 @@ async function checkLoggedIn(req: Request, res: Response) {
 async function getSampleLogin(req: Request, res: Response) {
   const userId = 1;
   req.session.userId = userId;
-  const name = await AuthService.getUserName(userId);
-  res.status(200).json({ result: { name, isLoggedIn: true } });
+
+  const userInfo = await AuthService.getUserNameAndProfileImgUrlById(userId);
+  if (!userInfo) {
+    return res.status(200).json({ result: { isLoggedIn: false, name: '' } });
+  }
+
+  const { name, profileImgUrl } = userInfo;
+  res.status(200).json({ result: { name, profileImgUrl, isLoggedIn: true } });
 }
 
 async function getOAuthGitHubCb(req: Request, res: Response) {
