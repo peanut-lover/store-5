@@ -3,6 +3,7 @@ import { APIResponse, checkedFetch } from '@src/apis/base';
 interface LoginUserInfo {
   isLoggedIn: boolean;
   name: string;
+  profileImgUrl: string | null;
 }
 
 async function getCheckLoggedIn(): Promise<APIResponse<LoginUserInfo>> {
