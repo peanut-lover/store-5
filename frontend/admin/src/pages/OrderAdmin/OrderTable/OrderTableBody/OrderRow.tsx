@@ -64,7 +64,6 @@ const OrderItemImg = styled('img')`
   width: 50px;
   height: 50px;
   border: 1px solid #c0c0c0;
-
   margin-right: 2px;
 `;
 
