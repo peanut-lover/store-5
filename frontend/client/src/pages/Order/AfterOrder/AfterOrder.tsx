@@ -20,7 +20,9 @@ const AfterOrder: React.FC<Props> = ({ orderGoodsList }) => {
   return (
     <Wrapper>
       <Topic>주문 상품 ({orderGoodsList.length}건)</Topic>
-      <OrderGoodsList orderGoodsList={orderGoodsList} />
+      <OrderGoodsListContainer>
+        <OrderGoodsList orderGoodsList={orderGoodsList} />
+      </OrderGoodsListContainer>
       <Divider />
       <Title>주문이 완료되었습니다.</Title>
       <Button onClick={handleClickGoToMain}>메인으로 가기</Button>
@@ -51,6 +53,10 @@ const Button = styled.button`
   :hover {
     border: 1px solid black;
   }
+`;
+
+const OrderGoodsListContainer = styled.div`
+  width: 480px;
 `;
 
 const Wrapper = styled.div`

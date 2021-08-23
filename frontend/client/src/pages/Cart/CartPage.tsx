@@ -3,7 +3,9 @@ import PageHeader from '@src/components/PageHeader/PageHeader';
 import usePushToOrderPage from '@src/hooks/usePushToOrderPage';
 import { usePushHistory } from '@src/lib/CustomRouter';
 import { CartGoods } from '@src/types/Goods';
+import composeComponent from '@src/utils/composeComponent';
 import withLoggedIn from '@src/utils/withLoggedIn';
+import withScrollToTopOnMount from '@src/utils/withScrollToTopOnMount';
 import React, { useCallback, useState } from 'react';
 import { useEffect } from 'react';
 import CartGoodsListContainer from './CartGoodsListContainer/CartGoodsListContainer';
@@ -96,4 +98,4 @@ const CartPage: React.FC = () => {
   );
 };
 
-export default withLoggedIn(CartPage);
+export default composeComponent(withLoggedIn, withScrollToTopOnMount)(CartPage);

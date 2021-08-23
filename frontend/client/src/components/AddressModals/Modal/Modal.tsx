@@ -46,8 +46,7 @@ const Wrapper = styled.div`
   position: absolute;
   top: 50%;
   left: 50%;
-  width: 500px;
-  padding: 1rem;
+  width: 480px;
   transform: translate(-50%, -50%);
   margin: auto;
   background-color: white;
@@ -57,6 +56,7 @@ const Wrapper = styled.div`
 const Content = styled.div`
   min-height: 240px;
   max-height: 480px;
+  padding: 1rem;
   overflow-y: auto;
   position: relative;
 `;
