@@ -4,9 +4,9 @@ import styled from 'styled-components';
 import GoodsSection from '@src/components/GoodsSection/GoodsSection';
 import CategoryFlag from '@src/pages/CategoryGoods/CategoryGoodsList/CategoryFlag';
 import Paginator from '@src/components/Paginator/Paginator';
-import { GoodsPaginationResult, ThumbnailGoods } from '@src/types/Goods';
-
+import { GoodsPaginationResult } from '@src/types/Goods';
 import { getGoodsByCategory, GetGoodsByCategoryProps } from '@src/apis/goodsAPI';
+import useScrollToTop from '@src/hooks/useScrollToTop';
 
 interface Props {
   category: string;
@@ -31,7 +31,7 @@ const DEFAULT_START_PAGE = 1;
 
 const CategoryGoodsList: React.FC<Props> = ({ category }) => {
   const [goodsListMap, setGoodsListMap] = useState<GoodsPaginationResult | null>(null);
-  const [searchQuery, setSearchQuery] = useState<GetGoodsByCategoryProps>({
+  const [searchQuery, setSearchQuery] = useScrollToTop<GetGoodsByCategoryProps>({
     categoryName: category,
     page: DEFAULT_START_PAGE,
     flag: GoodsFlag.latest,
@@ -46,11 +46,10 @@ const CategoryGoodsList: React.FC<Props> = ({ category }) => {
     }
   };
 
-  // TODO: 플래그 변경시 page는 1? 아니면 유지?
   const setSearchFlag = (flag: string) => {
     setSearchQuery({
       ...searchQuery,
-      page: 1,
+      page: DEFAULT_START_PAGE,
       flag,
     });
   };
@@ -58,6 +57,7 @@ const CategoryGoodsList: React.FC<Props> = ({ category }) => {
   const setCategory = (category: string) => {
     setSearchQuery({
       ...searchQuery,
+      page: DEFAULT_START_PAGE,
       categoryName: category,
     });
   };

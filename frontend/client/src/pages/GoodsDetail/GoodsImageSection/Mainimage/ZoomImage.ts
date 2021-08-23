@@ -195,7 +195,7 @@ export default function ImageZoom(
     data.zoomedImg.element.style.backgroundImage = "url('" + data.sourceImg.element.src + "')";
     data.zoomedImg.element.style.backgroundRepeat = 'no-repeat';
     data.zoomedImg.element.style.display = 'none';
-
+    data.zoomedImg.element.style.zIndex = '1';
     data.zoomedImg.element.style.position = 'absolute';
     data.zoomedImg.element.style.top = data.zoomedImgOffset.vertical + 'px';
     data.zoomedImg.element.style.right = data.zoomedImgOffset.horizontal - data.zoomedImgOffset.horizontal * 2 + 'px';

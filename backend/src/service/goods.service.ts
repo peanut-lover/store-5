@@ -11,13 +11,14 @@ import {
   TaggedGoodsType,
 } from '../types/response/goods.response';
 import { WishRepository } from '../repository/wish.repository';
-import { FindAllProps, GoodsState } from '../types/Goods';
+import { FindAllProps, FindTotalCountProps, GoodsState } from '../types/Goods';
 import { getTotalPage, pagination } from '../utils/pagination';
 import { BadRequestError } from '../errors/client.error';
 import { GOODS_DB_ERROR } from '../constants/database.error.name';
 import { CreateGoodsBody, GetAllGoodsQuery, UpdateGoodsBody } from '../types/request/goods.request';
-import { isBoolean, isNumber } from '../utils/check.primitive.type';
+import { isBoolean, isNumber, isString } from '../utils/check.primitive.type';
 import { GoodsImgRepository } from '../repository/goods.img.repository';
+import { CategoryRepository } from '../repository/category.repository';
 
 export const GoodsStateMap: {
   [keyword: string]: GoodsState;
@@ -192,8 +193,8 @@ async function getGoodsByOption(
   isAdmin: boolean,
   userId?: number
 ): Promise<GoodsListResponse> {
-  const { page, limit, flag = 'latest', category, keyword: title } = query;
-  if (isNaN(page) || isNaN(limit) || !flag || (category && isNaN(category))) {
+  const { page, limit, flag = 'latest', category: categoryName, keyword: title } = query;
+  if (!isNumber(page) || !isNumber(limit) || !flag || (categoryName && !isString(categoryName))) {
     throw new BadRequestError(INVALID_DATA);
   }
 
@@ -211,7 +212,20 @@ async function getGoodsByOption(
   // 관리자는 재고가 0인 상품도 조회 가능
   const stock = isAdmin ? -1 : 0;
   const state = isAdmin ? GoodsStateMap.sale : null;
-  const totalCount = await GoodsRepository.findTotalCountByOption({ stock, state, title, category });
+
+  const totalCountOption: FindTotalCountProps = {
+    stock,
+    state,
+    title,
+  };
+  if (categoryName) {
+    const category = await CategoryRepository.getCategoryByName(categoryName);
+    if (category) {
+      totalCountOption.category = category.id;
+    }
+  }
+
+  const totalCount = await GoodsRepository.findTotalCountByOption(totalCountOption);
   const newPage = Math.min(getTotalPage(totalCount, limit), page);
 
   const option: FindAllProps = {
@@ -220,9 +234,9 @@ async function getGoodsByOption(
     stock,
     order,
     sort,
-    category,
     state,
     title,
+    category: totalCountOption.category,
   };
 
   const wishSet = userId && new Set(await WishRepository.findWishByUserId(userId));

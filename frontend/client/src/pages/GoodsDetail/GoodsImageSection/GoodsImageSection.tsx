@@ -2,7 +2,7 @@ import React, { useState } from 'react';
 import styled from 'styled-components';
 import ImageList from './ImageList/ImageList';
 import MainImage from './Mainimage/MainImage';
-import emptyImgUrl from './asset/empty-img.png';
+import emptyImgUrl from '@src/assets/empty-img.png';
 
 interface Props {
   imgs: string[];

@@ -72,7 +72,6 @@ const GoodsTable: React.FC<Props> = ({ openUploadModal }) => {
     if (!openUpdateModal) setUpdateGoods(null);
   }, [openUpdateModal]);
 
-  // TODO: 로딩 UI 적용
   return goodsListMap ? (
     <>
       <Search setKeyword={setKeyword} />

@@ -2,8 +2,6 @@ import React from 'react';
 import styled from 'styled-components';
 import { useParams } from '@src/lib/CustomRouter';
 import CategoryGoodsList from '@src/pages/CategoryGoods/CategoryGoodsList/CategoryGoodsList';
-import SideBar from '@src/components/SideBar/SideBar';
-import Footer from '@src/components/Footer/Footer';
 
 const appendQuotationMarks = (text: string) => `"${text}"`;
 
@@ -39,11 +37,6 @@ const CategoryGoodsContainer = styled.div`
       transform: translate(0%, 0%);
     }
   }
-`;
-
-const CategoryClassificationLabel = styled.p`
-  margin-top: 2rem;
-  font-size: 16px;
 `;
 
 const CategoryTitle = styled.h1`
