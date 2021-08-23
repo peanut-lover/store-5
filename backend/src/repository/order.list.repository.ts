@@ -42,7 +42,7 @@ async function getOwnOrdersPagination({ offset, limit }: PaginationProps, userId
       skip: offset,
       take: limit,
       order: {
-        createdAt: 'ASC',
+        createdAt: 'DESC',
       },
     });
   } catch (err) {
