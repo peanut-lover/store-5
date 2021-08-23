@@ -42,7 +42,8 @@ async function updateAddress(req: CreateAddressRequest, res: Response) {
 
 async function getWishById(req: Request, res: Response) {
   const { page, limit } = req.query;
-  const result = await GoodsService.getAllGoodsByUserId(Number(page), Number(limit), req.userId);
+  const userId = req.userId;
+  const result = await GoodsService.getAllGoodsByUserId(Number(page), Number(limit), userId);
   res.status(200).json({
     result,
   });

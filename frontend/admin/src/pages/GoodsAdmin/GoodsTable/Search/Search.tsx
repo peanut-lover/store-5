@@ -10,16 +10,13 @@ interface Props {
 const Search: React.FC<Props> = ({ setKeyword }) => {
   const [searchInput, setSearchInput] = useState('');
 
-  const handleAutoSearch = useCallback(
-    (e) => {
-      const keyword = e.target.value;
-      setSearchInput(keyword);
-      debounce(async () => {
-        await setKeyword(keyword);
-      }, 200);
-    },
-    [searchInput]
-  );
+  const handleAutoSearch = useCallback((e) => {
+    const keyword = e.target.value;
+    setSearchInput(keyword);
+    debounce(async () => {
+      await setKeyword(keyword);
+    }, 200);
+  }, []);
   return (
     <SearchContainer>
       <SearchInput type='text' placeholder={'검색'} onInput={handleAutoSearch} value={searchInput} />

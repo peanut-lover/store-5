@@ -12,15 +12,16 @@ import {
 import { uploadProductImages } from '../utils/aws.upload';
 
 async function createGoods(req: CreateGoodsRequest, res: Response) {
+  const { title, isGreen, stock, state, price, discountRate, category, deliveryInfo } = req.body;
   const body: CreateGoodsBody = {
-    title: req.body.title,
-    isGreen: Boolean(req.body.isGreen),
-    stock: Number(req.body.stock),
-    state: req.body.state,
-    price: Number(req.body.price),
-    discountRate: Number(req.body.discountRate),
-    category: Number(req.body.category),
-    deliveryInfo: Number(req.body.deliveryInfo),
+    title,
+    isGreen: Boolean(isGreen),
+    stock: Number(stock),
+    state,
+    price: Number(price),
+    discountRate: Number(discountRate),
+    category: Number(category),
+    deliveryInfo: Number(deliveryInfo),
   };
 
   const files = req.files;
@@ -36,16 +37,17 @@ async function createGoods(req: CreateGoodsRequest, res: Response) {
 
 async function updateGoods(req: UpdateGoodsRequest, res: Response) {
   const goodsId = Number(req.params.id);
+  const { title, isGreen, stock, state, price, discountRate, category, deliveryInfo, oldImages } = req.body;
   const body: UpdateGoodsBody = {
-    title: req.body.title,
-    isGreen: Boolean(req.body.isGreen),
-    stock: Number(req.body.stock),
-    state: req.body.state,
-    price: Number(req.body.price),
-    discountRate: Number(req.body.discountRate),
-    category: Number(req.body.category),
-    deliveryInfo: Number(req.body.deliveryInfo),
-    oldImages: req.body.oldImages,
+    title,
+    isGreen: Boolean(isGreen),
+    stock: Number(stock),
+    state,
+    price: Number(price),
+    discountRate: Number(discountRate),
+    category: Number(category),
+    deliveryInfo: Number(deliveryInfo),
+    oldImages,
   };
 
   const files = req.files;
