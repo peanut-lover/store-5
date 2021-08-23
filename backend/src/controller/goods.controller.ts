@@ -74,7 +74,7 @@ async function getAllGoodsForClient(req: Request, res: Response) {
     page: Number(page),
     limit: Number(limit),
   };
-  if (category) query.category = Number(category);
+  if (category) query.category = String(category);
   if (flag) query.flag = String(flag);
   if (keyword) query.keyword = String(keyword);
   const userId = req.session.userId;

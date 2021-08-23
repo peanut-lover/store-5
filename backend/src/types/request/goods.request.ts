@@ -25,7 +25,7 @@ export interface UpdateGoodsRequest extends Request {
 export type GetAllGoodsQuery = {
   page: number;
   limit: number;
-  category?: number;
+  category?: string;
   flag?: string;
   keyword?: string;
 };
