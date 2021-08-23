@@ -12,6 +12,7 @@ import { OrderListPaginationResponse } from '../types/response/order.response';
 import { getTotalPage, pagination } from '../utils/pagination';
 import { PaginationProps } from '../types/Pagination';
 import { PaymentRepository } from '../repository/payment.repository';
+import CartService from './cart.service';
 
 async function getOwnOrdersPagination(
   { page, limit }: GetAllOrderByUserIdProps,
@@ -65,7 +66,7 @@ async function getAllOrdersPagination({ page, limit }: GetAllOrderByUserIdProps)
 async function createOrder(userId: number, body: CreateOrderBody): Promise<Order> {
   const validateResult = await validateCreateOrder(body);
   if (!validateResult) throw new BadRequestError(INVALID_DATA);
-  const { orderMemo, receiver, zipCode, address, subAddress, paymentId, goodsList } = body;
+  const { orderMemo, receiver, zipCode, address, subAddress, paymentId, goodsList, cartIds } = body;
   const order = await OrderListRepository.createOrder(userId, {
     orderMemo,
     receiver,
@@ -75,6 +76,9 @@ async function createOrder(userId: number, body: CreateOrderBody): Promise<Order
     paymentId,
   });
   await Promise.all(goodsList.map((orderedItem) => createOrderItem(orderedItem, order.id)));
+  if (cartIds) {
+    await CartService.deleteCarts(userId, cartIds);
+  }
   return order;
 }
 
