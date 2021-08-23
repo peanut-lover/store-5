@@ -35,7 +35,7 @@ async function getOwnOrderTotalCount(userId: number): Promise<number> {
 async function getOwnOrdersPagination({ offset, limit }: PaginationProps, userId: number): Promise<Order[]> {
   try {
     return await getRepository(Order).find({
-      relations: ['payment', 'orderItems', 'orderItems.goods'],
+      relations: ['payment', 'orderItems', 'orderItems.goods', 'user'],
       where: {
         user: { id: userId },
       },

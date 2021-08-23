@@ -37,3 +37,17 @@ export interface GetGoodsByOptionProps {
   order?: string;
   sort?: 'ASC' | 'DESC';
 }
+
+export interface Goods {
+  id: number;
+  thumbnailUrl?: string; // thumbnailUrl
+  title: string;
+  price: number;
+  isBest?: boolean;
+  isGreen?: boolean;
+  isNew?: boolean;
+  isSale?: boolean;
+  discountRate: number;
+  isWish?: boolean;
+  stock?: number;
+}

@@ -7,11 +7,13 @@ import React, { useEffect, useState } from 'react';
 import styled from 'styled-components';
 import AddressCreateModal from '@src/components/AddressModals/AddressCreateModal/AddressCreateModal';
 import AddressManageModal from '@src/components/AddressModals/AddressManageModal/AddressManageModal';
+import { usePushToast } from '@src/lib/ToastProvider/ToastProvider';
 
 const MyAddressView = () => {
   const [addresses, setAddresses] = useState<AddressInfo[]>([]);
   const [isOpenCreateModal, setIsOpenCreateModal] = useState(false);
   const [isOpenManageModal, setIsOpenManageModal] = useState(false);
+  const pushToast = usePushToast();
 
   const toggleCreateModal = () => {
     setIsOpenCreateModal(!isOpenCreateModal);
@@ -24,17 +26,17 @@ const MyAddressView = () => {
   };
 
   async function fetchAddresses() {
-    const { result } = await AddressAPI.getAddresses();
-    setAddresses(result);
+    try {
+      const { result } = await AddressAPI.getAddresses();
+      setAddresses(result);
+    } catch (err) {
+      console.error(err);
+      pushToast({ text: '사용자 주소를 불러오는데 실패했습니다. 서버오류' });
+    }
   }
 
   useEffect(() => {
-    try {
-      fetchAddresses();
-    } catch (err) {
-      console.error(err);
-      alert('사용자 주소를 불러오는데 실패했습니다. 서버오류');
-    }
+    fetchAddresses();
   }, []);
 
   const defaultAddress = addresses.find((address) => address.isDefault);

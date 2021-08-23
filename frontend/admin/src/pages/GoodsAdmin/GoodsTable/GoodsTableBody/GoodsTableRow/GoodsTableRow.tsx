@@ -58,6 +58,4 @@ const ThumbnailImg = styled('img')`
   height: 40px;
 `;
 
-// const GoodsItemRow =
-
 export default GoodsTableRow;
