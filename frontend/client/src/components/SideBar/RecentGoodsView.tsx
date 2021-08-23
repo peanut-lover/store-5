@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useEffect, useState } from 'react';
 import styled from 'styled-components';
 import { FaArrowUp, FaArrowDown } from 'react-icons/fa';
 import { AiFillCloseCircle } from 'react-icons/ai';
@@ -36,6 +36,10 @@ const RecentGoodsView: React.FC<SideBarProps> = ({ goodsList = [], onDeleteGoods
     onClickGoods && onClickGoods(id);
     e.stopPropagation();
   };
+
+  useEffect(() => {
+    setRecentGoodsIndx(0);
+  }, [goodsList]);
 
   return (
     <RecentGoodsViewContainer>
