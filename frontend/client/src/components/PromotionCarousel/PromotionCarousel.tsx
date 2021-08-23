@@ -1,4 +1,4 @@
-import React, { useCallback } from 'react';
+import React from 'react';
 import styled from 'styled-components';
 import Slider from 'react-slick';
 import 'slick-carousel/slick/slick.css';
@@ -6,7 +6,6 @@ import 'slick-carousel/slick/slick-theme.css';
 import { Promotion } from '@src/types/Promotion';
 import { usePushHistory } from '@src/lib/CustomRouter';
 import PromotionAPI from '@src/apis/promotionAPI';
-import PromotionCarouselImage from '@src/components/PromotionCarousel/PromotionCarouselImage/PromotionCarouselImage';
 
 interface Props {
   promotions: Promotion[];
