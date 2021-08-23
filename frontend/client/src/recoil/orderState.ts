@@ -1,7 +1,14 @@
 import { GoodsBeforeOrder } from '@src/types/Goods';
 import { atom } from 'recoil';
 
-export const orderState = atom<GoodsBeforeOrder[]>({
+interface OrderState {
+  goodsList: GoodsBeforeOrder[];
+  cartIds?: number[];
+}
+
+export const orderState = atom<OrderState>({
   key: 'orderState',
-  default: [],
+  default: {
+    goodsList: [],
+  },
 });

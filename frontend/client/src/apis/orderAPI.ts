@@ -14,6 +14,7 @@ interface SubmitOrderBody {
   subAddress: string;
   goodsList: GoodsInfoForOrder[];
   paymentId: number;
+  cartIds?: number[];
 }
 
 export const submitOrder = async (orderData: SubmitOrderBody): Promise<boolean> => {

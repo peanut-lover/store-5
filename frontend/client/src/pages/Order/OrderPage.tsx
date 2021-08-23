@@ -30,7 +30,7 @@ const NEED_AGREEMENT_MESSAGE = '결제 진행에 필요한 사항을 동의해�
 const DEFAULT_ORDER_MEMO = '부재 시 연락바랍니다.';
 
 const OrderPage: React.FC = () => {
-  const orderGoodsList = useRecoilValue(orderState);
+  const { goodsList: orderGoodsList, cartIds } = useRecoilValue(orderState);
   const [selectedAddress, setSelectedAddress] = useState<AddressInfo | null>(null);
   const [selectedPaymentId, setSelectedPaymentId] = useState<number | null>(null);
   const [isAgreementChecked, setIsAgreementChecked] = useState(false);
@@ -68,6 +68,7 @@ const OrderPage: React.FC = () => {
       orderMemo: DEFAULT_ORDER_MEMO,
       paymentId: selectedPaymentId,
       goodsList: orderGoodsList.map(({ amount, goods }) => ({ amount, id: goods.id })),
+      cartIds,
     };
 
     await submitOrder(submitOrderBody);
