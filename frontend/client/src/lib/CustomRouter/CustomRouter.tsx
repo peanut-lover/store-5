@@ -176,3 +176,10 @@ export function useParams() {
 export function usePushHistory() {
   return useContext(RouterContext).push;
 }
+
+/**
+ * location을 추출한다.
+ */
+export function useLocation() {
+  return useContext(RouterContext).location;
+}

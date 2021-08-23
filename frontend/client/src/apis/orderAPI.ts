@@ -17,7 +17,7 @@ interface SubmitOrderBody {
 }
 
 export const submitOrder = async (orderData: SubmitOrderBody): Promise<boolean> => {
-  const res = await checkedFetch(`/api/order`, {
+  await checkedFetch(`/api/order`, {
     method: 'POST',
     credentials: 'include',
     body: JSON.stringify(orderData),

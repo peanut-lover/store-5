@@ -1,14 +1,15 @@
-import { AddressAPI } from '@src/apis/addressAPI';
-import HighlightedText from '@src/components/HighlightedText/HighlightedText';
-import Topic from '@src/components/Topic/Topic';
 import React from 'react';
 import { Route, Routes } from '@src/lib/CustomRouter';
+import styled from 'styled-components';
+
 import MyPageNavBar from '@src/pages/MyPage/MyPageNavBar/MyPageNavBar';
 import MyWishListView from '@src/pages/MyPage/MyWishListView/MyWishListView';
-import styled from 'styled-components';
 import MyAddressView from '@src/pages/MyPage/MyAddressView/MyAddressView';
 import useUserState from '@src/hooks/useUserState';
 import MyOrderListView from '@src/pages/MyPage/MyOrderListView/MyOrderListView';
+import MyProfileView from '@src/pages/MyPage/MyProfileView/MyProfileView';
+import HighlightedText from '@src/components/HighlightedText/HighlightedText';
+
 import withLoggedIn from '@src/utils/withLoggedIn';
 
 const MyPage = () => {
@@ -35,7 +36,7 @@ const MyPage = () => {
             <MyWishListView />
           </Route>
           <Route path='/mypage'>
-            <Topic>내 정보</Topic>
+            <MyProfileView />
           </Route>
         </Routes>
       </MyPageContentContainer>

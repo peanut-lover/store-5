@@ -88,7 +88,6 @@ export const getMyWishGoods = async ({
   page,
   limit = LIMIT,
 }: GetMyWishGoodsProps): Promise<APIResponse<GoodsPaginationResult>> => {
-  // TODO: implementation real api
   const res = await checkedFetch(`/api/user/wish?limit=${limit}&page=${page}`, {
     method: 'GET',
     credentials: 'include',

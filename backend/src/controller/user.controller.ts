@@ -40,10 +40,16 @@ async function updateAddress(req: CreateAddressRequest, res: Response) {
   });
 }
 
-async function getWishById(req: Request, res: Response) {
+async function getWishGoods(req: Request, res: Response) {
   const { page, limit } = req.query;
-  const userId = req.userId;
-  const result = await GoodsService.getAllGoodsByUserId(Number(page), Number(limit), userId);
+
+  const GoodsListParams: GetAllByUserIdProps = {
+    page: Number(page),
+    limit: Number(limit),
+    userId: req.userId,
+  };
+
+  const result = await GoodsService.getAllGoodsByUserId(GoodsListParams);
   res.status(200).json({
     result,
   });
@@ -55,5 +61,5 @@ export const UserController = {
   createAddress,
   deleteAddress,
   updateAddress,
-  getWishById,
+  getWishGoods,
 };

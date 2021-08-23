@@ -2,6 +2,9 @@ import React, { createContext, useContext, useRef, useState } from 'react';
 import Toast from './Toast/Toast';
 import ToastPortalWrapper from './ToastPortalWrapper/ToastPortalWrapper';
 
+/**
+ * displayTime unit is milliseconds
+ */
 interface ToastData {
   text: string;
   displayTime?: number;
