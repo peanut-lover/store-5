@@ -5,25 +5,32 @@ import LiveOrderCard from '@src/pages/Main/LiveOrderList/LiveOrderCard/LiveOrder
 import { theme } from '@src/theme/theme';
 import { Order } from '@src/types/Order';
 import { convertYYYYMMDDHHMMSS } from '@src/utils/dateHelper';
-import React, { useCallback, useEffect, useState } from 'react';
+import React, { useCallback, useState } from 'react';
+
+const DEFAULT_LIVE_ORDER_LIMIT = 10;
+const DEFAULT_START_PAGE = 0;
+const POLLING_INTERVAL_MILLISECONDS = 2000;
 
 const LiveOrderList = () => {
-  const [updating, setUpdating] = useState<boolean>(false);
+  const [updateTime, setUpdateTime] = useState<Date>(new Date());
   const [orders, setOrder] = useState<Order[]>([]);
 
   const poller = useCallback(async () => {
-    setUpdating(!updating);
+    setUpdateTime(new Date());
     const {
       result: { orderList },
-    } = await getOrders({ page: 0, limit: 10 });
+    } = await getOrders({ page: DEFAULT_START_PAGE, limit: DEFAULT_LIVE_ORDER_LIMIT });
     setOrder(orderList);
   }, []);
 
-  useInterval(poller, 1000);
+  useInterval(poller, POLLING_INTERVAL_MILLISECONDS); // 1초마다 폴링
 
   return (
     <LiveOrderListContainer>
       <LiveOrderListTitle color={theme.greenColor}>주문 현황</LiveOrderListTitle>
+      <LatestUpdateTime color={theme.greenColor}>
+        (최근 업데이트 시간: {convertYYYYMMDDHHMMSS(updateTime)})
+      </LatestUpdateTime>
       <LiveOrderItemContainer>
         {orders.map((order) => (
           <LiveOrderCard key={order.id} order={order} />
@@ -46,6 +53,11 @@ const LiveOrderListTitle = styled('span')<{ color: string }>`
   height: 1.5em;
   font-weight: 700;
   margin-bottom: 16px;
+`;
+
+const LatestUpdateTime = styled('span')<{ color: string }>`
+  color: ${(props) => props.color};
+  font-size: 10px;
 `;
 
 const LiveOrderItemContainer = styled('div')`
