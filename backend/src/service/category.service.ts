@@ -1,5 +1,5 @@
 import { Category } from '../entity/Category';
-import { CategoryResponse } from '../types/response/category.response';
+import { CategoryCountResponse, CategoryResponse } from '../types/response/category.response';
 import { CategoryRepository } from '../repository/category.repository';
 
 async function createCategory(name: string, parentId?: number): Promise<Category> {
@@ -41,7 +41,25 @@ async function getAllCategory(): Promise<CategoryResponse[]> {
   return Array.from(categoryMap.entries()).map(([_, value]) => value);
 }
 
+async function getParentCategoryCount(): Promise<CategoryCountResponse> {
+  const categoryCountList: CategoryCountResponse = [];
+  const parentCategories = await CategoryRepository.getParentCategories();
+  await Promise.all(
+    parentCategories.map(async (category) => await pushCategoryCountToList(category, categoryCountList))
+  );
+  return categoryCountList;
+}
+
+async function pushCategoryCountToList(category: Category, categoryCountList: CategoryCountResponse): Promise<void> {
+  const count = await CategoryRepository.getCategoryCountByParentId(category.id);
+  categoryCountList.push({
+    name: category.name,
+    value: count,
+  });
+}
+
 export default {
   createCategory,
   getAllCategory,
+  getParentCategoryCount,
 };

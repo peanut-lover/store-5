@@ -151,6 +151,14 @@ async function findStockById(goodsId: number): Promise<number> {
   return goods?.stock ?? 0;
 }
 
+async function findBestSellingGoods(limit: number): Promise<Goods[]> {
+  return getRepository(Goods).find({
+    order: {
+      countOfSell: 'DESC',
+    },
+    take: limit,
+  });
+}
 export const GoodsRepository = {
   findGoodsById,
   findGoodsDetailById,
@@ -158,6 +166,7 @@ export const GoodsRepository = {
   findAllWishByUserId,
   findTotalCountByOption,
   findSellCountAverage,
-  searchGoodsFromKeyword,
   findStockById,
+  findBestSellingGoods,
+  searchGoodsFromKeyword,
 };

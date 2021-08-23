@@ -1,4 +1,4 @@
-import { CategoryAPI } from '@src/apis/categoryAPI';
+import CategoryAPI from '@src/apis/categoryAPI';
 import { styled } from '@src/lib/CustomStyledComponent';
 import { UploaderLabel } from '@src/portal/GoodsUploadModal/UploadContentLeft/style';
 import { Category } from '@src/types/Category';

@@ -41,6 +41,7 @@ const INVALID_DISCOUNT_RATE = '할인율은 0~99% 범위 내에서 가능합니�
 const INVALID_DELIVERY_INFO = '해당 배송 정보는 없는 정보입니다.';
 const MIN_DISCOUNT_RATE = 0;
 const MAX_DISCOUNT_RATE = 99;
+const BEST_SELLING_GOODS_LIMIT = 5;
 
 async function createGoods(body: CreateGoodsBody, uploadFileUrls: string[]): Promise<Goods> {
   await checkValidateCreateGoods(body);
@@ -288,6 +289,10 @@ async function getMainGoodsListMap(userId?: number): Promise<{
   };
 }
 
+async function getBestSellingGoodsForDashboard(): Promise<Goods[]> {
+  return GoodsRepository.findBestSellingGoods(BEST_SELLING_GOODS_LIMIT);
+}
+
 async function getGoodsStockById(goodsId: number): Promise<number> {
   return await GoodsRepository.findStockById(goodsId);
 }
@@ -346,4 +351,5 @@ export const GoodsService = {
   getMainGoodsListMap,
   getGoodsStockById,
   getGoodsImgById,
+  getBestSellingGoodsForDashboard,
 };
