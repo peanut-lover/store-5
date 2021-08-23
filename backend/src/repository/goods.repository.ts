@@ -31,6 +31,17 @@ async function findGoodsDetailById(goodsId: number): Promise<Goods | undefined> 
   }
 }
 
+async function findAllWithCategory(): Promise<Goods[]> {
+  try {
+    return await getRepository(Goods).find({
+      relations: ['category'],
+    });
+  } catch (err) {
+    console.error(err);
+    throw new DatabaseError(GOODS_DB_ERROR);
+  }
+}
+
 async function findAllByOption({
   offset,
   limit,
@@ -159,9 +170,11 @@ async function findBestSellingGoods(limit: number): Promise<Goods[]> {
     take: limit,
   });
 }
+
 export const GoodsRepository = {
   findGoodsById,
   findGoodsDetailById,
+  findAllWithCategory,
   findAllByOption,
   findAllWishByUserId,
   findTotalCountByOption,

@@ -1,5 +1,10 @@
+import { GoodsRepository } from './../repository/goods.repository';
 import { Category } from '../entity/Category';
-import { CategoryCountResponse, CategoryResponse } from '../types/response/category.response';
+import {
+  CategoryCountResponse,
+  CategoryResponse,
+  CategorySellCountResponse,
+} from '../types/response/category.response';
 import { CategoryRepository } from '../repository/category.repository';
 
 async function createCategory(name: string, parentId?: number): Promise<Category> {
@@ -50,6 +55,27 @@ async function getParentCategoryCount(): Promise<CategoryCountResponse> {
   return categoryCountList;
 }
 
+async function getTopSellingCategory(): Promise<CategorySellCountResponse> {
+  const result = [];
+  const categories: {
+    [key: string]: number;
+  } = {};
+  const goods = await GoodsRepository.findAllWithCategory();
+  goods.forEach((item) => {
+    if (categories[item.category.name]) {
+      categories[item.category.name] += item.countOfSell;
+    } else {
+      categories[item.category.name] = item.countOfSell;
+    }
+  });
+  for (let key in categories) {
+    result.push({ name: key, total: categories[key] });
+  }
+  result.sort((a, b) => b.total - a.total);
+  const MAX_END = result.length > 5 ? 5 : result.length;
+  return result.slice(0, MAX_END);
+}
+
 async function pushCategoryCountToList(category: Category, categoryCountList: CategoryCountResponse): Promise<void> {
   const count = await CategoryRepository.getCategoryCountByParentId(category.id);
   categoryCountList.push({
@@ -62,4 +88,5 @@ export default {
   createCategory,
   getAllCategory,
   getParentCategoryCount,
+  getTopSellingCategory,
 };

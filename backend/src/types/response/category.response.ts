@@ -3,7 +3,13 @@ type CategoryCount = {
   value: number;
 };
 
+type CategorySellCount = {
+  name: string;
+  total: number;
+};
+
 export type CategoryCountResponse = CategoryCount[];
+export type CategorySellCountResponse = CategorySellCount[];
 
 export type CategoryResponse = {
   id: number;

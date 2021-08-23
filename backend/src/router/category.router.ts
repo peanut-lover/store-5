@@ -7,5 +7,6 @@ const router = express.Router();
 router.get('/', wrapAsync(CategoryController.getAllCategory));
 router.post('/', wrapAsync(CategoryController.createCategory));
 router.get('/dashboard', wrapAsync(CategoryController.getParentCategoryCount));
+router.get('/dashboard/sell', wrapAsync(CategoryController.getTopSellingCategory));
 
 export default router;
