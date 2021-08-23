@@ -1,15 +1,18 @@
 import React, { useEffect, useState } from 'react';
 import styled from 'styled-components';
 import { useParams } from '@src/lib/CustomRouter';
-
 import { getGoodsByKeyword } from '@src/apis/goodsAPI';
 import GoodsSection from '@src/components/GoodsSection/GoodsSection';
 import Paginator from '@src/components/Paginator/Paginator';
 import { GoodsPaginationResult } from '@src/types/Goods';
+import Loading from '@src/components/Loading/Loading';
+import emptyImgUrl from '@src/assets/empty-kim.gif';
 const LIMIT_COUNT_ITEMS_IN_PAGE = 8;
 const DEFAULT_START_PAGE = 1;
 
 const appendQuotationMarks = (text: string) => `"${text}"`;
+
+// 상태: 1 로드 중, 2 로드 이후 상품이 있는지 없는지
 
 const KeywordGoods: React.FC = () => {
   const { keyword = '' } = useParams();
@@ -34,28 +37,34 @@ const KeywordGoods: React.FC = () => {
   }, [keyword, currentPage]);
 
   const decodeKeyword = decodeURI(keyword);
-  if (!goodsPaginationResult) {
-    return <h1>데이터를 불러오는데 실패</h1>;
-  }
 
-  return (
-    // TODO: Empty UI 필요
-    goodsPaginationResult && (
-      <CategoryGoodsListContainer>
-        <CategoryGoodsListHeader>
-          <CategoryGoodsListCount>
-            {keyword ? `${appendQuotationMarks(decodeKeyword)} 검색결과` : ''} 총{' '}
-            {goodsPaginationResult.meta.totalCount}개
-          </CategoryGoodsListCount>
-        </CategoryGoodsListHeader>
-        <GoodsSection goodsList={goodsPaginationResult.goodsList} itemBoxSize='big' />
-        <Paginator
-          totalPage={goodsPaginationResult.meta.totalPage}
-          currentPage={goodsPaginationResult.meta.page}
-          setPage={setCurrentPage}
-        />
-      </CategoryGoodsListContainer>
-    )
+  return goodsPaginationResult ? (
+    <CategoryGoodsListContainer>
+      <CategoryGoodsListHeader>
+        <CategoryGoodsListCount>
+          {keyword ? `${appendQuotationMarks(decodeKeyword)} 검색결과` : ''} 총 {goodsPaginationResult.meta.totalCount}
+          개
+        </CategoryGoodsListCount>
+      </CategoryGoodsListHeader>
+
+      {goodsPaginationResult?.meta?.totalCount > 0 ? (
+        <>
+          <GoodsSection goodsList={goodsPaginationResult.goodsList} itemBoxSize='big' />
+          <Paginator
+            totalPage={goodsPaginationResult.meta.totalPage}
+            currentPage={goodsPaginationResult.meta.page}
+            setPage={setCurrentPage}
+          />
+        </>
+      ) : (
+        <EmptyImageContainer>
+          <img src={emptyImgUrl} />
+          <EmptyText>상품이 존재하지 않습니다!</EmptyText>
+        </EmptyImageContainer>
+      )}
+    </CategoryGoodsListContainer>
+  ) : (
+    <Loading />
   );
 };
 
@@ -82,6 +91,17 @@ const CategoryGoodsListHeader = styled.div`
   justify-content: space-between;
   font-size: 16px;
   margin-top: 2rem;
+`;
+
+const EmptyImageContainer = styled.div`
+  width: 100%;
+  margin: 10vh 0;
+  text-align: center;
+`;
+
+const EmptyText = styled.p`
+  font-size: 24px;
+  margin-top: 24px;
 `;
 
 const CategoryGoodsListCount = styled.div`
