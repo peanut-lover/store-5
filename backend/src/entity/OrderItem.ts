@@ -8,7 +8,7 @@ import {
   UpdateDateColumn,
 } from 'typeorm';
 import { Goods } from './Goods';
-import { OrderList } from './OrderList';
+import { Order } from './Order';
 
 @Entity()
 export class OrderItem {
@@ -33,11 +33,11 @@ export class OrderItem {
   @UpdateDateColumn({ type: 'timestamp' })
   updatedAt: Date;
 
-  @ManyToOne(() => Goods, (goods) => goods.id)
+  @ManyToOne(() => Goods)
   @JoinColumn()
   goods: Goods;
 
-  @ManyToOne(() => OrderList, (orderList) => orderList.id)
+  @ManyToOne(() => Order, (order) => order.orderItems)
   @JoinColumn()
-  orderList: OrderList;
+  order: Order;
 }

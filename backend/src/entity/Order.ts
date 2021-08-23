@@ -12,7 +12,7 @@ import { Payment } from './Payment';
 import { User } from './User';
 
 @Entity()
-export class OrderList {
+export class Order {
   @PrimaryGeneratedColumn({ type: 'int', unsigned: true })
   id: number;
 
@@ -40,12 +40,12 @@ export class OrderList {
   @UpdateDateColumn({ type: 'timestamp' })
   updatedAt: Date;
 
-  @ManyToOne(() => Payment, (payment) => payment.id)
+  @ManyToOne(() => Payment)
   payment: Payment;
 
-  @ManyToOne(() => User, (user) => user.id)
+  @ManyToOne(() => User)
   user: User;
 
-  @OneToMany(() => OrderItem, (order) => order.orderList)
+  @OneToMany(() => OrderItem, (orderItem) => orderItem.order)
   orderItems: OrderItem[];
 }
