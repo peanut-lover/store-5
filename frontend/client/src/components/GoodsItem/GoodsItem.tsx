@@ -86,7 +86,7 @@ const GoodsItem: React.FC<Props> = ({
     [isWished]
   );
   return (
-    <GoodsItemContainer onClick={handleClickGoodsItem} size={itemBoxSize}>
+    <GoodsItemContainer onClick={handleClickGoodsItem}>
       <GoodsImageContainer onMouseEnter={handleOnMouseEnter} onMouseLeave={handleOnMouseLeave} size={itemBoxSize}>
         <TagContainer>
           {isBest && <BestTag />}
@@ -117,7 +117,7 @@ const GoodsItem: React.FC<Props> = ({
 
 const ItemContainerWidthMap = {
   big: '300px',
-  middle: '260px',
+  middle: '25%',
   small: '200px',
 };
 
@@ -142,15 +142,11 @@ const TagContainer = styled.div`
   }
 `;
 
-interface GoodsItemContainerProps {
-  size: GoodsItemSize;
-}
-
-const GoodsItemContainer = styled.div<GoodsItemContainerProps>`
+const GoodsItemContainer = styled.div`
   position: relative;
   flex-grow: 0;
   flex-shrink: 0;
-  width: ${(props) => ItemContainerWidthMap[props.size]};
+  width: 25%;
   margin-top: 10px;
   margin-bottom: 10px;
   padding: 10px;

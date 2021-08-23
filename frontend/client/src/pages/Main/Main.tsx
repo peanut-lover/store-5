@@ -73,8 +73,9 @@ const PromotionContainer = styled.div`
 `;
 
 const MainContentContainer = styled.div`
-  width: 1200px;
-  margin: 0 auto;
+  width: 100%;
+  min-width: 1280px;
+  padding: 0 15% 0 15%;
 `;
 
 interface FooterContainerProps {
