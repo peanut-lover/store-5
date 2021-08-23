@@ -43,13 +43,11 @@ async function updateAddress(req: CreateAddressRequest, res: Response) {
 async function getWishGoods(req: Request, res: Response) {
   const { page, limit } = req.query;
 
-  const GoodsListParams: GetAllByUserIdProps = {
-    page: Number(page),
-    limit: Number(limit),
-    userId: req.userId,
-  };
+  const pageAsNumber = Number(page);
+  const limitAsNumber = Number(limit);
 
-  const result = await GoodsService.getAllGoodsByUserId(GoodsListParams);
+  const result = await GoodsService.getAllGoodsByUserId(pageAsNumber, limitAsNumber, req.userId);
+
   res.status(200).json({
     result,
   });
