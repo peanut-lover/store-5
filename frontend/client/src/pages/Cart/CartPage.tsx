@@ -2,12 +2,14 @@ import { deleteCarts, getCarts, updateCart } from '@src/apis/cartAPI';
 import PageHeader from '@src/components/PageHeader/PageHeader';
 import usePushToOrderPage from '@src/hooks/usePushToOrderPage';
 import { usePushHistory } from '@src/lib/CustomRouter';
+import { cartState } from '@src/recoil/cartState';
 import { CartGoods } from '@src/types/Goods';
 import composeComponent from '@src/utils/composeComponent';
 import withLoggedIn from '@src/utils/withLoggedIn';
 import withScrollToTopOnMount from '@src/utils/withScrollToTopOnMount';
 import React, { useCallback, useState } from 'react';
 import { useEffect } from 'react';
+import { useRecoilState } from 'recoil';
 import CartGoodsListContainer from './CartGoodsListContainer/CartGoodsListContainer';
 import CartOrder from './CartOrder/CartOrder';
 import EmptyCart from './EmptyCart/EmptyCart';
@@ -15,7 +17,7 @@ import Layout from './Layout/Layout';
 
 const CartPage: React.FC = () => {
   const pushToOrderPage = usePushToOrderPage();
-  const [cartGoodsList, setCartGoodsList] = useState<CartGoods[]>([]);
+  const [cartGoodsList, setCartGoodsList] = useRecoilState(cartState);
   const [isCartsFetched, setIsCartsFetched] = useState(false);
 
   const handleDeleteCartGoodsAll = useCallback(
