@@ -19,7 +19,9 @@ const ImageItem: React.FC<Props> = ({ index, src, isActivated, setActive }: Prop
 const ImageItemContainer = styled.img<{ isActivated: boolean }>`
   border: 1px solid ${(props) => (props.isActivated ? theme.primary : 'transparent')};
   cursor: pointer;
-  width: 100%;
+  object-fit: cover;
+  height: 80px;
+  width: 80px;
 `;
 
 export default ImageItem;

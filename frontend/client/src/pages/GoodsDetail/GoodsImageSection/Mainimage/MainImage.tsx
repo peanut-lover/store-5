@@ -8,7 +8,7 @@ const MainImage: React.FC<{ src: string }> = ({ src }) => {
   useEffect(() => {
     const container = containerRef.current as HTMLDivElement;
     const { width, height } = container.getBoundingClientRect();
-    imageZoom = new (ImageZoom as any)(container, {
+    imageZoom = ImageZoom(container, {
       width,
       src,
       height,

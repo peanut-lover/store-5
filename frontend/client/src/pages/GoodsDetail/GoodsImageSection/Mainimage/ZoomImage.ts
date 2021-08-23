@@ -38,7 +38,6 @@ interface ImageZoomProps {
   width: number;
   height: number;
   scale: number;
-  zoomWidth?: number;
 }
 
 interface ZoomData {
@@ -66,7 +65,7 @@ interface ZoomData {
 export default function ImageZoom(
   this: any,
   container: HTMLDivElement,
-  { width, src, height, zoomWidth = width / 2, scale = 1.5 }: ImageZoomProps
+  { width, src, height, scale = 1.5 }: ImageZoomProps
 ): ZoomImageReturnType | undefined {
   if (!container) {
     return;
@@ -147,7 +146,7 @@ export default function ImageZoom(
   // 생성한 이미지 엘리먼트의 boundingClientRect를 반환
   function getOffset(el: HTMLElement) {
     if (el) {
-      var elRect = el.getBoundingClientRect();
+      const elRect = el.getBoundingClientRect();
       return { left: elRect.left, top: elRect.top };
     }
     return { left: 0, top: 0 };
@@ -208,7 +207,6 @@ export default function ImageZoom(
     container.addEventListener('mouseleave', events, false);
     data.zoomLens.element.addEventListener('mouseenter', events, false);
     data.zoomLens.element.addEventListener('mouseleave', events, false);
-    window.addEventListener('scroll', events, false);
 
     return data;
   }
@@ -220,7 +218,6 @@ export default function ImageZoom(
     container.removeEventListener('mouseleave', events, false);
     data.zoomLens.element?.removeEventListener('mouseenter', events, false);
     data.zoomLens.element?.removeEventListener('mouseleave', events, false);
-    window.removeEventListener('scroll', events, false);
 
     // 생성한 DOM 삭제
     data.zoomLens.element && container.removeChild(data.zoomLens.element);
@@ -239,8 +236,6 @@ export default function ImageZoom(
           return this.handleMouseEnter();
         case 'mouseleave':
           return this.handleMouseLeave();
-        case 'scroll':
-          return this.handleScroll();
       }
     },
     handleMouseMove: function (event: MouseEvent) {
@@ -264,10 +259,6 @@ export default function ImageZoom(
       if (!data.zoomedImg.element || !data.zoomLens.element) return;
       data.zoomedImg.element.style.display = 'none';
       data.zoomLens.element.style.display = 'none';
-    },
-    handleScroll: function () {
-      if (!data.sourceImg.element) return;
-      // offset = getOffset(data.sourceImg.element);
     },
   };
 
