@@ -11,12 +11,15 @@ import { usePushToast } from '@src/lib/ToastProvider/ToastProvider';
 import useRecentGoodsHistory from '@src/hooks/useRecentGoodsHistory';
 
 import theme from '@src/theme/theme';
+import { userState } from '@src/recoil/userState';
+import { useRecoilValue } from 'recoil';
 
 const ERROR_SERVER = '서버 문제로 상품 정보 조회에 실패하였습니다!';
 
 const GoodsDetailPage = () => {
   const [recentGoodsList, setRecentGoodsList] = useRecentGoodsHistory();
   const { id } = useParams();
+  const { isLoggedIn } = useRecoilValue(userState);
   const pushToast = usePushToast();
   const [goods, setGoods] = useState<DetailGoods | null>(null);
 
@@ -40,7 +43,6 @@ const GoodsDetailPage = () => {
     fetchDetailGoods(idAsNumber);
   }, [id]);
 
-  console.log(goods);
   return (
     <GoodsDetailContainer>
       {goods && (
@@ -50,6 +52,11 @@ const GoodsDetailPage = () => {
             <GoodsContentContainer>
               <GoodsInfo goods={goods} />
               <GoodsInteractive goods={goods} />
+              {!isLoggedIn && (
+                <RequireLoginContainer>
+                  <small>찜하기, 장바구니, 구매는 로그인이 필요합니다!</small>
+                </RequireLoginContainer>
+              )}
             </GoodsContentContainer>
           </GoodsMainContainer>
           <RelationSection categoryName={goods.category.name} />
@@ -84,6 +91,14 @@ const GoodsMainContainer = styled.div`
   grid-gap: 5vw;
   margin-bottom: 5vh;
   font-family: 'Noto Sans', sans-serif;
+`;
+
+const RequireLoginContainer = styled.div`
+  width: 100%;
+  text-align: right;
+  margin-top: 0.5rem;
+  font-size: 11px;
+  color: #999;
 `;
 
 const GoodsContentContainer = styled.div``;
