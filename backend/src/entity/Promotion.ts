@@ -17,7 +17,7 @@ export class Promotion {
   @Column({ type: 'varchar', length: 400 })
   imgUrl: string;
 
-  @Column({ type: 'int' })
+  @Column({ type: 'int', default: 0 })
   view: number;
 
   @CreateDateColumn({ type: 'timestamp' })
