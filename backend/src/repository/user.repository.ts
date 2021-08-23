@@ -30,10 +30,10 @@ async function findById(id: number): Promise<User | undefined> {
   }
 }
 
-async function create(githubId: string, name: string): Promise<User> {
+async function create(githubId: string, name: string, profileImgUrl: string): Promise<User> {
   try {
     const userRepo = getRepository(User);
-    const user = await userRepo.save({ githubId, name });
+    const user = await userRepo.save({ githubId, name, profileImgUrl });
     return user;
   } catch (err) {
     console.error(err);

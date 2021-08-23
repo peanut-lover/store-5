@@ -16,7 +16,7 @@ async function signInGithub(code: string): Promise<number> {
   const searchParams = new URLSearchParams(data);
   const accessToken = searchParams.get('access_token');
   const {
-    data: { id, name },
+    data: { id, login: name, avatar_url: profileImgUrl },
   } = await axios.get(githubConfig.profileURL as string, {
     headers: {
       Authorization: `token ${accessToken}`,
@@ -26,7 +26,7 @@ async function signInGithub(code: string): Promise<number> {
   user = await UserRepository.findByGitHubId(id);
 
   if (!user) {
-    user = await UserRepository.create(id, removeBlank(name));
+    user = await UserRepository.create(id, removeBlank(name), profileImgUrl);
   }
 
   return user.id;
