@@ -61,9 +61,18 @@ async function getParentCategories(): Promise<Category[]> {
   }
 }
 
-async function getCategoryCountByParentId(parentId: number):Promise<number> {
+async function getCategoryCountByParentId(parentId: number): Promise<number> {
   try {
     return getRepository(Category).count({ where: { parent: parentId } });
+  } catch (err) {
+    console.error(err);
+    throw new DatabaseError(CATEGORY_DB_ERROR);
+  }
+}
+
+async function getParentCategoryNameById(categoryId: number): Promise<Category | undefined> {
+  try {
+    return getRepository(Category).findOne({ select: ['name'], where: { id: categoryId } });
   } catch (err) {
     console.error(err);
     throw new DatabaseError(CATEGORY_DB_ERROR);
@@ -77,4 +86,5 @@ export const CategoryRepository = {
   getAllCategories,
   getParentCategories,
   getCategoryCountByParentId,
+  getParentCategoryNameById,
 };

@@ -7,6 +7,8 @@ import {
 } from '../types/response/category.response';
 import { CategoryRepository } from '../repository/category.repository';
 
+const BEST_LIST_LENGTH = 5;
+
 async function createCategory(name: string, parentId?: number): Promise<Category> {
   if (parentId) {
     return await CategoryRepository.createSubCategory(name, parentId);
@@ -72,8 +74,24 @@ async function getTopSellingCategory(): Promise<CategorySellCountResponse> {
     result.push({ name: key, total: categories[key] });
   }
   result.sort((a, b) => b.total - a.total);
-  const MAX_END = result.length > 5 ? 5 : result.length;
+  const MAX_END = result.length > BEST_LIST_LENGTH ? BEST_LIST_LENGTH : result.length;
   return result.slice(0, MAX_END);
+}
+
+async function getCategoryViews() {
+  const result = [];
+  const categories: {
+    [key: string]: number;
+  } = {};
+  const goods = await GoodsRepository.findAllWithCategory();
+  // category parentId를 key로 조회 수 총합을 구합니다.
+  goods.forEach((item) => {
+    if (categories[item.category.parent]) {
+      categories[item.category.parent] += item.view;
+    } else {
+      categories[item.category.parent] = item.view;
+    }
+  });
 }
 
 async function pushCategoryCountToList(category: Category, categoryCountList: CategoryCountResponse): Promise<void> {
@@ -89,4 +107,5 @@ export default {
   getAllCategory,
   getParentCategoryCount,
   getTopSellingCategory,
+  getCategoryViews,
 };
