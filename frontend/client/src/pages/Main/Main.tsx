@@ -8,6 +8,8 @@ import Footer from '@src/components/Footer/Footer';
 import SideBar from './SideBar/SideBar';
 import { getMainGoodsListMap } from '@src/apis/goodsAPI';
 import { getPromotions } from '@src/apis/promotionAPI';
+import { useRecoilValue } from 'recoil';
+import { userState } from '@src/recoil/userState';
 
 const mockProductImagePath =
   'https://user-images.githubusercontent.com/20085849/128866958-900ad32a-cd32-4b97-be79-1dbbc9dcb02d.jpeg';
@@ -29,6 +31,8 @@ const mock_best_products: ThumbnailGoods[] = [
 
 const Main = () => {
   const [promotions, setPromotions] = useState<Promotion[]>([]);
+  const userRecoil = useRecoilValue(userState);
+
   const fetchPromotions = async () => {
     const { result } = await getPromotions();
     setPromotions(result);
@@ -44,7 +48,7 @@ const Main = () => {
   useEffect(() => {
     fetchPromotions();
     fetchMainGoodsListMap();
-  }, []);
+  }, [userRecoil]);
 
   return (
     mainGoodsListMap && (

@@ -13,7 +13,7 @@ const getAllCategory = async (): Promise<APIResponse<CategoryResponse>> => {
 };
 
 const getParentCategoryCount = async (): Promise<APIResponse<PieChartData>> => {
-  const res = await checkedFetch(`/api/category/admin/dashboard`, {
+  const res = await checkedFetch(`/api/category/dashboard`, {
     method: 'GET',
     credentials: 'include',
   });

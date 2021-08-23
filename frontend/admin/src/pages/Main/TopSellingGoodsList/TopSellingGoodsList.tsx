@@ -7,6 +7,7 @@ import React, { useEffect, useState } from 'react';
 
 const TopSellingGoodsList = () => {
   const [goodsList, setGoodsList] = useState<GoodsItem[]>([]);
+
   useEffect(() => {
     async function fetchingGoodsList() {
       const { result } = await GoodsAPI.getBestSellingGoodsForDashboard();
@@ -14,6 +15,7 @@ const TopSellingGoodsList = () => {
     }
     fetchingGoodsList();
   }, []);
+
   return (
     <TopSellingContainer>
       <TopSellingTitleContainer>

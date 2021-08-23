@@ -27,7 +27,7 @@ const GoodsItemList: React.FC<Props> = ({ goodsList, itemBoxSize = 'big' }) => {
       {goodsList &&
         goodsList.map((goods) => (
           <GoodsItem
-            key={goods.id}
+            key={goods.isWish ? goods.id : goods.id * 2}
             id={goods.id}
             thumbnailUrl={goods.thumbnailUrl}
             title={goods.title}

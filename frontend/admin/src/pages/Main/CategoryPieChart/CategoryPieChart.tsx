@@ -1,9 +1,9 @@
 import CategoryAPI from '@src/apis/categoryAPI';
-import { styled } from '@src/lib/CustomStyledComponent';
 import { theme } from '@src/theme/theme';
 import { PieChartData } from '@src/types/Chart';
 import React, { useEffect, useState } from 'react';
 import { PieChart, Pie, Tooltip, Cell, ResponsiveContainer } from 'recharts';
+import styled from 'styled-components';
 
 const CategoryPieChart = () => {
   const [chartData, setChartData] = useState<PieChartData>([]);
@@ -27,6 +27,7 @@ const CategoryPieChart = () => {
     }
     fetchChartData();
   }, []);
+
   return (
     <PieChartContainer>
       <PieChartTitle color={theme.greenColor}>카테고리 비율</PieChartTitle>
@@ -36,8 +37,7 @@ const CategoryPieChart = () => {
             data={chartData}
             cx='50%'
             cy='50%'
-            isAnimationActive={true}
-            animationDuration={600}
+            isAnimationActive={false}
             labelLine={false}
             label={(entry) => entry.name}
             outerRadius={120}
@@ -56,7 +56,7 @@ const CategoryPieChart = () => {
   );
 };
 
-const PieChartContainer = styled('div')`
+const PieChartContainer = styled.div`
   padding: 16px;
   width: 50%;
   height: 100%;
@@ -65,7 +65,7 @@ const PieChartContainer = styled('div')`
   margin-right: 16px;
 `;
 
-const PieChartTitle = styled('span')<{ color: string }>`
+const PieChartTitle = styled.span<{ color: string }>`
   position: absolute;
   color: ${(props) => props.color};
   font-weight: 700;
