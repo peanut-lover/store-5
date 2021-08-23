@@ -112,6 +112,7 @@ async function getGoodsImgById(req: Request, res: Response) {
   const goodsId = Number(req.params.id);
   const result = await GoodsService.getGoodsImgById(goodsId);
   return res.status(200).json({ result });
+}
 
 async function getBestGoodsForDashboard(req: Request, res: Response) {
   const result = await GoodsService.getBestSellingGoodsForDashboard();
