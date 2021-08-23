@@ -44,7 +44,7 @@ const MyProfileView = () => {
       // TODO:(jiho) Goods 페이지네이션이랑 API 함수 인터페이스 형식 통일시켜야합니다.
       const {
         result: { meta },
-      } = await getOrders(0, 1); // 여기서 Page 값은 의미없음.
+      } = await getOrders({ page: 0 }); // 여기서 Page 값은 의미없음.
       setCountOfOrder(meta.totalCount);
     } catch (err) {
       pushToast({

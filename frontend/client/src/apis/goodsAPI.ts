@@ -9,13 +9,13 @@ export interface GetGoodsByCategoryProps {
 }
 
 // TODO: 상품 수가 충분해지면 페이지당 상품 수 조정
-const LIMIT = 5;
+const DEFAULT_GOODS_LIMIT = 5;
 
 export const getGoodsByCategory = async ({
   categoryName,
   page,
   flag,
-  limit = LIMIT,
+  limit = DEFAULT_GOODS_LIMIT,
 }: GetGoodsByCategoryProps): Promise<APIResponse<GoodsPaginationResult>> => {
   const res = await checkedFetch(
     `/api/goods/category?category=${categoryName}&page=${page}&flag=${flag}&limit=${limit}`,
@@ -36,7 +36,7 @@ export interface GetGoodsByKeywordProps {
 export const getGoodsByKeyword = async ({
   keyword,
   page,
-  limit = LIMIT,
+  limit = DEFAULT_GOODS_LIMIT,
 }: GetGoodsByKeywordProps): Promise<APIResponse<GoodsPaginationResult>> => {
   const res = await checkedFetch(`/api/goods/keyword?keyword=${keyword}&page=${page}&limit=${limit}`, {
     method: 'GET',
@@ -86,7 +86,7 @@ export interface GetMyWishGoodsProps {
 
 export const getMyWishGoods = async ({
   page,
-  limit = LIMIT,
+  limit = DEFAULT_GOODS_LIMIT,
 }: GetMyWishGoodsProps): Promise<APIResponse<GoodsPaginationResult>> => {
   const res = await checkedFetch(`/api/user/wish?limit=${limit}&page=${page}`, {
     method: 'GET',
