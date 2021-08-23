@@ -10,6 +10,12 @@ interface Props {
   onChangeAddress?: (address: AddressCore) => void;
 }
 
+export const MAX_NAME_LENGTH = 20;
+export const MAX_RECEIVER_LENGTH = 20;
+export const MAX_ZIP_CODE_LENGTH = 7;
+export const MAX_ADDRESS_LENGTH = 50;
+export const MAX_SUB_ADDRESS_LENGTH = 50;
+
 const AddressFormCore: React.FC<Props> = ({ address, onChangeAddress, disabled }) => {
   const { name, receiver, zipCode, address: mainAddress, subAddress, isDefault } = address;
 
@@ -19,7 +25,7 @@ const AddressFormCore: React.FC<Props> = ({ address, onChangeAddress, disabled }
         <Label>배송지 이름</Label>
         <Content>
           <Input
-            placeholder='최대 30자 입력 가능합니다.'
+            placeholder={`최대 ${MAX_NAME_LENGTH}자 입력 가능합니다.`}
             value={name}
             disabled={disabled}
             onChange={(event) => {
@@ -33,7 +39,7 @@ const AddressFormCore: React.FC<Props> = ({ address, onChangeAddress, disabled }
         <Label>받으실 분</Label>
         <Content>
           <Input
-            placeholder='최대 30자 입력 가능합니다.'
+            placeholder={`최대 ${MAX_RECEIVER_LENGTH}자 입력 가능합니다.`}
             value={receiver}
             disabled={disabled}
             onChange={(event) => {

@@ -21,6 +21,8 @@ import { submitOrder } from '@src/apis/orderAPI';
 import AfterOrder from './AfterOrder/AfterOrder';
 import { usePushToast } from '@src/lib/ToastProvider/ToastProvider';
 import withLoggedIn from '@src/utils/withLoggedIn';
+import withScrollToTopOnMount from '@src/utils/withScrollToTopOnMount';
+import composeComponent from '@src/utils/composeComponent';
 
 const NEED_ADDRESS_MESSAGE = '배송지를 입력해주세요!';
 const NEED_PAYMENT_MESSAGE = '결제수단을 선택해주세요!';
@@ -169,4 +171,4 @@ const FlexRowSpaceBetween = styled.div`
   justify-content: space-between;
 `;
 
-export default withLoggedIn(OrderPage);
+export default composeComponent(withLoggedIn, withScrollToTopOnMount)(OrderPage);
