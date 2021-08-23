@@ -157,6 +157,15 @@ const GoodsItemContainer = styled.div`
   padding: 10px;
   display: flex;
   flex-direction: column;
+  animation: goodsItemShowEffect 0.5s 0s;
+  @keyframes goodsItemShowEffect {
+    from {
+      opacity: 0;
+    }
+    to {
+      opacity: 1;
+    }
+  }
 `;
 
 interface GoodsEmptyImageProps {

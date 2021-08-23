@@ -2,60 +2,66 @@ import React, { useState } from 'react';
 import styled from 'styled-components';
 import { FaArrowUp, FaArrowDown } from 'react-icons/fa';
 import { AiFillCloseCircle } from 'react-icons/ai';
-import { ThumbnailGoods } from '@src/types/Goods';
+import { Goods } from '@src/types/Goods';
 
 interface SideBarProps {
-  goodsList?: ThumbnailGoods[];
+  goodsList?: Goods[];
+  onDeleteGoods?: (goodsId: number) => void;
+  onClickGoods?: (goodsId: number) => void;
 }
 
 export const COUNT_OF_SHOWN_GOODS = 3;
-// TODO: SideBar도 Intersection Observer
-const SideBar: React.FC<SideBarProps> = ({ goodsList }) => {
-  const [recentGoods, setRecentGoods] = useState(goodsList ?? []);
+
+const RecentGoodsView: React.FC<SideBarProps> = ({ goodsList = [], onDeleteGoods, onClickGoods }) => {
   const [recentGoodsIdx, setRecentGoodsIndx] = useState(0);
+
   const handleUpList = () => {
     if (recentGoodsIdx > 0) {
       setRecentGoodsIndx(recentGoodsIdx - 1);
     }
   };
+
   const handleDownList = () => {
-    if (recentGoodsIdx < recentGoods.length - 1) {
+    if (recentGoodsIdx < goodsList.length - 1) {
       setRecentGoodsIndx(recentGoodsIdx + 1);
     }
   };
 
-  const handleDeleteRecentGoods = (id: number) => {
-    // TODO: Delete API
-    console.log('Delete goods -' + id);
+  const handleDeleteRecentGoods = (e: React.MouseEvent, id: number) => {
+    onDeleteGoods && onDeleteGoods(id);
+    e.stopPropagation();
+  };
+
+  const handleClickRecentGoods = (e: React.MouseEvent, id: number) => {
+    onClickGoods && onClickGoods(id);
+    e.stopPropagation();
   };
 
   return (
-    <>
-      <SideBarContainer>
-        <ArrowButton onClick={handleUpList}>
-          <FaArrowUp />
-        </ArrowButton>
-        <Splitter />
-        <RecentGoodsList>
-          {goodsList?.slice(recentGoodsIdx, recentGoodsIdx + COUNT_OF_SHOWN_GOODS).map((goods) => (
-            <GoodsThumbnailBox key={goods.id}>
-              {goods.thumbnailUrl ? (
-                <GoodsThumbnail src={goods.thumbnailUrl} />
-              ) : (
-                <EmptyGoodsThumbnail>No Image</EmptyGoodsThumbnail>
-              )}
-              <DeleteGoods onClick={() => handleDeleteRecentGoods(goods.id)}>
-                <AiFillCloseCircle size={20} />
-              </DeleteGoods>
-            </GoodsThumbnailBox>
-          ))}
-        </RecentGoodsList>
-        <Splitter />
-        <ArrowButton onClick={handleDownList}>
-          <FaArrowDown />
-        </ArrowButton>
-      </SideBarContainer>
-    </>
+    <RecentGoodsViewContainer>
+      <ArrowButton onClick={handleUpList}>
+        <FaArrowUp />
+      </ArrowButton>
+      <Splitter />
+      <RecentGoodsList>
+        {goodsList?.slice(recentGoodsIdx, recentGoodsIdx + COUNT_OF_SHOWN_GOODS).map((goods) => (
+          <GoodsThumbnailBox key={goods.id} onClick={(e) => handleClickRecentGoods(e, goods.id)}>
+            {goods.thumbnailUrl ? (
+              <GoodsThumbnail src={goods.thumbnailUrl} />
+            ) : (
+              <EmptyGoodsThumbnail>No Image</EmptyGoodsThumbnail>
+            )}
+            <DeleteGoods onClick={(e) => handleDeleteRecentGoods(e, goods.id)}>
+              <AiFillCloseCircle size={20} />
+            </DeleteGoods>
+          </GoodsThumbnailBox>
+        ))}
+      </RecentGoodsList>
+      <Splitter />
+      <ArrowButton onClick={handleDownList}>
+        <FaArrowDown />
+      </ArrowButton>
+    </RecentGoodsViewContainer>
   );
 };
 
@@ -66,19 +72,7 @@ interface SideBarContainerProps {
   };
 }
 
-const SideBarContainer = styled.div<SideBarContainerProps>`
-  z-index: 99;
-  position: fixed;
-  right: 0px;
-  top: 50%;
-  padding: 0px 10px;
-  width: 140px;
-  height: 350px;
-  transform: translate(0, -50%);
-  border-width: 1px;
-  border-style: solid;
-  border-color: ${(props) => props.theme.line};
-  background-color: white;
+const RecentGoodsViewContainer = styled.div<SideBarContainerProps>`
   display: flex;
   flex-direction: column;
   justify-content: space-between;
@@ -91,6 +85,7 @@ const RecentGoodsList = styled.ul`
   justify-content: flex-start;
   align-items: center;
   overflow-y: scroll;
+  min-height: 300px;
   padding: 5px 0px;
 `;
 
@@ -133,9 +128,9 @@ const GoodsThumbnailBox = styled.div<GoodsThumbnailBoxProps>`
 `;
 
 const GoodsThumbnail = styled.img`
+  cursor: pointer;
   width: 100%;
   height: 100%;
-  pointer-events: none;
   object-fit: contain;
 `;
 
@@ -144,7 +139,9 @@ interface EmptyGoodsThumbnailProps {
     darkPrimary: string;
   };
 }
+
 const EmptyGoodsThumbnail = styled.div<EmptyGoodsThumbnailProps>`
+  cursor: pointer;
   width: 100%;
   height: 100%;
   display: flex;
@@ -161,6 +158,7 @@ interface DeleteGoodsProps {
   };
 }
 const DeleteGoods = styled.div<DeleteGoodsProps>`
+  cursor: pointer;
   position: absolute;
   right: -10px;
   top: -10px;
@@ -179,4 +177,4 @@ const DeleteGoods = styled.div<DeleteGoodsProps>`
     transform: scale(1.2);
   }
 `;
-export default SideBar;
+export default RecentGoodsView;

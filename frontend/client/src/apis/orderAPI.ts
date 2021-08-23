@@ -17,7 +17,7 @@ interface SubmitOrderBody {
 }
 
 export const submitOrder = async (orderData: SubmitOrderBody): Promise<boolean> => {
-  const res = await checkedFetch(`/api/order`, {
+  await checkedFetch(`/api/order`, {
     method: 'POST',
     credentials: 'include',
     body: JSON.stringify(orderData),
@@ -28,7 +28,17 @@ export const submitOrder = async (orderData: SubmitOrderBody): Promise<boolean> 
   return true;
 };
 
-export const getOrders = async (page: number, limit: number): Promise<APIResponse<OrderPaginationResult>> => {
+const DEFAULT_ORDER_LIMIT = 5;
+
+export interface GetOrdersProps {
+  page: number;
+  limit?: number;
+}
+
+export const getOrders = async ({
+  page,
+  limit = DEFAULT_ORDER_LIMIT,
+}: GetOrdersProps): Promise<APIResponse<OrderPaginationResult>> => {
   const res = await checkedFetch(`/api/order?page=${page}&limit=${limit}`, {
     method: 'GET',
     credentials: 'include',
