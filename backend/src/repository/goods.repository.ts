@@ -145,30 +145,54 @@ async function findSellCountAverage(): Promise<number> {
 }
 
 async function searchGoodsFromKeyword(keyword: string): Promise<SearchedGoodsFromKeyword[]> {
-  const goodsRepo = getRepository(Goods);
-  return await goodsRepo.find({
-    select: ['id', 'thumbnailUrl', 'title'],
-    where: { title: Like(`%${keyword}%`) },
-    take: AUTO_SEARCH_GOODS_NUMBER,
-  });
+  try {
+    const goodsRepo = getRepository(Goods);
+    return await goodsRepo.find({
+      select: ['id', 'thumbnailUrl', 'title'],
+      where: { title: Like(`%${keyword}%`) },
+      take: AUTO_SEARCH_GOODS_NUMBER,
+    });
+  } catch (err) {
+    console.error(err);
+    throw new DatabaseError(GOODS_DB_ERROR);
+  }
 }
 
 async function findStockById(goodsId: number): Promise<number> {
-  const goodsRepo = getRepository(Goods);
-  const goods = await goodsRepo.findOne({
-    select: ['stock'],
-    where: { id: goodsId },
-  });
-  return goods?.stock ?? 0;
+  try {
+    const goodsRepo = getRepository(Goods);
+    const goods = await goodsRepo.findOne({
+      select: ['stock'],
+      where: { id: goodsId },
+    });
+    return goods?.stock ?? 0;
+  } catch (err) {
+    console.error(err);
+    throw new DatabaseError(GOODS_DB_ERROR);
+  }
 }
 
 async function findBestSellingGoods(limit: number): Promise<Goods[]> {
-  return getRepository(Goods).find({
-    order: {
-      countOfSell: 'DESC',
-    },
-    take: limit,
-  });
+  try {
+    return getRepository(Goods).find({
+      order: {
+        countOfSell: 'DESC',
+      },
+      take: limit,
+    });
+  } catch (err) {
+    console.error(err);
+    throw new DatabaseError(GOODS_DB_ERROR);
+  }
+}
+
+async function plusGoodsViewById(goodsId: number): Promise<void> {
+  try {
+    await getRepository(Goods).increment({ id: goodsId }, 'view', 1);
+  } catch (err) {
+    console.error(err);
+    throw new DatabaseError(GOODS_DB_ERROR);
+  }
 }
 
 export const GoodsRepository = {
@@ -182,4 +206,5 @@ export const GoodsRepository = {
   findStockById,
   findBestSellingGoods,
   searchGoodsFromKeyword,
+  plusGoodsViewById,
 };

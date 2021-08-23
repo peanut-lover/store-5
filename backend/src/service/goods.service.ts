@@ -150,6 +150,7 @@ async function getDetailById(goodsId: number, userId?: number): Promise<DetailGo
   if (data && userId) {
     res.isWish = (await WishRepository.findWishCountByGoodsIdAndUserId(goodsId, userId)) > 0;
   }
+  await GoodsRepository.plusGoodsViewById(goodsId);
   return { ...res, goodsImgs: imgs };
 }
 
