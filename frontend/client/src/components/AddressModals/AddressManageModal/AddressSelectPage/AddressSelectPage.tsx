@@ -66,12 +66,10 @@ const AddressSelectPage: React.FC<Props> = ({
 const Wrapper = styled.div`
   display: flex;
   flex-direction: column;
-  /* min-height: 600px; */
   position: relative;
 `;
 
 const AddressInfoList = styled.div`
-  /* max-height: 400px; */
   overflow-y: scroll;
   margin-bottom: 20px;
 `;

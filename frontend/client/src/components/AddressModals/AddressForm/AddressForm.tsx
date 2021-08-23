@@ -48,20 +48,40 @@ const AddressForm: React.FC<Props> = ({ initialAddress, onSubmit, onCancel, disa
   const onClickSubmitButton = () => {
     const { name, receiver, zipCode, address: mainAddress, subAddress } = address;
 
-    if (!name) return pushToast({ text: NOTIFICATION_EMPTY_NAME, color: WARNING_COLOR });
-    if (name.length > MAX_NAME_LENGTH) return pushToast({ text: NOTIFICATION_TOO_LONG_NAME, color: WARNING_COLOR });
-    if (!receiver) return pushToast({ text: NOTIFICATION_EMPTY_RECEIVER, color: WARNING_COLOR });
-    if (receiver.length > MAX_RECEIVER_LENGTH)
+    if (!name) {
+      return pushToast({ text: NOTIFICATION_EMPTY_NAME, color: WARNING_COLOR });
+    }
+    if (name.length > MAX_NAME_LENGTH) {
+      return pushToast({ text: NOTIFICATION_TOO_LONG_NAME, color: WARNING_COLOR });
+    }
+
+    if (!receiver) {
+      return pushToast({ text: NOTIFICATION_EMPTY_RECEIVER, color: WARNING_COLOR });
+    }
+    if (receiver.length > MAX_RECEIVER_LENGTH) {
       return pushToast({ text: NOTIFICATION_TOO_LONG_RECEIVER, color: WARNING_COLOR });
-    if (!zipCode) return pushToast({ text: NOTIFICATION_EMPTY_ZIP_CODE, color: WARNING_COLOR });
-    if (zipCode.length > MAX_ZIP_CODE_LENGTH)
+    }
+
+    if (!zipCode) {
+      return pushToast({ text: NOTIFICATION_EMPTY_ZIP_CODE, color: WARNING_COLOR });
+    }
+    if (zipCode.length > MAX_ZIP_CODE_LENGTH) {
       return pushToast({ text: NOTIFICATION_TOO_LONG_ZIP_CODE, color: WARNING_COLOR });
-    if (!mainAddress) return pushToast({ text: NOTIFICATION_EMPTY_ADDRESS, color: WARNING_COLOR });
-    if (mainAddress.length > MAX_ADDRESS_LENGTH)
+    }
+
+    if (!mainAddress) {
+      return pushToast({ text: NOTIFICATION_EMPTY_ADDRESS, color: WARNING_COLOR });
+    }
+    if (mainAddress.length > MAX_ADDRESS_LENGTH) {
       return pushToast({ text: NOTIFICATION_TOO_LONG_ADDRESS, color: WARNING_COLOR });
-    if (!subAddress) return pushToast({ text: NOTIFICATION_EMPTY_SUB_ADDRESS, color: WARNING_COLOR });
-    if (subAddress.length > MAX_SUB_ADDRESS_LENGTH)
+    }
+
+    if (!subAddress) {
+      return pushToast({ text: NOTIFICATION_EMPTY_SUB_ADDRESS, color: WARNING_COLOR });
+    }
+    if (subAddress.length > MAX_SUB_ADDRESS_LENGTH) {
       return pushToast({ text: NOTIFICATION_TOO_LONG_SUB_ADDRESS, color: WARNING_COLOR });
+    }
 
     onSubmit?.(address);
   };
