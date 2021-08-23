@@ -1,7 +1,7 @@
 import { DeliveryInfoRepository } from './../repository/delivery.info.repository';
 import { INVALID_DATA } from './../constants/client.error.name';
 import { GoodsImg } from './../entity/GoodsImg';
-import { getConnection, MoreThan } from 'typeorm';
+import { getConnection } from 'typeorm';
 import { Goods } from '../entity/Goods';
 import { GoodsRepository } from '../repository/goods.repository';
 import {
@@ -15,12 +15,9 @@ import { FindAllProps, GoodsState } from '../types/Goods';
 import { getTotalPage, pagination } from '../utils/pagination';
 import { BadRequestError } from '../errors/client.error';
 import { GOODS_DB_ERROR } from '../constants/database.error.name';
-import { CategoryRepository } from '../repository/category.repository';
 import { CreateGoodsBody, GetAllGoodsQuery, UpdateGoodsBody } from '../types/request/goods.request';
-import { PaginationProps } from '../types/Pagination';
 import { isBoolean, isNumber } from '../utils/check.primitive.type';
 import { GoodsImgRepository } from '../repository/goods.img.repository';
-import { title } from 'process';
 
 export const GoodsStateMap: {
   [keyword: string]: GoodsState;

@@ -1,9 +1,7 @@
 import { Request, Response } from 'express';
 import { INVALID_DATA } from '../constants/client.error.name';
-import { Goods } from '../entity/Goods';
 import { BadRequestError } from '../errors/client.error';
 import { GoodsService } from '../service/goods.service';
-import { FindAllProps, GoodsState } from '../types/Goods';
 import {
   CreateGoodsBody,
   CreateGoodsRequest,
