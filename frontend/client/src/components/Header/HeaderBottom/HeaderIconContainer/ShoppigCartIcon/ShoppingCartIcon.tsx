@@ -29,6 +29,11 @@ const ShoppingCartIcon = () => {
   }, [setOpenLoginModal]);
 
   useEffect(() => {
+    if (!userRecoil.isLoggedIn) {
+      setCartGoodsList([]);
+      return;
+    }
+
     const fetchCarts = async () => {
       const { result } = await getCarts();
       setCartGoodsList(result);
