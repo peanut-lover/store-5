@@ -16,10 +16,13 @@ const TopSellingGoodsList = () => {
   }, []);
   return (
     <TopSellingContainer>
-      <TopSellingTitle bgcolor={theme.greenColor}>Top Selling Goods</TopSellingTitle>
+      <TopSellingTitleContainer>
+        <TopSellingTitle bgcolor={theme.greenColor}>Top Selling Goods</TopSellingTitle>
+        <TopSellingTitle bgcolor={theme.greenColor}>판매량</TopSellingTitle>
+      </TopSellingTitleContainer>
       <GoodsListContainer>
         {goodsList.map((item, i) => (
-          <TopSellingGoods key={i} item={item} />
+          <TopSellingGoods key={i} item={item} rank={i} />
         ))}
       </GoodsListContainer>
     </TopSellingContainer>
@@ -32,14 +35,15 @@ const TopSellingContainer = styled('div')`
   width: 30%;
   height: 50%;
   padding: 16px;
-  overflow: auto;
 `;
-
+const TopSellingTitleContainer = styled('div')`
+  display: flex;
+  justify-content: space-between;
+`;
 const GoodsListContainer = styled('div')`
   position: relative;
   display: flex;
   flex-direction: column;
-  overflow: auto;
 `;
 
 const TopSellingTitle = styled('span')<{ bgcolor: string }>`
