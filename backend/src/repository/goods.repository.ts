@@ -195,6 +195,10 @@ async function increaseGoodsViewById(goodsId: number): Promise<void> {
   }
 }
 
+async function decrementStock(id: number, amount: number) {
+  return await getRepository(Goods).decrement({ id }, 'stock', amount);
+}
+
 export const GoodsRepository = {
   findGoodsById,
   findGoodsDetailById,
@@ -207,4 +211,5 @@ export const GoodsRepository = {
   findBestSellingGoods,
   searchGoodsFromKeyword,
   increaseGoodsViewById,
+  decrementStock,
 };

@@ -13,6 +13,7 @@ import { getTotalPage, pagination } from '../utils/pagination';
 import { PaginationProps } from '../types/Pagination';
 import { PaymentRepository } from '../repository/payment.repository';
 import CartService from './cart.service';
+import { GoodsService } from './goods.service';
 
 async function getOwnOrdersPagination(
   { page, limit }: GetAllOrderByUserIdProps,
@@ -66,7 +67,15 @@ async function getAllOrdersPagination({ page, limit }: GetAllOrderByUserIdProps)
 async function createOrder(userId: number, body: CreateOrderBody): Promise<Order> {
   const validateResult = await validateCreateOrder(body);
   if (!validateResult) throw new BadRequestError(INVALID_DATA);
+
   const { orderMemo, receiver, zipCode, address, subAddress, paymentId, goodsList, cartIds } = body;
+
+  // 재고 변경
+  for (const { id, amount } of goodsList) {
+    await GoodsService.decrementStock(id, amount);
+  }
+
+  // 주문 생성
   const order = await OrderListRepository.createOrder(userId, {
     orderMemo,
     receiver,
@@ -76,9 +85,10 @@ async function createOrder(userId: number, body: CreateOrderBody): Promise<Order
     paymentId,
   });
   await Promise.all(goodsList.map((orderedItem) => createOrderItem(orderedItem, order.id)));
-  if (cartIds) {
-    await CartService.deleteCarts(userId, cartIds);
-  }
+
+  // 장바구니 제거
+  if (cartIds) await CartService.deleteCarts(userId, cartIds);
+
   return order;
 }
 
@@ -100,6 +110,13 @@ async function validateCreateOrder(body: CreateOrderBody): Promise<boolean> {
   if (!orderMemo || !receiver || !zipCode || !address || !subAddress || !paymentId || !goodsList) return false;
   const payment = await PaymentRepository.getPaymentById(paymentId);
   if (!payment) return false;
+
+  // 재고 검사
+  for (const { id, amount } of goodsList) {
+    const stock = await GoodsService.getGoodsStockById(id);
+    if (stock < amount) return false;
+  }
+
   return true;
 }
 

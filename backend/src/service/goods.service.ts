@@ -357,6 +357,10 @@ async function checkValidateCreateGoods(body: CreateGoodsBody): Promise<void> {
   if (!foundDeliveryInfo) throw new BadRequestError(INVALID_DELIVERY_INFO);
 }
 
+async function decrementStock(id: number, amount: number) {
+  await GoodsRepository.decrementStock(id, amount);
+}
+
 export const GoodsService = {
   createGoods,
   updateGoods,
@@ -367,4 +371,5 @@ export const GoodsService = {
   getGoodsStockById,
   getGoodsImgById,
   getBestSellingGoodsForDashboard,
+  decrementStock,
 };
