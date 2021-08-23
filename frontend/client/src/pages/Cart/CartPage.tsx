@@ -62,7 +62,7 @@ const CartPage: React.FC = () => {
 
   const handleClickOrderButton = () => {
     const filteredCartGoodsList = cartGoodsList.filter((cartGoods) => cartGoods.isSelected);
-    const cartIds = cartGoodsList.map((cartGoods) => cartGoods.id);
+    const cartIds = filteredCartGoodsList.map((cartGoods) => cartGoods.id);
     pushToOrderPage(filteredCartGoodsList, cartIds);
   };
 
