@@ -14,7 +14,6 @@ const NavItem: React.FC<Props> = ({ name, to }) => {
 
   useEffect(() => {
     setIsSelect(to === location);
-    console.log(location);
   }, [location]);
 
   return (
