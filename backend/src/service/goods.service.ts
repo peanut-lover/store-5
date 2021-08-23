@@ -1,7 +1,7 @@
 import { DeliveryInfoRepository } from './../repository/delivery.info.repository';
 import { INVALID_DATA } from './../constants/client.error.name';
 import { GoodsImg } from './../entity/GoodsImg';
-import { getConnection, MoreThan } from 'typeorm';
+import { getConnection } from 'typeorm';
 import { Goods } from '../entity/Goods';
 import { GoodsRepository } from '../repository/goods.repository';
 import {
@@ -11,24 +11,31 @@ import {
   TaggedGoodsType,
 } from '../types/response/goods.response';
 import { WishRepository } from '../repository/wish.repository';
-import {
-  FindAllCategoryProps,
-  FindAllColumnNameProps,
-  FindAllKeywordProps,
-  FindAllUserIdProps,
-  GetAllByAdminProps,
-  GetAllByCategoryProps,
-  GetAllByKeywordProps,
-  GetAllByUserIdProps,
-} from '../types/Goods';
+import { FindAllProps, GoodsState } from '../types/Goods';
 import { getTotalPage, pagination } from '../utils/pagination';
 import { BadRequestError } from '../errors/client.error';
 import { GOODS_DB_ERROR } from '../constants/database.error.name';
-import { CategoryRepository } from '../repository/category.repository';
-import { GoodsStateMap } from '../controller/goods.controller';
-import { CreateGoodsBody } from '../types/request/goods.request';
-import { PaginationProps } from '../types/Pagination';
+import { CreateGoodsBody, GetAllGoodsQuery, UpdateGoodsBody } from '../types/request/goods.request';
 import { isBoolean, isNumber } from '../utils/check.primitive.type';
+import { GoodsImgRepository } from '../repository/goods.img.repository';
+
+export const GoodsStateMap: {
+  [keyword: string]: GoodsState;
+} = {
+  sale: 'S',
+  temp: 'T',
+  destroy: 'D',
+};
+
+// 'best' = 인기, 'low' = 낮은 가격, 'high' = 높은 가격, 'latest' = 최신순
+const GoodsFlag: {
+  [keyword: string]: keyof Goods;
+} = {
+  best: 'countOfSell',
+  low: 'price',
+  high: 'price',
+  latest: 'createdAt',
+};
 
 const INVALID_DISCOUNT_RATE = '할인율은 0~99% 범위 내에서 가능합니다.';
 const INVALID_DELIVERY_INFO = '해당 배송 정보는 없는 정보입니다.';
@@ -78,6 +85,60 @@ async function createGoods(body: CreateGoodsBody, uploadFileUrls: string[]): Pro
   });
 }
 
+async function updateGoods(body: UpdateGoodsBody, goodsId: number, uploadFileUrls: string[]): Promise<Goods> {
+  await checkValidateCreateGoods(body);
+  const { title, category, isGreen, price, stock, state, discountRate, deliveryInfo, oldImages } = body;
+
+  if (
+    !title ||
+    isGreen === undefined ||
+    isNaN(body.stock) ||
+    !state ||
+    isNaN(body.price) ||
+    isNaN(body.category) ||
+    isNaN(body.deliveryInfo)
+  ) {
+    throw new BadRequestError(INVALID_DATA);
+  }
+
+  return await getConnection().transaction(async (transactionalEntityManager) => {
+    const goods = await transactionalEntityManager.save(Goods, {
+      id: goodsId,
+      title,
+      price,
+      stock,
+      discountRate,
+      state,
+      isGreen,
+      category: {
+        id: category,
+      },
+      deliveryInfo: {
+        id: deliveryInfo,
+      },
+      thumbnailUrl: oldImages ? oldImages[0] : uploadFileUrls[0],
+    });
+
+    if (oldImages) {
+      const imgIds = oldImages ? oldImages.split(',').map((img) => Number(img)) : [];
+      for (const id of imgIds) {
+        if (isNaN(id)) throw new BadRequestError(INVALID_DATA);
+      }
+      await GoodsImgRepository.deleteGoodsImgByNotInImgIds(transactionalEntityManager, goodsId, imgIds);
+    } else {
+      await GoodsImgRepository.deleteGoodsImgByGoodsId(transactionalEntityManager, goodsId);
+    }
+
+    await Promise.all(
+      uploadFileUrls.map(
+        async (url) => await transactionalEntityManager.save(GoodsImg, { goods: { id: goods.id }, url })
+      )
+    );
+
+    return goods;
+  });
+}
+
 // 비회원은 isWish를 확인하지 않습니다.
 async function getDetailById(goodsId: number, userId?: number): Promise<DetailGoodsResponse> {
   const data = await GoodsRepository.findGoodsDetailById(goodsId);
@@ -90,81 +151,83 @@ async function getDetailById(goodsId: number, userId?: number): Promise<DetailGo
   return { ...res, goodsImgs: imgs };
 }
 
-async function getAllSaleGoodsByCategory({
-  categoryName,
-  page,
-  flag,
-  limit,
-  userId,
-}: GetAllByCategoryProps): Promise<GoodsListResponse> {
-  // TODO: 함수로 빼도 될듯?
-  const category = await CategoryRepository.getCategoryByName(categoryName);
-  if (!category) throw new BadRequestError(GOODS_DB_ERROR);
-  const totalCount = await GoodsRepository.findTotalCountByCategory(category.id);
-  page = Math.min(getTotalPage(totalCount, limit), page);
-  const option: FindAllCategoryProps = setAllByCategoryOption(category.id, page, limit, flag);
-  const wishSet = userId && new Set(await WishRepository.findWishByUserId(userId));
-  const goodsSellCountAverage = await GoodsRepository.findSellCountAverage();
-  const goodsList = await GoodsRepository.findAllByCategory(option);
-  if (!goodsList) throw new BadRequestError(GOODS_DB_ERROR);
+async function getAllGoodsByUserId(page: number, limit: number, userId: number): Promise<GoodsListResponse> {
+  if (isNaN(page) || isNaN(limit)) {
+    throw new BadRequestError(INVALID_DATA);
+  }
 
-  goodsList.forEach((goods) => {
-    if (wishSet) goods.isWish = wishSet.has(goods.id);
-    goods.isBest = goodsSellCountAverage < goods.countOfSell;
-    goods.isNew = isNewGoods(goods.createdAt);
-  });
-
-  return {
-    meta: getListGoodsMeta(page, limit, totalCount),
-    goodsList,
-  };
-}
-
-async function getAllSaleGoodsByKeyword({
-  keyword,
-  page,
-  limit,
-  userId,
-}: GetAllByKeywordProps): Promise<GoodsListResponse> {
-  const totalCount = await GoodsRepository.findTotalCountByKeyword(keyword);
-  page = Math.min(getTotalPage(totalCount, limit), page);
-
-  const option: FindAllKeywordProps = {
-    keyword,
-    offset: pagination.calculateOffset(page, limit),
-    limit,
-  };
-
-  const wishSet = userId && new Set(await WishRepository.findWishByUserId(userId));
-  const goodsSellCountAverage = await GoodsRepository.findSellCountAverage();
-  const goodsList = await GoodsRepository.findAllByKeyword(option);
-  if (!goodsList) throw new BadRequestError(GOODS_DB_ERROR);
-
-  goodsList.forEach((goods) => {
-    if (wishSet) goods.isWish = wishSet.has(goods.id);
-    goods.isBest = goodsSellCountAverage < goods.countOfSell;
-    goods.isNew = isNewGoods(goods.createdAt);
-  });
-
-  return {
-    meta: getListGoodsMeta(page, limit, totalCount),
-    goodsList,
-  };
-}
-
-async function getAllGoodsByUserId({ page, limit, userId }: GetAllByUserIdProps): Promise<GoodsListResponse> {
   const totalCount = await WishRepository.findWishCountByUserId(userId);
   page = Math.min(getTotalPage(totalCount, limit), page);
 
-  const option: FindAllUserIdProps = {
+  const option: FindAllProps = {
     offset: pagination.calculateOffset(page, limit),
     limit,
     userId,
+    order: 'createdAt',
+    sort: 'DESC',
+    // 찜하기한 상품이므로 재고가 0개인 경우도 보입니다.
+    stock: -1,
   };
 
   const wishSet = new Set(await WishRepository.findWishByUserId(userId));
   const goodsSellCountAverage = await GoodsRepository.findSellCountAverage();
   const goodsList = await GoodsRepository.findAllWishByUserId(option);
+  if (!goodsList) throw new BadRequestError(GOODS_DB_ERROR);
+
+  goodsList.forEach((goods) => {
+    if (wishSet) goods.isWish = wishSet.has(goods.id);
+    goods.isBest = goodsSellCountAverage < goods.countOfSell;
+    goods.isNew = isNewGoods(goods.createdAt);
+  });
+
+  return {
+    meta: getListGoodsMeta(page, limit, totalCount),
+    goodsList,
+  };
+}
+
+async function getGoodsByOption(
+  query: GetAllGoodsQuery,
+  isAdmin: boolean,
+  userId?: number
+): Promise<GoodsListResponse> {
+  const { page, limit, flag = 'latest', category, keyword: title } = query;
+  if (isNaN(page) || isNaN(limit) || !flag || (category && isNaN(category))) {
+    throw new BadRequestError(INVALID_DATA);
+  }
+
+  const GoodsFlag: {
+    [keyword: string]: keyof Goods;
+  } = {
+    best: 'countOfSell',
+    low: 'price',
+    high: 'price',
+    latest: 'createdAt',
+  };
+
+  const order = GoodsFlag[flag];
+  const sort = flag === 'low' ? 'ASC' : 'DESC';
+  // 관리자는 재고가 0인 상품도 조회 가능
+  const stock = isAdmin ? -1 : 0;
+  const state = isAdmin ? GoodsStateMap.sale : null;
+  const totalCount = await GoodsRepository.findTotalCountByOption({ stock, state, title, category });
+  const newPage = Math.min(getTotalPage(totalCount, limit), page);
+
+  const option: FindAllProps = {
+    offset: pagination.calculateOffset(newPage, limit),
+    limit,
+    stock,
+    order,
+    sort,
+    category,
+    state,
+    title,
+  };
+
+  const wishSet = userId && new Set(await WishRepository.findWishByUserId(userId));
+  const goodsSellCountAverage = await GoodsRepository.findSellCountAverage();
+  const goodsList = await GoodsRepository.findAllByOption(option);
+
   if (!goodsList) throw new BadRequestError(GOODS_DB_ERROR);
 
   goodsList.forEach((goods) => {
@@ -185,22 +248,31 @@ async function getMainGoodsListMap(userId?: number): Promise<{
   latestGoodsList: TaggedGoodsType[];
   discountGoodsList: TaggedGoodsType[];
 }> {
-  const bestProps: FindAllColumnNameProps = {
-    columnName: 'countOfSell',
+  const bestProps: FindAllProps = {
+    order: 'countOfSell',
+    offset: 0,
+    sort: 'ASC',
     limit: 4,
+    stock: 0,
   };
-  const latestProps: FindAllColumnNameProps = {
-    columnName: 'createdAt',
+  const latestProps: FindAllProps = {
+    order: 'createdAt',
+    offset: 0,
+    sort: 'ASC',
     limit: 8,
+    stock: 0,
   };
-  const discountProps: FindAllColumnNameProps = {
-    columnName: 'discountRate',
+  const discountProps: FindAllProps = {
+    order: 'discountRate',
+    offset: 0,
+    sort: 'ASC',
     limit: 8,
+    stock: 0,
   };
 
-  const bestGoodsList = await GoodsRepository.findAllByColumnName(bestProps);
-  const latestGoodsList = await GoodsRepository.findAllByColumnName(latestProps);
-  const discountGoodsList = await GoodsRepository.findAllByColumnName(discountProps);
+  const bestGoodsList = await GoodsRepository.findAllByOption(bestProps);
+  const latestGoodsList = await GoodsRepository.findAllByOption(latestProps);
+  const discountGoodsList = await GoodsRepository.findAllByOption(discountProps);
   if (userId) {
     const wishSet = new Set(await WishRepository.findWishByUserId(userId));
     if (wishSet) {
@@ -216,59 +288,21 @@ async function getMainGoodsListMap(userId?: number): Promise<{
   };
 }
 
-// TODO: keyword, order, sort
-async function getGoodsForAdmin(page: number, limit: number, keyword?: string, order?: string, sort?: string) {
-  const totalCount = await GoodsRepository.findTotalCount();
-  const newPage = Math.min(getTotalPage(totalCount, limit), page);
-
-  const option: PaginationProps = {
-    offset: pagination.calculateOffset(newPage, limit),
-    limit,
-  };
-  const goodsList = await GoodsRepository.findAllByOption(option);
-  if (!goodsList) throw new BadRequestError(GOODS_DB_ERROR);
-
-  return {
-    meta: getListGoodsMeta(newPage, limit, totalCount),
-    goodsList,
-  };
-}
-
 async function getGoodsStockById(goodsId: number): Promise<number> {
-  const stock = await GoodsRepository.findStockById(goodsId);
-  return stock;
+  return await GoodsRepository.findStockById(goodsId);
 }
 
-function setAllByCategoryOption(category: number, page: number, limit: number, flag: string): FindAllCategoryProps {
-  return {
-    category: category,
-    offset: pagination.calculateOffset(page, limit),
-    limit: limit,
-    where: {
-      state: GoodsStateMap.sale,
-      stock: MoreThan(0),
-    },
-    order: getCategoryByFlag(flag),
-    sort: getSortByFlag(flag),
-  };
-}
-
-function getCategoryByFlag(flag: string): keyof Goods {
-  switch (flag) {
-    case 'low':
-    case 'high':
-      return 'price';
-    case 'best':
-      return 'countOfSell';
-    case 'latest':
-      return 'createdAt';
-    default:
-      return 'createdAt';
-  }
-}
-
-function getSortByFlag(flag: string): 'DESC' | 'ASC' {
-  return flag === 'low' ? 'ASC' : 'DESC';
+async function getGoodsImgById(goodsId: number): Promise<
+  {
+    url: string;
+    id: number;
+  }[]
+> {
+  const goodsImgs = await GoodsImgRepository.findGoodsImgById(goodsId);
+  return goodsImgs.map((goodsImg) => ({
+    id: goodsImg.id,
+    url: goodsImg.url,
+  }));
 }
 
 function isNewGoods(date: Date): boolean {
@@ -305,11 +339,11 @@ async function checkValidateCreateGoods(body: CreateGoodsBody): Promise<void> {
 
 export const GoodsService = {
   createGoods,
+  updateGoods,
   getDetailById,
-  getGoodsForAdmin,
-  getAllSaleGoodsByKeyword,
-  getAllSaleGoodsByCategory,
+  getGoodsByOption,
   getAllGoodsByUserId,
   getMainGoodsListMap,
   getGoodsStockById,
+  getGoodsImgById,
 };

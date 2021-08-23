@@ -1,21 +1,30 @@
 import { createCart } from '@src/apis/cartAPI';
 import { getGoodsDetail, getGoodsStockCount } from '@src/apis/goodsAPI';
+import useUserState from '@src/hooks/useUserState';
 import { usePushHistory } from '@src/lib/CustomRouter';
+import { usePushToast } from '@src/lib/ToastProvider/ToastProvider';
 import MainImage from '@src/pages/GoodsDetail/GoodsImageSection/Mainimage/MainImage';
 import GoodsInfo from '@src/pages/GoodsDetail/GoodsInfo/GoodsInfo';
 import GoodsAmount from '@src/pages/GoodsDetail/GoodsInteractive/GoodsAmount/GoodsAmount';
-import GoodsInteractive from '@src/pages/GoodsDetail/GoodsInteractive/GoodsInteractive';
+import theme from '@src/theme/theme';
 import { DetailGoods } from '@src/types/Goods';
 import React, { useCallback, useEffect, useState } from 'react';
 import styled from 'styled-components';
 
 interface Props {
   goodsId: number;
+  onClose: () => void;
 }
 
-// TODO: 에러 및 구매 불가 안내 (토스트 팝업)
-const CartForm: React.FC<Props> = ({ goodsId }) => {
+const NEED_LOGIN = '로그인이 필요합니다!';
+const ERROR_SERVER_GOODS = '서버 문제로 상품 정보 조회에 실패하였습니다!';
+const ERROR_SERVER_STOCK = '서버 문제로 재고 조회에 실패하였습니다!';
+const ERROR_SERVER_CART = '서버 문제로 장바구니 등록에 실패하였습니다!';
+
+const CartForm: React.FC<Props> = ({ goodsId, onClose }) => {
   const push = usePushHistory();
+  const [user] = useUserState();
+  const pushToast = usePushToast();
 
   const [goods, setGoods] = useState<DetailGoods | null>(null);
   const [isOver, setIsOver] = useState(false);
@@ -27,7 +36,8 @@ const CartForm: React.FC<Props> = ({ goodsId }) => {
       const data = await getGoodsDetail(goodsId);
       setGoods(data.result);
     } catch (e) {
-      setGoods(null);
+      onClose();
+      pushToast({ text: ERROR_SERVER_GOODS, color: theme.error });
     }
   };
 
@@ -38,11 +48,15 @@ const CartForm: React.FC<Props> = ({ goodsId }) => {
       if (stock < amount) setIsOver(true);
       else setIsOver(false);
     } catch (e) {
-      setIsOver(false);
+      setIsOver(true);
+      pushToast({ text: ERROR_SERVER_STOCK, color: theme.error });
     }
   };
 
   const addToCart = useCallback(async () => {
+    if (!user || !user.isLoggedIn) {
+      return pushToast({ text: NEED_LOGIN, color: theme.error });
+    }
     if (isOver || disabled || amount === 0) return;
     setDisabled(true);
     try {
@@ -50,6 +64,7 @@ const CartForm: React.FC<Props> = ({ goodsId }) => {
       push('/cart');
     } catch (error) {
       console.log(error);
+      pushToast({ text: ERROR_SERVER_CART, color: theme.error });
     } finally {
       setDisabled(false);
     }
@@ -60,7 +75,7 @@ const CartForm: React.FC<Props> = ({ goodsId }) => {
   }, [goodsId]);
 
   useEffect(() => {
-    fetchCheckStock();
+    goods && fetchCheckStock();
   }, [amount]);
 
   if (!goods) return null;
@@ -79,11 +94,17 @@ const CartForm: React.FC<Props> = ({ goodsId }) => {
           isOver={isOver}
           setAmount={setAmount}
         />
-        <CartButton onClick={addToCart}>장바구니 담기</CartButton>
+        <CartButton clickable={!isOver && amount > 0} onClick={addToCart}>
+          장바구니 담기
+        </CartButton>
       </GoodsContentContainer>
     </CartFormContainer>
   );
 };
+
+interface ButtonProps {
+  clickable: boolean;
+}
 
 const CartFormContainer = styled.div`
   position: relative;
@@ -99,18 +120,22 @@ const CartFormContainer = styled.div`
 
 const GoodsContentContainer = styled.div``;
 
-const CartButton = styled.div`
+const CartButton = styled.div<ButtonProps>`
   text-align: center;
   width: 100%;
   height: 3rem;
   border: 1px solid #bbb;
   background-color: #fff;
   font-weight: 600;
-  cursor: pointer;
   font-size: 24px;
   display: flex;
   justify-content: center;
   align-items: center;
+  opacity: ${({ clickable }) => (clickable ? '0.9' : '0.5')};
+  ${({ clickable }) => clickable && 'cursor: pointer;'}
+  &:hover {
+    ${({ clickable }) => clickable && 'opacity:1;'}
+  }
 `;
 
 export default CartForm;

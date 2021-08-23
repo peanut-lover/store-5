@@ -1,14 +1,22 @@
 import { styled } from '@src/lib/CustomStyledComponent';
 import ImageIconButton from '@src/portal/GoodsUploadModal/GoodsImageUploader/ImageIconButton/ImageIconButton';
+import { GoodsImg } from '@src/types/GoodsImg';
 import React, { useCallback, useRef, useState } from 'react';
 import GoodsImagePreviews from './GoodsImagePreviews/GoodsImagePreviews';
 
 interface Props {
   onHandleUpdateFiles: (newFiles: File[]) => void;
   onHandleDeleteFile: (index: number) => void;
+  oldImages: GoodsImg[];
+  handleDeleteOldImage: (index: number) => void;
 }
 
-const GoodsImageUploader: React.FC<Props> = ({ onHandleUpdateFiles, onHandleDeleteFile }) => {
+const GoodsImageUploader: React.FC<Props> = ({
+  onHandleUpdateFiles,
+  onHandleDeleteFile,
+  oldImages,
+  handleDeleteOldImage,
+}) => {
   const [previewImages, setPreviewImages] = useState<string[]>([]);
   const imageInputRef = useRef<HTMLInputElement>(null);
 
@@ -38,10 +46,16 @@ const GoodsImageUploader: React.FC<Props> = ({ onHandleUpdateFiles, onHandleDele
     },
     [onHandleDeleteFile, setPreviewImages]
   );
+
   return (
     <ImageUploaderContainer>
       <ImageIconButton onClick={handleImageUpload} />
-      <GoodsImagePreviews previewImages={previewImages} onDeleteImage={handleDeleteImage} />
+      <GoodsImagePreviews
+        previewImages={previewImages}
+        onDeleteImage={handleDeleteImage}
+        oldImages={oldImages}
+        handleDeleteOldImage={handleDeleteOldImage}
+      />
       <input ref={imageInputRef} type='file' accept='.jpg, .png, .jpeg' hidden multiple onChange={handleAddImages} />
     </ImageUploaderContainer>
   );

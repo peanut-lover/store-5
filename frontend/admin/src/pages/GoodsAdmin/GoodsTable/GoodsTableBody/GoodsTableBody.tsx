@@ -5,13 +5,14 @@ import React from 'react';
 
 interface Props {
   goodsList: GoodsItem[];
+  handleUpdateGoods: (goods: GoodsItem) => void;
 }
 
-const GoodsTableBody: React.FC<Props> = ({ goodsList }) => {
+const GoodsTableBody: React.FC<Props> = ({ goodsList, handleUpdateGoods }) => {
   return (
     <GoodsTableBodyContainer>
       {goodsList.map((goods) => (
-        <GoodsTableRow goods={goods} key={goods.id} />
+        <GoodsTableRow goods={goods} key={goods.id} handleUpdateGoods={handleUpdateGoods} />
       ))}
     </GoodsTableBodyContainer>
   );

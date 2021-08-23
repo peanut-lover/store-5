@@ -17,7 +17,6 @@ const CartModal: React.FC<Props> = ({ onClose, goodsId }) => {
     if (modalRef.current && modalRef.current.contains(el)) return;
     onClose();
   }, []);
-
   useEffect(() => {
     document.addEventListener('click', handleClose);
     return () => {
@@ -32,7 +31,7 @@ const CartModal: React.FC<Props> = ({ onClose, goodsId }) => {
           <CloseButton onClick={onClose}>
             <FaTimes />
           </CloseButton>
-          <CartForm goodsId={goodsId} />
+          <CartForm goodsId={goodsId} onClose={onClose} />
         </FormContainer>
       </ModalContainer>
     </Portal>

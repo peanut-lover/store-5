@@ -16,12 +16,20 @@ router.post(
   wrapAsync(GoodsController.createGoods)
 );
 
+router.patch(
+  '/:id',
+  checkNumberInParams,
+  uploadProductFiles.array(GoodsImageFieldName, MAX_UPLOAD_FILE),
+  wrapAsync(GoodsController.updateGoods)
+);
+
 // TODO: isAuthenticate middleware
-router.get('/admin', wrapAsync(GoodsController.getGoodsForAdmin));
-router.get('/category', wrapAsync(GoodsController.getAllGoodsCategory));
-router.get('/keyword', wrapAsync(GoodsController.getAllSaleGoodsByKeyword));
+router.get('/admin', wrapAsync(GoodsController.getAllGoodsForAdmin));
+router.get('/category', wrapAsync(GoodsController.getAllGoodsForClient));
+router.get('/keyword', wrapAsync(GoodsController.getAllGoodsForClient));
 router.get('/main', wrapAsync(GoodsController.getMainGoodsListMap));
 router.get('/:id/stock', checkNumberInParams, wrapAsync(GoodsController.getGoodsStockById));
+router.get('/:id/img', checkNumberInParams, wrapAsync(GoodsController.getGoodsImgById));
 router.get('/:id', checkNumberInParams, wrapAsync(GoodsController.getGoodsDetail));
 
 export default router;

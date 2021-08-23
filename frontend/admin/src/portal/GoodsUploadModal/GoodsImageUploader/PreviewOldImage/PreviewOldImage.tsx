@@ -4,22 +4,22 @@ import React from 'react';
 import { FaTimes } from 'react-icons/fa';
 
 interface Props {
+  id: number;
   index: number;
   url: string;
-  isEmptyOldImage: boolean;
-  onDeleteImage: (index: number) => void;
+  onDeleteOldImage: (index: number) => void;
 }
-const PreviewImage: React.FC<Props> = ({ index, url, onDeleteImage, isEmptyOldImage }) => (
-  <PreviewImageContainer key={index}>
-    {isEmptyOldImage && index === 0 && <Thumbnail bgcolor={theme.greenColor}>썸네일</Thumbnail>}
-    <ImageDeleteButton onClick={() => onDeleteImage(index)} bgcolor={theme.greenColor}>
+const PreviewOldImage: React.FC<Props> = ({ id, index, url, onDeleteOldImage }) => (
+  <PreviewOldImageContainer>
+    {index === 0 && <Thumbnail bgcolor={theme.greenColor}>썸네일</Thumbnail>}
+    <ImageDeleteButton onClick={() => onDeleteOldImage(id)} bgcolor={theme.greenColor}>
       <FaTimes />
     </ImageDeleteButton>
-    <PreviewImageItem src={url} />
-  </PreviewImageContainer>
+    <PreviewOldImageItem src={url} />
+  </PreviewOldImageContainer>
 );
 
-const PreviewImageContainer = styled('div')`
+const PreviewOldImageContainer = styled('div')`
   position: relative;
 `;
 
@@ -39,19 +39,19 @@ const ImageDeleteButton = styled('button')<{ bgcolor: string }>`
   position: absolute;
   top: 16px;
   right: 12px;
-  font-size: 1.2em;
-  border-radius: 50%;
-  border: none;
   width: 32px;
   height: 32px;
   display: flex;
   align-items: center;
+  font-size: 1.2em;
+  border-radius: 50%;
+  border: none;
   background-color: ${(props) => props.bgcolor};
   color: #fff;
   cursor: pointer;
 `;
 
-const PreviewImageItem = styled('img')`
+const PreviewOldImageItem = styled('img')`
   box-sizing: border-box;
   height: 280px;
   width: 280px;
@@ -61,4 +61,4 @@ const PreviewImageItem = styled('img')`
   object-fit: cover;
 `;
 
-export default PreviewImage;
+export default PreviewOldImage;

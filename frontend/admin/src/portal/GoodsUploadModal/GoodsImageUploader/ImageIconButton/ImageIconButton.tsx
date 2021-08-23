@@ -18,9 +18,11 @@ const ImageIconButton: React.FC<Props> = ({ onClick }) => {
 const Button = styled('div')`
   display: flex;
   flex-direction: column;
-  padding: 25px;
+  align-items: center;
+  flex-shrink: 0;
+  width: 160px;
+  padding: 15px;
   color: #2ac1bc;
-  margin-right: 25px;
 `;
 
 const Span = styled('span')`

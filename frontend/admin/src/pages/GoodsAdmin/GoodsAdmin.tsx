@@ -17,7 +17,7 @@ const GoodsAdmin = () => {
           상품 등록
         </AddButton>
       </GoodsAdminHeader>
-      <GoodsTable />
+      <GoodsTable openUploadModal={openUploadModal} />
       {openUploadModal && <GoodsUploadModal onClose={() => setOpenUploadModal(false)} />}
     </GoodsAdminContainer>
   );
