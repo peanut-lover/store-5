@@ -4,13 +4,13 @@ import { MainGoodsListResult, ThumbnailGoods } from '@src/types/Goods';
 import GoodsSection from '@src/components/GoodsSection/GoodsSection';
 import PromotionCarousel from '@src/components/PromotionCarousel/PromotionCarousel';
 import { Promotion } from '@src/types/Promotion';
-import Footer from '@src/components/Footer/Footer';
-import RecentGoodsView from './SideBar/RecentGoodsView';
 import { getMainGoodsListMap } from '@src/apis/goodsAPI';
 import { getPromotions } from '@src/apis/promotionAPI';
 import { useRecoilValue } from 'recoil';
 import { userState } from '@src/recoil/userState';
-import SideBar from '@src/pages/Main/SideBar/SideBar';
+
+import SideBar from '@src/components/SideBar/SideBar';
+import Footer from '@src/components/Footer/Footer';
 
 const Main = () => {
   const [promotions, setPromotions] = useState<Promotion[]>([]);
@@ -44,10 +44,6 @@ const Main = () => {
           <GoodsSection sectionTitle='새로 나왔어요' goodsList={mainGoodsListMap.discountGoodsList} itemBoxSize='big' />
           <GoodsSection sectionTitle='지금 할인 중' goodsList={mainGoodsListMap.latestGoodsList} itemBoxSize='big' />
         </MainContentContainer>
-        <SideBar />
-        <FooterContainer>
-          <Footer />
-        </FooterContainer>
       </>
     )
   );
@@ -75,17 +71,6 @@ const MainContentContainer = styled.div`
   width: 100%;
   min-width: 1280px;
   padding: 0 15% 0 15%;
-`;
-
-interface FooterContainerProps {
-  theme: {
-    dustWhite: string;
-  };
-}
-
-const FooterContainer = styled.div<FooterContainerProps>`
-  width: 100%;
-  background-color: ${(props) => props.theme.dustWhite};
 `;
 
 export default Main;

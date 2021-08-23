@@ -9,37 +9,64 @@ import Goods from './pages/GoodsDetail/GoodsDetailPage';
 import MyPage from './pages/MyPage/MyPage';
 import CategoryGoods from '@src/pages/CategoryGoods/CategoryGoods';
 import KeywordGoods from './pages/KeywordGoods/KeywordGoods';
+import SideBar from '@src/components/SideBar/SideBar';
+import Footer from '@src/components/Footer/Footer';
+
+import styled from 'styled-components';
 
 export default function App() {
   return (
     <>
       <Router>
         <Header />
-        <Routes>
-          <Route path='/cart'>
-            <Cart />
-          </Route>
-          <Route path='/order'>
-            <Order />
-          </Route>
-          <Route path='/detail/:id'>
-            <Goods />
-          </Route>
-          <Route path='/mypage'>
-            <MyPage />
-          </Route>
-          <Route path='/category/:category'>
-            <CategoryGoods />
-          </Route>
-          <Route path='/keyword/:keyword'>
-            <KeywordGoods />
-          </Route>
-          <Route path='/'>
-            <Main />
-          </Route>
-        </Routes>
+        <ContentContainer>
+          <Routes>
+            <Route path='/cart'>
+              <Cart />
+            </Route>
+            <Route path='/order'>
+              <Order />
+            </Route>
+            <Route path='/detail/:id'>
+              <Goods />
+            </Route>
+            <Route path='/mypage'>
+              <MyPage />
+            </Route>
+            <Route path='/category/:category'>
+              <CategoryGoods />
+            </Route>
+            <Route path='/keyword/:keyword'>
+              <KeywordGoods />
+            </Route>
+            <Route path='/'>
+              <Main />
+            </Route>
+          </Routes>
+        </ContentContainer>
+        <SideBar />
+        <FooterContainer>
+          <Footer />
+        </FooterContainer>
       </Router>
+
       <GlobalStyles />
     </>
   );
 }
+
+interface FooterContainerProps {
+  theme: {
+    dustWhite: string;
+  };
+}
+
+const FooterContainer = styled.div<FooterContainerProps>`
+  width: 100%;
+  background-color: ${(props) => props.theme.dustWhite};
+`;
+
+const ContentContainer = styled.div`
+  width: 100%;
+  min-height: 60vh;
+`;

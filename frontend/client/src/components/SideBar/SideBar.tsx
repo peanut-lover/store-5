@@ -1,6 +1,6 @@
 import React from 'react';
 import styled from 'styled-components';
-import RecentGoodsView from '@src/pages/Main/SideBar/RecentGoodsView';
+import RecentGoodsView from '@src/components/SideBar/RecentGoodsView';
 import useRecentGoodsHistory from '@src/hooks/useRecentGoodsHistory';
 import { usePushHistory } from '@src/lib/CustomRouter';
 
@@ -9,7 +9,6 @@ const SideBar = () => {
   const pushHistory = usePushHistory();
 
   const handleDeleteRecentGoods = (id: number) => {
-    console.log('delete' + id);
     const filtered = recentGoodsList.filter((recentGoods) => recentGoods.id !== id);
     setRecentGoodsList(filtered);
   };
