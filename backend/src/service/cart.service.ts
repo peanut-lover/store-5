@@ -9,7 +9,20 @@ import { CartBody } from '../types/request/cart.request';
 import { CartResponse, CartsResponse } from '../types/response/cart.response';
 
 async function getAllCartByUserId(userId: number): Promise<CartsResponse> {
-  return await CartRepository.getCartsByUserId(userId);
+  const rawCarts = await CartRepository.getCartsByUserId(userId);
+
+  // 해당 상품의 재고와 판매상태를 확인하면서 필터링한다.
+  const carts = rawCarts.map((rawCart) => {
+    const { amount, goods } = rawCart;
+    return { ...rawCart, amount: Math.min(amount, goods.stock) };
+  });
+
+  // amount가 0 초과가 아닌 장바구니 항목은 DB에서 제거한다.
+  for (const { id, amount } of carts) {
+    if (!(amount > 0)) await CartRepository.deleteCart(id);
+  }
+
+  return carts.filter(({ amount }) => amount > 0);
 }
 
 async function createCart(userId: number, goodsId: number, body: CartBody): Promise<CartResponse> {

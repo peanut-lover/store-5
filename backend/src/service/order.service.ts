@@ -70,7 +70,7 @@ async function createOrder(userId: number, body: CreateOrderBody): Promise<Order
 
   const { orderMemo, receiver, zipCode, address, subAddress, paymentId, goodsList, cartIds } = body;
 
-  // 재고 변경
+  // 재고 감소
   for (const { id, amount } of goodsList) {
     await GoodsService.decrementStock(id, amount);
   }
