@@ -10,10 +10,14 @@ import { getGoodsByOption } from '@src/apis/goodsAPI';
 import { useCallback } from 'react';
 import Loading from '@src/components/Loading/Loading';
 
+interface Props {
+  openUploadModal: boolean;
+}
+
 const LIMIT_COUNT_ITEMS_IN_PAGE = 10;
 const DEFAULT_START_PAGE = 1;
 
-const GoodsTable = () => {
+const GoodsTable: React.FC<Props> = ({ openUploadModal }) => {
   // TODO: reducer 적용
   // const tmp = useReducer(reduce, state);
   const [goodsListMap, setGoodsListMap] = useState<GoodsPaginationResult | null>(null);
@@ -55,6 +59,10 @@ const GoodsTable = () => {
   useEffect(() => {
     fetchGoodsList();
   }, [searchQuery, updateGoods]);
+
+  useEffect(() => {
+    if (!openUploadModal) fetchGoodsList();
+  }, [openUploadModal]);
 
   useEffect(() => {
     if (updateGoods) setOpenUpdateModal(true);
