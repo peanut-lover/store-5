@@ -53,6 +53,7 @@ const Wrapper = styled.div`
 
 const FlexRow = styled.div`
   display: flex;
+  gap: 1rem;
 `;
 
 export default AddressForm;

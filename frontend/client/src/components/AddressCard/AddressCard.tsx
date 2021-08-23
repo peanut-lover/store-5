@@ -20,7 +20,6 @@ const AddressCard: React.FC<Props> = ({ address: addressProp, onClick, onDelete,
       onClick={() => {
         !disabled && onClick?.();
       }}
-      isPrimary={isDefault}
     >
       <InfoGroup>
         <SmallStrong>
@@ -60,8 +59,6 @@ const AddressCard: React.FC<Props> = ({ address: addressProp, onClick, onDelete,
 };
 
 interface InfoGroupProps {
-  theme: { primary: string };
-  isPrimary?: boolean;
   clickable: boolean;
 }
 
@@ -71,11 +68,11 @@ const Wrapper = styled.div<InfoGroupProps>`
   position: relative;
   background-color: white;
   transition: 0.2s linear;
-  border: 2px solid ${(props) => (props.isPrimary ? props.theme.primary : 'white')};
+  border: 1px solid white;
   width: 100%;
   opacity: 0.8;
   :hover {
-    ${({ clickable }) => clickable && 'opacity:1;'}
+    ${({ clickable }) => clickable && 'opacity:1; border: 1px solid black;'}
   }
 `;
 
