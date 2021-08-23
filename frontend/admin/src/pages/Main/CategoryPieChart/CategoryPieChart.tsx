@@ -5,10 +5,10 @@ import { PieChart, Pie, Tooltip, Cell, ResponsiveContainer } from 'recharts';
 
 const CategoryPieChart = () => {
   const mock = [
-    { name: '잡화', value: 40 },
-    { name: '문구', value: 30 },
-    { name: '생필품', value: 15 },
-    { name: '에디션', value: 15 },
+    { name: '잡화', value: 400 },
+    { name: '문구', value: 300 },
+    { name: '생필품', value: 125 },
+    { name: '에디션', value: 135 },
   ];
   const COLORS = [
     'rgba(255, 99, 132, 0.6)',
@@ -21,17 +21,18 @@ const CategoryPieChart = () => {
   return (
     <PieChartContainer>
       <PieChartTitle color={theme.greenColor}>카테고리 비율</PieChartTitle>
-      <ResponsiveContainer width='100%' height='105%'>
+      <ResponsiveContainer width='100%' height='100%'>
         <PieChart>
           <Pie
             data={mock}
             cx='50%'
             cy='50%'
+            isAnimationActive={true}
+            animationDuration={600}
             labelLine={false}
-            label
-            outerRadius={90}
-            innerRadius={30}
-            fill='#8884d8'
+            label={(entry) => entry.name}
+            outerRadius={120}
+            innerRadius={60}
             dataKey='value'
             cursor='pointer'
           >
@@ -48,11 +49,15 @@ const CategoryPieChart = () => {
 
 const PieChartContainer = styled('div')`
   padding: 16px;
-  width: 25%;
-  height: 25%;
+  width: 50%;
+  height: 100%;
+  background-color: whitesmoke;
+  border-radius: 16px;
+  margin-right: 16px;
 `;
 
 const PieChartTitle = styled('span')<{ color: string }>`
+  position: absolute;
   color: ${(props) => props.color};
   font-weight: 700;
 `;

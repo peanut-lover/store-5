@@ -29,7 +29,7 @@ const TopSellingGoodsContainer = styled('div')`
   position: relative;
   display: flex;
   align-items: center;
-  height: 16%;
+  height: 15%;
   width: 100%;
   margin-bottom: 16px;
 `;
@@ -38,6 +38,7 @@ const TopSellingGoodsImage = styled('img')`
   height: 100%;
   margin-right: 16px;
   object-fit: cover;
+  border-radius: 8px;
 `;
 
 const TopSellingGoodsTitle = styled('p')`

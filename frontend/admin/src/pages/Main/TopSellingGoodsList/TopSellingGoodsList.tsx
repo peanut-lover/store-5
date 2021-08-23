@@ -30,11 +30,14 @@ const TopSellingGoodsList = () => {
 };
 
 const TopSellingContainer = styled('div')`
+  position: relative;
   display: flex;
   flex-direction: column;
-  width: 30%;
-  height: 50%;
+  width: 50%;
+  height: 100%;
   padding: 16px;
+  background-color: whitesmoke;
+  border-radius: 16px;
 `;
 const TopSellingTitleContainer = styled('div')`
   display: flex;
@@ -44,13 +47,14 @@ const GoodsListContainer = styled('div')`
   position: relative;
   display: flex;
   flex-direction: column;
+  height: 100%;
 `;
 
 const TopSellingTitle = styled('span')<{ bgcolor: string }>`
   color: ${(props) => props.bgcolor};
   height: 1.5em;
   font-weight: 700;
-  margin-bottom: 30px;
+  margin-bottom: 16px;
 `;
 
 export default TopSellingGoodsList;
