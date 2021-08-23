@@ -1,16 +1,19 @@
+import CategoryAPI from '@src/apis/categoryAPI';
 import { styled } from '@src/lib/CustomStyledComponent';
 import TopSellingCategory from '@src/pages/Main/TopSellingCategoryList/TopSellingCategory/TopSellingCategory';
 import { theme } from '@src/theme/theme';
-import React from 'react';
+import { BestSelledCategory } from '@src/types/Category';
+import React, { useEffect, useState } from 'react';
 
 const TopSellingCategoryList = () => {
-  const mock = [
-    { name: '잡화', total: 5000 },
-    { name: '문구', total: 3000 },
-    { name: '생필품', total: 4000 },
-    { name: '에디션', total: 2000 },
-    { name: '굿즈', total: 1000 },
-  ];
+  const [categories, setCategories] = useState<BestSelledCategory[]>([]);
+  useEffect(() => {
+    async function fetchingCategories() {
+      const { result } = await CategoryAPI.getBestSellingCategory();
+      setCategories(result);
+    }
+    fetchingCategories();
+  }, []);
 
   return (
     <TopSellingContainer>
@@ -19,7 +22,7 @@ const TopSellingCategoryList = () => {
         <TopSellingTitle color={theme.greenColor}>판매량</TopSellingTitle>
       </TopSellingTitleContainer>
       <CategoriesContainer>
-        {mock.map((category, i) => (
+        {categories.map((category, i) => (
           <TopSellingCategory key={category.name} rank={i + 1} category={category} />
         ))}
       </CategoriesContainer>

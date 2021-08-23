@@ -3,3 +3,8 @@ export interface Category {
   name: string;
   categories?: Category[];
 }
+
+export interface BestSelledCategory {
+  name: string;
+  total: number;
+}
