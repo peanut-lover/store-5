@@ -19,7 +19,13 @@ async function getAllCategory(req: Request, res: Response) {
   });
 }
 
+async function getParentCategoryCount(req: Request, res: Response) {
+  const result = await CategoryService.getParentCategoryCount();
+  res.status(200).json({ result });
+}
+
 export default {
   createCategory,
   getAllCategory,
+  getParentCategoryCount,
 };

@@ -6,5 +6,6 @@ const router = express.Router();
 
 router.get('/', wrapAsync(CategoryController.getAllCategory));
 router.post('/', wrapAsync(CategoryController.createCategory));
+router.get('/dashboard', wrapAsync(CategoryController.getParentCategoryCount));
 
 export default router;

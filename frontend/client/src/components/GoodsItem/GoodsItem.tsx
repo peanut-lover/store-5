@@ -1,11 +1,13 @@
 import { usePushHistory } from '@src/lib/CustomRouter/CustomRouter';
-import React, { useCallback, useState } from 'react';
+import React, { useCallback, useEffect, useState } from 'react';
 import styled from 'styled-components';
 import { BsHeart, BsFillBucketFill, BsFillHeartFill } from 'react-icons/bs';
 import { BestTag, GreenTag, NewTag, SaleTag } from '../Tag';
 import { getPriceText } from '@src/utils/price';
 import { deleteWish, postWish } from '@src/apis/wishAPI';
 import theme from '@src/theme/theme';
+import useUserState from '@src/hooks/useUserState';
+import { usePushToast } from '@src/lib/ToastProvider/ToastProvider';
 
 export type GoodsItemSize = 'small' | 'middle' | 'big';
 
@@ -24,6 +26,11 @@ interface Props {
   handleClickCart: (goodsId: number) => void;
 }
 
+const NEED_LOGIN = '로그인이 필요합니다!';
+const ADD_WISH = '찜하기 목록에 추가하였습니다.';
+const DELETE_WISH = '찜하기 목록에서 삭제하였습니다.';
+const ERROR_WISH = '서버 문제로 요청에 실패하였습니다!';
+
 const GoodsItem: React.FC<Props> = ({
   id,
   thumbnailUrl = '',
@@ -40,6 +47,9 @@ const GoodsItem: React.FC<Props> = ({
 }) => {
   const push = usePushHistory();
   const [isWished, setIsWished] = useState(isWish);
+  const [user] = useUserState();
+  const pushToast = usePushToast();
+
   const handleClickGoodsItem = (e: React.MouseEvent) => {
     push('/detail/' + id);
   };
@@ -61,17 +71,27 @@ const GoodsItem: React.FC<Props> = ({
   const handleToWish = useCallback(
     async (e: React.MouseEvent) => {
       e.stopPropagation();
+      if (!user || !user.isLoggedIn) {
+        return pushToast({ text: NEED_LOGIN, color: theme.error });
+      }
       try {
         const result = isWished ? await deleteWish(id) : await postWish(id);
+        pushToast({ text: isWished ? DELETE_WISH : ADD_WISH, color: theme.primary });
         if (result) setIsWished(!isWished);
       } catch (error) {
-        console.log(error);
+        console.error(error);
+        pushToast({ text: ERROR_WISH, color: theme.error });
       }
     },
     [isWished]
   );
+
+  useEffect(() => {
+    setIsWished(isWish);
+  }, [isWish]);
+
   return (
-    <GoodsItemContainer onClick={handleClickGoodsItem} size={itemBoxSize}>
+    <GoodsItemContainer onClick={handleClickGoodsItem}>
       <GoodsImageContainer onMouseEnter={handleOnMouseEnter} onMouseLeave={handleOnMouseLeave} size={itemBoxSize}>
         <TagContainer>
           {isBest && <BestTag />}
@@ -102,7 +122,7 @@ const GoodsItem: React.FC<Props> = ({
 
 const ItemContainerWidthMap = {
   big: '300px',
-  middle: '260px',
+  middle: '25%',
   small: '200px',
 };
 
@@ -127,15 +147,11 @@ const TagContainer = styled.div`
   }
 `;
 
-interface GoodsItemContainerProps {
-  size: GoodsItemSize;
-}
-
-const GoodsItemContainer = styled.div<GoodsItemContainerProps>`
+const GoodsItemContainer = styled.div`
   position: relative;
   flex-grow: 0;
   flex-shrink: 0;
-  width: ${(props) => ItemContainerWidthMap[props.size]};
+  width: 25%;
   margin-top: 10px;
   margin-bottom: 10px;
   padding: 10px;

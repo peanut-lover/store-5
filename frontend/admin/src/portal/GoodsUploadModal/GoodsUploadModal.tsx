@@ -8,21 +8,27 @@ import UploadContentLeft from '@src/portal/GoodsUploadModal/UploadContentLeft/Up
 import UploadContentRight from '@src/portal/GoodsUploadModal/UploadContentRight/UploadContentRight';
 import { GoodsAPI } from '@src/apis/goodsAPI';
 import convertGoodsState from '@src/utils/convertGoodsState';
+import { GoodsItem } from '@src/types/Goods';
+import { GoodsImg } from '@src/types/GoodsImg';
+import { FaTimes } from 'react-icons/fa';
 
 interface Props {
   onClose: () => void;
+  goods?: GoodsItem | null;
 }
 
-const GoodsUploadModal: React.FC<Props> = ({ onClose }) => {
+const GoodsUploadModal: React.FC<Props> = ({ onClose, goods }) => {
   const [files, setFiles] = useState<File[]>([]); // 이미지 file 저장
-  const [title, handleChangeTitle] = useInput('');
-  const [price, handleChangePrice] = useInput<number>(0);
-  const [stock, handleChangeStock] = useInput<number>(0);
-  const [discountRate, setDiscountRate] = useState<number>(0);
-  const [checkGreen, setCheckGreen] = useState<boolean>(false);
-  const [category, setCategory] = useState<number>(0);
-  const [productState, setProductState] = useState<string>('');
-  const [deliveryInfo, setDeliveryInfo] = useState<number>(0);
+  const [oldImages, setOldImages] = useState<GoodsImg[]>([]);
+
+  const [title, handleChangeTitle] = useInput(goods?.title ?? '');
+  const [price, handleChangePrice] = useInput<number>(goods?.price ?? 0);
+  const [stock, handleChangeStock] = useInput<number>(goods?.stock ?? 0);
+  const [discountRate, setDiscountRate] = useState<number>(goods?.discountRate ?? 0);
+  const [checkGreen, setCheckGreen] = useState<boolean>(goods?.isGreen ?? false);
+  const [category, setCategory] = useState<number>(goods?.category.id ?? 0);
+  const [productState, setProductState] = useState<string>(goods?.state ?? '');
+  const [deliveryInfo, setDeliveryInfo] = useState<number>(goods?.deliveryInfo ?? 0);
   const [submitActive, setSubmitActive] = useState<string>('');
 
   const handleSubmit = async (e: MouseEvent) => {
@@ -36,8 +42,11 @@ const GoodsUploadModal: React.FC<Props> = ({ onClose }) => {
     formData.append('deliveryInfo', `${deliveryInfo}`);
     formData.append('category', `${category}`);
     formData.append('state', convertGoodsState(productState));
+    if (oldImages.length > 0) {
+      formData.append('oldImages', oldImages.map((image) => image.id).join());
+    }
     try {
-      const { result } = await GoodsAPI.createGoods(formData);
+      const { result } = goods ? await GoodsAPI.updateGoods(formData, goods.id) : await GoodsAPI.createGoods(formData);
       if (result) onClose();
     } catch (err) {
       console.error(err);
@@ -58,6 +67,13 @@ const GoodsUploadModal: React.FC<Props> = ({ onClose }) => {
       setFiles((prev) => prev.filter((f, i) => i !== index));
     },
     [setFiles]
+  );
+
+  const handleDeleteOldImage = useCallback(
+    (id: number) => {
+      setOldImages((prev) => prev.filter((image) => image.id !== id));
+    },
+    [setOldImages]
   );
 
   const handleCheckGreen = useCallback(() => {
@@ -104,17 +120,36 @@ const GoodsUploadModal: React.FC<Props> = ({ onClose }) => {
       if (!(title.length > 0 && price > 0 && stock > 0)) return updateSubmitActiveFalse();
       if (!productState) return updateSubmitActiveFalse();
       if (deliveryInfo === 0 || category === 0) return updateSubmitActiveFalse();
-      if (files.length === 0) return updateSubmitActiveFalse();
+      if (files.length === 0 && oldImages.length === 0) return updateSubmitActiveFalse();
       return setSubmitActive('true');
     };
     checkFormIsValidated();
-  }, [title, price, stock, category, productState, deliveryInfo, files]);
+  }, [title, price, stock, category, productState, deliveryInfo, files, oldImages]);
 
+  const fetchGoodsImgs = async (goodsId: number) => {
+    try {
+      const { result } = await GoodsAPI.getGoodsImgById(goodsId);
+      setOldImages(result);
+    } catch (err) {
+      console.error(err);
+    }
+  };
+
+  useEffect(() => {
+    if (goods) {
+      fetchGoodsImgs(goods.id);
+    }
+  }, []);
   return (
     <Portal>
       <ModalContainer>
         <ProductUploadContainer>
-          <ProductImageUploader onHandleUpdateFiles={handleUpdateFiles} onHandleDeleteFile={handleDeleteFile} />
+          <ProductImageUploader
+            onHandleUpdateFiles={handleUpdateFiles}
+            onHandleDeleteFile={handleDeleteFile}
+            oldImages={oldImages}
+            handleDeleteOldImage={handleDeleteOldImage}
+          />
           <UploadContentContainer>
             <UploadContentLeft
               title={title}
@@ -135,11 +170,13 @@ const GoodsUploadModal: React.FC<Props> = ({ onClose }) => {
                 onHandleProductState={handleProductState}
               />
               <SubmitButton onClick={handleSubmit} active={submitActive}>
-                상품 등록
+                {goods ? '상품 수정' : '상품 등록'}
               </SubmitButton>
             </UploadContentRightContainer>
           </UploadContentContainer>
-          <CloseButton onClick={onClose}>X</CloseButton>
+          <CloseButton onClick={onClose}>
+            <FaTimes />
+          </CloseButton>
         </ProductUploadContainer>
       </ModalContainer>
     </Portal>
@@ -200,6 +237,10 @@ const CloseButton = styled('button')`
   position: absolute;
   top: -0.5em;
   right: -0.5em;
+  width: 40px;
+  height: 40px;
+  display: flex;
+  align-items: center;
   font-size: 1.8em;
   border-radius: 50%;
   background-color: #2ac1bc;

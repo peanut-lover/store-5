@@ -7,17 +7,24 @@ import GoodsInteractive from './GoodsInteractive/GoodsInteractive';
 import GoodsImageSection from './GoodsImageSection/GoodsImageSection';
 import RelationSection from './RelationSection/RelationSection';
 import { getGoodsDetail } from '@src/apis/goodsAPI';
+import { usePushToast } from '@src/lib/ToastProvider/ToastProvider';
+import theme from '@src/theme/theme';
+
+const ERROR_SERVER = '서버 문제로 상품 정보 조회에 실패하였습니다!';
 
 const GoodsDetailPage = () => {
-  const [goods, setGoods] = useState<DetailGoods | null>(null);
   const { id } = useParams();
+  const pushToast = usePushToast();
+  const [goods, setGoods] = useState<DetailGoods | null>(null);
 
   const fetchDetailGoods = async (goodsId: number) => {
     try {
       const data = await getGoodsDetail(goodsId);
       setGoods(data.result);
     } catch (e) {
+      console.error(e);
       setGoods(null);
+      pushToast({ text: ERROR_SERVER, color: theme.error });
     }
   };
 

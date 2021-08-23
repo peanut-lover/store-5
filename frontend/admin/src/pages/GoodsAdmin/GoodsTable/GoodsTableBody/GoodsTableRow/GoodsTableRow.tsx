@@ -1,11 +1,13 @@
 import React from 'react';
 import { styled } from '@src/lib/CustomStyledComponent';
+import originStyled from 'styled-components';
 import { GoodsItem } from '@src/types/Goods';
 import { getDiscountedPrice, getPriceText } from '@src/utils/price';
 import { convertYYYYMMDD } from '@src/utils/dateHelper';
 
 interface Props {
   goods: GoodsItem;
+  handleUpdateGoods: (goods: GoodsItem) => void;
 }
 
 interface StateMap {
@@ -18,11 +20,11 @@ const STATE_MAP: StateMap = {
   D: '삭제',
 };
 
-const GoodsTableRow: React.FC<Props> = ({ goods }) => {
+const GoodsTableRow: React.FC<Props> = ({ goods, handleUpdateGoods }) => {
   const { id, thumbnailUrl, title, price, discountRate, stock, countOfSell, createdAt, updatedAt, state, category } =
     goods;
   return (
-    <GoodsTableRowContainer>
+    <GoodsTableRowContainer onClick={() => handleUpdateGoods(goods)}>
       <TableData>
         <ThumbnailImg src={thumbnailUrl} />
       </TableData>
@@ -39,9 +41,14 @@ const GoodsTableRow: React.FC<Props> = ({ goods }) => {
   );
 };
 
-const GoodsTableRowContainer = styled('tr')`
+const GoodsTableRowContainer = originStyled.tr`
   margin-bottom: 0.5rem;
   height: 55px;
+  cursor: pointer;
+  transition: background-color 0.15s linear;
+  :hover {
+    background-color: rgba(0, 0, 0, 0.15);
+  }
 `;
 const TableData = styled('td')`
   vertical-align: middle;

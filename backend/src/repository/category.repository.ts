@@ -48,9 +48,33 @@ async function getAllCategories(): Promise<Category[]> {
   }
 }
 
+async function getParentCategories(): Promise<Category[]> {
+  try {
+    return getRepository(Category).find({
+      where: {
+        parent: null,
+      },
+    });
+  } catch (err) {
+    console.error(err);
+    throw new DatabaseError(CATEGORY_DB_ERROR);
+  }
+}
+
+async function getCategoryCountByParentId(parentId: number):Promise<number> {
+  try {
+    return getRepository(Category).count({ where: { parent: parentId } });
+  } catch (err) {
+    console.error(err);
+    throw new DatabaseError(CATEGORY_DB_ERROR);
+  }
+}
+
 export const CategoryRepository = {
   createCategory,
   createSubCategory,
   getCategoryByName,
   getAllCategories,
+  getParentCategories,
+  getCategoryCountByParentId,
 };

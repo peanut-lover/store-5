@@ -16,10 +16,9 @@ import { Wish } from './entity/Wish';
 import { CategoryRepository } from './repository/category.repository';
 import { UserRepository } from './repository/user.repository';
 import { UserAddressRepository } from './repository/user.address.repository';
-import { GoodsStateMap } from './controller/goods.controller';
+import { GoodsStateMap } from './service/goods.service';
 import { PromotionRepository } from './repository/promotion.repository';
 import { PaymentRepository } from './repository/payment.repository';
-import CartService from './service/cart.service';
 import { OrderListRepository } from './repository/order.list.repository';
 import { OrderItemRepository } from './repository/order.item.repository';
 

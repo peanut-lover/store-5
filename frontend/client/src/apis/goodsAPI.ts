@@ -72,7 +72,7 @@ export const getGoodsStockCount = async (goodsId: number): Promise<APIResponse<n
 // 같은 카테고리인 상품을 4개까지 가져옴
 export const getRelationGoods = async (categoryName: string): Promise<APIResponse<GoodsPaginationResult>> => {
   const RELATION_LIMIT = 4;
-  const res = await checkedFetch(`/api/goods/category?category=${categoryName}&limit=${RELATION_LIMIT}`, {
+  const res = await checkedFetch(`/api/goods/category?category=${categoryName}&limit=${RELATION_LIMIT}&page=1`, {
     method: 'GET',
     credentials: 'include',
   });

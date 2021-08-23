@@ -2,6 +2,7 @@ import React, { useState } from 'react';
 import styled from 'styled-components';
 import ImageList from './ImageList/ImageList';
 import MainImage from './Mainimage/MainImage';
+import emptyImgUrl from './asset/empty-img.png';
 
 interface Props {
   imgs: string[];
@@ -12,7 +13,7 @@ const GoodsImageSection: React.FC<Props> = ({ imgs }) => {
   return (
     <GoodsImageContainer>
       <ImageList imgs={imgs} active={active} setActive={setActive} />
-      <MainImage src={imgs[active]} />
+      {imgs[active] ? <MainImage src={imgs[active]} /> : <EmptyImage src={emptyImgUrl} />}
     </GoodsImageContainer>
   );
 };
@@ -23,5 +24,7 @@ const GoodsImageContainer = styled.div`
   grid-gap: 1rem;
   height: 100%;
 `;
+
+const EmptyImage = styled.img``;
 
 export default GoodsImageSection;

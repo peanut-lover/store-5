@@ -5,25 +5,24 @@ import GoodsTableHead from '@src/pages/GoodsAdmin/GoodsTable/GoodsTableHead/Good
 import GoodsTableBody from '@src/pages/GoodsAdmin/GoodsTable/GoodsTableBody/GoodsTableBody';
 import Paginator from '@src/components/Paginator/Paginator';
 import Search from '@src/pages/GoodsAdmin/GoodsTable/Search/Search';
+import GoodsUpdateModal from '@src/portal/GoodsUploadModal/GoodsUploadModal';
 import { getGoodsByOption } from '@src/apis/goodsAPI';
+import { useCallback } from 'react';
+import Loading from '@src/components/Loading/Loading';
+
+interface Props {
+  openUploadModal: boolean;
+}
 
 const LIMIT_COUNT_ITEMS_IN_PAGE = 10;
 const DEFAULT_START_PAGE = 1;
 
-/*
-  goodsList: GoodsItem[];
-  meta: {
-    page: number;
-    limit: number;
-    totalPage: number;
-    totalCount: number;
-  };
-*/
-
-const GoodsTable = () => {
+const GoodsTable: React.FC<Props> = ({ openUploadModal }) => {
   // TODO: reducer 적용
   // const tmp = useReducer(reduce, state);
   const [goodsListMap, setGoodsListMap] = useState<GoodsPaginationResult | null>(null);
+  const [openUpdateModal, setOpenUpdateModal] = useState(false);
+  const [updateGoods, setUpdateGoods] = useState<GoodsItem | null>(null);
   const [searchQuery, setSearchQuery] = useState<GetGoodsByOptionProps>({
     page: DEFAULT_START_PAGE,
     limit: LIMIT_COUNT_ITEMS_IN_PAGE,
@@ -46,22 +45,46 @@ const GoodsTable = () => {
     });
   };
 
+  const setKeyword = (keyword: string) => {
+    setSearchQuery({
+      ...searchQuery,
+      keyword,
+    });
+  };
+
+  const handleUpdateGoods = useCallback((goods: GoodsItem) => {
+    setUpdateGoods(goods);
+  }, []);
+
   useEffect(() => {
     fetchGoodsList();
-  }, [searchQuery]);
+  }, [searchQuery, updateGoods]);
+
+  useEffect(() => {
+    if (!openUploadModal) fetchGoodsList();
+  }, [openUploadModal]);
+
+  useEffect(() => {
+    if (updateGoods) setOpenUpdateModal(true);
+  }, [updateGoods]);
+
+  useEffect(() => {
+    if (!openUpdateModal) setUpdateGoods(null);
+  }, [openUpdateModal]);
 
   // TODO: 로딩 UI 적용
-  return (
-    goodsListMap && (
-      <>
-        <Search />
-        <GoodsTableContainer>
-          <GoodsTableHead />
-          <GoodsTableBody goodsList={goodsListMap.goodsList} />
-        </GoodsTableContainer>
-        <Paginator totalPage={goodsListMap.meta.totalPage} currentPage={goodsListMap.meta.page} setPage={setPage} />
-      </>
-    )
+  return goodsListMap ? (
+    <>
+      <Search setKeyword={setKeyword} />
+      <GoodsTableContainer>
+        <GoodsTableHead />
+        <GoodsTableBody goodsList={goodsListMap.goodsList} handleUpdateGoods={handleUpdateGoods} />
+      </GoodsTableContainer>
+      <Paginator totalPage={goodsListMap.meta.totalPage} currentPage={goodsListMap.meta.page} setPage={setPage} />
+      {openUpdateModal && <GoodsUpdateModal onClose={() => setOpenUpdateModal(false)} goods={updateGoods} />}
+    </>
+  ) : (
+    <Loading />
   );
 };
 
@@ -71,25 +94,3 @@ const GoodsTableContainer = styled('table')`
 `;
 
 export default GoodsTable;
-
-const goodsList: GoodsItem[] = [
-  {
-    id: 20,
-    thumbnailUrl:
-      'https://user-images.githubusercontent.com/45394360/129675529-f90e2e73-222b-4815-9495-98e4b1647cb9.png',
-    title: '상품명 랜덤 - 793',
-    price: 91226,
-    stock: 11,
-    discountRate: 44,
-    countOfSell: 47,
-    state: 'S',
-    isGreen: false,
-    category: {
-      name: '이름',
-      id: 1,
-    },
-    createdAt: '2021-08-17T08:34:00.090Z',
-    updatedAt: '2021-08-17T08:34:00.090Z',
-    deliveryInfo: 1,
-  },
-];

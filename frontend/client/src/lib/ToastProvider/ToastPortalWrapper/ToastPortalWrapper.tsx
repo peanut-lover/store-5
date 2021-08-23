@@ -14,6 +14,7 @@ const ToastPortalWrapper: React.FC<Props> = ({ children }) => {
 
 const Wrapper = styled.div`
   z-index: 999999999999;
+  position: fixed;
 `;
 
 export default ToastPortalWrapper;

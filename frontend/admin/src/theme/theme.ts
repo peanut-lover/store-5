@@ -14,4 +14,11 @@ export const theme = {
   dustWhite: '#F5F5F5',
   offWhite: '#FCFCFC',
   line: '#CCD3D3',
+
+  ChartColorRed: 'rgba(255, 99, 132, 0.6)',
+  ChartColorBlue: 'rgba(54, 162, 235, 0.6)',
+  ChartColorYellow: 'rgba(255, 206, 86, 0.6)',
+  ChartColorGreen: 'rgba(75, 192, 192, 0.6)',
+  ChartColorPurple: 'rgba(153, 102, 255, 0.6)',
+  ChartColorOrange: 'rgba(255, 159, 64, 0.6)',
 };

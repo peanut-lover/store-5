@@ -1,4 +1,5 @@
 import { Category } from '@src/types/Category';
+import { PieChartData } from '@src/types/Chart';
 import { APIResponse, checkedFetch } from './base';
 interface CategoryResponse {
   categories: Category[];
@@ -8,9 +9,20 @@ const getAllCategory = async (): Promise<APIResponse<CategoryResponse>> => {
     method: 'GET',
     credentials: 'include',
   });
-  return await res.json();
+  return res.json();
 };
 
-export const CategoryAPI = {
-  getAllCategory,
+const getParentCategoryCount = async (): Promise<APIResponse<PieChartData>> => {
+  const res = await checkedFetch(`/api/category/dashboard`, {
+    method: 'GET',
+    credentials: 'include',
+  });
+  return res.json();
 };
+
+const CategoryAPI = {
+  getAllCategory,
+  getParentCategoryCount,
+};
+
+export default CategoryAPI;
