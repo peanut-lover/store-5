@@ -1,30 +1,39 @@
+import CategoryAPI from '@src/apis/categoryAPI';
 import { styled } from '@src/lib/CustomStyledComponent';
 import { theme } from '@src/theme/theme';
-import React from 'react';
+import { PieChartData } from '@src/types/Chart';
+import React, { useEffect, useState } from 'react';
 import { PieChart, Pie, Tooltip, Cell, ResponsiveContainer } from 'recharts';
 
 const CategoryPieChart = () => {
-  const mock = [
-    { name: '잡화', value: 400 },
-    { name: '문구', value: 300 },
-    { name: '생필품', value: 125 },
-    { name: '에디션', value: 135 },
-  ];
+  const [chartData, setChartData] = useState<PieChartData>([]);
   const COLORS = [
-    'rgba(255, 99, 132, 0.6)',
-    'rgba(54, 162, 235, 0.6)',
-    'rgba(255, 206, 86, 0.6)',
-    'rgba(75, 192, 192, 0.6)',
-    'rgba(153, 102, 255, 0.6)',
-    'rgba(255, 159, 64, 0.6)',
+    theme.ChartColorRed,
+    theme.ChartColorBlue,
+    theme.ChartColorYellow,
+    theme.ChartColorGreen,
+    theme.ChartColorPurple,
+    theme.ChartColorOrange,
   ];
+
+  useEffect(() => {
+    async function fetchChartData() {
+      try {
+        const { result } = await CategoryAPI.getParentCategoryCount();
+        setChartData(result);
+      } catch (err) {
+        console.error(err);
+      }
+    }
+    fetchChartData();
+  }, []);
   return (
     <PieChartContainer>
       <PieChartTitle color={theme.greenColor}>카테고리 비율</PieChartTitle>
       <ResponsiveContainer width='100%' height='100%'>
         <PieChart>
           <Pie
-            data={mock}
+            data={chartData}
             cx='50%'
             cy='50%'
             isAnimationActive={true}
@@ -36,7 +45,7 @@ const CategoryPieChart = () => {
             dataKey='value'
             cursor='pointer'
           >
-            {mock.map((entry, index) => (
+            {chartData.map((entry, index) => (
               <Cell key={`cell-${index}`} fill={COLORS[index % COLORS.length]} />
             ))}
           </Pie>
