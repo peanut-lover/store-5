@@ -1,5 +1,5 @@
 import { usePushHistory } from '@src/lib/CustomRouter/CustomRouter';
-import React, { useCallback, useState } from 'react';
+import React, { useCallback, useEffect, useState } from 'react';
 import styled from 'styled-components';
 import { BsHeart, BsFillBucketFill, BsFillHeartFill } from 'react-icons/bs';
 import { BestTag, GreenTag, NewTag, SaleTag } from '../Tag';
@@ -85,6 +85,11 @@ const GoodsItem: React.FC<Props> = ({
     },
     [isWished]
   );
+
+  useEffect(() => {
+    setIsWished(isWish);
+  }, [isWish]);
+
   return (
     <GoodsItemContainer onClick={handleClickGoodsItem}>
       <GoodsImageContainer onMouseEnter={handleOnMouseEnter} onMouseLeave={handleOnMouseLeave} size={itemBoxSize}>
