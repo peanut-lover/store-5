@@ -7,7 +7,7 @@ import { Order } from '@src/types/Order';
 import { convertYYYYMMDDHHMMSS } from '@src/utils/dateHelper';
 import React, { useCallback, useEffect, useState } from 'react';
 
-const DEFAULT_LIVE_ORDER_LIMIT = 10;
+const DEFAULT_LIVE_ORDER_LIMIT = 7;
 const DEFAULT_START_PAGE = 0;
 const POLLING_INTERVAL_MILLISECONDS = 2000;
 
@@ -68,6 +68,7 @@ const LatestUpdateTime = styled('span')<{ color: string }>`
 
 const LiveOrderItemContainer = styled('div')`
   margin-top: 20px;
+  overflow: scroll;
 `;
 
 const LiveOrderItem = styled('div')`

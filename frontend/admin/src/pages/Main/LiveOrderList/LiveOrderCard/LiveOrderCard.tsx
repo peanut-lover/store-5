@@ -11,9 +11,8 @@ const LiveOrderCard: React.FC<LiveOrderCardProps> = ({ order }) => {
   const { id, orderItems, user, createdAt } = order;
   const firstOrderItems = orderItems[0];
   return (
-    <>
+    <div>
       <LiveOrderTitle>{convertYYYYMMDDHHMMSS(new Date(createdAt))}</LiveOrderTitle>
-
       <LiveOrderCardContainer key={id}>
         <img width={50} height={50} src={firstOrderItems.goods.thumbnailUrl} />
         <div>
@@ -23,7 +22,7 @@ const LiveOrderCard: React.FC<LiveOrderCardProps> = ({ order }) => {
         <LiveOrderCardUserImg src={user.profileImgUrl} />
         <div> {user.name} </div>
       </LiveOrderCardContainer>
-    </>
+    </div>
   );
 };
 
@@ -32,7 +31,7 @@ const LiveOrderCardContainer = styled('div')`
   align-items: center;
   justify-content: space-between;
   padding: 14px;
-  margin-bottom: 10px;
+  margin-bottom: 5px;
   border-radius: 0px 14px 14px 14px;
   background-color: white;
 
@@ -54,8 +53,6 @@ const LiveOrderTitle = styled('p')`
   font-weight: 500;
   width: 140px;
   padding: 5px;
-  border-radius: 14px 14px 0px 0px;
-  background-color: white;
 `;
 
 const LiveOrderCardUserImg = styled('img')`
