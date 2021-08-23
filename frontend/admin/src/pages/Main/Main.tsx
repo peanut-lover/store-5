@@ -1,8 +1,10 @@
-import React, { useState } from 'react';
+import React from 'react';
 import { styled } from '@src/lib/CustomStyledComponent';
 import TopSellingGoodsList from '@src/pages/Main/TopSellingGoodsList/TopSellingGoodsList';
 import CategoryPieChart from '@src/pages/Main/CategoryPieChart/CategoryPieChart';
 import LiveOrderList from '@src/pages/Main/LiveOrderList/LiveOrderList';
+import TopSellingCategoryList from '@src/pages/Main/TopSellingCategoryList/TopSellingCategoryList';
+import CategoryBarChart from '@src/pages/Main/CategoryBarChart/CategoryBarChart';
 
 const Main = () => {
   return (
@@ -12,7 +14,10 @@ const Main = () => {
           <CategoryPieChart />
           <TopSellingGoodsList />
         </LeftTopContainer>
-        <div>왼쪽 하단</div>
+        <LeftBottomContainer>
+          <CategoryBarChart />
+          <TopSellingCategoryList />
+        </LeftBottomContainer>
       </LeftContainer>
       <RightContainer>
         <LiveOrderList />
@@ -34,13 +39,20 @@ const LeftContainer = styled('div')`
   flex-direction: column;
   position: relative;
   width: 60%;
-  height: 50%;
+  height: 100%;
 `;
 
 const LeftTopContainer = styled('div')`
   display: flex;
   width: 100%;
-  height: 100%;
+  height: 50%;
+  margin-bottom: 16px;
+`;
+
+const LeftBottomContainer = styled('div')`
+  display: flex;
+  width: 100%;
+  height: 50%;
 `;
 
 const RightContainer = styled('div')`
