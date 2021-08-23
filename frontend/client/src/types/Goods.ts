@@ -17,6 +17,7 @@ export type ThumbnailGoods = Goods;
 export type DetailGoods = Goods & {
   deliveryFee: number;
   deliveryDetail: string;
+  countOfSell: number;
   category: {
     id: number;
     name: string;

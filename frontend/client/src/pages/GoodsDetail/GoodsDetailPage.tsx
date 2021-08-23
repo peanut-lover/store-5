@@ -40,6 +40,7 @@ const GoodsDetailPage = () => {
     fetchDetailGoods(idAsNumber);
   }, [id]);
 
+  console.log(goods);
   return (
     <GoodsDetailContainer>
       {goods && (
