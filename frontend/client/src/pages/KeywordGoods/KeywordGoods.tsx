@@ -62,6 +62,18 @@ const KeywordGoods: React.FC = () => {
 const CategoryGoodsListContainer = styled.div`
   width: 1200px;
   margin: 0 auto;
+  animation: pageShowEffect 0.5s 0s;
+
+  @keyframes pageShowEffect {
+    from {
+      opacity: 0;
+      transform: translate(-100%, 0%);
+    }
+    to {
+      opacity: 1;
+      transform: translate(0%, 0%);
+    }
+  }
 `;
 
 const CategoryGoodsListHeader = styled.div`

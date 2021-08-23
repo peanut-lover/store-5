@@ -58,6 +58,18 @@ const GoodsDetailContainer = styled.div`
   width: 1200px;
   margin: 0 auto;
   margin-top: 5vh;
+  animation: goodsDetailContainerShowEffect 0.5s 0s;
+
+  @keyframes goodsDetailContainerShowEffect {
+    from {
+      opacity: 0;
+      transform: translate(100%, 0%);
+    }
+    to {
+      opacity: 1;
+      transform: translate(0%, 0%);
+    }
+  }
 `;
 
 const GoodsMainContainer = styled.div`

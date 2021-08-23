@@ -52,6 +52,15 @@ const MyWishListView = () => {
 const MyWishListViewContainer = styled.div`
   display: flex;
   flex-direction: column;
+  animation: fadeInEffect 0.5s 0s;
+  @keyframes fadeInEffect {
+    from {
+      opacity: 0;
+    }
+    to {
+      opacity: 1;
+    }
+  }
 `;
 
 export default MyWishListView;

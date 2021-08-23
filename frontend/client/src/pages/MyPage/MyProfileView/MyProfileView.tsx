@@ -87,6 +87,15 @@ const MyProfileView = () => {
 const MyProfileViewContainer = styled.div`
   display: flex;
   flex-direction: column;
+  animation: fadeInEffect 0.5s 0s;
+  @keyframes fadeInEffect {
+    from {
+      opacity: 0;
+    }
+    to {
+      opacity: 1;
+    }
+  }
 `;
 
 const SummarySection = styled.div`

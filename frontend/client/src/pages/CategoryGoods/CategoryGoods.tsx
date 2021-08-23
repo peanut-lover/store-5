@@ -10,7 +10,6 @@ const CategoryGoods = () => {
   const decodeCategoryName = decodeURI(category);
   return (
     <CategoryGoodsContainer>
-      <CategoryClassificationLabel>{`상위카테고리 > ${decodeCategoryName}`}</CategoryClassificationLabel>
       <CategoryTitle>{appendQuotationMarks(decodeCategoryName)}</CategoryTitle>
       <CategoryContentContainer>
         <CategoryContentMain>
@@ -27,6 +26,17 @@ const CategoryGoodsContainer = styled.div`
   display: flex;
   flex-direction: column;
   align-items: flex-start;
+  animation: pageShowEffect 0.5s 0s;
+  @keyframes pageShowEffect {
+    from {
+      opacity: 0;
+      transform: translate(-100%, 0%);
+    }
+    to {
+      opacity: 1;
+      transform: translate(0%, 0%);
+    }
+  }
 `;
 
 const CategoryClassificationLabel = styled.p`
@@ -38,6 +48,15 @@ const CategoryTitle = styled.h1`
   align-self: center;
   font-size: 3rem;
   margin: 2rem 0px;
+  animation: fadeInEffect 0.5s 0s;
+  @keyframes fadeInEffect {
+    from {
+      opacity: 0;
+    }
+    to {
+      opacity: 1;
+    }
+  }
 `;
 
 const CategoryContentContainer = styled.div`

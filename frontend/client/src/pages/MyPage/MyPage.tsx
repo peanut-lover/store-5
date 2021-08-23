@@ -51,11 +51,34 @@ const MyPageContainer = styled.div`
   display: flex;
   justify-content: space-between;
 `;
+
 const MyPageNavContainer = styled.nav`
   min-width: 200px;
+  animation: myPageNavbarShowEffect 0.5s 0s;
+  @keyframes myPageNavbarShowEffect {
+    from {
+      opacity: 0;
+      transform: translate(-100%, 0%);
+    }
+    to {
+      opacity: 1;
+      transform: translate(0%, 0%);
+    }
+  }
 `;
 const MyPageContentContainer = styled.main`
   min-width: 900px;
+  animation: myPageContentShowEffect 0.5s 0s;
+  @keyframes myPageContentShowEffect {
+    from {
+      opacity: 0;
+      transform: translate(100%, 0%);
+    }
+    to {
+      opacity: 1;
+      transform: translate(0%, 0%);
+    }
+  }
 `;
 
 export default withLoggedIn(MyPage);
