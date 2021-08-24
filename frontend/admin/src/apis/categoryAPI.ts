@@ -1,4 +1,4 @@
-import { BestSelledCategory, Category } from '@src/types/Category';
+import { BestSelledCategory, Category, CategoryView } from '@src/types/Category';
 import { PieChartData } from '@src/types/Chart';
 import { APIResponse, checkedFetch } from './base';
 interface CategoryResponse {
@@ -28,10 +28,19 @@ const getBestSellingCategory = async (): Promise<APIResponse<BestSelledCategory[
   return res.json();
 };
 
+const getCategoriesView = async (): Promise<APIResponse<CategoryView[]>> => {
+  const res = await checkedFetch(`/api/category/dashboard/view`, {
+    method: 'GET',
+    credentials: 'include',
+  });
+  return res.json();
+};
+
 const CategoryAPI = {
   getAllCategory,
   getParentCategoryCount,
   getBestSellingCategory,
+  getCategoriesView,
 };
 
 export default CategoryAPI;

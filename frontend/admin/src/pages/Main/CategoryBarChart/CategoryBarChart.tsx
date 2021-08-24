@@ -1,6 +1,8 @@
+import CategoryAPI from '@src/apis/categoryAPI';
 import { styled } from '@src/lib/CustomStyledComponent';
 import { theme } from '@src/theme/theme';
-import React from 'react';
+import { CategoryView } from '@src/types/Category';
+import React, { useEffect, useState } from 'react';
 import {
   ComposedChart,
   Line,
@@ -15,38 +17,24 @@ import {
 } from 'recharts';
 
 const CategoryBarChart = () => {
-  const data = [
-    {
-      name: 'Cate A',
-      조회수: 590,
-    },
-    {
-      name: 'Cate B',
-      조회수: 868,
-    },
-    {
-      name: 'Cate C',
-      조회수: 1397,
-    },
-    {
-      name: 'Cate D',
-      조회수: 1480,
-    },
-    {
-      name: 'Cate E',
-      조회수: 1520,
-    },
-    {
-      name: 'Cate F',
-      조회수: 1400,
-    },
-  ];
+  const [categoryViews, setCategoryViews] = useState<CategoryView[]>([]);
+  useEffect(() => {
+    async function fetchCategoryViews() {
+      try {
+        const { result } = await CategoryAPI.getCategoriesView();
+        setCategoryViews(result);
+      } catch (err) {
+        console.error(err);
+      }
+    }
+    fetchCategoryViews();
+  }, []);
   return (
     <CategoryBarContainer>
       <BarChartTitle color={theme.greenColor}>카테고리 조회 수</BarChartTitle>
       <ResponsiveContainer width='100%' height='95%'>
         <ComposedChart
-          data={data}
+          data={categoryViews}
           margin={{
             top: 10,
             right: 10,
@@ -59,8 +47,8 @@ const CategoryBarChart = () => {
           <YAxis />
           <Tooltip />
           <Legend />
-          <Bar dataKey='조회수' barSize={20} fill='#413ea0' />
-          <Line type='monotone' dataKey='조회수' stroke='#ff7300' />
+          <Bar dataKey='view' barSize={20} fill='#413ea0' />
+          <Line type='monotone' dataKey='view' stroke='#ff7300' />
         </ComposedChart>
       </ResponsiveContainer>
     </CategoryBarContainer>

@@ -8,3 +8,8 @@ export interface BestSelledCategory {
   name: string;
   total: number;
 }
+
+export interface CategoryView {
+  name: string;
+  view: number;
+}
