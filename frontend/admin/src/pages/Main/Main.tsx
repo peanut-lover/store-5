@@ -46,7 +46,7 @@ const LeftTopContainer = styled('div')`
   display: flex;
   width: 100%;
   height: 50%;
-  margin-bottom: 16px;
+  padding-bottom: 16px;
 `;
 
 const LeftBottomContainer = styled('div')`

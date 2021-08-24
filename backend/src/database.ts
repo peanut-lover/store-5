@@ -155,6 +155,7 @@ async function createDefaultGoods() {
         id: delivery,
       },
       countOfSell,
+      view: Math.random() * 100,
     });
     await getRepository(GoodsImg).save({ goods: { id: newGoods.id }, url: goods.thumbnailUrl });
     console.log(`초기 상품 데이터 삽입 : name - ${newGoods.title}, id - ${newGoods.id}`);

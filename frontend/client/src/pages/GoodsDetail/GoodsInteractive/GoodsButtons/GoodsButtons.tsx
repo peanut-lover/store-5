@@ -32,7 +32,7 @@ const GoodsButtons: React.FC<Props> = ({ isWish, clickable, onToggleWish, addToC
     <>
       <GoodsButtonsContainer>
         <WishButton onClick={() => handleClickButton(onToggleWish)}>
-          {isWish ? <FaHeart fill={theme.primary} /> : <FaRegHeart />}
+          {isWish && user.isLoggedIn ? <FaHeart fill={theme.primary} /> : <FaRegHeart />}
         </WishButton>
         <CartButton clickable={clickable} onClick={() => handleClickButton(addToCart)}>
           장바구니

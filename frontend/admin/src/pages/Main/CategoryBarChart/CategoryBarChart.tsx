@@ -47,8 +47,8 @@ const CategoryBarChart = () => {
           <YAxis />
           <Tooltip />
           <Legend />
-          <Bar dataKey='view' barSize={20} fill='#413ea0' />
-          <Line type='monotone' dataKey='view' stroke='#ff7300' />
+          <Bar dataKey='view' barSize={20} fill={theme.ChartColorRed} />
+          <Line type='monotone' dataKey='view' stroke={theme.ChartColorPurple} />
         </ComposedChart>
       </ResponsiveContainer>
     </CategoryBarContainer>
