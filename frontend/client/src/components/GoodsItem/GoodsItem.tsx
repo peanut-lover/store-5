@@ -83,12 +83,12 @@ const GoodsItem: React.FC<Props> = ({
         pushToast({ text: ERROR_WISH, color: theme.error });
       }
     },
-    [isWished]
+    [isWished, user]
   );
 
   useEffect(() => {
     setIsWished(isWish);
-  }, [isWish]);
+  }, [isWish, user]);
 
   return (
     <GoodsItemContainer onClick={handleClickGoodsItem}>
