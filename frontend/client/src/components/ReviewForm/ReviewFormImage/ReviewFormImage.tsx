@@ -4,10 +4,11 @@ import React, { useCallback, useRef, useState } from 'react';
 import styled from 'styled-components';
 
 interface Props {
+  onDeleteFile: (index: number) => void;
   onUpdateFiles: (newFiles: File[]) => void;
 }
 
-const ReviewFormImage: React.FC<Props> = ({ onUpdateFiles }) => {
+const ReviewFormImage: React.FC<Props> = ({ onUpdateFiles, onDeleteFile }) => {
   const imageInputRef = useRef<HTMLInputElement>(null);
 
   const [previewImages, setPreviewImages] = useState<string[]>([]);
@@ -31,10 +32,18 @@ const ReviewFormImage: React.FC<Props> = ({ onUpdateFiles }) => {
     [setPreviewImages]
   );
 
+  const handleDeleteImage = useCallback(
+    (index: number) => {
+      setPreviewImages((prev) => prev.filter((url, i) => i !== index));
+      onDeleteFile(index);
+    },
+    [onDeleteFile, setPreviewImages]
+  );
+
   return (
     <ReviewFormImageContainer>
       <ReviewImageUploadButton onClick={handleImageUpload} />
-      <ReviewImageList previewImages={previewImages} />
+      <ReviewImageList previewImages={previewImages} onDeleteImage={handleDeleteImage} />
       <input ref={imageInputRef} type='file' accept='.jpg, .png, .jpeg' hidden multiple onChange={handleAddImages} />
     </ReviewFormImageContainer>
   );

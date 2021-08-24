@@ -5,13 +5,15 @@ import theme from '@src/theme/theme';
 
 interface Props {
   url: string;
+  index: number;
+  onDeleteImage: (index: number) => void;
 }
 
-const ReviewFormPreviewImage: React.FC<Props> = ({ url }) => {
+const ReviewFormPreviewImage: React.FC<Props> = ({ url, onDeleteImage, index }) => {
   return (
     <ImageContainer>
       <ReviewImage src={url} />
-      <ImageDeleteButtonContainer bgcolor={theme.primary}>
+      <ImageDeleteButtonContainer onClick={() => onDeleteImage(index)} bgcolor={theme.primary}>
         <FaTimes fontSize='1.2em' color='#fff' />
       </ImageDeleteButtonContainer>
     </ImageContainer>
@@ -20,7 +22,7 @@ const ReviewFormPreviewImage: React.FC<Props> = ({ url }) => {
 
 const ImageContainer = styled.div`
   position: relative;
-  width: 28%;
+  width: 26%;
   height: 80%;
   min-height: 80%;
   min-width: 30%;
@@ -45,6 +47,7 @@ const ImageDeleteButtonContainer = styled.div<{ bgcolor: string }>`
   height: 1.5em;
   border-radius: 50%;
   background-color: ${(props) => props.bgcolor};
+  cursor: pointer;
 `;
 
 export default ReviewFormPreviewImage;

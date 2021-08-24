@@ -11,7 +11,7 @@ const ReviewFormHeader: React.FC<Props> = ({ onClose }) => {
     <HeaderContainer>
       <EmptyBox />
       <HeaderTitle>리뷰</HeaderTitle>
-      <FaTimes />
+      <FaTimes cursor='pointer' onClick={onClose} />
     </HeaderContainer>
   );
 };

@@ -24,7 +24,7 @@ const delay = (time: number) => new Promise((resolve) => setTimeout(resolve, tim
 
 const GoodsDetailPage = () => {
   const [recentGoodsList, setRecentGoodsList] = useRecentGoodsHistory();
-  const [openReviewForm, setOpenReviewForm] = useState<boolean>(false);
+  const [openReviewForm, setOpenReviewForm] = useState<boolean>(true);
   const { id } = useParams();
   const { isLoggedIn } = useRecoilValue(userState);
   const pushToast = usePushToast();

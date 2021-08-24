@@ -4,13 +4,14 @@ import styled from 'styled-components';
 
 interface Props {
   previewImages: string[];
+  onDeleteImage: (index: number) => void;
 }
 
-const ReviewImageList: React.FC<Props> = ({ previewImages }) => {
+const ReviewImageList: React.FC<Props> = ({ previewImages, onDeleteImage }) => {
   return (
     <ReviewImagesContainer>
-      {previewImages.map((url) => (
-        <ReviewFormPreviewImage key={url} url={url} />
+      {previewImages.map((url, i) => (
+        <ReviewFormPreviewImage key={url} index={i} url={url} onDeleteImage={onDeleteImage} />
       ))}
     </ReviewImagesContainer>
   );

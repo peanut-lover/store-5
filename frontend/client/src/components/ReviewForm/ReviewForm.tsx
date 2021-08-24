@@ -65,7 +65,7 @@ const ReviewForm: React.FC<Props> = ({ thumbnail, goodsId, title, onClose, onSub
     <ReviewFormContainer>
       <ReviewFormHeader onClose={onClose} />
       <ReviewFormRate rate={rate} thumbnail={thumbnail} title={title} onHandleRate={handleChangeRate} />
-      <ReviewFormImage onUpdateFiles={handleUpdateFiles} />
+      <ReviewFormImage onUpdateFiles={handleUpdateFiles} onDeleteFile={handleDeleteFile} />
       <ReviewFormContents contents={contents} onHandleContents={handleChangeContents} />
       <ReviewFormFooter activeSubmit={activeSubmit} onClose={onClose} onSubmit={handleSubmit} />
     </ReviewFormContainer>
