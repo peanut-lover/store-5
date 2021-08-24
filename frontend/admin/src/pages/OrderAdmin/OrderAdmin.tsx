@@ -13,7 +13,7 @@ const DEFAULT_LIMIT_ORDER = 10;
 
 const OrderAdmin = () => {
   const [isOpenOrderModal, setIsOpenOrderModal] = useState(false);
-
+  const [selectedOrder, setSelectedOrder] = useState<Order | null>(null);
   const [orderPaginationResult, setOrderPaginationResult] = useState<OrderPaginationResult | null>(null);
   const [errorMessage, setErrorMessage] = useState<string>('');
   const [currentPage, setCurrentPage] = useState(DEFAULT_START_PAGE);
@@ -41,6 +41,7 @@ const OrderAdmin = () => {
 
   const handleClickOrder = (order: Order) => {
     setIsOpenOrderModal(true);
+    setSelectedOrder(order);
   };
 
   return (
@@ -65,7 +66,7 @@ const OrderAdmin = () => {
         />
       )}
 
-      {isOpenOrderModal && <OrderModal onClose={handleCloseModal} />}
+      {isOpenOrderModal && selectedOrder && <OrderModal onClose={handleCloseModal} order={selectedOrder} />}
     </OrderAdminContainer>
   );
 };

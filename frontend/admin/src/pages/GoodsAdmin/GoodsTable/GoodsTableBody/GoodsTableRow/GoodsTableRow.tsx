@@ -25,6 +25,7 @@ const GoodsTableRow: React.FC<Props> = ({ goods, handleUpdateGoods }) => {
     goods;
   return (
     <GoodsTableRowContainer onClick={() => handleUpdateGoods(goods)}>
+      <TableData>{goods.id}</TableData>
       <TableData>
         <ThumbnailImg src={thumbnailUrl} />
       </TableData>
