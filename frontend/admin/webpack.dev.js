@@ -9,9 +9,7 @@ module.exports = merge(common, {
     overlay: true,
     port: 8082,
     stats: 'errors-only',
-    historyApiFallback: {
-      index: '/dist/admin_index.html',
-    },
+    historyApiFallback: true,
     proxy: {
       '/api': 'http://localhost:8080',
     },

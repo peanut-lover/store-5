@@ -1,4 +1,4 @@
-import { getOrders } from '@src/apis/orderAPI';
+import { getAllOrders } from '@src/apis/orderAPI';
 import Loading from '@src/components/Loading/Loading';
 import Paginator from '@src/components/Paginator/Paginator';
 import OrderTable from '@src/pages/OrderAdmin/OrderTable/OrderTable';
@@ -16,7 +16,7 @@ const OrderAdmin = () => {
 
   const fetchOrders = async () => {
     try {
-      const { result } = await getOrders({
+      const { result } = await getAllOrders({
         page: currentPage,
         limit: DEFAULT_LIMIT_ORDER,
       });

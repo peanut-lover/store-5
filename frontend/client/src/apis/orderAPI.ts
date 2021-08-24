@@ -42,9 +42,6 @@ export const getOrders = async ({
   const res = await checkedFetch(`/api/order?page=${page}&limit=${limit}`, {
     method: 'GET',
     credentials: 'include',
-    headers: {
-      'Content-Type': 'application/json',
-    },
   });
   return await res.json();
 };
