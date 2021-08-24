@@ -21,6 +21,7 @@ import { PromotionRepository } from './repository/promotion.repository';
 import { PaymentRepository } from './repository/payment.repository';
 import { OrderListRepository } from './repository/order.list.repository';
 import { OrderItemRepository } from './repository/order.item.repository';
+import { GoodsRepository } from './repository/goods.repository';
 
 export default async function () {
   await createConnection({
@@ -63,13 +64,21 @@ async function createDefaultUser(name: string) {
 
 async function createDefaultCategory() {
   const categories = [
-    { name: 'A' },
-    { parent: 'A', name: 'A1' },
-    { parent: 'A', name: 'A2' },
-    { parent: 'A', name: 'A3' },
-    { name: 'B' },
-    { parent: 'B', name: 'B1' },
-    { parent: 'B', name: 'B2' },
+    { name: '완전 랜덤 카테고리' },
+    { parent: '완전 랜덤 카테고리', name: 'A1' },
+    { parent: '완전 랜덤 카테고리', name: 'A2' },
+    { parent: '완전 랜덤 카테고리', name: 'A3' },
+    { name: '그냥 랜덤 카테고리' },
+    { parent: '그냥 랜덤 카테고리', name: 'B1' },
+    { parent: '그냥 랜덤 카테고리', name: 'B2' },
+    { name: 'ㅋㅋ 모음' },
+    { parent: 'ㅋㅋ 모음', name: '영화' },
+    { parent: 'ㅋㅋ 모음', name: '영화' },
+    { parent: 'ㅋㅋ 모음', name: '장난감' },
+    { name: '평가' },
+    { parent: '평가', name: '엄격' },
+    { parent: '평가', name: '장점' },
+    { parent: '평가', name: '쾌활' },
   ];
   for (const category of categories) {
     await createCategory(category.name, category.parent);
@@ -215,13 +224,16 @@ async function createDefaultPromotions() {
     'https://user-images.githubusercontent.com/20085849/128992450-eb086cff-3b2a-4d4a-8b01-e3a8a8eaa754.gif',
   ];
   const promotion = await PromotionRepository.getPromotions();
-  let goodsId = 1;
+  const randomGoods = await getRepository(Goods).findOne();
+  if (!randomGoods) {
+    console.log('상품이 없어서 프로모션을 추가 못했습니다.');
+    return;
+  }
   for (const img of examplePromotionImgs) {
     const exist = promotion.find((p) => p.imgUrl === img);
     if (!exist) {
-      const newPromotion = await PromotionRepository.createPromotion(goodsId, img);
-      console.log('프로모션 생성 : id' + goodsId + 'url :' + newPromotion.imgUrl);
-      goodsId++;
+      const newPromotion = await PromotionRepository.createPromotion(randomGoods.id, img);
+      console.log('프로모션 생성 : id' + randomGoods.id + 'url :' + newPromotion.imgUrl);
     }
   }
 }
