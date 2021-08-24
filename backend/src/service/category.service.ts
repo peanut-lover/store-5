@@ -1,9 +1,12 @@
+import { INVALID_DATA } from './../constants/client.error.name';
+import { BadRequestError } from './../errors/client.error';
 import { GoodsRepository } from './../repository/goods.repository';
 import { Category } from '../entity/Category';
 import {
   CategoryCountResponse,
   CategoryResponse,
   CategorySellCountResponse,
+  CategoryViewCountResponse,
 } from '../types/response/category.response';
 import { CategoryRepository } from '../repository/category.repository';
 
@@ -78,8 +81,8 @@ async function getTopSellingCategory(): Promise<CategorySellCountResponse> {
   return result.slice(0, MAX_END);
 }
 
-async function getCategoryViews() {
-  const result = [];
+async function getCategoryViews(): Promise<CategoryViewCountResponse> {
+  const result: CategoryViewCountResponse = [];
   const categories: {
     [key: string]: number;
   } = {};
@@ -92,6 +95,10 @@ async function getCategoryViews() {
       categories[item.category.parent] = item.view;
     }
   });
+  await Promise.all(
+    Object.keys(categories).map(async (key) => pushCategoryViewToList(Number(key), categories[key], result))
+  );
+  return result;
 }
 
 async function pushCategoryCountToList(category: Category, categoryCountList: CategoryCountResponse): Promise<void> {
@@ -100,6 +107,17 @@ async function pushCategoryCountToList(category: Category, categoryCountList: Ca
     name: category.name,
     value: count,
   });
+}
+
+async function pushCategoryViewToList(
+  categoryId: number,
+  view: number,
+  categoryViewList: CategoryViewCountResponse
+): Promise<void> {
+  const category = await CategoryRepository.getCategoryNameById(categoryId);
+  if (!category) throw new BadRequestError(INVALID_DATA);
+  const { name } = category;
+  categoryViewList.push({ name, view });
 }
 
 export default {

@@ -186,7 +186,7 @@ async function findBestSellingGoods(limit: number): Promise<Goods[]> {
   }
 }
 
-async function plusGoodsViewById(goodsId: number): Promise<void> {
+async function increaseGoodsViewById(goodsId: number): Promise<void> {
   try {
     await getRepository(Goods).increment({ id: goodsId }, 'view', 1);
   } catch (err) {
@@ -206,5 +206,5 @@ export const GoodsRepository = {
   findStockById,
   findBestSellingGoods,
   searchGoodsFromKeyword,
-  plusGoodsViewById,
+  increaseGoodsViewById,
 };

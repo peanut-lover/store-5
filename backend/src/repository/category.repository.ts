@@ -79,6 +79,15 @@ async function getParentCategoryNameById(categoryId: number): Promise<Category |
   }
 }
 
+async function getCategoryNameById(categoryId: number): Promise<Category | undefined> {
+  try {
+    return getRepository(Category).findOne({ select: ['name'], where: { id: categoryId } });
+  } catch (err) {
+    console.error(err);
+    throw new DatabaseError(CATEGORY_DB_ERROR);
+  }
+}
+
 export const CategoryRepository = {
   createCategory,
   createSubCategory,
@@ -87,4 +96,5 @@ export const CategoryRepository = {
   getParentCategories,
   getCategoryCountByParentId,
   getParentCategoryNameById,
+  getCategoryNameById,
 };

@@ -31,6 +31,7 @@ async function getTopSellingCategory(req: Request, res: Response) {
 
 async function getCategoryViews(req: Request, res: Response) {
   const result = await CategoryService.getCategoryViews();
+  res.status(200).json({ result });
 }
 
 export default {
