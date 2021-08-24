@@ -75,8 +75,9 @@ const GoodsDetailPage = () => {
 };
 
 const GoodsDetailContainer = styled.div`
-  width: 1200px;
-  margin: 0 auto;
+  width: 100%;
+  min-width: 1280px;
+  padding: 0 15% 0 15%;
   min-height: 70vh;
   margin-top: 5vh;
   animation: goodsDetailContainerShowEffect 0.5s 0s;
