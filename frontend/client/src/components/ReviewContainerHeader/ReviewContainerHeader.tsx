@@ -1,5 +1,7 @@
 import React from 'react';
 import styled from 'styled-components';
+import { FaPencilAlt } from 'react-icons/fa';
+import AwesomeButton from '../AwesomeButton/AwesomeButton';
 
 interface Props {}
 
@@ -9,7 +11,13 @@ const ReviewContainerHeader: React.FC<Props> = ({}) => {
   return (
     <Wrapper>
       <Title>리뷰{lengthOfReviews > 0 && ` (${lengthOfReviews})`}</Title>
-      <button>리뷰 작성하기</button>
+      <AwesomeButton>
+        <ButtonInner>
+          <FaPencilAlt />
+          리뷰 작성하기
+          <FaPencilAlt />
+        </ButtonInner>
+      </AwesomeButton>
     </Wrapper>
   );
 };
@@ -22,6 +30,11 @@ const Wrapper = styled.div`
 
 const Title = styled.div`
   font-size: 2rem;
+`;
+
+const ButtonInner = styled.div`
+  display: flex;
+  gap: 1rem;
 `;
 
 export default ReviewContainerHeader;
