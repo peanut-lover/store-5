@@ -13,7 +13,7 @@ import { getTotalPage, pagination } from '../utils/pagination';
 import { PaginationProps } from '../types/Pagination';
 import { PaymentRepository } from '../repository/payment.repository';
 
-async function getOrdersPagination(
+async function getOwnOrdersPagination(
   { page, limit }: GetAllOrderByUserIdProps,
   userId: number
 ): Promise<OrderListPaginationResponse> {
@@ -27,6 +27,29 @@ async function getOrdersPagination(
   };
 
   const orders = await OrderListRepository.getOwnOrdersPagination(option, userId);
+
+  return {
+    meta: {
+      page: newPage,
+      limit,
+      totalPage: getTotalPage(totalCount, limit),
+      totalCount,
+    },
+    orderList: orders,
+  };
+}
+
+async function getAllOrdersPagination({ page, limit }: GetAllOrderByUserIdProps): Promise<OrderListPaginationResponse> {
+  const totalCount = await OrderListRepository.getAllOrderTotalCount();
+
+  const newPage = Math.min(getTotalPage(totalCount, limit), page);
+
+  const option: PaginationProps = {
+    offset: pagination.calculateOffset(newPage, limit),
+    limit,
+  };
+
+  const orders = await OrderListRepository.getAllOrdersPagination(option);
 
   return {
     meta: {
@@ -77,6 +100,7 @@ async function validateCreateOrder(body: CreateOrderBody): Promise<boolean> {
 }
 
 export const OrderService = {
-  getOrdersPagination,
+  getAllOrdersPagination,
+  getOwnOrdersPagination,
   createOrder,
 };

@@ -5,7 +5,7 @@ import { GetAllOrderByUserIdProps } from '../types/Order';
 import { BadRequestError } from '../errors/client.error';
 import { INVALID_DATA } from '../constants/client.error.name';
 
-async function getOrdersPagination(req: Request, res: Response) {
+async function getOwnOrdersPagination(req: Request, res: Response) {
   const { page, limit } = req.query;
   if (page === undefined || limit === undefined) {
     throw new BadRequestError(INVALID_DATA);
@@ -15,7 +15,21 @@ async function getOrdersPagination(req: Request, res: Response) {
     page: Number(page),
     limit: Number(limit),
   };
-  const result = await OrderService.getOrdersPagination(OrderListQueryParams, userId);
+  const result = await OrderService.getOwnOrdersPagination(OrderListQueryParams, userId);
+  res.status(200).send({ result });
+}
+
+async function getAllOrdersPagination(req: Request, res: Response) {
+  const { page, limit } = req.query;
+  if (page === undefined || limit === undefined) {
+    throw new BadRequestError(INVALID_DATA);
+  }
+
+  const OrderListQueryParams: GetAllOrderByUserIdProps = {
+    page: Number(page),
+    limit: Number(limit),
+  };
+  const result = await OrderService.getAllOrdersPagination(OrderListQueryParams);
   res.status(200).send({ result });
 }
 
@@ -27,6 +41,7 @@ async function createOrder(req: CreateOrderRequest, res: Response) {
 }
 
 export const OrderController = {
-  getOrdersPagination,
+  getOwnOrdersPagination,
+  getAllOrdersPagination,
   createOrder,
 };

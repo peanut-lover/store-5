@@ -1,4 +1,4 @@
-import { getOrders } from '@src/apis/orderAPI';
+import { getAllOrders } from '@src/apis/orderAPI';
 import useInterval from '@src/hooks/useInterval';
 import { styled } from '@src/lib/CustomStyledComponent';
 import LiveOrderCard from '@src/pages/Main/LiveOrderList/LiveOrderCard/LiveOrderCard';
@@ -17,10 +17,14 @@ const LiveOrderList = () => {
 
   const updateOrders = useCallback(async () => {
     setUpdateTime(new Date());
-    const {
-      result: { orderList },
-    } = await getOrders({ page: DEFAULT_START_PAGE, limit: DEFAULT_LIVE_ORDER_LIMIT });
-    setOrder(orderList);
+    try {
+      const {
+        result: { orderList },
+      } = await getAllOrders({ page: DEFAULT_START_PAGE, limit: DEFAULT_LIVE_ORDER_LIMIT });
+      setOrder(orderList);
+    } catch (err) {
+      console.error(err);
+    }
   }, [setOrder, setUpdateTime]);
 
   useEffect(() => {

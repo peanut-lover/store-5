@@ -51,6 +51,26 @@ async function getOwnOrdersPagination({ offset, limit }: PaginationProps, userId
   }
 }
 
+async function getAllOrderTotalCount(): Promise<number> {
+  return await getRepository(Order).count();
+}
+
+async function getAllOrdersPagination({ offset, limit }: PaginationProps): Promise<Order[]> {
+  try {
+    return await getRepository(Order).find({
+      relations: ['payment', 'orderItems', 'orderItems.goods', 'user'],
+      skip: offset,
+      take: limit,
+      order: {
+        createdAt: 'DESC',
+      },
+    });
+  } catch (err) {
+    console.error(err);
+    throw new DatabaseError(ORDER_LIST_DB_ERROR);
+  }
+}
+
 async function createOrder(userId: number, body: CreateOrder): Promise<Order> {
   try {
     const { orderMemo, receiver, zipCode, address, subAddress, paymentId } = body;
@@ -77,5 +97,7 @@ export const OrderListRepository = {
   getOrders,
   getOwnOrderTotalCount,
   getOwnOrdersPagination,
+  getAllOrderTotalCount,
+  getAllOrdersPagination,
   createOrder,
 };

@@ -3,16 +3,16 @@ import { OrderPaginationResult } from '@src/types/Order';
 
 const DEFAULT_ORDER_LIMIT = 5;
 
-export interface GetOrdersProps {
+export interface GetAllOrdersProps {
   page: number;
   limit?: number;
 }
 
-export const getOrders = async ({
+export const getAllOrders = async ({
   page,
   limit = DEFAULT_ORDER_LIMIT,
-}: GetOrdersProps): Promise<APIResponse<OrderPaginationResult>> => {
-  const res = await checkedFetch(`/api/order?page=${page}&limit=${limit}`, {
+}: GetAllOrdersProps): Promise<APIResponse<OrderPaginationResult>> => {
+  const res = await checkedFetch(`/api/order/admin?page=${page}&limit=${limit}`, {
     method: 'GET',
     credentials: 'include',
     headers: {
