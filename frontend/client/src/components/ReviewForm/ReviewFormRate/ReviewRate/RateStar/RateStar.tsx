@@ -5,18 +5,24 @@ import theme from '@src/theme/theme';
 interface Props {
   value: number;
   rate: number;
+  onHandleRate: (rate: number) => void;
 }
 
-const RateStar: React.FC<Props> = ({ value, rate }) => {
+const RateStar: React.FC<Props> = ({ value, rate, onHandleRate }) => {
   return (
-    <StarContainer>
+    <StarContainer
+      onClick={() => {
+        onHandleRate(value);
+      }}
+    >
       {value <= rate ? <BsStarFill fill={theme.primary} fontSize='1.8em' /> : <BsStar fontSize='1.8em' />}
     </StarContainer>
   );
 };
 
 const StarContainer = styled.div`
-  margin-right: 8px;
+  margin-right: 12px;
+  cursor: pointer;
 `;
 
 export default RateStar;

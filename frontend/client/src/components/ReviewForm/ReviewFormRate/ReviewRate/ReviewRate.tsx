@@ -4,12 +4,16 @@ import styled from 'styled-components';
 
 const STARS = [1, 2, 3, 4, 5];
 
-const ReviewRate = () => {
-  const [rate, setRate] = useState<number>(3);
+interface Props {
+  rate: number;
+  onHandleRate: (rate: number) => void;
+}
+
+const ReviewRate: React.FC<Props> = ({ rate, onHandleRate }) => {
   return (
     <RateContainer>
       {STARS.map((value, i) => (
-        <RateStar key={i} value={value} rate={rate} />
+        <RateStar key={i} value={value} rate={rate} onHandleRate={onHandleRate} />
       ))}
     </RateContainer>
   );

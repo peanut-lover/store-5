@@ -4,13 +4,15 @@ import styled from 'styled-components';
 interface Props {
   thumbnail?: string;
   title: string;
+  rate: number;
+  onHandleRate: (rate: number) => void;
 }
-const ReviewFormRate: React.FC<Props> = ({ thumbnail, title }) => {
+const ReviewFormRate: React.FC<Props> = ({ rate, thumbnail, title, onHandleRate }) => {
   return (
     <ReviewFormRateContainer>
       <GoodsImage src={thumbnail} />
       <GoodsTitle>{title}</GoodsTitle>
-      <ReviewRate />
+      <ReviewRate rate={rate} onHandleRate={onHandleRate} />
     </ReviewFormRateContainer>
   );
 };
@@ -18,7 +20,7 @@ const ReviewFormRate: React.FC<Props> = ({ thumbnail, title }) => {
 const ReviewFormRateContainer = styled.div`
   display: flex;
   align-items: center;
-  height: 13%;
+  height: 15%;
   border-bottom: 1px solid lightgray;
   padding: 12px 36px;
 `;
