@@ -12,9 +12,6 @@ export default function App() {
     <>
       <Router>
         <Header />
-        <Route path='/'>
-          <Main />
-        </Route>
         <Routes>
           <Route path='/admin/goods'>
             <GoodsAdmin />
