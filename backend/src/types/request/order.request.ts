@@ -8,6 +8,7 @@ export interface CreateOrder {
   address: string;
   subAddress: string;
   paymentId: number;
+  cartIds?: number[];
 }
 
 export interface CreateOrderBody extends CreateOrder {

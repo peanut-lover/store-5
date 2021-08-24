@@ -12,6 +12,10 @@ import { OrderListPaginationResponse } from '../types/response/order.response';
 import { getTotalPage, pagination } from '../utils/pagination';
 import { PaginationProps } from '../types/Pagination';
 import { PaymentRepository } from '../repository/payment.repository';
+import CartService from './cart.service';
+import { GoodsService } from './goods.service';
+import { getConnection, EntityManager } from 'typeorm';
+import { Cart } from '../entity/Cart';
 
 async function getOwnOrdersPagination(
   { page, limit }: GetAllOrderByUserIdProps,
@@ -65,25 +69,48 @@ async function getAllOrdersPagination({ page, limit }: GetAllOrderByUserIdProps)
 async function createOrder(userId: number, body: CreateOrderBody): Promise<Order> {
   const validateResult = await validateCreateOrder(body);
   if (!validateResult) throw new BadRequestError(INVALID_DATA);
-  const { orderMemo, receiver, zipCode, address, subAddress, paymentId, goodsList } = body;
-  const order = await OrderListRepository.createOrder(userId, {
-    orderMemo,
-    receiver,
-    zipCode,
-    address,
-    subAddress,
-    paymentId,
+
+  const { orderMemo, receiver, zipCode, address, subAddress, paymentId, goodsList, cartIds } = body;
+
+  return await getConnection().transaction(async (transactionalEntityManager) => {
+    // 장바구니 제거
+    if (cartIds) await Promise.all(cartIds.map((id) => transactionalEntityManager.delete(Cart, { id })));
+
+    // 재고 감소
+    await Promise.all(
+      goodsList.map(({ id, amount }) => transactionalEntityManager.decrement(Goods, { id }, 'stock', amount))
+    );
+
+    // 주문 생성
+    const order = await OrderListRepository.createOrder(transactionalEntityManager, userId, {
+      orderMemo,
+      receiver,
+      zipCode,
+      address,
+      subAddress,
+      paymentId,
+    });
+
+    await Promise.all(
+      goodsList.map((orderedItem) => createOrderItem(transactionalEntityManager, orderedItem, order.id))
+    );
+
+    return order;
   });
-  await Promise.all(goodsList.map((orderedItem) => createOrderItem(orderedItem, order.id)));
-  return order;
 }
 
-async function createOrderItem(orderedItem: OrderGoods, orderId: number): Promise<void> {
+async function createOrderItem(
+  transactionalEntityManager: EntityManager,
+  orderedItem: OrderGoods,
+  orderId: number
+): Promise<void> {
   const goods = await GoodsRepository.findGoodsDetailById(orderedItem.id);
   if (!goods) throw new BadRequestError(INVALID_DATA + `(id:${orderId}는 존재하지않는 상품입니다.)`);
 
   const { price, discountRate, state } = goods;
-  await OrderItemRepository.createOrderItem(goods.id, orderId, {
+  await transactionalEntityManager.save(OrderItem, {
+    goods: { id: goods.id },
+    order: { id: orderId },
     price,
     discountRate,
     state,
@@ -96,6 +123,13 @@ async function validateCreateOrder(body: CreateOrderBody): Promise<boolean> {
   if (!orderMemo || !receiver || !zipCode || !address || !subAddress || !paymentId || !goodsList) return false;
   const payment = await PaymentRepository.getPaymentById(paymentId);
   if (!payment) return false;
+
+  // 재고 검사
+  for (const { id, amount } of goodsList) {
+    const stock = await GoodsService.getGoodsStockById(id);
+    if (stock < amount) return false;
+  }
+
   return true;
 }
 

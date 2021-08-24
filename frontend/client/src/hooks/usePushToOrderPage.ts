@@ -8,12 +8,12 @@ const usePushToOrderPage = () => {
   const [_, setOrderState] = useRecoilState(orderState);
   const pushHistory = usePushHistory();
 
-  async function setOrderGoodsList(orderGoodsList: GoodsBeforeOrder[]) {
-    setOrderState(orderGoodsList);
+  async function setOrderGoodsList(orderGoodsList: GoodsBeforeOrder[], cartIds?: number[]) {
+    setOrderState({ goodsList: orderGoodsList, cartIds });
   }
 
-  const pushToOrderPage = async (orderGoodsList: GoodsBeforeOrder[]) => {
-    await setOrderGoodsList(orderGoodsList);
+  const pushToOrderPage = async (orderGoodsList: GoodsBeforeOrder[], cartIds?: number[]) => {
+    await setOrderGoodsList(orderGoodsList, cartIds);
     pushHistory('/order');
   };
 
