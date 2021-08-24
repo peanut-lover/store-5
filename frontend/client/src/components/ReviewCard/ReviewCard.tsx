@@ -2,7 +2,7 @@ import React from 'react';
 import styled from 'styled-components';
 import Avatar from '../Avatar/Avatar';
 import Rate from '../Rate/Rate';
-import TempImg from '@src/assets/empty-kim.gif';
+import TempImg from '@src/assets/empty-img.png';
 
 interface Props {}
 
@@ -22,9 +22,10 @@ const ReviewCard: React.FC<Props> = ({}) => {
             </RateAndDateBox>
           </NameAndRateBox>
         </TopLeftBox>
+        {/* 자기 것이면 렌더링한다! */}
         <TopRightBox>
-          <button>수정</button>
-          <button>삭제</button>
+          <Button>수정</Button>
+          <Button disabled>삭제</Button>
         </TopRightBox>
       </TopBox>
       <GoodsInfoText>상품 정보</GoodsInfoText>
@@ -43,6 +44,27 @@ const Wrapper = styled.div`
   display: flex;
   flex-direction: column;
   gap: 1rem;
+`;
+
+const Button = styled.button`
+  cursor: pointer;
+  border: 0.25rem dashed ${(props) => props.theme.line};
+  padding: 0.5rem 1rem;
+  background-color: white;
+  transition: 0.2s;
+  font-family: inherit;
+  font-size: 1rem;
+
+  :hover {
+    border: 0.25rem solid black;
+  }
+
+  :disabled {
+    cursor: initial;
+    color: ${(props) => props.theme.placeholder};
+    background-color: ${(props) => props.theme.dustWhite};
+    border: 0.25rem dashed ${(props) => props.theme.line};
+  }
 `;
 
 const TopBox = styled.div`
