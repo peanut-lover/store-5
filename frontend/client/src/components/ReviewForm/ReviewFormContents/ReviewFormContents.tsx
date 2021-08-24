@@ -1,11 +1,16 @@
 import React from 'react';
 import styled from 'styled-components';
 
-const ReviewFormContents = () => {
+interface Props {
+  contents: string;
+  onHandleContents: (e: React.ChangeEvent<HTMLTextAreaElement>) => void;
+}
+
+const ReviewFormContents: React.FC<Props> = ({ contents, onHandleContents }) => {
   return (
     <ReviewFormContentsContainer>
       <Title>후기를 남겨주세요!</Title>
-      <ReviewFormTextarea />
+      <ReviewFormTextarea value={contents} onChange={onHandleContents} />
     </ReviewFormContentsContainer>
   );
 };

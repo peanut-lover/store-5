@@ -24,7 +24,7 @@ const delay = (time: number) => new Promise((resolve) => setTimeout(resolve, tim
 
 const GoodsDetailPage = () => {
   const [recentGoodsList, setRecentGoodsList] = useRecentGoodsHistory();
-  const [openReviewForm, setOpenReviewForm] = useState<boolean>(true);
+  const [openReviewForm, setOpenReviewForm] = useState<boolean>(false);
   const { id } = useParams();
   const { isLoggedIn } = useRecoilValue(userState);
   const pushToast = usePushToast();
@@ -68,7 +68,7 @@ const GoodsDetailPage = () => {
             </GoodsContentContainer>
           </GoodsMainContainer>
           <RelationSection categoryName={goods.category.name} />
-          {
+          {openReviewForm && (
             <ReviewFormModal
               goodsId={goods.id}
               thumbnail={goods?.thumbnailUrl}
@@ -76,7 +76,7 @@ const GoodsDetailPage = () => {
               onClose={() => {}}
               onSubmit={() => {}}
             />
-          }
+          )}
         </>
       ) : (
         <Loading />

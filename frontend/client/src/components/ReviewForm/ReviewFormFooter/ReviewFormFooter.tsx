@@ -2,11 +2,19 @@ import theme from '@src/theme/theme';
 import React from 'react';
 import styled from 'styled-components';
 
-const ReviewFormFooter = () => {
+interface Props {
+  activeSubmit: boolean;
+  onClose: () => void;
+  onSubmit: () => void;
+}
+
+const ReviewFormFooter: React.FC<Props> = ({ activeSubmit, onClose, onSubmit }) => {
   return (
     <ReviewFormFooterContainer>
-      <CloseButton>닫기</CloseButton>
-      <SubmitButton>작성</SubmitButton>
+      <CloseButton onClick={onClose}>닫기</CloseButton>
+      <SubmitButton active={activeSubmit} onClick={onSubmit} bgcolor={theme.primary}>
+        작성
+      </SubmitButton>
     </ReviewFormFooterContainer>
   );
 };
@@ -29,14 +37,22 @@ const CloseButton = styled.button`
   cursor: pointer;
 `;
 
-const SubmitButton = styled.button`
+interface SubmitProps {
+  bgcolor: string;
+  active: boolean;
+}
+
+const SubmitButton = styled.button<SubmitProps>`
   width: 50%;
   height: 65%;
   background-color: transparent;
   border-radius: 12px;
   font-size: 1.5em;
   border: 1px solid lightgray;
-  cursor: pointer;
+  pointer-events: ${(props) => (props.active ? 'pointer' : 'none')};
+  cursor: ${(props) => (props.active ? 'pointer' : 'none')};
+  background-color: ${(props) => (props.active ? props.bgcolor : 'transparent')};
+  color: ${(props) => (props.active ? 'white' : 'lightgray')};
 `;
 
 export default ReviewFormFooter;

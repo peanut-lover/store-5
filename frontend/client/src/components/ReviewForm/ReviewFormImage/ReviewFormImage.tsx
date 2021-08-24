@@ -3,7 +3,11 @@ import ReviewImageUploadButton from '@src/components/ReviewForm/ReviewFormImage/
 import React, { useCallback, useRef, useState } from 'react';
 import styled from 'styled-components';
 
-const ReviewFormImage = () => {
+interface Props {
+  onUpdateFiles: (newFiles: File[]) => void;
+}
+
+const ReviewFormImage: React.FC<Props> = ({ onUpdateFiles }) => {
   const imageInputRef = useRef<HTMLInputElement>(null);
 
   const [previewImages, setPreviewImages] = useState<string[]>([]);
@@ -21,7 +25,7 @@ const ReviewFormImage = () => {
         addFiles.push(f);
         addImages.push(imageUrl);
       });
-      // onHandleUpdateFiles(addFiles);
+      onUpdateFiles(addFiles);
       setPreviewImages((prev) => [...prev, ...addImages]);
     },
     [setPreviewImages]
