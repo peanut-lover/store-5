@@ -19,14 +19,16 @@ export const IconTitle = styled.span`
 `;
 
 export const IconNumber = styled.span`
+  display: flex;
+  justify-content: center;
+  align-items: center;
   position: absolute;
-  top: 0;
-  right: 0.75rem;
+  top: -0.5rem;
+  right: 0.5rem;
   color: white;
   background-color: ${(prop) => prop.theme.primary};
-  width: 0.75rem;
-  height: 0.75rem;
-  text-align: center;
-  font-size: 0.75rem;
+  width: 1rem;
+  height: 1rem;
+  font-size: 0.8rem;
   border-radius: 100%;
 `;
