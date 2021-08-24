@@ -19,19 +19,16 @@ export class Order {
   @Column({ type: 'varchar', length: 5 })
   state: string;
 
-  @Column({ type: 'varchar', length: 200 })
-  orderMemo: string;
-
   @Column({ type: 'varchar', length: 20 })
   receiver: string;
 
   @Column({ type: 'varchar', length: 7 })
   zipCode: string;
 
-  @Column({ type: 'varchar', length: 50 })
+  @Column({ type: 'varchar', length: 255 })
   address: string;
 
-  @Column({ type: 'varchar', length: 50 })
+  @Column({ type: 'varchar', length: 255 })
   subAddress: string;
 
   @CreateDateColumn({ type: 'timestamp' })

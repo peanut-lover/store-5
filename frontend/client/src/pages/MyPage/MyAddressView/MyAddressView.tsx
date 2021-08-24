@@ -11,14 +11,8 @@ import { usePushToast } from '@src/lib/ToastProvider/ToastProvider';
 
 const MyAddressView = () => {
   const [addresses, setAddresses] = useState<AddressInfo[]>([]);
-  const [isOpenCreateModal, setIsOpenCreateModal] = useState(false);
   const [isOpenManageModal, setIsOpenManageModal] = useState(false);
   const pushToast = usePushToast();
-
-  const toggleCreateModal = () => {
-    setIsOpenCreateModal(!isOpenCreateModal);
-    fetchAddresses();
-  };
 
   const toggleManageModal = () => {
     setIsOpenManageModal(!isOpenManageModal);
@@ -47,11 +41,9 @@ const MyAddressView = () => {
       <Topic>배송지 정보</Topic>
 
       <AddressControlButtonContainer>
-        <PrimaryButton onClick={toggleCreateModal}>배송지 추가하기</PrimaryButton>
         <PrimaryButton onClick={toggleManageModal}>배송지 수정하기</PrimaryButton>
       </AddressControlButtonContainer>
 
-      {isOpenCreateModal && <AddressCreateModal onClose={toggleCreateModal} />}
       {isOpenManageModal && <AddressManageModal onClose={toggleManageModal} />}
 
       <AddressInfoListItem isPrimary>
