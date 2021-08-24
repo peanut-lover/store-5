@@ -22,6 +22,7 @@ const GoodsInfo: React.FC<GoodsInfoProps> = ({
         {discountRate > 0 && (
           <InfoContent labelText={'정가'}>
             <Price>{getPriceText(price)}원</Price>
+            <DiscountRate>{discountRate} %</DiscountRate>
           </InfoContent>
         )}
         <InfoContent labelText={'판매가격'}>
@@ -54,6 +55,14 @@ const GoodsContent = styled.div`
 const Price = styled.p`
   text-decoration: line-through;
 `;
+
+const DiscountRate = styled.p`
+  font-size: 1.2rem;
+  margin-left: 0.5rem;
+  font-weight: 600;
+  color: red;
+`;
+
 const SalePrice = styled.p`
   font-weight: 600;
   font-family: 'Montserrat', sans-serif;

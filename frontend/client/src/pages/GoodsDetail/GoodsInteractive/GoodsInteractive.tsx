@@ -14,6 +14,8 @@ interface Props {
   goods: DetailGoods;
 }
 
+const DEFAULT_AMOUNT = 1;
+
 const ERROR_SERVER = '서버 문제로 요청에 실패하였습니다!';
 const ADD_WISH = '찜하기 목록에 추가하였습니다.';
 const DELETE_WISH = '찜하기 목록에서 삭제하였습니다.';
@@ -27,7 +29,7 @@ const GoodsInteractive: React.FC<Props> = ({ goods }) => {
 
   const [isWished, setIsWished] = useState(isWish);
   const [isOver, setIsOver] = useState(false);
-  const [amount, setAmount] = useState(0);
+  const [amount, setAmount] = useState(DEFAULT_AMOUNT);
   const [disabled, setDisabled] = useState(false);
 
   const handleToWish = useCallback(async () => {
@@ -86,7 +88,7 @@ const GoodsInteractive: React.FC<Props> = ({ goods }) => {
 
   useEffect(() => {
     setIsWished(isWish);
-    setAmount(0);
+    setAmount(DEFAULT_AMOUNT);
   }, [id]);
 
   return (

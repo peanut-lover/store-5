@@ -9,7 +9,7 @@ const InfoContent: React.FC<Props> = ({ labelText, children }) => {
   return (
     <InfoContentContainer>
       <span>{labelText}</span>
-      <div>{children}</div>
+      <InfoChild>{children}</InfoChild>
     </InfoContentContainer>
   );
 };
@@ -25,6 +25,10 @@ const InfoContentContainer = styled.div`
     width: 5rem;
     font-weight: 600;
   }
+`;
+
+const InfoChild = styled.div`
+  display: flex;
 `;
 
 export default InfoContent;

@@ -10,7 +10,7 @@ interface SideBarProps {
   onClickGoods?: (goodsId: number) => void;
 }
 
-export const COUNT_OF_SHOWN_GOODS = 3;
+export const COUNT_OF_SHOWN_GOODS = 4;
 
 const RecentGoodsView: React.FC<SideBarProps> = ({ goodsList = [], onDeleteGoods, onClickGoods }) => {
   const [recentGoodsIdx, setRecentGoodsIndx] = useState(0);
@@ -77,19 +77,21 @@ interface SideBarContainerProps {
 }
 
 const RecentGoodsViewContainer = styled.div<SideBarContainerProps>`
+  flex-grow: 1;
+  padding: 5px;
   display: flex;
   flex-direction: column;
   justify-content: space-between;
 `;
 
 const RecentGoodsList = styled.ul`
-  flex-grow: 1;
   display: flex;
   flex-direction: column;
   justify-content: flex-start;
   align-items: center;
   overflow-y: scroll;
-  min-height: 300px;
+
+  min-height: 400px;
   padding: 5px 0px;
 `;
 
