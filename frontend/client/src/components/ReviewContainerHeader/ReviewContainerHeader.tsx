@@ -1,0 +1,40 @@
+import React from 'react';
+import styled from 'styled-components';
+import { FaPencilAlt } from 'react-icons/fa';
+import AwesomeButton from '../AwesomeButton/AwesomeButton';
+
+interface Props {}
+
+const ReviewContainerHeader: React.FC<Props> = ({}) => {
+  const lengthOfReviews = 4;
+
+  return (
+    <Wrapper>
+      <Title>리뷰{lengthOfReviews > 0 && ` (${lengthOfReviews})`}</Title>
+      <AwesomeButton>
+        <ButtonInner>
+          <FaPencilAlt />
+          리뷰 작성하기
+          <FaPencilAlt />
+        </ButtonInner>
+      </AwesomeButton>
+    </Wrapper>
+  );
+};
+
+const Wrapper = styled.div`
+  display: flex;
+  justify-content: space-between;
+  align-items: flex-end;
+`;
+
+const Title = styled.div`
+  font-size: 2rem;
+`;
+
+const ButtonInner = styled.div`
+  display: flex;
+  gap: 1rem;
+`;
+
+export default ReviewContainerHeader;
