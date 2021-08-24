@@ -6,12 +6,15 @@ import { CreateReviewBody } from '../types/request/review.request';
 import { isNumber, isString } from '../utils/check.primitive.type';
 import { INVALID_DATA } from '../constants/client.error.name';
 import { ReviewImg } from '../entity/ReviewImg';
+import { ReviewRepository } from '../repository/review.repository';
 
 const MAX_RATE = 5;
 const MIN_RATE = 1;
 
+const ALREADY_REVIEW_CREATED = '이미 리뷰를 등록하셨습니다.';
+
 async function createReview(userId: number, body: CreateReviewBody, uploadFileUrls: string[]): Promise<Review> {
-  await checkValidateCreateReview(body);
+  await checkValidateCreateReview(userId, body);
   const { goodsId, contents, rate } = body;
   return await getConnection().transaction(async (transactionalEntityManager) => {
     const review = await transactionalEntityManager.save(Review, {
@@ -33,12 +36,14 @@ async function createReview(userId: number, body: CreateReviewBody, uploadFileUr
   });
 }
 
-async function checkValidateCreateReview(body: CreateReviewBody): Promise<void> {
+async function checkValidateCreateReview(userId: number, body: CreateReviewBody): Promise<void> {
   const { goodsId, contents, rate } = body;
   if (!isNumber(goodsId) || !isString(contents) || !isNumber(rate)) throw new BadRequestError(INVALID_DATA);
   if (rate < MIN_RATE || rate > MAX_RATE || contents.length < 1) throw new BadRequestError(INVALID_DATA);
   const goods = await GoodsRepository.findGoodsById(goodsId);
   if (!goods) throw new BadRequestError(INVALID_DATA);
+  const review = await ReviewRepository.getReviewByIds(userId, goodsId);
+  if (review) throw new BadRequestError(ALREADY_REVIEW_CREATED);
 }
 
 async function updateReview() {}
