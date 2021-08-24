@@ -42,7 +42,7 @@ const ReviewFormImage: React.FC<Props> = ({ onUpdateFiles, onDeleteFile }) => {
 
   return (
     <ReviewFormImageContainer>
-      <ReviewImageUploadButton onClick={handleImageUpload} />
+      <ReviewImageUploadButton onClick={handleImageUpload} imagesLen={previewImages.length} />
       <ReviewImageList previewImages={previewImages} onDeleteImage={handleDeleteImage} />
       <input ref={imageInputRef} type='file' accept='.jpg, .png, .jpeg' hidden multiple onChange={handleAddImages} />
     </ReviewFormImageContainer>
