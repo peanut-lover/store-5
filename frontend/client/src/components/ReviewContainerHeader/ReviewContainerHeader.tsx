@@ -3,11 +3,11 @@ import styled from 'styled-components';
 import { FaPencilAlt } from 'react-icons/fa';
 import AwesomeButton from '../AwesomeButton/AwesomeButton';
 
-interface Props {}
+interface Props {
+  lengthOfReviews: number;
+}
 
-const ReviewContainerHeader: React.FC<Props> = ({}) => {
-  const lengthOfReviews = 4;
-
+const ReviewContainerHeader: React.FC<Props> = ({ lengthOfReviews }) => {
   return (
     <Wrapper>
       <Title>리뷰{lengthOfReviews > 0 && ` (${lengthOfReviews})`}</Title>
