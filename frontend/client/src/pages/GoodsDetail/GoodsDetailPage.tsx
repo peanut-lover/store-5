@@ -1,4 +1,4 @@
-import React, { useEffect } from 'react';
+import React, { useEffect, useState } from 'react';
 import styled from 'styled-components';
 import { DetailGoods } from '@src/types/Goods';
 import { useParams } from '@src/lib/CustomRouter/CustomRouter';
@@ -15,6 +15,7 @@ import { userState } from '@src/recoil/userState';
 import { useRecoilValue } from 'recoil';
 import useScrollToTop from '@src/hooks/useScrollToTop';
 import Loading from '@src/components/Loading/Loading';
+import ReviewFormModal from '@src/portal/ReviewFormModal/ReviewFormModal';
 
 const ERROR_SERVER = '서버 문제로 상품 정보 조회에 실패하였습니다!';
 
@@ -23,6 +24,7 @@ const delay = (time: number) => new Promise((resolve) => setTimeout(resolve, tim
 
 const GoodsDetailPage = () => {
   const [recentGoodsList, setRecentGoodsList] = useRecentGoodsHistory();
+  const [openReviewForm, setOpenReviewForm] = useState<boolean>(false);
   const { id } = useParams();
   const { isLoggedIn } = useRecoilValue(userState);
   const pushToast = usePushToast();
@@ -66,6 +68,15 @@ const GoodsDetailPage = () => {
             </GoodsContentContainer>
           </GoodsMainContainer>
           <RelationSection categoryName={goods.category.name} />
+          {openReviewForm && (
+            <ReviewFormModal
+              goodsId={goods.id}
+              thumbnail={goods?.thumbnailUrl}
+              title={goods.title}
+              onClose={() => {}}
+              onSubmit={() => {}}
+            />
+          )}
         </>
       ) : (
         <Loading />
