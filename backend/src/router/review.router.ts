@@ -1,0 +1,20 @@
+import { ReviewController } from './../controller/review.controller';
+import express from 'express';
+import wrapAsync from '../utils/wrap.async';
+import uploadProductFiles from '../middlewares/upload.file';
+
+const REVIEW_MAX_IMAGE = 5;
+const ReviewImageFieldName = 'files';
+
+const router = express.Router();
+
+router.post(
+  '/',
+  // isAuthenticate
+  uploadProductFiles.array(ReviewImageFieldName, REVIEW_MAX_IMAGE),
+  wrapAsync(ReviewController.createReview)
+);
+
+// router.put('/');
+
+export default router;
