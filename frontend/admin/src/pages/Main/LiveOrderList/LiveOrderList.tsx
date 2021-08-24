@@ -15,21 +15,19 @@ const LiveOrderList = () => {
   const [updateTime, setUpdateTime] = useState<Date>(new Date());
   const [orders, setOrder] = useState<Order[]>([]);
 
-  const updateOrders = async () => {
+  const updateOrders = useCallback(async () => {
     setUpdateTime(new Date());
     const {
       result: { orderList },
     } = await getOrders({ page: DEFAULT_START_PAGE, limit: DEFAULT_LIVE_ORDER_LIMIT });
     setOrder(orderList);
-  };
-
-  const poller = useCallback(updateOrders, []);
+  }, [setOrder, setUpdateTime]);
 
   useEffect(() => {
     updateOrders();
   }, []);
 
-  useInterval(poller, POLLING_INTERVAL_MILLISECONDS); // 1초마다 폴링
+  useInterval(updateOrders, POLLING_INTERVAL_MILLISECONDS); // 1초마다 폴링
 
   return (
     <LiveOrderListContainer>
