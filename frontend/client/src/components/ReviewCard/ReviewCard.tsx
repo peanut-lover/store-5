@@ -2,6 +2,7 @@ import React from 'react';
 import styled from 'styled-components';
 import Avatar from '../Avatar/Avatar';
 import Rate from '../Rate/Rate';
+import TempImg from '@src/assets/empty-kim.gif';
 
 interface Props {}
 
@@ -14,10 +15,10 @@ const ReviewCard: React.FC<Props> = ({}) => {
         <TopLeftBox>
           <Avatar />
           <NameAndRateBox>
-            <div>사용자명</div>
+            <NameText>사용자명</NameText>
             <RateAndDateBox>
               <Rate rate={3} />
-              <div>2020.12.12.</div>
+              <DateText>2020.12.12.</DateText>
             </RateAndDateBox>
           </NameAndRateBox>
         </TopLeftBox>
@@ -26,8 +27,13 @@ const ReviewCard: React.FC<Props> = ({}) => {
           <button>삭제</button>
         </TopRightBox>
       </TopBox>
-      <div>상품 정보</div>
-      <div>이미지 리스트</div>
+      <GoodsInfoText>상품 정보</GoodsInfoText>
+      {/* 이미지가 있다면 렌더링한다! */}
+      <IamgesWrapper>
+        <Image src={TempImg} />
+        <Image src={TempImg} />
+        <Image src={TempImg} />
+      </IamgesWrapper>
       <ReviewContents>리뷰 내용</ReviewContents>
     </Wrapper>
   );
@@ -57,15 +63,39 @@ const NameAndRateBox = styled.div`
   gap: 0.25rem;
 `;
 
+const NameText = styled.div`
+  font-size: 1rem;
+`;
+
 const RateAndDateBox = styled.div`
   display: flex;
   gap: 0.5rem;
   align-items: center;
 `;
 
+const DateText = styled.div`
+  font-size: 0.75rem;
+  color: ${(props) => props.theme.label};
+`;
+
 const TopRightBox = styled.div`
   display: flex;
   gap: 0.25rem;
+`;
+
+const GoodsInfoText = styled.div`
+  color: ${(props) => props.theme.label};
+`;
+
+const IamgesWrapper = styled.div`
+  display: flex;
+  gap: 0.5rem;
+`;
+
+const Image = styled.img`
+  object-fit: cover;
+  width: 4rem;
+  height: 4rem;
 `;
 
 const ReviewContents = styled.div`
