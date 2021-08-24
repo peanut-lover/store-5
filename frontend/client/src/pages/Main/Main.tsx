@@ -48,8 +48,12 @@ const Main = () => {
 
 const PromotionContainer = styled.div`
   max-height: 300px;
-  width: 100%;
+  min-width: 1280px;
+
   overflow: hidden;
+  @media (max-width: 1280px) {
+    width: 100%;
+  }
 `;
 
 const MainContentContainer = styled.div`

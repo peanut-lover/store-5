@@ -49,7 +49,6 @@ export default function App() {
           <Footer />
         </FooterContainer>
       </Router>
-
       <GlobalStyles />
     </>
   );
@@ -62,11 +61,15 @@ interface FooterContainerProps {
 }
 
 const FooterContainer = styled.div<FooterContainerProps>`
-  width: 100%;
+  min-width: 1280px;
+  @media (max-width: 1280px) {
+    width: 100%;
+  }
+  height: 20vh;
   background-color: ${(props) => props.theme.dustWhite};
 `;
 
 const ContentContainer = styled.div`
   width: 100%;
-  min-height: 60vh;
+  min-height: 70vh;
 `;

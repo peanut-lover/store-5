@@ -1,9 +1,7 @@
 import { deleteCarts, getCarts, updateCart } from '@src/apis/cartAPI';
 import PageHeader from '@src/components/PageHeader/PageHeader';
 import usePushToOrderPage from '@src/hooks/usePushToOrderPage';
-import { usePushHistory } from '@src/lib/CustomRouter';
 import { cartState } from '@src/recoil/cartState';
-import { CartGoods } from '@src/types/Goods';
 import composeComponent from '@src/utils/composeComponent';
 import withLoggedIn from '@src/utils/withLoggedIn';
 import withScrollToTopOnMount from '@src/utils/withScrollToTopOnMount';
@@ -52,8 +50,11 @@ const CartPage: React.FC = () => {
   const handleChangeIsSelected = useCallback(
     (id: number, isSelected: boolean) => {
       const changedCartGoodsList = cartGoodsList.map((cartGoods) => {
-        if (cartGoods.id === id) return { ...cartGoods, isSelected };
-        return cartGoods;
+        if (cartGoods.id === id) {
+          return { ...cartGoods, isSelected };
+        } else {
+          return cartGoods;
+        }
       });
       setCartGoodsList(changedCartGoodsList);
     },
