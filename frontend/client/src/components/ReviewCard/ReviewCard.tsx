@@ -59,7 +59,7 @@ const NameAndRateBox = styled.div`
 
 const RateAndDateBox = styled.div`
   display: flex;
-  gap: 0.25rem;
+  gap: 0.5rem;
   align-items: center;
 `;
 
