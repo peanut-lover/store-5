@@ -1,5 +1,5 @@
 import { GoodsRepository } from './../repository/goods.repository';
-import { DeleteResult } from 'typeorm';
+import { DeleteResult, UpdateResult } from 'typeorm';
 import { BadRequestError } from '../errors/client.error';
 import { PromotionRepository } from '../repository/promotion.repository';
 import { CreatePromotionBody } from '../types/request/promotion.request';
@@ -31,6 +31,10 @@ async function deletePromotion(promotionId: number): Promise<DeleteResult> {
   return await PromotionRepository.deletePromotion(promotionId);
 }
 
+async function increasePromotionView(promotionId: number): Promise<UpdateResult> {
+  return await PromotionRepository.increasePromotionView(promotionId);
+}
+
 async function checkValidateCreatePromotion(body: CreatePromotionBody, imgUrl: string): Promise<void> {
   const { goodsId } = body;
   const foundGoods = await GoodsRepository.findGoodsById(goodsId);
@@ -42,4 +46,5 @@ export const PromotionService = {
   createPromotion,
   getPromotions,
   deletePromotion,
+  increasePromotionView,
 };

@@ -25,8 +25,15 @@ async function deletePromotion(req: Request, res: Response) {
   res.sendStatus(204);
 }
 
+async function increasePromotionView(req: Request, res: Response) {
+  const promotionId = Number(req.params.id);
+  await PromotionService.increasePromotionView(promotionId);
+  res.sendStatus(204);
+}
+
 export const PromotionController = {
   createPromotion,
   getPromotions,
   deletePromotion,
+  increasePromotionView,
 };

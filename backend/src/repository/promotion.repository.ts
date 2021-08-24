@@ -1,4 +1,4 @@
-import { DeleteResult, getRepository } from 'typeorm';
+import { DeleteResult, getRepository, UpdateResult } from 'typeorm';
 import { PROMOTION_DB_ERROR } from '../constants/database.error.name';
 import { Promotion } from '../entity/Promotion';
 import { DatabaseError } from '../errors/base.error';
@@ -36,8 +36,23 @@ async function deletePromotion(promotionId: number): Promise<DeleteResult> {
   }
 }
 
+async function increasePromotionView(promotionId: number): Promise<UpdateResult> {
+  try {
+    return await getRepository(Promotion)
+      .createQueryBuilder()
+      .update('promotion')
+      .where(`promotion.id = ${promotionId}`)
+      .set({ view: () => 'view + 1' })
+      .execute();
+  } catch (err) {
+    console.error(err);
+    throw new DatabaseError(PROMOTION_DB_ERROR);
+  }
+}
+
 export const PromotionRepository = {
   createPromotion,
   getPromotions,
   deletePromotion,
+  increasePromotionView,
 };

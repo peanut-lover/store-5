@@ -1,23 +1,20 @@
 import React, { useEffect, useState } from 'react';
 import styled from 'styled-components';
-import { MainGoodsListResult, ThumbnailGoods } from '@src/types/Goods';
+import { MainGoodsListResult } from '@src/types/Goods';
 import GoodsSection from '@src/components/GoodsSection/GoodsSection';
 import PromotionCarousel from '@src/components/PromotionCarousel/PromotionCarousel';
 import { Promotion } from '@src/types/Promotion';
 import { getMainGoodsListMap } from '@src/apis/goodsAPI';
-import { getPromotions } from '@src/apis/promotionAPI';
+import PromotionAPI from '@src/apis/promotionAPI';
 import { useRecoilValue } from 'recoil';
 import { userState } from '@src/recoil/userState';
-
-import SideBar from '@src/components/SideBar/SideBar';
-import Footer from '@src/components/Footer/Footer';
 
 const Main = () => {
   const [promotions, setPromotions] = useState<Promotion[]>([]);
   const userRecoil = useRecoilValue(userState);
 
   const fetchPromotions = async () => {
-    const { result } = await getPromotions();
+    const { result } = await PromotionAPI.getPromotions();
     setPromotions(result);
   };
 
