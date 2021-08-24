@@ -17,11 +17,6 @@ async function getAllCartByUserId(userId: number): Promise<CartsResponse> {
     return { ...rawCart, amount: Math.min(amount, goods.stock) };
   });
 
-  // amount가 0 초과가 아닌 장바구니 항목은 DB에서 제거한다.
-  for (const { id, amount } of carts) {
-    if (!(amount > 0)) await CartRepository.deleteCart(id);
-  }
-
   return carts.filter(({ amount }) => amount > 0);
 }
 

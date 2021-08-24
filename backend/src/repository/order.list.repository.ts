@@ -1,6 +1,6 @@
 import { CreateOrder } from './../types/request/order.request';
 import { Order } from '../entity/Order';
-import { getRepository } from 'typeorm';
+import { getRepository, EntityManager } from 'typeorm';
 import { DatabaseError } from '../errors/base.error';
 import { ORDER_LIST_DB_ERROR } from '../constants/database.error.name';
 import { PaginationProps } from '../types/Pagination';
@@ -71,11 +71,15 @@ async function getAllOrdersPagination({ offset, limit }: PaginationProps): Promi
   }
 }
 
-async function createOrder(userId: number, body: CreateOrder): Promise<Order> {
+async function createOrder(
+  transactionalEntityManager: EntityManager,
+  userId: number,
+  body: CreateOrder
+): Promise<Order> {
   try {
     const { orderMemo, receiver, zipCode, address, subAddress, paymentId } = body;
-    const orderRepo = getRepository(Order);
-    return await orderRepo.save({
+
+    return await transactionalEntityManager.save(Order, {
       user: {
         id: userId,
       },
