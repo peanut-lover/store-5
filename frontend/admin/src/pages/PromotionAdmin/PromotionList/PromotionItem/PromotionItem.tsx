@@ -71,7 +71,9 @@ const PromotionDeleteButton = styled('button')<{ bgcolor: string }>`
   align-items: center;
   top: 15px;
   right: 15px;
-  font-size: 1.8em;
+  font-size: 1.5em;
+  width: 1.5em;
+  height: 1.5em;
   border-radius: 50%;
   background-color: ${(props) => props.bgcolor};
   color: white;

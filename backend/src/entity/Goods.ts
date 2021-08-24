@@ -35,6 +35,9 @@ export class Goods {
   @Column({ type: 'int', default: 0 })
   countOfSell: number;
 
+  @Column({ type: 'int', default: 0 })
+  view: number;
+
   @Column({ type: 'varchar', length: 5 })
   state: string;
 

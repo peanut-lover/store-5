@@ -124,7 +124,9 @@ const CloseButton = styled('button')<{ bgcolor: string }>`
   position: absolute;
   top: -0.5em;
   right: -0.5em;
-  font-size: 1.8em;
+  font-size: 1.5em;
+  width: 1.5em;
+  height: 1.5em;
   border-radius: 50%;
   background-color: ${(props) => props.bgcolor};
   color: white;

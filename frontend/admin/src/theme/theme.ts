@@ -21,4 +21,11 @@ export const theme = {
   ChartColorGreen: 'rgba(75, 192, 192, 0.6)',
   ChartColorPurple: 'rgba(153, 102, 255, 0.6)',
   ChartColorOrange: 'rgba(255, 159, 64, 0.6)',
+
+  GOLD: '#ffe34d',
+  BRONZE: '#cd7f32',
+  SILVER: 'rgba(192,192,192,0.6)',
+  LIGHTGRAY: 'rgba(211,211,211,0.7)',
+
+  WHITE: '#fff',
 };
