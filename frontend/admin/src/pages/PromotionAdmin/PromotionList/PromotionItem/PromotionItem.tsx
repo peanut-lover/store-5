@@ -52,16 +52,17 @@ const PromotionItem: React.FC<Props> = ({ promotion, onDeletePromotion }) => {
 
 const PromotionContainer = styled('div')`
   position: relative;
-  padding: 25px;
-  width: 50%;
-  height: 400px;
+  padding-top: 5px;
+  padding-bottom: 5px;
+  width: 100%;
+  height: 350px;
   min-width: 440px;
   min-height: 320px;
 `;
 
 const PromotionImage = styled('img')`
   width: 100%;
-  height: 250px;
+  height: 300px;
   border-radius: 20px;
 `;
 
