@@ -18,6 +18,7 @@ async function createReview(req: CreateReviewRequest, res: Response) {
 
   const uploadFileUrls = await uploadProductImages(files);
   const result = await ReviewService.createReview(userId, body, uploadFileUrls);
+  res.status(201).json({ result });
 }
 
 // async function updateReview(req:Request, res:Response) {

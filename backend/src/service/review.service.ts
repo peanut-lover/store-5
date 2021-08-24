@@ -10,7 +10,7 @@ import { ReviewImg } from '../entity/ReviewImg';
 const MAX_RATE = 5;
 const MIN_RATE = 1;
 
-async function createReview(userId: number, body: CreateReviewBody, uploadFileUrls: string[]) {
+async function createReview(userId: number, body: CreateReviewBody, uploadFileUrls: string[]): Promise<Review> {
   await checkValidateCreateReview(body);
   const { goodsId, contents, rate } = body;
   return await getConnection().transaction(async (transactionalEntityManager) => {
@@ -29,6 +29,7 @@ async function createReview(userId: number, body: CreateReviewBody, uploadFileUr
         async (url) => await transactionalEntityManager.save(ReviewImg, { review: { id: review.id }, url })
       )
     );
+    return review;
   });
 }
 
