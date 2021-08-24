@@ -2,13 +2,16 @@ import React from 'react';
 import styled from 'styled-components';
 import Avatar from '../Avatar/Avatar';
 import Rate from '../Rate/Rate';
-import TempImg from '@src/assets/empty-img.png';
 import AwesomeButton from '../AwesomeButton/AwesomeButton';
+import { Review } from '@src/types/Review';
+import { convertYYYYMMDD } from '@src/utils/dateHelper';
 
-interface Props {}
+interface Props {
+  review: Review;
+}
 
-const ReviewCard: React.FC<Props> = ({}) => {
-  // props: id, userName, rate, createAt, 상품 정보, 이미지 리스트, 리뷰 내용
+const ReviewCard: React.FC<Props> = ({ review }) => {
+  const { id, user, rate, contents, reviewImgs, createdAt, isYours } = review;
 
   return (
     <Wrapper>
@@ -16,27 +19,28 @@ const ReviewCard: React.FC<Props> = ({}) => {
         <TopLeftBox>
           <Avatar />
           <NameAndRateBox>
-            <NameText>사용자명</NameText>
+            <NameText>{user.name}</NameText>
             <RateAndDateBox>
-              <Rate rate={3} />
-              <DateText>2020.12.12.</DateText>
+              <Rate rate={rate} />
+              <DateText>{convertYYYYMMDD(new Date(createdAt))}</DateText>
             </RateAndDateBox>
           </NameAndRateBox>
         </TopLeftBox>
-        {/* 자기 것이면 렌더링한다! */}
-        <TopRightBox>
-          <AwesomeButton>수정</AwesomeButton>
-          <AwesomeButton disabled>삭제</AwesomeButton>
-        </TopRightBox>
+        {isYours && (
+          <TopRightBox>
+            <AwesomeButton>수정</AwesomeButton>
+            <AwesomeButton>삭제</AwesomeButton>
+          </TopRightBox>
+        )}
       </TopBox>
-      <GoodsInfoText>상품 정보</GoodsInfoText>
-      {/* 이미지가 있다면 렌더링한다! */}
-      <IamgesWrapper>
-        <Image src={TempImg} />
-        <Image src={TempImg} />
-        <Image src={TempImg} />
-      </IamgesWrapper>
-      <ReviewContents>리뷰 내용</ReviewContents>
+      {reviewImgs.length > 0 && (
+        <IamgesWrapper>
+          {reviewImgs.map((reviewImg) => (
+            <Image key={reviewImg.id} src={reviewImg.url} />
+          ))}
+        </IamgesWrapper>
+      )}
+      <ReviewContents>{contents}</ReviewContents>
     </Wrapper>
   );
 };
@@ -83,10 +87,6 @@ const DateText = styled.div`
 const TopRightBox = styled.div`
   display: flex;
   gap: 0.25rem;
-`;
-
-const GoodsInfoText = styled.div`
-  color: ${(props) => props.theme.label};
 `;
 
 const IamgesWrapper = styled.div`
