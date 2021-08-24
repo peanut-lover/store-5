@@ -1,22 +1,20 @@
+import { Review } from '@src/types/Review';
 import React from 'react';
 import styled from 'styled-components';
 import ReviewCard from '../ReviewCard/ReviewCard';
 
-interface Props {}
-// reviews: Review[];
+interface Props {
+  reviews: Review[];
+}
 
-const ReviewList: React.FC<Props> = ({}) => {
+const ReviewList: React.FC<Props> = ({ reviews }) => {
   return (
     <Wrapper>
-      <ReviewListItemWrapper>
-        <ReviewCard />
-      </ReviewListItemWrapper>
-      <ReviewListItemWrapper>
-        <ReviewCard />
-      </ReviewListItemWrapper>
-      <ReviewListItemWrapper>
-        <ReviewCard />
-      </ReviewListItemWrapper>
+      {reviews.map((review) => (
+        <ReviewListItemWrapper key={review.id}>
+          <ReviewCard review={review} />
+        </ReviewListItemWrapper>
+      ))}
     </Wrapper>
   );
 };
