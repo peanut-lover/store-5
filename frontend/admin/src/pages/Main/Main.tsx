@@ -2,6 +2,7 @@ import React, { useState } from 'react';
 import { styled } from '@src/lib/CustomStyledComponent';
 import TopSellingGoodsList from '@src/pages/Main/TopSellingGoodsList/TopSellingGoodsList';
 import CategoryPieChart from '@src/pages/Main/CategoryPieChart/CategoryPieChart';
+import LiveOrderList from '@src/pages/Main/LiveOrderList/LiveOrderList';
 
 const Main = () => {
   return (
@@ -13,7 +14,9 @@ const Main = () => {
         </LeftTopContainer>
         <div>왼쪽 하단</div>
       </LeftContainer>
-      <RightContainer>오른쪽 한열</RightContainer>
+      <RightContainer>
+        <LiveOrderList />
+      </RightContainer>
     </MainContainer>
   );
 };
@@ -40,6 +43,9 @@ const LeftTopContainer = styled('div')`
   height: 100%;
 `;
 
-const RightContainer = styled('div')``;
+const RightContainer = styled('div')`
+  width: 40%;
+  height: 100%;
+`;
 
 export default Main;

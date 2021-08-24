@@ -13,21 +13,17 @@ export default function App() {
       <Router>
         <Header />
         <Routes>
-          <Route path='/admin'>
-            <Routes>
-              <Route path='/admin/goods'>
-                <GoodsAdmin />
-              </Route>
-              <Route path='/admin/order'>
-                <OrderAdmin />
-              </Route>
-              <Route path='/admin/promotion'>
-                <PromotionAdmin />
-              </Route>
-              <Route path='/admin'>
-                <Main />
-              </Route>
-            </Routes>
+          <Route path='/admin/goods'>
+            <GoodsAdmin />
+          </Route>
+          <Route path='/admin/order'>
+            <OrderAdmin />
+          </Route>
+          <Route path='/admin/promotion'>
+            <PromotionAdmin />
+          </Route>
+          <Route path='/'>
+            <Main />
           </Route>
         </Routes>
       </Router>

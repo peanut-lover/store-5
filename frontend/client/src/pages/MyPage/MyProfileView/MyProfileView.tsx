@@ -6,7 +6,6 @@ import { getCarts } from '@src/apis/cartAPI';
 import { usePushToast } from '@src/lib/ToastProvider/ToastProvider';
 import { getMyWishGoods } from '@src/apis/goodsAPI';
 import { getOrders } from '@src/apis/orderAPI';
-import HighlightedText from '@src/components/HighlightedText/HighlightedText';
 import { usePushHistory } from '@src/lib/CustomRouter';
 
 const MyProfileView = () => {
@@ -41,7 +40,6 @@ const MyProfileView = () => {
   };
   const fetchOrderData = async () => {
     try {
-      // TODO:(jiho) Goods 페이지네이션이랑 API 함수 인터페이스 형식 통일시켜야합니다.
       const {
         result: { meta },
       } = await getOrders({ page: 0 }); // 여기서 Page 값은 의미없음.

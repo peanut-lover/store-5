@@ -1,33 +1,35 @@
+import { useCallback, useEffect, useState } from 'react';
 import { DetailGoods } from '@src/types/Goods';
-import { useState } from 'react';
+import { useRecoilState } from 'recoil';
+import { recentlyGoodsState } from '@src/recoil/recentGoodsState';
 
 const RecentGoodsStorageKey = 'recentGoodsHistory';
 
 type HookState = DetailGoods[];
 type HookStateUpdateFn = (state: DetailGoods[]) => void;
-type HookStateResetFn = () => void;
-
-type RecentGoodsHistoryHookReturnType = [HookState, HookStateUpdateFn, HookStateResetFn];
+type RecentGoodsHistoryHookReturnType = [HookState, HookStateUpdateFn];
 
 type RecentGoodsHistoryHook = (max?: number) => RecentGoodsHistoryHookReturnType;
 
+const makeUniqueDetailGoodsList = (goodsList: DetailGoods[]) => {
+  const idSet = new Set<number>();
+  goodsList.forEach((goods) => idSet.add(goods.id));
+  return Array.from(idSet.keys()).map((id) => goodsList.find((goods) => goods.id === id)!);
+};
+
 const useRecentGoodsHistory: RecentGoodsHistoryHook = (max: number = 10) => {
-  const originStorageValues = localStorage.getItem(RecentGoodsStorageKey);
-  const initialState = originStorageValues ? JSON.parse(originStorageValues) : [];
-  const [recentGoodsList, _setRecentGoodsList] = useState<DetailGoods[]>(initialState);
+  const [recentGoodsList, _setRecentGoodsList] = useRecoilState(recentlyGoodsState);
 
-  const setRecentGoodsList = (goodsList: DetailGoods[]) => {
-    const newGoodsList = goodsList.slice(0, max - 1);
-    localStorage.setItem(RecentGoodsStorageKey, JSON.stringify(newGoodsList));
-    _setRecentGoodsList(newGoodsList);
-  };
+  const setRecentGoodsList = useCallback(
+    (goodsList: DetailGoods[]) => {
+      const newGoodsList = makeUniqueDetailGoodsList(goodsList.slice(0, max - 1));
+      localStorage.setItem(RecentGoodsStorageKey, JSON.stringify(newGoodsList));
+      _setRecentGoodsList(newGoodsList);
+    },
+    [_setRecentGoodsList]
+  );
 
-  const reset = () => {
-    _setRecentGoodsList([]);
-    localStorage.removeItem(RecentGoodsStorageKey);
-  };
-
-  return [recentGoodsList, setRecentGoodsList, reset];
+  return [recentGoodsList, setRecentGoodsList];
 };
 
 export default useRecentGoodsHistory;

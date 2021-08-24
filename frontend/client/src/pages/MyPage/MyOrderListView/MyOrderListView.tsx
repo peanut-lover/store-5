@@ -6,6 +6,7 @@ import React, { useEffect, useState } from 'react';
 import Topic from '@src/components/Topic/Topic';
 import Paginator from '@src/components/Paginator/Paginator';
 import OrderCard from '@src/pages/MyPage/MyOrderListView/OrderCard';
+import { usePushToast } from '@src/lib/ToastProvider/ToastProvider';
 
 const DEFAULT_START_PAGE = 1; // 초기 페이지네이션 페이지.
 const LIMIT_COUNT_ORDER = 4; // 화면 사이즈를 생각했을 때 4 개가 적당합니다.
@@ -14,23 +15,26 @@ const MyOrderListView = () => {
   const [orderPaginationResult, setOrderPaginationResult] = useState<OrderPaginationResult | null>(null);
   const [currentPage, setCurrentPage] = useState(DEFAULT_START_PAGE);
   const [focusOrderId, setFocusOrderId] = useState<number>(0);
+  const pushToast = usePushToast();
 
   const handleClickOrder = (orderId: number) => {
     setFocusOrderId(orderId);
   };
 
   const fetchOrderList = async () => {
-    const { result } = await OrderAPI.getOrders({ page: currentPage, limit: LIMIT_COUNT_ORDER });
-    setOrderPaginationResult(result);
+    try {
+      const { result } = await OrderAPI.getOrders({ page: currentPage, limit: LIMIT_COUNT_ORDER });
+      setOrderPaginationResult(result);
+    } catch (err) {
+      console.error(err);
+      pushToast({
+        text: '주문정보 불러오는데 실패했습니다. 서버오류',
+      });
+    }
   };
 
   useEffect(() => {
-    try {
-      fetchOrderList();
-    } catch (err) {
-      console.error(err);
-      alert('주문정보 불러오는데 실패했습니다. 서버오류');
-    }
+    fetchOrderList();
   }, [currentPage]);
 
   return (
