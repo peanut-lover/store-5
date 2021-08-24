@@ -48,20 +48,8 @@ const Main = () => {
 
 const PromotionContainer = styled.div`
   max-height: 300px;
-  min-width: 1500px;
+  width: 100%;
   overflow: hidden;
-  animation: pageShowEffect 0.5s 0s;
-
-  @keyframes pageShowEffect {
-    from {
-      opacity: 0;
-      transform: translate(-100%, 0%);
-    }
-    to {
-      opacity: 1;
-      transform: translate(0%, 0%);
-    }
-  }
 `;
 
 const MainContentContainer = styled.div`
