@@ -29,6 +29,9 @@ const CategoryBarChart = () => {
     }
     fetchCategoryViews();
   }, []);
+
+  if (categoryViews.length <= 0) return <div>로딩중</div>;
+
   return (
     <CategoryBarContainer>
       <BarChartTitle color={theme.greenColor}>카테고리 조회 수</BarChartTitle>
