@@ -95,9 +95,7 @@ async function getCategoryViews(): Promise<CategoryViewCountResponse> {
       categories[item.category.parent] = item.view;
     }
   });
-  await Promise.all(
-    Object.keys(categories).map(async (key) => pushCategoryViewToList(Number(key), categories[key], result))
-  );
+  await Promise.all(Object.keys(categories).map((key) => pushCategoryViewToList(Number(key), categories[key], result)));
   return result;
 }
 
