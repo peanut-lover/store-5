@@ -1,7 +1,8 @@
 import React, { useState } from 'react';
-import { styled } from '@src/lib/CustomStyledComponent';
 import GoodsTable from './GoodsTable/GoodsTable';
 import GoodsUploadModal from '@src/portal/GoodsUploadModal/GoodsUploadModal';
+import { theme } from '@src/theme/theme';
+import { styled } from '@src/lib/CustomStyledComponent';
 
 const GoodsAdmin = () => {
   const [openUploadModal, setOpenUploadModal] = useState(false);
@@ -26,7 +27,8 @@ const GoodsAdmin = () => {
 const GoodsAdminContainer = styled('div')`
   width: 100%;
   position: relative;
-  margin: 5rem;
+  padding: 5rem;
+  background-color: ${(_) => theme.dustWhite};
 `;
 
 const GoodsAdminHeader = styled('div')`

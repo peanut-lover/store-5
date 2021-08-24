@@ -2,6 +2,8 @@ import { getAllOrders } from '@src/apis/orderAPI';
 import Loading from '@src/components/Loading/Loading';
 import Paginator from '@src/components/Paginator/Paginator';
 import OrderTable from '@src/pages/OrderAdmin/OrderTable/OrderTable';
+import OrderModal from '@src/portal/OrderModal/OrderModal';
+import { theme } from '@src/theme/theme';
 import { Order, OrderPaginationResult } from '@src/types/Order';
 import React, { useEffect, useState } from 'react';
 import styled from 'styled-components';
@@ -10,6 +12,8 @@ const DEFAULT_START_PAGE = 0;
 const DEFAULT_LIMIT_ORDER = 10;
 
 const OrderAdmin = () => {
+  const [isOpenOrderModal, setIsOpenOrderModal] = useState(false);
+
   const [orderPaginationResult, setOrderPaginationResult] = useState<OrderPaginationResult | null>(null);
   const [errorMessage, setErrorMessage] = useState<string>('');
   const [currentPage, setCurrentPage] = useState(DEFAULT_START_PAGE);
@@ -31,6 +35,14 @@ const OrderAdmin = () => {
     fetchOrders();
   }, [currentPage]);
 
+  const handleCloseModal = () => {
+    setIsOpenOrderModal(false);
+  };
+
+  const handleClickOrder = (order: Order) => {
+    setIsOpenOrderModal(true);
+  };
+
   return (
     <OrderAdminContainer>
       <TitleSection>
@@ -39,7 +51,11 @@ const OrderAdmin = () => {
         <span>{errorMessage}</span>
       </TitleSection>
 
-      {orderPaginationResult ? <OrderTable orderList={orderPaginationResult.orderList} /> : <Loading />}
+      {orderPaginationResult ? (
+        <OrderTable orderList={orderPaginationResult.orderList} onClickOrder={handleClickOrder} />
+      ) : (
+        <Loading />
+      )}
 
       {orderPaginationResult && (
         <Paginator
@@ -48,6 +64,8 @@ const OrderAdmin = () => {
           setPage={setCurrentPage}
         />
       )}
+
+      {isOpenOrderModal && <OrderModal onClose={handleCloseModal} />}
     </OrderAdminContainer>
   );
 };
@@ -55,7 +73,8 @@ const OrderAdmin = () => {
 const OrderAdminContainer = styled('div')`
   position: relative;
   width: 100%;
-  margin: 5rem;
+  padding: 5rem;
+  background-color: ${theme.dustWhite};
 `;
 
 const Title = styled('h2')`

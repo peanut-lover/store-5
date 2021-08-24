@@ -35,6 +35,7 @@ export const HeaderIconContainer = styled('div')<IconContainerProps>`
 
 export const HeaderIconTitle = styled('span')`
   margin-left: 12px;
+  user-select: none;
 `;
 
 export default DashboardIcon;

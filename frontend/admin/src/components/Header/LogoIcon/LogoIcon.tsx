@@ -21,6 +21,7 @@ const LogoContainer = styled('div')`
 
 const Logo = styled('img')`
   width: 100%;
+  user-select: none;
 `;
 
 export default LogoIcon;
