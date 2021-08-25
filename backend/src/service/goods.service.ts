@@ -77,7 +77,6 @@ async function createGoods(body: CreateGoodsBody, uploadFileUrls: string[]): Pro
       thumbnailUrl: uploadFileUrls[0],
     });
 
-    console.log(4);
     await Promise.all(
       uploadFileUrls.map(
         async (url) => await transactionalEntityManager.save(GoodsImg, { goods: { id: goods.id }, url })
@@ -222,7 +221,7 @@ async function getGoodsByOption(
   const order = GoodsFlag[flag];
   // 관리자는 재고가 0인 상품도 조회 가능
   const stock = isAdmin ? -1 : 0;
-  const state = isAdmin ? GoodsStateMap.sale : null;
+  const state = isAdmin ? null : GoodsStateMap.sale;
 
   const totalCountOption: FindTotalCountProps = {
     stock,

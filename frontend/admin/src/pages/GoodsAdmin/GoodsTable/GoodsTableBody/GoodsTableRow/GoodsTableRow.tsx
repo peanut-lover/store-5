@@ -39,9 +39,6 @@ const GoodsTableRow: React.FC<Props> = ({ goods, handleUpdateGoods }) => {
       <TableData>{convertYYYYMMDD(new Date(updatedAt))}</TableData>
       <TableData>{STATE_MAP[state]}</TableData>
       <TableData>{category.name}</TableData>
-      <TableData>
-        <FaTimes />
-      </TableData>
     </GoodsTableRowContainer>
   );
 };
@@ -57,12 +54,6 @@ const GoodsTableRowContainer = originStyled.tr`
 `;
 const TableData = originStyled.td`
   vertical-align: middle;
-  :last-child {
-    width: 55px;
-    :hover {
-      background-color: rgba(0, 0, 0, 0.25);
-    }
-  }
 `;
 const ThumbnailImg = styled('img')`
   width: 40px;

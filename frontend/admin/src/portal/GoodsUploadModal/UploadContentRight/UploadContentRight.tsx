@@ -11,6 +11,7 @@ interface Props {
   onHandleDeliveryInfo: (id: number) => void;
   onHandleCategory: (id: number) => void;
   onHandleProductState: (productState: string) => void;
+  goodsStates: string[];
 }
 
 const UploadContentRight: React.FC<Props> = ({
@@ -19,11 +20,12 @@ const UploadContentRight: React.FC<Props> = ({
   onHandleCategory,
   onHandleDeliveryInfo,
   onHandleProductState,
+  goodsStates,
 }) => {
   return (
     <UploadContentRightContainer>
       <GoodsCategoryUploader onHandleCategory={onHandleCategory} />
-      <GoodsStateUploader onHandleProductState={onHandleProductState} />
+      <GoodsStateUploader onHandleProductState={onHandleProductState} goodsStates={goodsStates} />
       <GoodsDeliveryUploader onHandleDeliveryInfo={onHandleDeliveryInfo} />
       <GoodsGreenUploader checkGreen={checkGreen} onHandleCheckGreen={onHandleCheckGreen} />
     </UploadContentRightContainer>
