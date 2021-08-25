@@ -1,6 +1,6 @@
 import { styled } from '@src/lib/CustomStyledComponent';
 import { UploaderLabel } from '@src/portal/GoodsUploadModal/UploadContentLeft/style';
-import { BsCheckCircle } from 'react-icons/bs';
+import { FaCheckSquare } from '@react-icons/all-files/fa/FaCheckSquare';
 
 import React from 'react';
 
@@ -15,7 +15,7 @@ const GoodsGreenUploader: React.FC<Props> = ({ checkGreen, onHandleCheckGreen })
       <UploaderLabel>친환경</UploaderLabel>
       <CheckBoxContainer onClick={onHandleCheckGreen}>
         <CheckTitle>친환경 제품입니까?</CheckTitle>
-        <BsCheckCircle size='1.4em' color={checkGreen ? '#2ac1bc' : 'gray'} />
+        <FaCheckSquare size='1.4em' color={checkGreen ? '#2ac1bc' : 'gray'} />
       </CheckBoxContainer>
     </>
   );

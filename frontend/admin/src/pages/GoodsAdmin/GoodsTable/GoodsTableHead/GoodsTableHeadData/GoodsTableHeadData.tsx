@@ -1,6 +1,7 @@
 import React, { useCallback, useEffect, useState } from 'react';
 import { GetGoodsByOptionProps } from '@src/types/Goods';
-import { FaAngleDown, FaAngleUp } from 'react-icons/fa';
+import { FaAngleDown } from '@react-icons/all-files/fa/FaAngleDown';
+import { FaAngleUp } from '@react-icons/all-files/fa/FaAngleUp';
 import styled from 'styled-components';
 import { theme } from '@src/theme/theme';
 

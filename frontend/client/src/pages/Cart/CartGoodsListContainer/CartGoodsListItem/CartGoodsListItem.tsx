@@ -1,7 +1,7 @@
 import React from 'react';
 import { useCallback } from 'react';
 import styled from 'styled-components';
-import { BiTrash } from 'react-icons/bi';
+import { FaTrashAlt } from '@react-icons/all-files/fa/FaTrashAlt';
 import { CartGoods } from '@src/types/Goods';
 import CheckButton from '@src/components/CheckButton/CheckButton';
 import CartGoodsAmountInput from './CartGoodsAmountInput/CartGoodsAmountInput';
@@ -48,7 +48,7 @@ const CartGoodsListItem: React.FC<Props> = ({ cartGoods, onChangeAmount, onDelet
       <GoodsTitle>{title}</GoodsTitle>
       <FlexColumn>
         <DeleteButton onClick={toggleIsDeleteModalOpened}>
-          <BiTrash size='1.5rem' color='#ccc' />
+          <FaTrashAlt size='1.5rem' color='#ccc' />
         </DeleteButton>
         {isDeleteModalOpened && (
           <ConfirmModal onConfirm={handleDeleteCartGoods} onCancel={toggleIsDeleteModalOpened}>

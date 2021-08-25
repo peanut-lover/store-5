@@ -1,5 +1,5 @@
 import React, { ChangeEvent, useState } from 'react';
-import { BsCheckCircle } from 'react-icons/bs';
+import { FaCheckSquare } from '@react-icons/all-files/fa/FaCheckSquare';
 import {
   GoodsUploadInputContainer,
   UploaderContainer,
@@ -40,7 +40,7 @@ const GoodsPriceUploader: React.FC<Props> = ({ price, onChangePrice }) => {
           <UploaderInput type='text' readOnly value={formatNumber(price)} onFocus={toggleEditing} placeholder='Price' />
         )}
 
-        {price > 0 && <BsCheckCircle size='1.4em' color='#2ac1bc' />}
+        {price > 0 && <FaCheckSquare size='1.4em' color='#2ac1bc' />}
       </GoodsUploadInputContainer>
     </UploaderContainer>
   );

@@ -1,7 +1,9 @@
 import React, { useEffect, useState } from 'react';
 import styled from 'styled-components';
-import { FaArrowUp, FaArrowDown } from 'react-icons/fa';
-import { AiFillCloseCircle } from 'react-icons/ai';
+import { FaArrowUp } from '@react-icons/all-files/fa/FaArrowUp';
+import { FaArrowDown } from '@react-icons/all-files/fa/FaArrowDown';
+import { FaTimesCircle } from '@react-icons/all-files/fa/FaTimesCircle';
+
 import { Goods } from '@src/types/Goods';
 
 interface SideBarProps {
@@ -56,7 +58,7 @@ const RecentGoodsView: React.FC<SideBarProps> = ({ goodsList = [], onDeleteGoods
               <EmptyGoodsThumbnail>No Image</EmptyGoodsThumbnail>
             )}
             <DeleteGoods onClick={(e) => handleDeleteRecentGoods(e, goods.id)}>
-              <AiFillCloseCircle size={20} />
+              <FaTimesCircle size={20} />
             </DeleteGoods>
           </GoodsThumbnailBox>
         ))}

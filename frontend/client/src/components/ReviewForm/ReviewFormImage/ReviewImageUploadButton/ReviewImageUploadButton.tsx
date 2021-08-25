@@ -1,6 +1,6 @@
 import React from 'react';
 import styled from 'styled-components';
-import { AiOutlinePlus } from 'react-icons/ai';
+import { FaPlus } from '@react-icons/all-files/fa/FaPlus';
 
 const MAX_IMAGE_LEN = 5;
 
@@ -11,7 +11,7 @@ interface Props {
 const ReviewImageUploadButton: React.FC<Props> = ({ imagesLen, onClick }) => {
   return (
     <UploadButtonContainer disabled={imagesLen === MAX_IMAGE_LEN} onClick={onClick}>
-      <AiOutlinePlus fontSize='2em' />
+      <FaPlus fontSize='2em' />
       <UploadImageCount>{`${imagesLen} / ${MAX_IMAGE_LEN}`}</UploadImageCount>
     </UploadButtonContainer>
   );

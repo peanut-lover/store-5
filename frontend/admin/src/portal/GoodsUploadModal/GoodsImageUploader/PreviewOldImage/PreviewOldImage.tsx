@@ -1,7 +1,7 @@
 import { styled } from '@src/lib/CustomStyledComponent';
 import { theme } from '@src/theme/theme';
 import React from 'react';
-import { FaTimes } from 'react-icons/fa';
+import { FaTimes } from '@react-icons/all-files/fa/FaTimes';
 
 interface Props {
   id: number;

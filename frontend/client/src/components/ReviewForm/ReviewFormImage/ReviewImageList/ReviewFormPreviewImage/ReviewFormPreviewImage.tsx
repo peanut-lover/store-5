@@ -1,7 +1,7 @@
 import React from 'react';
 import styled from 'styled-components';
-import { FaTimes } from 'react-icons/fa';
 import theme from '@src/theme/theme';
+import { FaTimes } from '@react-icons/all-files/fa/FaTimes';
 
 interface Props {
   url: string;

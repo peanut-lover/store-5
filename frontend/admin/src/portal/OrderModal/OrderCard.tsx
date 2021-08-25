@@ -1,12 +1,12 @@
+import React from 'react';
 import { styled } from '@src/lib/CustomStyledComponent';
 import OrderItemCard from '@src/portal/OrderModal/OrderGoods';
 import { Order } from '@src/types/Order';
 import { convertYYYYMMDDHHMMSS } from '@src/utils/dateHelper';
-import React from 'react';
-import { AiFillHome } from 'react-icons/ai';
-import { FaBoxes } from 'react-icons/fa';
-import { GiMatterStates } from 'react-icons/gi';
-import { MdPayment } from 'react-icons/md';
+import { FaHome } from '@react-icons/all-files/fa/FaHome';
+import { FaBoxes } from '@react-icons/all-files/fa/FaBoxes';
+import { FaTruck } from '@react-icons/all-files/fa/FaTruck';
+import { FaMoneyCheck } from '@react-icons/all-files/fa/FaMoneyCheck';
 
 interface OrderCard {
   order: Order;
@@ -42,7 +42,7 @@ const OrderCard: React.FC<OrderCard> = ({ order }) => {
         <OrderInfoSection>
           <DeliverySection>
             <TitleLabel>
-              <AiFillHome /> 배송지
+              <FaHome /> 배송지
             </TitleLabel>
             <DeliveryInfo>
               <DeliveryInfoLabel>받는 사람</DeliveryInfoLabel>
@@ -57,13 +57,13 @@ const OrderCard: React.FC<OrderCard> = ({ order }) => {
           </DeliverySection>
           <OrderStateSection>
             <TitleLabel>
-              <GiMatterStates /> 주문 상태
+              <FaTruck /> 주문 상태
             </TitleLabel>
             <OrderState>{order.state}</OrderState>
           </OrderStateSection>
           <PaymentSection>
             <TitleLabel>
-              <MdPayment /> 결제 수단
+              <FaMoneyCheck /> 결제 수단
             </TitleLabel>
             <PaymentInfo>
               <PaymentInfoLabel>결제 방식</PaymentInfoLabel>

@@ -1,13 +1,16 @@
 import { usePushHistory } from '@src/lib/CustomRouter/CustomRouter';
 import React, { useCallback, useEffect, useState } from 'react';
 import styled from 'styled-components';
-import { BsHeart, BsFillBucketFill, BsFillHeartFill } from 'react-icons/bs';
 import { BestTag, GreenTag, NewTag, SaleTag } from '../Tag';
 import { getPriceText } from '@src/utils/price';
 import { deleteWish, postWish } from '@src/apis/wishAPI';
 import theme from '@src/theme/theme';
 import useUserState from '@src/hooks/useUserState';
 import { usePushToast } from '@src/lib/ToastProvider/ToastProvider';
+
+import { FaRegHeart } from '@react-icons/all-files/fa/FaRegHeart';
+import { FaHeart } from '@react-icons/all-files/fa/FaHeart';
+import { FaShoppingCart } from '@react-icons/all-files/fa/FaShoppingCart';
 
 export type GoodsItemSize = 'small' | 'middle' | 'big';
 
@@ -105,10 +108,10 @@ const GoodsItem: React.FC<Props> = ({
         <GoodsImageOverlay />
         <GoodsUtilBtnContainer>
           <GoodsUtilBtn onClick={handleToWish}>
-            {isWished ? <BsFillHeartFill size={20} fill={theme.primary} /> : <BsHeart size={20} />}
+            {isWished ? <FaHeart size={20} fill={theme.primary} /> : <FaRegHeart size={20} />}
           </GoodsUtilBtn>
           <GoodsUtilBtn onClick={handleClickUtliButton}>
-            <BsFillBucketFill size={20} />
+            <FaShoppingCart size={20} />
           </GoodsUtilBtn>
         </GoodsUtilBtnContainer>
       </GoodsImageContainer>
@@ -157,6 +160,7 @@ const GoodsItemContainer = styled.div`
   padding: 10px;
   display: flex;
   flex-direction: column;
+  will-change: opacity;
   animation: goodsItemShowEffect 0.5s 0s;
   @keyframes goodsItemShowEffect {
     from {
@@ -202,11 +206,13 @@ const GoodsImageOverlay = styled.div`
   pointer-events: none;
   width: 100%;
   height: 350px;
-  opacity: 0;
 
+  will-change: opacity;
+  opacity: 0;
   ${GoodsImageContainer}:hover & {
     opacity: 1;
   }
+
   transition: opacity 300ms ease;
   background: linear-gradient(
     180deg,
@@ -236,6 +242,10 @@ const GoodsImage = styled.img`
   transform: scale(1);
   filter: blur(1px);
   -webkit-filter: blur(1px);
+  will-change: filter;
+  will-change: transform;
+  will-change: opacity;
+  will-change: -webkit-filter;
 
   ${GoodsImageContainer}:hover & {
     opacity: 1;

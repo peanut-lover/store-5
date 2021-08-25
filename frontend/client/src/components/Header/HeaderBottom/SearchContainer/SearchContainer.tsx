@@ -1,5 +1,4 @@
 import React, { useState, useCallback, useRef, useEffect } from 'react';
-import { BsSearch } from 'react-icons/bs';
 import styled from 'styled-components';
 import SearchHistoryEmpty from './SearchHistoryEmpty/SearchHistoryEmpty';
 import SearchHistoryList from './SearchHistoryList/SearchHistoryList';
@@ -9,6 +8,7 @@ import { debounce, debounceClear } from '@src/utils/debounce';
 import AutoSearchList from './AutoSearchList/AutoSearchList';
 import useAutoSearch from '@src/hooks/useAutoSearch';
 import { usePushHistory } from '@src/lib/CustomRouter';
+import { FaSearch } from '@react-icons/all-files/fa/FaSearch';
 
 interface Props {
   onClose: () => void;
@@ -91,7 +91,7 @@ const SearchContainer: React.FC<Props> = ({ onClose }) => {
         <Form onSubmit={handleSearch}>
           <Input ref={inputRef} value={searchInput} onChange={onChangeSearchInput} onInput={handleAutoSearch} />
           <Button>
-            <BsSearch size='1.3em' />
+            <FaSearch size='1.3em' />
           </Button>
         </Form>
         {autoSearchList.length > 0 && inputFocused && (

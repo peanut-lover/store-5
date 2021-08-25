@@ -6,9 +6,9 @@ import { userState } from '@src/recoil/userState';
 import React, { useCallback } from 'react';
 import { useEffect } from 'react';
 import { useState } from 'react';
-import { AiOutlineShoppingCart } from 'react-icons/ai';
 import { useRecoilState, useRecoilValue } from 'recoil';
 import { IconContainer, IconNumber, IconTitle } from '../IconContainerStyle';
+import { FaShoppingCart } from '@react-icons/all-files/fa/FaShoppingCart';
 
 const ShoppingCartIcon = () => {
   const push = usePushHistory();
@@ -44,7 +44,7 @@ const ShoppingCartIcon = () => {
 
   return (
     <IconContainer onClick={userRecoil.isLoggedIn ? handlePushCart : handleOpenModal}>
-      <AiOutlineShoppingCart size='1.5em' />
+      <FaShoppingCart size='1.5em' />
       {cartGoodsList.length > 0 && <IconNumber>{cartGoodsList.length}</IconNumber>}
       <IconTitle>장바구니</IconTitle>
       {openLoginModal && <LoginModal onClose={handleCloseModal} />}

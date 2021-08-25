@@ -1,6 +1,7 @@
 import React from 'react';
 import styled from 'styled-components';
-import { AiFillCaretUp, AiFillCaretDown } from 'react-icons/ai';
+import { FaChevronDown } from '@react-icons/all-files/fa/FaChevronDown';
+import { FaChevronUp } from '@react-icons/all-files/fa/FaChevronUp';
 
 interface Props {
   value: number;
@@ -17,14 +18,14 @@ const CartGoodsAmountInput: React.FC<Props> = ({ value, onChangeAmount }) => {
             onChangeAmount(value + 1);
           }}
         >
-          <AiFillCaretUp />
+          <FaChevronUp />
         </Button>
         <Button
           onClick={() => {
             onChangeAmount(value - 1);
           }}
         >
-          <AiFillCaretDown />
+          <FaChevronDown />
         </Button>
       </FlexRow>
     </Wrapper>

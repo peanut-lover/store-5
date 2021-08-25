@@ -1,7 +1,10 @@
 import React from 'react';
 import styled from 'styled-components';
-import { BsStar, BsStarFill } from 'react-icons/bs';
 import theme from '@src/theme/theme';
+
+import { FaStar } from '@react-icons/all-files/fa/FaStar';
+import { FaRegStar } from '@react-icons/all-files/fa/FaRegStar';
+
 interface Props {
   value: number;
   rate: number;
@@ -15,7 +18,7 @@ const RateStar: React.FC<Props> = ({ value, rate, onHandleRate }) => {
         onHandleRate(value);
       }}
     >
-      {value <= rate ? <BsStarFill fill={theme.primary} fontSize='1.8em' /> : <BsStar fontSize='1.8em' />}
+      {value <= rate ? <FaStar fill={theme.primary} fontSize='1.8em' /> : <FaRegStar fontSize='1.8em' />}
     </StarContainer>
   );
 };

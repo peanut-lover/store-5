@@ -1,12 +1,11 @@
 import React from 'react';
-
-import { BsCheckCircle } from 'react-icons/bs';
 import {
   GoodsUploadInputContainer,
   UploaderContainer,
   UploaderInput,
   UploaderLabel,
 } from '@src/portal/GoodsUploadModal/UploadContentLeft/style';
+import { FaCheckSquare } from '@react-icons/all-files/fa/FaCheckSquare';
 
 interface Props {
   title: string;
@@ -24,7 +23,7 @@ const GoodsTitleUploader: React.FC<Props> = ({ title, onChangeTitle }) => {
           onInput={onChangeTitle}
           placeholder='Title'
         ></UploaderInput>
-        {title && <BsCheckCircle size='1.4em' color='#2ac1bc' />}
+        {title && <FaCheckSquare size='1.4em' color='#2ac1bc' />}
       </GoodsUploadInputContainer>
     </UploaderContainer>
   );

@@ -1,6 +1,6 @@
 import { styled } from '@src/lib/CustomStyledComponent';
 import React, { MouseEvent } from 'react';
-import { BiImageAdd } from 'react-icons/bi';
+import { FaPlus } from '@react-icons/all-files/fa/FaPlus';
 
 interface Props {
   onClick: (e: MouseEvent) => void;
@@ -9,7 +9,7 @@ interface Props {
 const ImageIconButton: React.FC<Props> = ({ onClick }) => {
   return (
     <Button onClick={onClick}>
-      <BiImageAdd size='6em' cursor='pointer' />
+      <FaPlus size='6em' cursor='pointer' />
       <Span>이미지 업로드</Span>
     </Button>
   );

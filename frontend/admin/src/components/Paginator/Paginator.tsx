@@ -1,8 +1,10 @@
 import React from 'react';
 import styled from 'styled-components';
-import { BsFillCaretLeftFill, BsFillCaretRightFill } from 'react-icons/bs';
 import { range } from '@src/utils/range';
 import { theme } from '@src/theme/theme';
+
+import { FaAngleLeft } from '@react-icons/all-files/fa/FaAngleLeft';
+import { FaAngleRight } from '@react-icons/all-files/fa/FaAngleRight';
 
 interface Props {
   totalPage: number;
@@ -34,7 +36,7 @@ const Paginator: React.FC<Props> = ({ totalPage, currentPage, rangeOfPage = DEFA
   return pages.length === 0 ? null : (
     <PaginatorContainer>
       <PaginationButton onClick={onClickPreviousPage}>
-        <BsFillCaretLeftFill size={20} />
+        <FaAngleLeft size={20} />
       </PaginationButton>
       <PageList>
         {pages.map((page) => (
@@ -44,7 +46,7 @@ const Paginator: React.FC<Props> = ({ totalPage, currentPage, rangeOfPage = DEFA
         ))}
       </PageList>
       <PaginationButton onClick={onClickNextPage}>
-        <BsFillCaretRightFill size={20} />
+        <FaAngleRight size={20} />
       </PaginationButton>
     </PaginatorContainer>
   );

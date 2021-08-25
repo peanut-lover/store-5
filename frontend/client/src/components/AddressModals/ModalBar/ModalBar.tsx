@@ -1,5 +1,5 @@
 import React from 'react';
-import { FiX } from 'react-icons/fi';
+import { FaTimes } from '@react-icons/all-files/fa/FaTimes';
 import styled from 'styled-components';
 
 interface Props {
@@ -14,7 +14,7 @@ const ModalBar: React.FC<Props> = ({ title, onClickExit, disabled }) => {
       <FlexCenter>{title}</FlexCenter>
       <FlexRight>
         <IconButton disabled={disabled} onClick={onClickExit}>
-          <FiX size='1.5rem' />
+          <FaTimes size='1.5rem' />
         </IconButton>
       </FlexRight>
     </Wrapper>

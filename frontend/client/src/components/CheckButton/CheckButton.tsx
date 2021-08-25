@@ -1,6 +1,7 @@
 import React from 'react';
 import styled from 'styled-components';
-import { FaCheck, FaCircle } from 'react-icons/fa';
+import { FaCheck } from '@react-icons/all-files/fa/FaCheck';
+import { FaCircle } from '@react-icons/all-files/fa/FaCircle';
 
 interface Props {
   isChecked: boolean;

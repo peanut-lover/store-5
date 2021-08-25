@@ -1,7 +1,7 @@
 import React, { useCallback, useEffect, useRef, useState } from 'react';
-import { BsSearch } from 'react-icons/bs';
 import { IconContainer, IconTitle } from '../IconContainerStyle';
 import SearchContainer from '@src/components/Header/HeaderBottom/SearchContainer/SearchContainer';
+import { FaSearch } from '@react-icons/all-files/fa/FaSearch';
 
 const SearchIcon = () => {
   const searchRef = useRef<HTMLDivElement>(null);
@@ -28,7 +28,7 @@ const SearchIcon = () => {
 
   return (
     <IconContainer ref={searchRef} onClick={handleOpenSearchForm}>
-      <BsSearch size='1.5em' />
+      <FaSearch size='1.5em' />
       <IconTitle>상품검색</IconTitle>
       {openSearchForm && <SearchContainer onClose={() => setOpenSearchForm(false)} />}
     </IconContainer>

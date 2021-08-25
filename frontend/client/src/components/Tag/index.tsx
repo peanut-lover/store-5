@@ -1,7 +1,9 @@
 import React from 'react';
 import styled from 'styled-components';
-import { FaLeaf, FaThumbsUp } from 'react-icons/fa';
-import { AiFillAlert, AiFillDollarCircle } from 'react-icons/ai';
+import { FaLeaf } from '@react-icons/all-files/fa/FaLeaf';
+import { FaThumbsUp } from '@react-icons/all-files/fa/FaThumbsUp';
+import { FaRegLightbulb } from '@react-icons/all-files/fa/FaRegLightbulb';
+import { FaDollarSign } from '@react-icons/all-files/fa/FaDollarSign';
 
 export const GreenTag: React.FC = () => (
   <TagWrapper fontColor={tagColors.white} bgColor={tagColors.naturalGreen}>
@@ -11,7 +13,7 @@ export const GreenTag: React.FC = () => (
 
 export const NewTag: React.FC = () => (
   <TagWrapper fontColor={tagColors.white} bgColor={tagColors.splashBlue}>
-    NEW <AiFillAlert />
+    NEW <FaRegLightbulb />
   </TagWrapper>
 );
 
@@ -24,7 +26,7 @@ export const BestTag: React.FC = () => (
 
 export const SaleTag: React.FC = () => (
   <TagWrapper fontColor={tagColors.white} bgColor={tagColors.originalRed}>
-    SALE <AiFillDollarCircle />
+    SALE <FaDollarSign />
   </TagWrapper>
 );
 
