@@ -52,7 +52,7 @@ async function getAllCategory(): Promise<CategoryResponse[]> {
   return Array.from(categoryMap.entries()).map(([_, value]) => value);
 }
 
-async function getCategoryCount(): Promise<CategoryCountResponse> {
+async function getCategoryGoodsCount(): Promise<CategoryCountResponse> {
   const childCategories = await CategoryRepository.getChildCategories();
   return childCategories.map((category) => {
     return { name: category.name, value: category.goodsList.length };
@@ -115,7 +115,7 @@ async function pushCategoryViewToList(
 export default {
   createCategory,
   getAllCategory,
-  getCategoryCount,
+  getCategoryGoodsCount,
   getTopSellingCategory,
   getCategoryViews,
 };

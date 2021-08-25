@@ -18,15 +18,8 @@ const CategoryPieChart = () => {
 
   const fetchChartData = async () => {
     try {
-      const { result } = await CategoryAPI.getCategoryCounts();
-      const totalCount = result.reduce((pre, curr) => pre + curr.value, 0);
-      const processedData = result.map(({ name, value }) => {
-        return {
-          name,
-          value: totalCount,
-        };
-      });
-      setChartData(processedData);
+      const { result } = await CategoryAPI.getCategoryGoodsCounts();
+      setChartData(result);
     } catch (err) {
       console.error(err);
     }

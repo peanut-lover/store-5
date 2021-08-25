@@ -12,7 +12,7 @@ const getAllCategory = async (): Promise<APIResponse<CategoryResponse>> => {
   return res.json();
 };
 
-const getCategoryCounts = async (): Promise<APIResponse<PieChartData>> => {
+const getCategoryGoodsCounts = async (): Promise<APIResponse<PieChartData>> => {
   const res = await checkedFetch(`/api/category/dashboard/count`, {
     method: 'GET',
     credentials: 'include',
@@ -38,7 +38,7 @@ const getCategoriesView = async (): Promise<APIResponse<CategoryView[]>> => {
 
 const CategoryAPI = {
   getAllCategory,
-  getCategoryCounts,
+  getCategoryGoodsCounts,
   getBestSellingCategory,
   getCategoriesView,
 };
