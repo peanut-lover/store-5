@@ -18,6 +18,7 @@ const PromotionUploadModal: React.FC<Props> = ({ updatePromotions, onClose }) =>
   const [promotionFile, setPromotionFile] = useState<File>();
   const [selectedGoods, setSelectedGoods] = useState<AutoSearchedItem>();
   const [submitDisabled, setSubmitDisabled] = useState<boolean>(true);
+  const [disabled, setDisabled] = useState<boolean>(false);
 
   const handleUploadFile = useCallback(
     (f: File) => {
@@ -34,6 +35,8 @@ const PromotionUploadModal: React.FC<Props> = ({ updatePromotions, onClose }) =>
   );
 
   const handleSubmit = async () => {
+    if (disabled) return;
+    setDisabled(true);
     const formData = new FormData();
     if (!promotionFile || !selectedGoods) return;
     formData.append('file', promotionFile);
@@ -45,6 +48,8 @@ const PromotionUploadModal: React.FC<Props> = ({ updatePromotions, onClose }) =>
     } catch (err) {
       // TODO: alert 추후에 수정해야함
       console.error(err);
+    } finally {
+      setDisabled(false);
     }
   };
 
