@@ -12,6 +12,7 @@ const GoodsTableHead: React.FC<Props> = ({ handleOrderAndSortGoods, searchQuery 
   return (
     <GoodsTableHeadContainer>
       <TableRow>
+        <GoodsTableHeadData text={'아이디'} handleOrderAndSortGoods={handleOrderAndSortGoods} />
         <GoodsTableHeadData text={'썸네일'} handleOrderAndSortGoods={handleOrderAndSortGoods} />
         <GoodsTableHeadData
           text={'상품명'}
@@ -57,6 +58,7 @@ const GoodsTableHead: React.FC<Props> = ({ handleOrderAndSortGoods, searchQuery 
         />
         <GoodsTableHeadData text={'상태'} handleOrderAndSortGoods={handleOrderAndSortGoods} />
         <GoodsTableHeadData text={'카테고리'} handleOrderAndSortGoods={handleOrderAndSortGoods} />
+        <GoodsTableHeadData text={'삭제하기'} handleOrderAndSortGoods={handleOrderAndSortGoods} />
       </TableRow>
     </GoodsTableHeadContainer>
   );
