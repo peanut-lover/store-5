@@ -7,8 +7,8 @@ import { getReviewsOption } from '../types/Review';
 async function getReviews({ limit, page, goodsId, userId }: getReviewsOption) {
   try {
     const where = new Object();
-    if (goodsId) Object.assign(where, { goodsId });
-    if (userId) Object.assign(where, { userId });
+    if (goodsId) Object.assign(where, { goods: { id: goodsId } });
+    if (userId) Object.assign(where, { user: { id: userId } });
 
     return await getRepository(Review).find({
       skip: limit * (page - 1),
@@ -28,8 +28,8 @@ async function getReviews({ limit, page, goodsId, userId }: getReviewsOption) {
 async function getReviewsCount({ limit, page, goodsId, userId }: getReviewsOption) {
   try {
     const where = new Object();
-    if (goodsId) Object.assign(where, { goodsId });
-    if (userId) Object.assign(where, { userId });
+    if (goodsId) Object.assign(where, { goods: { id: goodsId } });
+    if (userId) Object.assign(where, { user: { id: userId } });
 
     return await getRepository(Review).count(where);
   } catch (err) {
