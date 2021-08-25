@@ -8,6 +8,7 @@ import { getMainGoodsListMap } from '@src/apis/goodsAPI';
 import PromotionAPI from '@src/apis/promotionAPI';
 import { useRecoilValue } from 'recoil';
 import { userState } from '@src/recoil/userState';
+import AdminFubButton from '@src/components/AdminFubButton/AdminFubButton';
 
 const Main = () => {
   const [promotions, setPromotions] = useState<Promotion[]>([]);
@@ -41,6 +42,7 @@ const Main = () => {
           <GoodsSection sectionTitle='새로 나왔어요' goodsList={mainGoodsListMap.discountGoodsList} itemBoxSize='big' />
           <GoodsSection sectionTitle='지금 할인 중' goodsList={mainGoodsListMap.latestGoodsList} itemBoxSize='big' />
         </MainContentContainer>
+        <AdminFubButton />
       </>
     )
   );
