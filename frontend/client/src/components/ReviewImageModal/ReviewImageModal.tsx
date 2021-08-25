@@ -13,7 +13,6 @@ interface Props {
 
 const ReviewImageModal: React.FC<Props> = ({ initialReview, initialIndex, onClose }) => {
   const [review] = useState(initialReview);
-  const [index, setIndex] = useState(initialIndex);
 
   const sliderSettings = {
     dots: true,
@@ -21,6 +20,7 @@ const ReviewImageModal: React.FC<Props> = ({ initialReview, initialIndex, onClos
     speed: 500,
     slidesToShow: 1,
     slidesToScroll: 1,
+    initialSlide: initialIndex,
   };
 
   return (
