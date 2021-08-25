@@ -10,8 +10,8 @@ interface Props {
 const ConfirmModal: React.FC<Props> = ({ title, onConfirm, onClose }) => {
   return (
     <Portal>
-      <ConfirmModalContainer>
-        <ConfirmContent>
+      <ConfirmModalContainer onClick={() => onClose()}>
+        <ConfirmContent onClick={(e) => e.stopPropagation()}>
           <ConfirmTitleContainer>
             <ConfirmTitle>{title}</ConfirmTitle>
           </ConfirmTitleContainer>

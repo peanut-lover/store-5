@@ -4,14 +4,21 @@ import React from 'react';
 import styled from 'styled-components';
 
 interface LiveOrderCardProps {
+  onClickOrder: (order: Order) => void;
   order: Order;
 }
 
-const LiveOrderCard: React.FC<LiveOrderCardProps> = ({ order }) => {
+const LiveOrderCard: React.FC<LiveOrderCardProps> = ({ order, onClickOrder }) => {
   const { id, orderItems, user, createdAt } = order;
   const firstOrderItems = orderItems[0];
+
+  const handleClickCard = (e: React.MouseEvent) => {
+    onClickOrder(order);
+    e.stopPropagation();
+  };
+
   return (
-    <div>
+    <div onClick={handleClickCard}>
       <LiveOrderTitle>{convertYYYYMMDDHHMMSS(new Date(createdAt))}</LiveOrderTitle>
       <LiveOrderCardContainer key={id}>
         <img width={50} height={50} src={firstOrderItems.goods.thumbnailUrl} />

@@ -142,8 +142,8 @@ const GoodsUploadModal: React.FC<Props> = ({ onClose, goods }) => {
   }, []);
   return (
     <Portal>
-      <ModalContainer>
-        <ProductUploadContainer>
+      <ModalContainer onClick={() => onClose()}>
+        <ProductUploadContainer onClick={(e) => e.stopPropagation()}>
           <ProductImageUploader
             onHandleUpdateFiles={handleUpdateFiles}
             onHandleDeleteFile={handleDeleteFile}

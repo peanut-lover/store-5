@@ -2,6 +2,7 @@ import { getAllOrders } from '@src/apis/orderAPI';
 import useInterval from '@src/hooks/useInterval';
 import { styled } from '@src/lib/CustomStyledComponent';
 import LiveOrderCard from '@src/pages/Main/LiveOrderList/LiveOrderCard/LiveOrderCard';
+import OrderModal from '@src/portal/OrderModal/OrderModal';
 import { theme } from '@src/theme/theme';
 import { Order } from '@src/types/Order';
 import { convertYYYYMMDDHHMMSS } from '@src/utils/dateHelper';
@@ -13,6 +14,8 @@ const POLLING_INTERVAL_MILLISECONDS = 2000;
 
 const LiveOrderList = () => {
   const [updateTime, setUpdateTime] = useState<Date>(new Date());
+  const [selectedOrder, setSelectedOrder] = useState<Order | null>(null);
+  const [isOpenOrderModal, setIsOpenOrderModal] = useState<boolean>(false);
   const [orders, setOrder] = useState<Order[]>([]);
 
   const updateOrders = useCallback(async () => {
@@ -33,6 +36,12 @@ const LiveOrderList = () => {
 
   useInterval(updateOrders, POLLING_INTERVAL_MILLISECONDS); // 1초마다 폴링
 
+  const handleCloseModal = () => setIsOpenOrderModal(false);
+  const handleClickOrder = (order: Order) => {
+    setIsOpenOrderModal(true);
+    setSelectedOrder(order);
+  };
+
   return (
     <LiveOrderListContainer>
       <LiveOrderListTitle color={theme.greenColor}>주문 현황</LiveOrderListTitle>
@@ -41,9 +50,10 @@ const LiveOrderList = () => {
       </LatestUpdateTime>
       <LiveOrderItemContainer>
         {orders.map((order) => (
-          <LiveOrderCard key={order.id} order={order} />
+          <LiveOrderCard key={order.id} order={order} onClickOrder={handleClickOrder} />
         ))}
       </LiveOrderItemContainer>
+      {isOpenOrderModal && selectedOrder && <OrderModal onClose={handleCloseModal} order={selectedOrder} />}
     </LiveOrderListContainer>
   );
 };

@@ -5,21 +5,21 @@ import React from 'react';
 import styled from 'styled-components';
 
 interface OrderTableProps {
+  onClickOrder: (order: Order) => void;
   orderList: Order[];
 }
 
-const OrderTable: React.FC<OrderTableProps> = ({ orderList }) => {
+const OrderTable: React.FC<OrderTableProps> = ({ orderList, onClickOrder }) => {
   return (
     <OrderTableContainer>
       <OrderTableHead />
-      <OrderTableBody orderList={orderList} />
+      <OrderTableBody orderList={orderList} onClickOrder={onClickOrder} />
     </OrderTableContainer>
   );
 };
 
 const OrderTableContainer = styled.div`
   width: 100%;
-  min-height: 650px;
 `;
 
 export default OrderTable;

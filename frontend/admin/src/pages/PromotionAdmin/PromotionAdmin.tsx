@@ -49,7 +49,7 @@ const PromotionAdmin = () => {
 const PromotionAdminContainer = styled('div')`
   position: relative;
   width: 100%;
-  min-width: 1080px;
+  min-width: 1280px;
 `;
 
 const PromotionCounterContainer = styled('div')`

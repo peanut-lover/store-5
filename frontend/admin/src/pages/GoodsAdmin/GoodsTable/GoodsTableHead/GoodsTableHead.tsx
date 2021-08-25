@@ -10,6 +10,7 @@ const GoodsTableHead = () => {
     // TODO: 컴포넌트화
     <GoodsTableHeadContainer>
       <TableRow>
+        <TableHeadData>상품 ID</TableHeadData>
         <TableHeadData>썸네일</TableHeadData>
         <TableHeadData>
           <SortButton onClick={handleSortGoods}>

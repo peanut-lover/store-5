@@ -35,14 +35,16 @@ const PromotionListContainer = styled('ul')`
   border: 1px solid lightgray;
   border-radius: 16px;
 `;
+
 const PromotionAddButtonContainer = styled('div')`
   position: relative;
-  padding: 25px;
-  width: 50%;
+  padding: 10px;
+  width: 100%;
   height: 400px;
   min-width: 440px;
   min-height: 320px;
 `;
+
 const PromotionAddButton = styled('button')`
   position: relative;
   font-size: 2em;

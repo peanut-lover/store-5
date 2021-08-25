@@ -5,13 +5,17 @@ import { Order } from '@src/types/Order';
 import { convertYYYYMMDDHHMMSS } from '@src/utils/dateHelper';
 
 interface OrderRowProps {
+  onClickOrder: (order: Order) => void;
   order: Order;
 }
 
-const OrderRow: React.FC<OrderRowProps> = ({ order }) => {
-  const firstGoods = order.orderItems[0];
+const OrderRow: React.FC<OrderRowProps> = ({ order, onClickOrder }) => {
+  const handleClickRow = (e: React.MouseEvent) => {
+    onClickOrder(order);
+  };
+
   return (
-    <OrderRowContainer>
+    <OrderRowContainer onClick={handleClickRow}>
       <OrderRowCell>
         <p>{order.id}</p>
       </OrderRowCell>
@@ -76,7 +80,6 @@ const OrderUserRowCell = styled('div')`
 
 const UserThumbnailImg = styled('img')`
   border-radius: 50%;
-  border: 1px solid #c0c0c0;
   width: 50px;
   height: 50px;
   object-fit: contain;

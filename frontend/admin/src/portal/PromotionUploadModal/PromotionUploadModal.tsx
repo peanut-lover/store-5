@@ -57,8 +57,8 @@ const PromotionUploadModal: React.FC<Props> = ({ updatePromotions, onClose }) =>
 
   return (
     <Portal>
-      <ModalContainer>
-        <PromotionUploadContainer>
+      <ModalContainer onClick={() => onClose()}>
+        <PromotionUploadContainer onClick={(e) => e.stopPropagation()}>
           <PositionContainer>
             <PromotionImageUploader onUploadFile={handleUploadFile} />
             <GoodsSearchInput onUpdateSelectedGoods={handleSelectedGoods} />
