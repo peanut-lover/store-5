@@ -13,6 +13,8 @@ import { GoodsImg } from '@src/types/GoodsImg';
 
 import { FaTimes } from '@react-icons/all-files/fa/FaTimes';
 
+const GOODS_STATES = ['판매중', '임시저장', '삭제'];
+
 interface Props {
   onClose: () => void;
   goods?: GoodsItem | null;
@@ -115,6 +117,14 @@ const GoodsUploadModal: React.FC<Props> = ({ onClose, goods }) => {
     [setDiscountRate]
   );
 
+  const getUploadGoodsState = (): string[] => {
+    const newGoodsStates = [...GOODS_STATES];
+    if (!goods) {
+      newGoodsStates.pop();
+    }
+    return newGoodsStates;
+  };
+
   useEffect(() => {
     const updateSubmitActiveFalse = () => {
       if (submitActive) return setSubmitActive('');
@@ -171,6 +181,7 @@ const GoodsUploadModal: React.FC<Props> = ({ onClose, goods }) => {
                 onHandleDeliveryInfo={handleDeliveryInfo}
                 onHandleCategory={handleCategory}
                 onHandleProductState={handleProductState}
+                goodsStates={getUploadGoodsState()}
               />
               <SubmitButton onClick={handleSubmit} active={submitActive}>
                 {goods ? '상품 수정' : '상품 등록'}

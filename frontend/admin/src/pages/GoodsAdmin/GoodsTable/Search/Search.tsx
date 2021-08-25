@@ -27,9 +27,8 @@ const Search: React.FC<Props> = ({ setKeyword }) => {
 const SearchContainer = styled('div')`
   width: fit-content;
   text-align: right;
-  position: absolute;
   margin-top: -60px;
-  right: 0;
+  float: right;
 `;
 
 const SearchInput = styled('input')`

@@ -60,10 +60,20 @@ async function getPromotionChartData(): Promise<Promotion[]> {
   }
 }
 
+async function getPromotionTotalCount(): Promise<number> {
+  try {
+    return await getRepository(Promotion).count();
+  } catch (err) {
+    console.error(err);
+    throw new DatabaseError(PROMOTION_DB_ERROR);
+  }
+}
+
 export const PromotionRepository = {
   createPromotion,
   getPromotions,
   deletePromotion,
   increasePromotionView,
   getPromotionChartData,
+  getPromotionTotalCount,
 };

@@ -2,9 +2,8 @@ import React from 'react';
 import { styled } from '@src/lib/CustomStyledComponent';
 import originStyled from 'styled-components';
 import { GoodsItem } from '@src/types/Goods';
-import { getDiscountedPrice, getPriceText } from '@src/utils/price';
+import { getPriceText } from '@src/utils/price';
 import { convertYYYYMMDD } from '@src/utils/dateHelper';
-import { theme } from '@src/theme/theme';
 
 interface Props {
   goods: GoodsItem;
@@ -23,6 +22,7 @@ const STATE_MAP: StateMap = {
 
 const GoodsTableRow: React.FC<Props> = ({ goods, handleUpdateGoods }) => {
   const { thumbnailUrl, title, price, discountRate, stock, countOfSell, createdAt, updatedAt, state, category } = goods;
+
   return (
     <GoodsTableRowContainer onClick={() => handleUpdateGoods(goods)}>
       <TableData>{goods.id}</TableData>

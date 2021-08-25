@@ -1,4 +1,4 @@
-import { FindOperator, getRepository, Like, MoreThan } from 'typeorm';
+import { FindOperator, getRepository, Like, MoreThan, UpdateResult } from 'typeorm';
 import { GOODS_DB_ERROR } from '../constants/database.error.name';
 import { DatabaseError } from '../errors/base.error';
 import { Goods } from '../entity/Goods';

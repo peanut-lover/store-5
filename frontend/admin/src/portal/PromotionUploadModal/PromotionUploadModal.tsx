@@ -6,6 +6,7 @@ import GoodsSearchInput from '@src/components/GoodsSearchInput/GoodsSearchInput'
 import { AutoSearchedItem } from '@src/types/Search';
 import PromotionSelectedGoods from '@src/portal/PromotionUploadModal/PromotionSelectedGoods/PromotionSelectedGoods';
 import { theme } from '@src/theme/theme';
+import { FaTimes } from '@react-icons/all-files/fa/FaTimes';
 import PromotionAPI from '@src/apis/promotionAPI';
 
 interface Props {
@@ -17,6 +18,7 @@ const PromotionUploadModal: React.FC<Props> = ({ updatePromotions, onClose }) =>
   const [promotionFile, setPromotionFile] = useState<File>();
   const [selectedGoods, setSelectedGoods] = useState<AutoSearchedItem>();
   const [submitDisabled, setSubmitDisabled] = useState<boolean>(true);
+  const [disabled, setDisabled] = useState<boolean>(false);
 
   const handleUploadFile = useCallback(
     (f: File) => {
@@ -33,6 +35,8 @@ const PromotionUploadModal: React.FC<Props> = ({ updatePromotions, onClose }) =>
   );
 
   const handleSubmit = async () => {
+    if (disabled) return;
+    setDisabled(true);
     const formData = new FormData();
     if (!promotionFile || !selectedGoods) return;
     formData.append('file', promotionFile);
@@ -44,6 +48,8 @@ const PromotionUploadModal: React.FC<Props> = ({ updatePromotions, onClose }) =>
     } catch (err) {
       // TODO: alert 추후에 수정해야함
       console.error(err);
+    } finally {
+      setDisabled(false);
     }
   };
 
@@ -68,7 +74,7 @@ const PromotionUploadModal: React.FC<Props> = ({ updatePromotions, onClose }) =>
             </UploadButton>
           </PositionContainer>
           <CloseButton onClick={onClose} bgcolor={theme.greenColor}>
-            X
+            <FaTimes />
           </CloseButton>
         </PromotionUploadContainer>
       </ModalContainer>
@@ -107,12 +113,13 @@ const PositionContainer = styled('div')`
 
 const UploadButton = styled('button')<{ disabled: boolean }>`
   position: absolute;
-  left: 25%;
+  left: 15%;
   bottom: 50px;
-  width: 50%;
-  height: 8%;
-  font-size: 1.6em;
-  border-radius: 12px;
+  width: 70%;
+  height: 50px;
+  border-radius: 4px;
+  font-size: 1.2rem;
+  font-weight: 600;
   color: white;
   border: none;
   background-color: ${(props) => (props.disabled ? 'lightgray' : '#2ac1bc')};
@@ -131,6 +138,8 @@ const CloseButton = styled('button')<{ bgcolor: string }>`
   background-color: ${(props) => props.bgcolor};
   color: white;
   border: none;
+  display: flex;
+  align-items: center;
   cursor: pointer;
 `;
 

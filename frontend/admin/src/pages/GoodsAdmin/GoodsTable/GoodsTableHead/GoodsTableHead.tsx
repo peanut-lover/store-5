@@ -12,6 +12,7 @@ const GoodsTableHead: React.FC<Props> = ({ handleOrderAndSortGoods, searchQuery 
   return (
     <GoodsTableHeadContainer>
       <TableRow>
+        <GoodsTableHeadData text={'아이디'} handleOrderAndSortGoods={handleOrderAndSortGoods} />
         <GoodsTableHeadData text={'썸네일'} handleOrderAndSortGoods={handleOrderAndSortGoods} />
         <GoodsTableHeadData
           text={'상품명'}

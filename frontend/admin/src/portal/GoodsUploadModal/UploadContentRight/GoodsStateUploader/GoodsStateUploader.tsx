@@ -4,11 +4,10 @@ import React, { ChangeEvent, useCallback, useEffect } from 'react';
 
 interface Props {
   onHandleProductState: (productState: string) => void;
+  goodsStates: string[];
 }
 
-const PRODUCT_STATE = ['판매중', '임시저장'];
-
-const GoodsStateUploader: React.FC<Props> = ({ onHandleProductState }) => {
+const GoodsStateUploader: React.FC<Props> = ({ onHandleProductState, goodsStates }) => {
   const handleProductState = useCallback(
     (e: ChangeEvent<HTMLSelectElement>) => {
       onHandleProductState(e.target.value);
@@ -16,13 +15,13 @@ const GoodsStateUploader: React.FC<Props> = ({ onHandleProductState }) => {
     [onHandleProductState]
   );
   useEffect(() => {
-    onHandleProductState(PRODUCT_STATE[0]);
+    onHandleProductState(goodsStates[0]);
   }, []);
   return (
     <>
       <UploaderLabel>상품 상태</UploaderLabel>
       <ProductStateSelect onChange={handleProductState}>
-        {PRODUCT_STATE.map((name, i) => (
+        {goodsStates.map((name, i) => (
           <option key={i} value={name}>
             {name}
           </option>

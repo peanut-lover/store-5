@@ -78,21 +78,20 @@ const SearchInputForm = styled('form')`
   position: relative;
   display: flex;
   align-items: center;
-  justify-content: center;
+  justify-content: space-between;
   margin: auto;
-  margin-top: 20px;
-  height: 80px;
+  margin-top: 2rem;
   width: 70%;
+  height: 60px;
   padding: 16px;
   border: 1px solid rgb(221, 221, 221);
-  border-radius: 6px;
-  box-shadow: rgb(0 0 0 / 10%) 0 -2px 10px 1px;
+  border-radius: 4px;
 `;
 
 const SearchInput = styled('input')`
   width: 70%;
   font-size: 1.2em;
-  height: 70px;
+  height: 50px;
   margin: 0px;
   outline: none;
   border: none;

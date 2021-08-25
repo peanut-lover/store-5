@@ -17,8 +17,8 @@ const OrderCard: React.FC<OrderCard> = ({ order }) => {
       <OrderCardContainerHeader>
         <OrderTimeSection>
           <TitleLabel>주문 일시</TitleLabel>
-          <div>발생: {convertYYYYMMDDHHMMSS(new Date(order.createdAt))}</div>
-          <div>수정: {convertYYYYMMDDHHMMSS(new Date(order.updatedAt))}</div>
+          <div>주문 시간: {convertYYYYMMDDHHMMSS(new Date(order.createdAt))}</div>
+          <div>최종 수정 시간: {convertYYYYMMDDHHMMSS(new Date(order.updatedAt))}</div>
         </OrderTimeSection>
         <OrderUserSection>
           <TitleLabel>고객 정보</TitleLabel>
@@ -103,9 +103,9 @@ const OrderTimeSection = styled('div')`
 const OrderUserSection = styled('div')`
   display: flex;
   flex-direction: column;
-  justify-content: flex-start;
-  align-items: center;
-  width: 50%;
+  align-items: flex-start;
+  width: 100%;
+  row-gap: 0.5rem;
 `;
 
 const OrderCardContainerBody = styled('div')`
