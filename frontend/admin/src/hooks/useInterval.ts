@@ -20,7 +20,7 @@ const useInterval: IntervalHook = (callback, delay) => {
         clearInterval(id);
       };
     }
-  }, [callback, delay]);
+  }, [delay]);
 };
 
 export default useInterval;
