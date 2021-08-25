@@ -16,6 +16,7 @@ import { useRecoilValue } from 'recoil';
 import useScrollToTop from '@src/hooks/useScrollToTop';
 import Loading from '@src/components/Loading/Loading';
 import ReviewContainer from '@src/components/ReviewContainer/ReviewContainer';
+import Divider from '@src/components/Divider/Divider';
 
 const ERROR_SERVER = '서버 문제로 상품 정보 조회에 실패하였습니다!';
 
@@ -66,8 +67,11 @@ const GoodsDetailPage = () => {
               )}
             </GoodsContentContainer>
           </GoodsMainContainer>
-          <RelationSection categoryName={goods.category.name} />
-          <ReviewContainer key={goods.id} initialGoodsId={goods.id} initialGoods={goods} />
+          <GoodsDetailBottomInfoContainer>
+            <RelationSection categoryName={goods.category.name} />
+            <Divider />
+            <ReviewContainer key={goods.id} initialGoodsId={goods.id} initialGoods={goods} />
+          </GoodsDetailBottomInfoContainer>
         </>
       ) : (
         <Loading />
@@ -94,6 +98,13 @@ const GoodsDetailContainer = styled.div`
       transform: translate(0%, 0%);
     }
   }
+`;
+
+const GoodsDetailBottomInfoContainer = styled.div`
+  display: flex;
+  flex-direction: column;
+  gap: 2rem;
+  margin-bottom: 4rem;
 `;
 
 const GoodsMainContainer = styled.div`

@@ -1,5 +1,5 @@
 import { Review } from './../entity/Review';
-import { getConnection } from 'typeorm';
+import { getConnection, getRepository } from 'typeorm';
 import { GoodsRepository } from './../repository/goods.repository';
 import { BadRequestError, ForbiddenError } from './../errors/client.error';
 import { CreateReviewBody, UpdateReviewBody } from '../types/request/review.request';
@@ -7,11 +7,22 @@ import { isNumber, isString } from '../utils/check.primitive.type';
 import { FORBIDDEN, INVALID_ACCESS, INVALID_DATA } from '../constants/client.error.name';
 import { ReviewImg } from '../entity/ReviewImg';
 import { ReviewRepository } from '../repository/review.repository';
+import { getReviewsOption, getReviewsResult } from '../types/Review';
 
 const MAX_RATE = 5;
 const MIN_RATE = 1;
 
 const ALREADY_REVIEW_CREATED = '이미 리뷰를 등록하셨습니다.';
+
+async function getReviews(option: getReviewsOption): Promise<getReviewsResult> {
+  const totalCount = await ReviewRepository.getReviewsCount(option);
+  const reviews = await ReviewRepository.getReviews(option);
+
+  return {
+    meta: { totalCount },
+    reviews: reviews.map((review) => ({ ...review, isMine: option.requestUserId === review.user.id })),
+  };
+}
 
 async function createReview(userId: number, body: CreateReviewBody, uploadFileUrls: string[]): Promise<Review> {
   await checkValidateCreateReview(body);
@@ -67,6 +78,11 @@ async function updateReview(userId: number, body: UpdateReviewBody, reviewId: nu
   });
 }
 
+async function deleteReview(userId: number, reviewId: number) {
+  await checkIsMineReview(userId, reviewId);
+  await ReviewRepository.deleteReview(reviewId);
+}
+
 async function checkValidateCreateReview(body: CreateReviewBody): Promise<void> {
   const { goodsId, contents, rate } = body;
   if (!isNumber(goodsId) || !isString(contents) || !isNumber(rate)) throw new BadRequestError(INVALID_DATA);
@@ -82,6 +98,8 @@ async function checkIsMineReview(userId: number, reviewId: number) {
 }
 
 export const ReviewService = {
+  getReviews,
   createReview,
   updateReview,
+  deleteReview,
 };
