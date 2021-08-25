@@ -1,3 +1,5 @@
+import { Review } from './../entity/Review';
+
 export interface getReviewsOption {
   limit: number;
   page: number;
