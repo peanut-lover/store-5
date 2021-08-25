@@ -9,6 +9,8 @@ const ReviewImageFieldName = 'files';
 
 const router = express.Router();
 
+router.get('/', wrapAsync(ReviewController.getReviews));
+
 router.post(
   '/',
   isAuthenticate,
@@ -22,5 +24,7 @@ router.put(
   uploadProductFiles.array(ReviewImageFieldName, REVIEW_MAX_IMAGE),
   wrapAsync(ReviewController.updateReview)
 );
+
+router.delete('/:id', isAuthenticate, wrapAsync(ReviewController.deleteReview));
 
 export default router;
