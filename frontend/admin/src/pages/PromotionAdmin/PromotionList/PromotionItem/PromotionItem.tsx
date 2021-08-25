@@ -35,6 +35,7 @@ const PromotionItem: React.FC<Props> = ({ promotion, onDeletePromotion }) => {
 
   return (
     <PromotionContainer>
+      <PromotionTitle color={theme.black6}>{promotion.title}</PromotionTitle>
       <PromotionImage src={promotion.imgUrl} />
       <PromotionDeleteButton onClick={handleOpenDeleteModal} bgcolor={theme.greenColor}>
         <FaTimes />
@@ -52,15 +53,21 @@ const PromotionItem: React.FC<Props> = ({ promotion, onDeletePromotion }) => {
 
 const PromotionContainer = styled('div')`
   position: relative;
-  width: 50%;
-  height: 280px;
+  width: 100%;
   padding: 1rem;
+  margin-bottom: 1rem;
+`;
+
+const PromotionTitle = styled('div')<{ color: string }>`
+  font-size: 16px;
+  font-weight: 600;
+  color: ${(props) => props.color};
   margin-bottom: 1rem;
 `;
 
 const PromotionImage = styled('img')`
   width: 100%;
-  height: 100%;
+  height: 250px;
   border-radius: 10px;
 `;
 

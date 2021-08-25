@@ -61,12 +61,11 @@ const PromotionViewChart: React.FC<Props> = ({ promotions }) => {
 };
 
 const BarChartContainer = styled.div`
-  padding: 16px;
-  width: 50%;
-  height: 100%;
+  padding: 1rem;
+  width: 100%;
+  height: 500px;
   position: relative;
   background-color: #fff;
-  border-radius: 6px;
   font-size: 12px;
 `;
 

@@ -7,7 +7,7 @@ const PromotionImageButton = () => {
   return (
     <Button>
       <FaAdversal size='3em' color={theme.greenColor} />
-      <Span>프로모션 이미지</Span>
+      <Span>프로모션 이미지 등록하기</Span>
     </Button>
   );
 };
@@ -18,6 +18,7 @@ const Button = styled(`button`)`
   align-items: center;
   justify-content: center;
   background-color: transparent;
+  cursor: pointer;
   border: none;
   border-top-left-radius: 12px;
   border-top-right-radius: 12px;

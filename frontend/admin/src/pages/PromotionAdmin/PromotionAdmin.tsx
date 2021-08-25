@@ -8,7 +8,6 @@ import React, { useCallback, useEffect, useState } from 'react';
 
 const PromotionAdmin = () => {
   const [promotions, setPromotions] = useState<Promotion[]>([]);
-  const [openPromotionModal, setOpenPromotionModal] = useState<boolean>(false);
 
   const fetchingPromotions = useCallback(async () => {
     try {
@@ -19,12 +18,14 @@ const PromotionAdmin = () => {
     }
   }, [setPromotions]);
 
-  const onOpenModal = useCallback(() => {
-    setOpenPromotionModal(true);
-  }, [setOpenPromotionModal]);
+  const [openPromotionModal, setOpenPromotionModal] = useState<boolean>(false);
 
   const handleCloseModal = useCallback(() => {
     setOpenPromotionModal(false);
+  }, [setOpenPromotionModal]);
+
+  const onOpenModal = useCallback(() => {
+    setOpenPromotionModal(true);
   }, [setOpenPromotionModal]);
 
   const handleDeletePromotion = useCallback(async (promotionId: number) => {
@@ -37,15 +38,16 @@ const PromotionAdmin = () => {
   }, []);
   return (
     <PromotionAdminContainer>
-      <GoodsAdminHeader>
+      <PromotionAdminHeader>
         <Title>프로모션 관리</Title>
         <PromotionSpan>{`총 프로모션 ${promotions.length}건`}</PromotionSpan>
-      </GoodsAdminHeader>
-      <PromotionChartAndButtonContainer>
-        <PromotionViewChart promotions={promotions} />
-        <PromotionAddButton onClick={onOpenModal}>+</PromotionAddButton>
-      </PromotionChartAndButtonContainer>
-      <PromotionList promotions={promotions} onDeletePromotion={handleDeletePromotion} />
+      </PromotionAdminHeader>
+      <PromotionAdminBody>
+        <PromotionChartContainer>
+          <PromotionViewChart promotions={promotions} />
+        </PromotionChartContainer>
+        <PromotionList promotions={promotions} onDeletePromotion={handleDeletePromotion} onOpenModal={onOpenModal} />
+      </PromotionAdminBody>
       {openPromotionModal && <PromotionUploadModal updatePromotions={fetchingPromotions} onClose={handleCloseModal} />}
     </PromotionAdminContainer>
   );
@@ -56,11 +58,10 @@ const PromotionAdminContainer = styled('div')`
   position: relative;
   margin: 5rem;
   margin-bottom: 0;
-  overflow-y: auto;
   min-width: 1280px;
 `;
 
-const GoodsAdminHeader = styled('div')`
+const PromotionAdminHeader = styled('div')`
   display: flex;
   column-gap: 1rem;
   margin-bottom: 20px;
@@ -76,24 +77,17 @@ const PromotionSpan = styled('span')`
   font-size: 16px;
 `;
 
-const PromotionChartAndButtonContainer = styled('div')`
+const PromotionAdminBody = styled('div')`
+  display: flex;
+  width: 100%;
+  position: relative;
+`;
+
+const PromotionChartContainer = styled('div')`
   position: relative;
   padding: 16px;
   width: 100%;
   height: 300px;
-  display: flex;
-  align-items: center;
-`;
-const PromotionAddButton = styled('button')`
-  position: relative;
-  font-size: 3rem;
-  width: 50%;
-  height: 250px;
-  margin: 1rem;
-  border-radius: 20px;
-  cursor: pointer;
-  border: none;
-  color: gray;
 `;
 
 export default PromotionAdmin;

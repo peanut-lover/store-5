@@ -6,6 +6,7 @@ import GoodsSearchInput from '@src/components/GoodsSearchInput/GoodsSearchInput'
 import { AutoSearchedItem } from '@src/types/Search';
 import PromotionSelectedGoods from '@src/portal/PromotionUploadModal/PromotionSelectedGoods/PromotionSelectedGoods';
 import { theme } from '@src/theme/theme';
+import { FaTimes } from '@react-icons/all-files/fa/FaTimes';
 import PromotionAPI from '@src/apis/promotionAPI';
 
 interface Props {
@@ -68,7 +69,7 @@ const PromotionUploadModal: React.FC<Props> = ({ updatePromotions, onClose }) =>
             </UploadButton>
           </PositionContainer>
           <CloseButton onClick={onClose} bgcolor={theme.greenColor}>
-            X
+            <FaTimes />
           </CloseButton>
         </PromotionUploadContainer>
       </ModalContainer>
