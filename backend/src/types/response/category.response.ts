@@ -22,3 +22,8 @@ export type CategoryResponse = {
   name: string;
   categories?: CategoryResponse[];
 };
+
+export type CategoryRatio = {
+  name: string;
+  count: number;
+};

@@ -16,17 +16,16 @@ const CategoryPieChart = () => {
     theme.ChartColorOrange,
   ];
 
-  // const COLORS = ['#2F343A', '#E64A45', '#717D8C', '#BDB69C', '#80CEB9', '#41AAC4', '#462066', '#F2C249', '#E6772E'];
+  const fetchChartData = async () => {
+    try {
+      const { result } = await CategoryAPI.getCategoryGoodsCounts();
+      setChartData(result);
+    } catch (err) {
+      console.error(err);
+    }
+  };
 
   useEffect(() => {
-    async function fetchChartData() {
-      try {
-        const { result } = await CategoryAPI.getParentCategoryCount();
-        setChartData(result);
-      } catch (err) {
-        console.error(err);
-      }
-    }
     fetchChartData();
   }, []);
 

@@ -19,8 +19,8 @@ async function getAllCategory(req: Request, res: Response) {
   });
 }
 
-async function getParentCategoryCount(req: Request, res: Response) {
-  const result = await CategoryService.getParentCategoryCount();
+async function getCategoryGoodsCounts(req: Request, res: Response) {
+  const result = await CategoryService.getCategoryGoodsCount();
   res.status(200).json({ result });
 }
 
@@ -37,7 +37,7 @@ async function getCategoryViews(req: Request, res: Response) {
 export default {
   createCategory,
   getAllCategory,
-  getParentCategoryCount,
+  getCategoryGoodsCounts,
   getTopSellingCategory,
   getCategoryViews,
 };

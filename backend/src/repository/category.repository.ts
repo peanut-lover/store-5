@@ -1,4 +1,4 @@
-import { getRepository } from 'typeorm';
+import { getRepository, IsNull, Not } from 'typeorm';
 import { CATEGORY_DB_ERROR } from '../constants/database.error.name';
 import { Category } from '../entity/Category';
 import { DatabaseError } from '../errors/base.error';
@@ -48,11 +48,12 @@ async function getAllCategories(): Promise<Category[]> {
   }
 }
 
-async function getParentCategories(): Promise<Category[]> {
+async function getChildCategories(): Promise<Category[]> {
   try {
     return getRepository(Category).find({
+      relations: ['goodsList'],
       where: {
-        parent: null,
+        parent: Not(IsNull()),
       },
     });
   } catch (err) {
@@ -93,7 +94,7 @@ export const CategoryRepository = {
   createSubCategory,
   getCategoryByName,
   getAllCategories,
-  getParentCategories,
+  getChildCategories,
   getCategoryCountByParentId,
   getParentCategoryNameById,
   getCategoryNameById,

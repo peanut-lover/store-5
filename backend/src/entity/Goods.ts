@@ -50,7 +50,7 @@ export class Goods {
   @UpdateDateColumn({ type: 'timestamp' })
   updatedAt: Date;
 
-  @ManyToOne(() => Category, (category) => category.id)
+  @ManyToOne(() => Category, (category) => category.goodsList)
   @JoinColumn()
   category: Category;
 

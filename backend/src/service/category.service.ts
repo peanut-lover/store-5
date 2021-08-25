@@ -52,13 +52,11 @@ async function getAllCategory(): Promise<CategoryResponse[]> {
   return Array.from(categoryMap.entries()).map(([_, value]) => value);
 }
 
-async function getParentCategoryCount(): Promise<CategoryCountResponse> {
-  const categoryCountList: CategoryCountResponse = [];
-  const parentCategories = await CategoryRepository.getParentCategories();
-  await Promise.all(
-    parentCategories.map(async (category) => await pushCategoryCountToList(category, categoryCountList))
-  );
-  return categoryCountList;
+async function getCategoryGoodsCount(): Promise<CategoryCountResponse> {
+  const childCategories = await CategoryRepository.getChildCategories();
+  return childCategories.map((category) => {
+    return { name: category.name, value: category.goodsList.length };
+  });
 }
 
 async function getTopSellingCategory(): Promise<CategorySellCountResponse> {
@@ -103,14 +101,6 @@ async function getCategoryViews(): Promise<CategoryViewCountResponse> {
   return result;
 }
 
-async function pushCategoryCountToList(category: Category, categoryCountList: CategoryCountResponse): Promise<void> {
-  const count = await CategoryRepository.getCategoryCountByParentId(category.id);
-  categoryCountList.push({
-    name: category.name,
-    value: count,
-  });
-}
-
 async function pushCategoryViewToList(
   categoryId: number,
   view: number,
@@ -125,7 +115,7 @@ async function pushCategoryViewToList(
 export default {
   createCategory,
   getAllCategory,
-  getParentCategoryCount,
+  getCategoryGoodsCount,
   getTopSellingCategory,
   getCategoryViews,
 };
