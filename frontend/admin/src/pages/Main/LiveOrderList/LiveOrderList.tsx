@@ -60,7 +60,7 @@ const LiveOrderList = () => {
 
 const LiveOrderListContainer = styled('div')`
   padding: 16px;
-  background-color: #fff;
+  background-color: transparent;
   border-radius: 6px;
   height: 100%;
 `;

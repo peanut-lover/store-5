@@ -5,9 +5,8 @@ import PromotionImageUploader from '@src/portal/PromotionUploadModal/PromotionIm
 import GoodsSearchInput from '@src/components/GoodsSearchInput/GoodsSearchInput';
 import { AutoSearchedItem } from '@src/types/Search';
 import PromotionSelectedGoods from '@src/portal/PromotionUploadModal/PromotionSelectedGoods/PromotionSelectedGoods';
-import { theme } from '@src/theme/theme';
-import { FaTimes } from '@react-icons/all-files/fa/FaTimes';
 import PromotionAPI from '@src/apis/promotionAPI';
+import CloseButton from '@src/components/CloseButton/CloseButton';
 
 interface Props {
   onClose: () => void;
@@ -73,9 +72,7 @@ const PromotionUploadModal: React.FC<Props> = ({ updatePromotions, onClose }) =>
               등록
             </UploadButton>
           </PositionContainer>
-          <CloseButton onClick={onClose} bgcolor={theme.greenColor}>
-            <FaTimes />
-          </CloseButton>
+          <CloseButton onClick={onClose} />
         </PromotionUploadContainer>
       </ModalContainer>
     </Portal>
@@ -125,22 +122,6 @@ const UploadButton = styled('button')<{ disabled: boolean }>`
   background-color: ${(props) => (props.disabled ? 'lightgray' : '#2ac1bc')};
   pointer-events: ${(props) => (props.disabled ? 'none' : 'auto')};
   cursor: ${(props) => (props.disabled ? 'none' : 'pointer')};
-`;
-
-const CloseButton = styled('button')<{ bgcolor: string }>`
-  position: absolute;
-  top: -0.5em;
-  right: -0.5em;
-  font-size: 1.5em;
-  width: 1.5em;
-  height: 1.5em;
-  border-radius: 50%;
-  background-color: ${(props) => props.bgcolor};
-  color: white;
-  border: none;
-  display: flex;
-  align-items: center;
-  cursor: pointer;
 `;
 
 export default PromotionUploadModal;

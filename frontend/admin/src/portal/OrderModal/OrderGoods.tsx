@@ -22,9 +22,12 @@ const OrderItemCard: React.FC<OrderItemCardProps> = ({ orderItem }) => {
 };
 
 const OrderGoodsContainer = styled('div')`
-  display: flex;
-  justify-content: space-between;
+  display: grid;
+  grid-template-columns: repeat(6, 1fr);
   align-items: center;
+  margin-bottom: 5px;
+  padding-bottom: 5px;
+  border-bottom: 1px solid #c0c0c0;
 `;
 
 const GoodsThumbnail = styled('img')`
