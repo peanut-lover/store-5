@@ -19,8 +19,10 @@ const TopSellingGoodsList = () => {
   return (
     <TopSellingContainer>
       <TopSellingTitleContainer>
-        <TopSellingTitle bgcolor={theme.black5}>Top Selling Goods</TopSellingTitle>
-        <TopSellingTitle bgcolor={theme.black5}>판매량</TopSellingTitle>
+        <TopSellingTitle bgcolor={theme.black5}>상품 판매 순위</TopSellingTitle>
+        <TopSellingTitle bgcolor={theme.black5}>
+          <SaleIcon color={theme.label}>판매량</SaleIcon>
+        </TopSellingTitle>
       </TopSellingTitleContainer>
       <GoodsListContainer>
         {goodsList.map((item, i) => (
@@ -35,7 +37,7 @@ const TopSellingContainer = styled('div')`
   position: relative;
   display: flex;
   flex-direction: column;
-  width: 50%;
+  width: 30%;
   height: 100%;
   padding: 16px;
   background-color: #fff;
@@ -47,10 +49,10 @@ const TopSellingTitleContainer = styled('div')`
 `;
 const GoodsListContainer = styled('div')`
   position: relative;
-  display: grid;
+  display: flex;
   flex-direction: column;
   height: 100%;
-  row-gap: 1rem;
+  justify-content: space-between;
 `;
 
 const TopSellingTitle = styled('span')<{ bgcolor: string }>`
@@ -58,6 +60,14 @@ const TopSellingTitle = styled('span')<{ bgcolor: string }>`
   height: 1.5em;
   font-weight: 600;
   margin-bottom: 16px;
+`;
+
+const SaleIcon = styled('span')<{ color: string }>`
+  font-weight: 500;
+  font-size: 0.8rem;
+  padding: 0.2rem;
+  border-radius: 0.1rem;
+  color: ${(props) => props.color};
 `;
 
 export default TopSellingGoodsList;

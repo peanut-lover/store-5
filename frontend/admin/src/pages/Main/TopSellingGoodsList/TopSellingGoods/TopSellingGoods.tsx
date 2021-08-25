@@ -20,9 +20,8 @@ const TopSellingGoods: React.FC<Props> = ({ item, rank }) => {
       <TopSellingGoodsImage src={item.thumbnailUrl} />
       <TopSellingGoodsTitle>{item.title}</TopSellingGoodsTitle>
       <SellingGoodsCountContainer>
-        <TopSellingGoodsCount color={theme.greenColor}> {convertCountOfSell(item.countOfSell)}</TopSellingGoodsCount>개
+        <TopSellingGoodsCount bgcolor={theme.primary}> {convertCountOfSell(item.countOfSell)}</TopSellingGoodsCount>
       </SellingGoodsCountContainer>
-      <TopSellingRank bgcolor={BGCOLOR[rank - 1]}>{rank}</TopSellingRank>
     </TopSellingGoodsContainer>
   );
 };
@@ -35,8 +34,8 @@ const TopSellingGoodsContainer = styled('div')`
   justify-content: space-between;
 `;
 const TopSellingGoodsImage = styled('img')`
-  width: 40px;
-  height: 40px;
+  width: 50px;
+  height: 50px;
   max-height: 100%;
   object-fit: cover;
   border-radius: 2px;
@@ -49,34 +48,22 @@ const TopSellingGoodsTitle = styled('p')`
   overflow: hidden;
   text-align: start;
   color: #555;
+  padding-left: 0.5rem;
   font-weight: 600;
-  font-size: 14px;
+  font-size: 0.8rem;
 `;
 
 const SellingGoodsCountContainer = styled('div')`
   font-size: 12px;
 `;
 
-const TopSellingGoodsCount = styled('span')<{ color: string }>`
+const TopSellingGoodsCount = styled('span')<{ bgcolor: string }>`
   font-weight: 600;
   font-size: 16px;
-  padding-right: 4px;
-  color: ${(props) => props.color};
-`;
-
-const TopSellingRank = originStyled.div<{ bgcolor: string }>`
-  position: absolute;
-  top: 0px;
-  left: -10px;
+  padding: 0.5rem;
   background-color: ${(props) => props.bgcolor};
-  color: #fff;
-  display: flex;
-  justify-content: center;
-  align-items: center;
-  width: 1.6em;
-  height: 1.6em;
-  border-radius: 50%;
-  font-size: 11px;
+  color: white;
+  border-radius: 0.5rem;
 `;
 
 export default TopSellingGoods;

@@ -1,5 +1,3 @@
-import { INVALID_DATA } from './../constants/client.error.name';
-import { BadRequestError } from './../errors/client.error';
 import { GoodsRepository } from './../repository/goods.repository';
 import { Category } from '../entity/Category';
 import {
@@ -9,7 +7,6 @@ import {
   CategoryViewCountResponse,
 } from '../types/response/category.response';
 import { CategoryRepository } from '../repository/category.repository';
-import { isNumber } from '../utils/check.primitive.type';
 
 const BEST_LIST_LENGTH = 5;
 
@@ -81,35 +78,22 @@ async function getTopSellingCategory(): Promise<CategorySellCountResponse> {
 }
 
 async function getCategoryViews(): Promise<CategoryViewCountResponse> {
-  const result: CategoryViewCountResponse = [];
-  const categories: {
-    [key: string]: number;
-  } = {};
-  const goods = await GoodsRepository.findAllWithCategory();
-  // category parentId를 key로 조회 수 총합을 구합니다.
-  goods.forEach((item) => {
-    let parent;
-    if (!item.category.parent && item.category) parent = item.category.id;
-    else parent = item.category.parent;
-    if (categories[parent]) {
-      categories[parent] += item.view;
+  const categoriesMap = new Map<string, number>();
+  const goodsList = await GoodsRepository.findAllWithCategory();
+
+  goodsList.forEach((goods) => {
+    const categoryName = goods.category.name;
+    const previousValue = categoriesMap.get(categoryName);
+    if (previousValue) {
+      categoriesMap.set(categoryName, previousValue + goods.view);
     } else {
-      categories[parent] = item.view;
+      categoriesMap.set(categoryName, goods.view);
     }
   });
-  await Promise.all(Object.keys(categories).map((key) => pushCategoryViewToList(Number(key), categories[key], result)));
-  return result;
-}
 
-async function pushCategoryViewToList(
-  categoryId: number,
-  view: number,
-  categoryViewList: CategoryViewCountResponse
-): Promise<void> {
-  const category = await CategoryRepository.getCategoryNameById(categoryId);
-  if (!category) throw new BadRequestError(INVALID_DATA);
-  const { name } = category;
-  categoryViewList.push({ name, view });
+  return Array.from(categoriesMap).map(([key, value]) => {
+    return { name: key, view: value };
+  });
 }
 
 export default {

@@ -9,7 +9,7 @@ interface LiveOrderCardProps {
 }
 
 const LiveOrderCard: React.FC<LiveOrderCardProps> = ({ order, onClickOrder }) => {
-  const { id, orderItems, user, createdAt } = order;
+  const { orderItems, user, createdAt } = order;
   const firstOrderItems = orderItems[0];
 
   const handleClickCard = (e: React.MouseEvent) => {
@@ -18,32 +18,41 @@ const LiveOrderCard: React.FC<LiveOrderCardProps> = ({ order, onClickOrder }) =>
   };
 
   return (
-    <div onClick={handleClickCard}>
+    <LiveOrderCardContainer onClick={handleClickCard}>
       <LiveOrderTitle>{convertYYYYMMDDHHMMSS(new Date(createdAt))}</LiveOrderTitle>
-      <LiveOrderCardContainer key={id}>
+      <LiveOrderCardContent>
         <img width={50} height={50} src={firstOrderItems.goods.thumbnailUrl} />
         <div>
           {firstOrderItems.goods.title}
           {orderItems.length > 1 && <span>외 {orderItems.length} 개</span>}
         </div>
-        <LiveOrderCardUserImg src={user.profileImgUrl} />
-        <div> {user.name} </div>
-      </LiveOrderCardContainer>
-    </div>
+        <LiveOrderCardUser>
+          <LiveOrderCardUserImg src={user.profileImgUrl} />
+          <LiveOrderCardUserName> {user.name} </LiveOrderCardUserName>
+        </LiveOrderCardUser>
+      </LiveOrderCardContent>
+    </LiveOrderCardContainer>
   );
 };
 
 const LiveOrderCardContainer = styled('div')`
+  padding: 0.5rem;
+  background-color: white;
+  border-radius: 8px;
+  margin-bottom: 1rem;
+`;
+
+const LiveOrderCardContent = styled('div')`
   display: grid;
   align-items: center;
   justify-content: space-between;
-  grid-template-columns: 50px 1fr 50px 100px;
+  grid-template-columns: 1fr 3fr 1fr;
   column-gap: 1rem;
   padding: 0;
-  margin-bottom: 1rem;
   border-radius: 0px 14px 14px 14px;
-  background-color: white;
+  background-color: transparent;
   font-size: 14px;
+  padding: 1rem;
 
   animation-name: orderCardShowEffect;
   animation-duration: 0.3s;
@@ -64,13 +73,19 @@ const LiveOrderTitle = styled('p')`
   width: fit-content;
   padding: 5px 0;
 `;
+const LiveOrderCardUser = styled('div')`
+  display: flex;
+`;
 
 const LiveOrderCardUserImg = styled('img')`
-  border-radius: 4px;
+  border-radius: 50%;
   border: 1px solid #c0c0c0;
-  width: 50px;
-  height: 50px;
+  width: 30px;
+  height: 30px;
+  margin-right: 1rem;
   object-fit: contain;
 `;
+
+const LiveOrderCardUserName = styled('p')``;
 
 export default LiveOrderCard;

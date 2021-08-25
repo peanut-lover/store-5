@@ -41,7 +41,9 @@ const PromotionCarousel: React.FC<Props> = ({ promotions }) => {
 };
 
 const PromotionCarouselContainer = styled.div`
+  display: relative;
   width: 100%;
+  height: 350px;
   /* 
     slick 슬라이더의 마지막 슬라이드가 상단에 위치하여 마지막 슬라이드만 onClick이 발생하는 문제가 있었습니다!
     하여 활성화된 슬라이더의 z-index를 1로 설정하였습니다.
@@ -52,9 +54,10 @@ const PromotionCarouselContainer = styled.div`
 `;
 
 const PromotionImage = styled.img`
-  height: 100%;
+  width: 100vw;
+  height: 300px;
   user-select: none;
-  object-fit: contain;
+  object-fit: cover;
   outline: none;
   cursor: pointer;
 `;

@@ -13,12 +13,11 @@ const TopSellingCategory: React.FC<Props> = ({ category, rank }) => {
   return (
     <TopSellingCategoryContainer>
       <TopSellingInfoContainer>
-        <TopSellingRank bgcolor={BGCOLOR[rank - 1]}>{rank}</TopSellingRank>
+        <TopSellingRank bgcolor={BGCOLOR[rank - 1]}>{rank}.</TopSellingRank>
         <TopSellingCategoryTitle>{category.name}</TopSellingCategoryTitle>
       </TopSellingInfoContainer>
       <TopSellingCategoryCountContainer>
-        <TopSellingCategoryCount color={theme.greenColor}>{convertCountOfSell(category.total)}</TopSellingCategoryCount>
-        개
+        <TopSellingCategoryCount bgcolor={theme.primary}>{convertCountOfSell(category.total)}</TopSellingCategoryCount>
       </TopSellingCategoryCountContainer>
     </TopSellingCategoryContainer>
   );
@@ -28,6 +27,7 @@ const TopSellingCategoryContainer = styled.div`
   display: flex;
   justify-content: space-between;
   align-items: center;
+  height: 50px;
 `;
 
 const TopSellingInfoContainer = styled.div`
@@ -38,8 +38,9 @@ const TopSellingInfoContainer = styled.div`
 `;
 
 const TopSellingRank = styled.div<{ bgcolor: string }>`
-  background-color: ${(props) => props.bgcolor};
-  color: #fff;
+  /* background-color: ${(props) => props.bgcolor}; */
+  color: black;
+  font-weight: 600;
   display: flex;
   justify-content: center;
   align-items: center;
@@ -57,11 +58,13 @@ const TopSellingCategoryTitle = styled.p`
 const TopSellingCategoryCountContainer = styled.div`
   font-size: 12px;
 `;
-const TopSellingCategoryCount = styled.span<{ color: string }>`
+const TopSellingCategoryCount = styled.span<{ bgcolor: string }>`
   font-weight: 600;
   font-size: 16px;
-  padding-right: 4px;
-  color: ${(props) => props.color};
+  padding: 0.5rem;
+  background-color: ${(props) => props.bgcolor};
+  color: white;
+  border-radius: 0.5rem;
 `;
 
 export default TopSellingCategory;

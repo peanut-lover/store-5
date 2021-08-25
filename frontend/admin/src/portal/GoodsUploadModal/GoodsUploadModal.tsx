@@ -12,6 +12,7 @@ import { GoodsItem } from '@src/types/Goods';
 import { GoodsImg } from '@src/types/GoodsImg';
 
 import { FaTimes } from '@react-icons/all-files/fa/FaTimes';
+import CloseButton from '@src/components/CloseButton/CloseButton';
 
 const GOODS_STATES = ['판매중', '임시저장', '삭제'];
 
@@ -188,9 +189,7 @@ const GoodsUploadModal: React.FC<Props> = ({ onClose, goods }) => {
               </SubmitButton>
             </UploadContentRightContainer>
           </UploadContentContainer>
-          <CloseButton onClick={onClose}>
-            <FaTimes />
-          </CloseButton>
+          <CloseButton onClick={onClose} />
         </ProductUploadContainer>
       </ModalContainer>
     </Portal>
@@ -245,22 +244,6 @@ const SubmitButton = styled('button')<{ active: string }>`
   background-color: ${(props) => (props.active ? '#2ac1bc' : 'lightgray')};
   pointer-events: ${(props) => (props.active ? 'auto' : 'none')};
   cursor: ${(props) => (props.active ? 'pointer' : 'none')};
-`;
-
-const CloseButton = styled('button')`
-  position: absolute;
-  top: -0.5em;
-  right: -0.5em;
-  width: 40px;
-  height: 40px;
-  display: flex;
-  align-items: center;
-  font-size: 1.8em;
-  border-radius: 50%;
-  background-color: #2ac1bc;
-  color: white;
-  border: none;
-  cursor: pointer;
 `;
 
 export default GoodsUploadModal;

@@ -35,7 +35,7 @@ const OrderCard: React.FC<OrderCard> = ({ order }) => {
           </TitleLabel>
           <OrderItemCardList>
             {order.orderItems.map((orderItem) => (
-              <OrderItemCard orderItem={orderItem} />
+              <OrderItemCard key={orderItem.id} orderItem={orderItem} />
             ))}
           </OrderItemCardList>
         </OrderGoodsSection>
