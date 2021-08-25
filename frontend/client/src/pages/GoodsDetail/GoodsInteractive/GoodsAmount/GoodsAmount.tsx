@@ -4,6 +4,8 @@ import theme from '@src/theme/theme';
 import { getDiscountedPrice, getPriceText } from '@src/utils/price';
 import { FaAngleUp } from '@react-icons/all-files/fa/FaAngleUp';
 import { FaAngleDown } from '@react-icons/all-files/fa/FaAngleDown';
+import RollingNumber from '@src/components/RollingNumberMaker/RollingNumberMaker';
+import RollingNumberMaker from '@src/components/RollingNumberMaker/RollingNumberMaker';
 
 function getTotalPrice(amount: number, price: number, deliveryFee: number, discountRate: number) {
   if (amount === 0) return 0;
@@ -73,7 +75,8 @@ const GoodsAmount: React.FC<Props> = ({
           <OverStock>구매 가능 수량 초과</OverStock>
         ) : (
           <TotalPrice>
-            <span>{getPriceText(totalPrice)}</span>원
+            {/* <span>{getPriceText(totalPrice)}</span>원 */}
+            {<RollingNumberMaker txt={getPriceText(totalPrice)} />}
           </TotalPrice>
         )}
       </TotalAmount>
@@ -149,6 +152,8 @@ const TotalAmount = styled.div`
 `;
 
 const TotalPrice = styled.div`
+  display: flex;
+  position: relative;
   font-size: 1.875rem;
   color: #29c1bc;
   span {
