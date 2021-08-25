@@ -50,7 +50,7 @@ export default async function () {
 }
 
 async function populate() {
-  await createDefaultUser('아이유');
+  await createDefaultUser('배달의 민족');
   await createDefaultAddress();
   await createDefaultCategory();
   await createDefaultDeliveryInfo();
@@ -62,7 +62,11 @@ async function populate() {
 async function createDefaultUser(name: string) {
   const result = await UserRepository.findByGitHubId('1');
   if (!result) {
-    await UserRepository.create('1', name);
+    await UserRepository.create(
+      '1',
+      name,
+      'https://user-images.githubusercontent.com/20085849/130751828-440dcec8-5619-41f3-9b2d-e0c73056c375.png'
+    );
   }
 }
 
