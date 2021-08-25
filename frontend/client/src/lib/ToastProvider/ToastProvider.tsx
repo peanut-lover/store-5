@@ -1,4 +1,4 @@
-import React, { createContext, useContext, useRef, useState } from 'react';
+import React, { createContext, useContext, useEffect, useRef, useState } from 'react';
 import Toast from './Toast/Toast';
 import ToastPortalWrapper from './ToastPortalWrapper/ToastPortalWrapper';
 
@@ -30,7 +30,8 @@ interface ToastState extends ToastData {
   onDisplayTimeEnd: () => void;
 }
 
-const DEFAULT_DISPLAY_TIME = 3000;
+const DEFAULT_DISPLAY_TIME = 2000;
+const DEFAULT_MAX_TOAST_COUNT = 1;
 
 const ToastProvider: React.FC = ({ children }) => {
   const [toasts, setToasts] = useState<ToastState[]>([]);
@@ -49,6 +50,14 @@ const ToastProvider: React.FC = ({ children }) => {
       return [...currentToasts, { ...newToast, id, onDisplayTimeEnd }];
     });
   };
+
+  useEffect(() => {
+    if (toasts.length > DEFAULT_MAX_TOAST_COUNT) {
+      setToasts((currentToasts) => {
+        return currentToasts.slice(toasts.length - DEFAULT_MAX_TOAST_COUNT);
+      });
+    }
+  }, [toasts]);
 
   return (
     <ToastContext.Provider value={{ pushToast }}>
