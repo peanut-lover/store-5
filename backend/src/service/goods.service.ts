@@ -48,6 +48,18 @@ async function createGoods(body: CreateGoodsBody, uploadFileUrls: string[]): Pro
   await checkValidateCreateGoods(body);
   const { title, category, isGreen, price, stock, state, discountRate, deliveryInfo } = body;
 
+  if (
+    !title ||
+    isGreen === undefined ||
+    !isNumber(body.stock) ||
+    !state ||
+    !isNumber(body.price) ||
+    !isNumber(body.category) ||
+    !isNumber(body.deliveryInfo)
+  ) {
+    throw new BadRequestError(INVALID_DATA);
+  }
+
   return await getConnection().transaction(async (transactionalEntityManager) => {
     const goods = await transactionalEntityManager.save(Goods, {
       title,
@@ -65,6 +77,7 @@ async function createGoods(body: CreateGoodsBody, uploadFileUrls: string[]): Pro
       thumbnailUrl: uploadFileUrls[0],
     });
 
+    console.log(4);
     await Promise.all(
       uploadFileUrls.map(
         async (url) => await transactionalEntityManager.save(GoodsImg, { goods: { id: goods.id }, url })
