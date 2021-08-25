@@ -9,6 +9,7 @@ import {
   CategoryViewCountResponse,
 } from '../types/response/category.response';
 import { CategoryRepository } from '../repository/category.repository';
+import { isNumber } from '../utils/check.primitive.type';
 
 const BEST_LIST_LENGTH = 5;
 
@@ -95,7 +96,11 @@ async function getCategoryViews(): Promise<CategoryViewCountResponse> {
       categories[item.category.parent] = item.view;
     }
   });
-  await Promise.all(Object.keys(categories).map((key) => pushCategoryViewToList(Number(key), categories[key], result)));
+  await Promise.all(
+    Object.keys(categories)
+      .filter((key) => isNumber(key))
+      .map((key) => pushCategoryViewToList(Number(key), categories[key], result))
+  );
   return result;
 }
 
