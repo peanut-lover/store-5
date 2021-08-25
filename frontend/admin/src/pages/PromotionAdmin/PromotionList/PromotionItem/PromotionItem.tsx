@@ -1,6 +1,5 @@
 import React, { useCallback, useState } from 'react';
 import { styled } from '@src/lib/CustomStyledComponent';
-import originStyled from 'styled-components';
 import ConfirmModal from '@src/portal/ConfirmModal/ConfirmModal';
 import { theme } from '@src/theme/theme';
 import { Promotion } from '@src/types/Promotion';
@@ -35,9 +34,9 @@ const PromotionItem: React.FC<Props> = ({ promotion, onDeletePromotion }) => {
 
   return (
     <PromotionContainer>
-      <PromotionHoverContent>
-        <PromotionTitle color={theme.black6}>{promotion.title}</PromotionTitle>
-      </PromotionHoverContent>
+      <PromotionContent color={theme.black3}>
+        <p>조회수 {promotion.view}</p>
+      </PromotionContent>
       <PromotionImage src={promotion.imgUrl} />
       <PromotionDeleteButton onClick={handleOpenDeleteModal} bgcolor={theme.greenColor}>
         <FaTimes />
@@ -53,31 +52,17 @@ const PromotionItem: React.FC<Props> = ({ promotion, onDeletePromotion }) => {
   );
 };
 
-const PromotionContainer = originStyled.div`
+const PromotionContainer = styled('div')`
   position: relative;
   width: 50%;
-  margin: 1rem;
-  :hover > *:first-child {
-    opacity: 1;
-  }
+  padding: 1rem;
 `;
 
-const PromotionHoverContent = styled('div')`
-  position: absolute;
-  width: 100%;
-  height: 100%;
-  display: flex;
-  align-items: center;
-  background-color: rgba(0, 0, 0, 0.2);
-  transition: opacity 0.25s linear;
-  opacity: 0;
-`;
-
-const PromotionTitle = styled('div')<{ color: string }>`
-  font-size: 16px;
+const PromotionContent = styled('div')<{ color: string }>`
+  font-size: 14px;
   font-weight: 600;
   color: ${(props) => props.color};
-  margin-bottom: 1rem;
+  margin-bottom: 0.5rem;
 `;
 
 const PromotionImage = styled('img')`

@@ -1,5 +1,6 @@
 import { styled } from '@src/lib/CustomStyledComponent';
 import PromotionItem from '@src/pages/PromotionAdmin/PromotionList/PromotionItem/PromotionItem';
+import { theme } from '@src/theme/theme';
 import { Promotion } from '@src/types/Promotion';
 import React from 'react';
 
@@ -30,26 +31,22 @@ const PromotionListContainer = styled('ul')`
   width: 100%;
   margin: auto;
   flex-wrap: wrap;
-  overflow: auto;
-  height: calc(100vh - 5rem);
   padding: 16px;
 `;
 
 const PromotionAddButtonContainer = styled('div')`
   position: relative;
-  width: 100%;
-  height: 280px;
+  width: 50%;
   padding: 1rem;
+  margin-top: 22px;
   margin-bottom: 1rem;
-  display: flex;
-  align-items: center;
 `;
 
 const PromotionAddButton = styled('button')`
   position: relative;
   font-size: 3rem;
   width: 100%;
-  height: 100%;
+  height: 250px;
   border-radius: 10px;
   cursor: pointer;
   border: none;
