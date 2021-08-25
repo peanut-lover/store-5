@@ -18,8 +18,10 @@ const TopSellingCategoryList = () => {
   return (
     <TopSellingContainer>
       <TopSellingTitleContainer>
-        <TopSellingTitle color={theme.black5}>Top Selling Categories</TopSellingTitle>
-        <TopSellingTitle color={theme.black5}>판매량</TopSellingTitle>
+        <TopSellingTitle color={theme.black5}>카테고리 순위</TopSellingTitle>
+        <TopSellingTitle color={theme.black5}>
+          <SaleIcon color={theme.label}>판매량</SaleIcon>
+        </TopSellingTitle>
       </TopSellingTitleContainer>
       <CategoriesContainer>
         {categories.map((category, i) => (
@@ -34,7 +36,7 @@ const TopSellingContainer = styled('div')`
   position: relative;
   display: flex;
   flex-direction: column;
-  width: 50%;
+  width: 20%;
   height: 100%;
   padding: 16px;
   background-color: #fff;
@@ -57,7 +59,16 @@ const CategoriesContainer = styled('div')`
   position: relative;
   display: flex;
   flex-direction: column;
-  justify-content: space-around;
+  justify-content: space-between;
   height: 100%;
 `;
+
+const SaleIcon = styled('span')<{ color: string }>`
+  font-weight: 500;
+  font-size: 0.8rem;
+  padding: 0.2rem;
+  border-radius: 0.1rem;
+  color: ${(props) => props.color};
+`;
+
 export default TopSellingCategoryList;

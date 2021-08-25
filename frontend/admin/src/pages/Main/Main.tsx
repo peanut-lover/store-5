@@ -13,10 +13,10 @@ const Main = () => {
         <LeftTopContainer>
           <CategoryPieChart />
           <TopSellingGoodsList />
+          <TopSellingCategoryList />
         </LeftTopContainer>
         <LeftBottomContainer>
           <CategoryBarChart />
-          <TopSellingCategoryList />
         </LeftBottomContainer>
       </LeftContainer>
       <RightContainer>
@@ -31,7 +31,7 @@ const MainContainer = styled('div')`
   display: flex;
   width: 100%;
   min-width: 1280px;
-  padding: 5rem;
+  padding: 2rem;
   background-color: #eee;
 `;
 
@@ -39,30 +39,30 @@ const LeftContainer = styled('div')`
   display: flex;
   flex-direction: column;
   position: relative;
-  width: 60%;
+  width: 70%;
   height: 100%;
   justify-content: space-around;
-  row-gap: 2rem;
+  row-gap: 1rem;
 `;
 
 const LeftTopContainer = styled('div')`
   display: flex;
   width: 100%;
   height: calc(50% - 1rem);
-  column-gap: 2rem;
+  column-gap: 1rem;
 `;
 
 const LeftBottomContainer = styled('div')`
   display: flex;
   width: 100%;
   height: calc(50% - 1rem);
-  column-gap: 2rem;
+  column-gap: 1rem;
 `;
 
 const RightContainer = styled('div')`
-  width: 40%;
+  width: 30%;
   height: 100%;
-  padding-left: 2rem;
+  padding-left: 1rem;
 `;
 
 export default Main;
