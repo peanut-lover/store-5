@@ -1,7 +1,7 @@
 import ReviewForm from '@src/components/ReviewForm/ReviewForm';
 import Portal from '@src/portal/portal';
-import { ReviewEdit } from '@src/types/Review';
-import React from 'react';
+import { Review } from '@src/types/Review';
+import React, { useCallback, useEffect, useRef } from 'react';
 import styled from 'styled-components';
 
 interface Props {
@@ -9,36 +9,34 @@ interface Props {
   thumbnail?: string;
   title: string;
   onClose: () => void;
-  onSubmit: () => void;
-  prevContents?: ReviewEdit;
+  prevContents?: Review;
 }
-// , prevContents
-const ReviewFormModal: React.FC<Props> = ({ goodsId, thumbnail, title, onClose, onSubmit }) => {
-  const prevContents = {
-    id: 1,
-    rate: 4,
-    contents: '이전 prev',
-    images: [
-      {
-        id: 1,
-        url: 'https://user-images.githubusercontent.com/45394360/129675533-4623cae5-461c-4f9a-91bd-1ffd13e0d952.jpg',
-      },
-      {
-        id: 2,
-        url: 'https://user-images.githubusercontent.com/45394360/129676355-15c47cee-5afe-4f17-9a0d-2ebb932a8b46.jpg',
-      },
-    ],
-  };
+
+const ReviewFormModal: React.FC<Props> = ({ goodsId, thumbnail, title, onClose, prevContents }) => {
+  const modalRef = useRef<HTMLDivElement>(null);
+
+  const handleClose = useCallback((e) => {
+    const el = e.target;
+    if (modalRef.current && modalRef.current.contains(el)) return;
+    onClose();
+  }, []);
+
+  useEffect(() => {
+    document.addEventListener('click', handleClose);
+    return () => {
+      document.removeEventListener('click', handleClose);
+    };
+  }, []);
+
   return (
     <Portal>
       <ReviewFormContainer>
-        <ReviewFormContent>
+        <ReviewFormContent ref={modalRef}>
           <ReviewForm
             goodsId={goodsId}
             thumbnail={thumbnail}
             title={title}
             onClose={onClose}
-            onSubmit={onSubmit}
             prevContents={prevContents}
           />
         </ReviewFormContent>

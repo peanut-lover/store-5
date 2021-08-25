@@ -8,8 +8,11 @@ import ReviewEmpty from './ReviewEmpty/ReviewEmpty';
 import ReviewImageModal from './ReviewImageModal/ReviewImageModal';
 import ReviewList from './ReviewList/ReviewList';
 import ReviewLoading from './ReviewLoading/ReviewLoading';
+import ReviewFormModal from '@src/portal/ReviewFormModal/ReviewFormModal';
+import { DetailGoods } from '@src/types/Goods';
 
 interface Props {
+  initialGoods: DetailGoods;
   initialGoodsId: number;
 }
 
@@ -22,11 +25,13 @@ interface ReviewImageModalState {
 const LIMIT_PER_PAGE = 3;
 const SCROLL_MARGIN = 128;
 
-const ReviewContainer: React.FC<Props> = ({ initialGoodsId }) => {
+const ReviewContainer: React.FC<Props> = ({ initialGoodsId, initialGoods }) => {
   const [goodsId] = useState(initialGoodsId);
 
   const [reviews, setReviews] = useState<Review[]>([]);
+  const [selectedReview, setSelectedReview] = useState<Review>();
   const [isFetched, setIsFetched] = useState(false);
+  const [openReviewForm, setOpenReviewForm] = useState<boolean>(false);
   const [currentPage, setCurrentPage] = useState(1);
   const [totalPage, setTotalPage] = useState(0);
   const [totalCount, setTotalCount] = useState(0);
@@ -56,8 +61,14 @@ const ReviewContainer: React.FC<Props> = ({ initialGoodsId }) => {
     setReviewImageModalState({ initialReview, initialIndex, isOpened: true });
   };
   const handleDeleteReview = (reviewId: number) => {};
-  const handleUpdateReview = (reviewId: number) => {};
-
+  const handleUpdateReview = (review: Review) => {
+    setOpenReviewForm(true);
+    setSelectedReview(review);
+  };
+  const handleOpenReviewForm = useCallback(() => {
+    setSelectedReview(undefined);
+    setOpenReviewForm(true);
+  }, []);
   const fetchReviews = useCallback(async (currentPage: number) => {
     const promise = ReviewAPI.getReviewsOfGoods(goodsId, LIMIT_PER_PAGE, currentPage);
     lastPromiseRef.current = promise;
@@ -75,13 +86,16 @@ const ReviewContainer: React.FC<Props> = ({ initialGoodsId }) => {
     setIsFetched(true);
   }, []);
 
+  const handleCloseReviewForm = useCallback(() => {
+    setOpenReviewForm(false);
+  }, []);
   useEffect(() => {
     fetchReviews(currentPage);
   }, []);
 
   return (
     <Wrapper ref={thisRef}>
-      <ReviewContainerHeader lengthOfReviews={totalCount} />
+      <ReviewContainerHeader onOpenReviewForm={handleOpenReviewForm} lengthOfReviews={totalCount} />
       {!isFetched ? (
         <ReviewLoading />
       ) : reviews.length === 0 ? (
@@ -102,6 +116,15 @@ const ReviewContainer: React.FC<Props> = ({ initialGoodsId }) => {
               initialReview={reviewImageModalState.initialReview!}
               initialIndex={reviewImageModalState.initialIndex!}
               onClose={handleCloseReviewImageModal}
+            />
+          )}
+          {openReviewForm && (
+            <ReviewFormModal
+              goodsId={initialGoods.id}
+              thumbnail={initialGoods.thumbnailUrl}
+              title={initialGoods.title}
+              onClose={handleCloseReviewForm}
+              prevContents={selectedReview}
             />
           )}
         </>

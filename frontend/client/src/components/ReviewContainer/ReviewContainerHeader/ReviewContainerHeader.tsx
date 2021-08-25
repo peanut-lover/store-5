@@ -5,13 +5,14 @@ import AwesomeButton from '../../AwesomeButton/AwesomeButton';
 
 interface Props {
   lengthOfReviews: number;
+  onOpenReviewForm: () => void;
 }
 
-const ReviewContainerHeader: React.FC<Props> = ({ lengthOfReviews }) => {
+const ReviewContainerHeader: React.FC<Props> = ({ lengthOfReviews, onOpenReviewForm }) => {
   return (
     <Wrapper>
       <Title>리뷰{lengthOfReviews > 0 && ` (${lengthOfReviews})`}</Title>
-      <AwesomeButton>
+      <AwesomeButton onClick={onOpenReviewForm}>
         <ButtonInner>
           <FaPencilAlt />
           리뷰 작성하기

@@ -6,7 +6,7 @@ import ReviewCard from '../../ReviewCard/ReviewCard';
 interface Props {
   reviews: Review[];
   onDeleteReview?: (reviewId: number) => void;
-  onUpdateReview?: (reviewId: number) => void;
+  onUpdateReview?: (review: Review) => void;
   onClickReviewImg?: (reviewId: number, reviewImgId: number) => void;
 }
 
