@@ -7,7 +7,7 @@ interface LoginUserInfo {
 }
 
 async function getCheckLoggedIn(): Promise<APIResponse<LoginUserInfo>> {
-  const res = await checkedFetch(`api/auth/check`, {
+  const res = await checkedFetch(`/api/auth/check`, {
     method: 'GET',
     credentials: 'include',
     headers: {
