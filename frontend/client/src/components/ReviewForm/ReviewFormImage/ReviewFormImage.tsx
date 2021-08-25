@@ -5,12 +5,13 @@ import React, { useCallback, useRef, useState } from 'react';
 import styled from 'styled-components';
 
 interface Props {
+  onHandlePrevImage: (url: string) => void;
   onDeleteFile: (index: number) => void;
   onUpdateFiles: (newFiles: File[]) => void;
   prevImages?: ReviewImage[];
 }
 
-const ReviewFormImage: React.FC<Props> = ({ onUpdateFiles, onDeleteFile, prevImages }) => {
+const ReviewFormImage: React.FC<Props> = ({ onHandlePrevImage, onUpdateFiles, onDeleteFile, prevImages }) => {
   const imageInputRef = useRef<HTMLInputElement>(null);
 
   const [previewImages, setPreviewImages] = useState<string[]>(prevImages ? prevImages.map((img) => img.url) : []);
@@ -36,10 +37,11 @@ const ReviewFormImage: React.FC<Props> = ({ onUpdateFiles, onDeleteFile, prevIma
 
   const handleDeleteImage = useCallback(
     (index: number) => {
+      if (previewImages[index][0] !== 'b') onHandlePrevImage(previewImages[index]);
       setPreviewImages((prev) => prev.filter((url, i) => i !== index));
       onDeleteFile(index);
     },
-    [onDeleteFile, setPreviewImages]
+    [previewImages, onDeleteFile, setPreviewImages, onHandlePrevImage]
   );
 
   return (

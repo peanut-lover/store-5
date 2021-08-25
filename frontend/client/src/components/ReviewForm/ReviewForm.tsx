@@ -17,14 +17,20 @@ interface Props {
 }
 
 const ReviewForm: React.FC<Props> = ({ thumbnail, goodsId, title, onClose, onSubmit, prevContents }) => {
+  const [prevImageOffset, setPrevImageOffset] = useState(prevContents ? prevContents.images.length : 0);
+  const [deletedImages, setDeletedImages] = useState<string[]>([]);
   const [contents, setContents] = useState<string>(prevContents ? prevContents.contents : '');
   const [files, setFiles] = useState<File[]>([]); // 이미지 file 저장
   const [rate, setRate] = useState<number>(prevContents ? prevContents.rate : 5);
   const [activeSubmit, setActiveSubmit] = useState<boolean>(false);
 
   const handleSubmit = useCallback(() => {
-    console.log('hi');
-  }, [files, rate, contents]);
+    const formData = new FormData();
+    files.forEach((file: File) => formData.append('files', file));
+    formData.append('rate', String(rate));
+    formData.append('contents', contents);
+    deletedImages.length > 0 && deletedImages.forEach((url) => formData.append('deletedImages', url));
+  }, [files, rate, contents, deletedImages]);
 
   const handleChangeContents = useCallback((e: ChangeEvent<HTMLTextAreaElement>) => {
     setContents(e.target.value);
@@ -40,10 +46,11 @@ const ReviewForm: React.FC<Props> = ({ thumbnail, goodsId, title, onClose, onSub
   );
 
   const handleDeleteFile = useCallback(
-    (index: number) => {
+    (i: number) => {
+      const index = i - prevImageOffset;
       setFiles((prev) => prev.filter((f, i) => i !== index));
     },
-    [setFiles]
+    [setFiles, prevImageOffset]
   );
 
   const handleChangeRate = useCallback(
@@ -53,19 +60,25 @@ const ReviewForm: React.FC<Props> = ({ thumbnail, goodsId, title, onClose, onSub
     [setRate]
   );
 
+  const handlePrevImage = useCallback((url: string) => {
+    setDeletedImages((prev) => [...prev, url]);
+    setPrevImageOffset((prev) => prev - 1);
+  }, []);
+
   useEffect(() => {
-    if (files.length > 0 && rate > 0 && contents.length > 0) {
+    if (prevContents && prevContents.images.length + files.length === deletedImages.length) {
+      setActiveSubmit(false);
+    } else if ((prevContents || files.length > 0) && rate > 0 && contents.length > 0) {
       setActiveSubmit(true);
-    } else {
-      if (activeSubmit) setActiveSubmit(false);
-    }
-  }, [files, rate, contents]);
+    } else if (activeSubmit) setActiveSubmit(false);
+  }, [files, rate, contents, deletedImages]);
 
   return (
     <ReviewFormContainer>
       <ReviewFormHeader onClose={onClose} />
       <ReviewFormRate rate={rate} thumbnail={thumbnail} title={title} onHandleRate={handleChangeRate} />
       <ReviewFormImage
+        onHandlePrevImage={handlePrevImage}
         onUpdateFiles={handleUpdateFiles}
         onDeleteFile={handleDeleteFile}
         prevImages={prevContents?.images}
