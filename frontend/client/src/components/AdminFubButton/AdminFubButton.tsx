@@ -1,6 +1,6 @@
 import React, { useCallback, useState } from 'react';
 import styled from 'styled-components';
-import { FaRegHandPointRight } from 'react-icons/fa';
+import { FaRegHandPointRight } from '@react-icons/all-files/fa/FaRegHandPointRight';
 import theme from '@src/theme/theme';
 import { useRecoilValue } from 'recoil';
 import { userState } from '@src/recoil/userState';
@@ -41,9 +41,12 @@ const FubButtonContainer = styled.div<{ color: string }>`
   bottom: 5%;
   right: 3%;
   border-radius: 8px;
-  border: 1px solid ${(props) => props.color};
+  border: 2px solid ${(props) => props.color};
   padding: 12px;
   cursor: pointer;
+  :hover {
+    opacity: 0.7;
+  }
 `;
 const FubButton = styled.button<{ color: string }>`
   height: 100%;
@@ -52,6 +55,7 @@ const FubButton = styled.button<{ color: string }>`
   background-color: transparent;
   color: ${(props) => props.color};
   font-size: 1.2em;
+  font-weight: 700;
   cursor: pointer;
 `;
 export default AdminFubButton;
