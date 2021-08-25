@@ -36,7 +36,7 @@ const GoodsItemList: React.FC<Props> = ({ goodsList, itemBoxSize = 'big' }) => {
             isBest={goods.isBest}
             isGreen={goods.isGreen}
             isNew={goods.isNew}
-            isSale={goods.isSale}
+            isSale={goods.discountRate > 0}
             discountRate={goods.discountRate}
             itemBoxSize={itemBoxSize}
             handleClickCart={handleClickCart}
