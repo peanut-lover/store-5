@@ -34,13 +34,16 @@ const LiveOrderCard: React.FC<LiveOrderCardProps> = ({ order, onClickOrder }) =>
 };
 
 const LiveOrderCardContainer = styled('div')`
-  display: flex;
+  display: grid;
   align-items: center;
   justify-content: space-between;
-  padding: 14px;
-  margin-bottom: 5px;
+  grid-template-columns: 50px 1fr 50px 100px;
+  column-gap: 1rem;
+  padding: 0;
+  margin-bottom: 1rem;
   border-radius: 0px 14px 14px 14px;
   background-color: white;
+  font-size: 14px;
 
   animation-name: orderCardShowEffect;
   animation-duration: 0.3s;
@@ -58,12 +61,12 @@ const LiveOrderCardContainer = styled('div')`
 const LiveOrderTitle = styled('p')`
   font-size: 12px;
   font-weight: 500;
-  width: 140px;
-  padding: 5px;
+  width: fit-content;
+  padding: 5px 0;
 `;
 
 const LiveOrderCardUserImg = styled('img')`
-  border-radius: 50%;
+  border-radius: 4px;
   border: 1px solid #c0c0c0;
   width: 50px;
   height: 50px;
