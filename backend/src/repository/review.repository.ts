@@ -3,6 +3,19 @@ import { REVIEW_DB_ERROR } from '../constants/database.error.name';
 import { Review } from '../entity/Review';
 import { DatabaseError } from '../errors/base.error';
 
+async function getReviewById(reviewId: number) {
+  try {
+    return getRepository(Review).findOne({
+      where: {
+        id: reviewId,
+      },
+    });
+  } catch (err) {
+    console.error(err);
+    throw new DatabaseError(REVIEW_DB_ERROR);
+  }
+}
+
 async function getReviewByIds(userId: number, goodsId: number) {
   try {
     return getRepository(Review).findOne({
@@ -18,5 +31,6 @@ async function getReviewByIds(userId: number, goodsId: number) {
 }
 
 export const ReviewRepository = {
+  getReviewById,
   getReviewByIds,
 };

@@ -16,6 +16,11 @@ router.post(
   wrapAsync(ReviewController.createReview)
 );
 
-// router.put('/');
+router.put(
+  '/',
+  isAuthenticate,
+  uploadProductFiles.array(ReviewImageFieldName, REVIEW_MAX_IMAGE),
+  wrapAsync(ReviewController.updateReview)
+);
 
 export default router;

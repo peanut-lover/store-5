@@ -3,6 +3,7 @@ import ReviewFormFooter from '@src/components/ReviewForm/ReviewFormFooter/Review
 import ReviewFormHeader from '@src/components/ReviewForm/ReviewFormHeader/ReviewFormHeader';
 import ReviewFormImage from '@src/components/ReviewForm/ReviewFormImage/ReviewFormImage';
 import ReviewFormRate from '@src/components/ReviewForm/ReviewFormRate/ReviewFormRate';
+import { ReviewContent } from '@src/types/Review';
 import React, { ChangeEvent, useCallback, useEffect, useState } from 'react';
 import styled from 'styled-components';
 
@@ -13,7 +14,7 @@ interface Props {
   onClose: () => void;
   onSubmit: () => void;
   // TODO: Content 내용 Type화
-  prevContents?: string;
+  prevContents?: ReviewContent;
 }
 
 const ReviewForm: React.FC<Props> = ({ thumbnail, goodsId, title, onClose, onSubmit, prevContents }) => {

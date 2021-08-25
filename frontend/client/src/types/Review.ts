@@ -20,3 +20,9 @@ export interface Review {
   updatedAt: string | Date;
   isMine?: boolean;
 }
+
+export interface ReviewContent {
+  images: ReviewImg[];
+  rate: number;
+  contents: string;
+}

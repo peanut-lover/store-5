@@ -1,10 +1,10 @@
 import { Review } from './../entity/Review';
 import { getConnection } from 'typeorm';
 import { GoodsRepository } from './../repository/goods.repository';
-import { BadRequestError } from './../errors/client.error';
-import { CreateReviewBody } from '../types/request/review.request';
+import { BadRequestError, ForbiddenError } from './../errors/client.error';
+import { CreateReviewBody, UpdateReviewBody } from '../types/request/review.request';
 import { isNumber, isString } from '../utils/check.primitive.type';
-import { INVALID_DATA } from '../constants/client.error.name';
+import { FORBIDDEN, INVALID_ACCESS, INVALID_DATA } from '../constants/client.error.name';
 import { ReviewImg } from '../entity/ReviewImg';
 import { ReviewRepository } from '../repository/review.repository';
 
@@ -36,6 +36,31 @@ async function createReview(userId: number, body: CreateReviewBody, uploadFileUr
   });
 }
 
+async function updateReview(userId: number, body: UpdateReviewBody, reviewId: number, uploadFileUrls: string[]) {
+  await Promise.all([checkValidateCreateReview(userId, body), checkIsMineReview(userId, reviewId)]);
+  const { contents, rate, deletedImages } = body;
+  return await getConnection().transaction(async (transactionalEntityManager) => {
+    const updatedReview = await transactionalEntityManager.update(
+      Review,
+      {
+        id: reviewId,
+        user: {
+          id: userId,
+        },
+      },
+      {
+        rate,
+        contents,
+      }
+    );
+    await Promise.all(deletedImages.map((imageId) => transactionalEntityManager.delete(ReviewImg, { id: imageId })));
+    await Promise.all(
+      uploadFileUrls.map((url) => transactionalEntityManager.save(ReviewImg, { review: { id: reviewId }, url }))
+    );
+    return updatedReview;
+  });
+}
+
 async function checkValidateCreateReview(userId: number, body: CreateReviewBody): Promise<void> {
   const { goodsId, contents, rate } = body;
   if (!isNumber(goodsId) || !isString(contents) || !isNumber(rate)) throw new BadRequestError(INVALID_DATA);
@@ -46,7 +71,12 @@ async function checkValidateCreateReview(userId: number, body: CreateReviewBody)
   if (review) throw new BadRequestError(ALREADY_REVIEW_CREATED);
 }
 
-async function updateReview() {}
+async function checkIsMineReview(userId: number, reviewId: number) {
+  const review = await ReviewRepository.getReviewById(reviewId);
+  if (!review) throw new BadRequestError(INVALID_ACCESS);
+  if (userId !== review.user.id) throw new ForbiddenError(FORBIDDEN);
+}
+
 export const ReviewService = {
   createReview,
   updateReview,
