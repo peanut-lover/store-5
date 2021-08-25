@@ -30,6 +30,7 @@ const Wrapper = styled.div`
 
 const Title = styled.div`
   font-size: 2rem;
+  font-weight: bolder;
 `;
 
 const ButtonInner = styled.div`

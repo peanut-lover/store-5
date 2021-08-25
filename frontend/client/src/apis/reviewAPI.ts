@@ -43,7 +43,7 @@ function getReviewsOfGoods(goodsId: number, limit: number, page: number): Promis
   return new Promise((resolve) => {
     setTimeout(() => {
       resolve({ result: { reviews, meta: { totalCount: mock.length } } });
-    }, 1000);
+    }, 100);
   });
 }
 
