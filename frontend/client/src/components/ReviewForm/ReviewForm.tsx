@@ -10,7 +10,6 @@ import { Review, ReviewEdit } from '@src/types/Review';
 import React, { ChangeEvent, useCallback, useEffect, useState } from 'react';
 import styled from 'styled-components';
 
-const CREATE_ERROR = '리뷰 생성에 실패했습니다.';
 const UPDATE_ERROR = '리뷰 수정에 실패했습니다.';
 
 const MAX_RATE = 5;
@@ -39,8 +38,7 @@ const ReviewForm: React.FC<Props> = ({ thumbnail, goodsId, title, onClose, prevC
     try {
       await ReviewAPI.createReview(formData);
     } catch (err) {
-      console.error(err);
-      pushToast({ text: CREATE_ERROR, color: theme.error });
+      pushToast({ text: err.message, color: theme.error });
     }
   }, []);
 
