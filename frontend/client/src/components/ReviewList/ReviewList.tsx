@@ -5,14 +5,22 @@ import ReviewCard from '../ReviewCard/ReviewCard';
 
 interface Props {
   reviews: Review[];
+  onDeleteReview?: (reviewId: number) => void;
+  onUpdateReview?: (reviewId: number) => void;
+  onClickReviewImg?: (reviewId: number, reviewImgId: number) => void;
 }
 
-const ReviewList: React.FC<Props> = ({ reviews }) => {
+const ReviewList: React.FC<Props> = ({ reviews, onDeleteReview, onUpdateReview, onClickReviewImg }) => {
   return (
     <Wrapper>
       {reviews.map((review) => (
         <ReviewListItemWrapper key={review.id}>
-          <ReviewCard review={review} />
+          <ReviewCard
+            review={review}
+            onDeleteReview={onDeleteReview}
+            onUpdateReview={onUpdateReview}
+            onClickReviewImg={onClickReviewImg}
+          />
         </ReviewListItemWrapper>
       ))}
     </Wrapper>
