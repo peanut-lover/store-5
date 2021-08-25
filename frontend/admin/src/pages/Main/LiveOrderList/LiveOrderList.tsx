@@ -44,8 +44,8 @@ const LiveOrderList = () => {
 
   return (
     <LiveOrderListContainer>
-      <LiveOrderListTitle color={theme.greenColor}>주문 현황</LiveOrderListTitle>
-      <LatestUpdateTime color={theme.greenColor}>
+      <LiveOrderListTitle color={theme.black5}>주문 현황</LiveOrderListTitle>
+      <LatestUpdateTime color={theme.black5}>
         (최근 업데이트 시간: {convertYYYYMMDDHHMMSS(updateTime)})
       </LatestUpdateTime>
       <LiveOrderItemContainer>
@@ -59,17 +59,16 @@ const LiveOrderList = () => {
 };
 
 const LiveOrderListContainer = styled('div')`
-  margin-left: 16px;
   padding: 16px;
-  background-color: whitesmoke;
-  border-radius: 16px;
+  background-color: #fff;
+  border-radius: 6px;
   height: 100%;
 `;
 
 const LiveOrderListTitle = styled('span')<{ color: string }>`
   color: ${(props) => props.color};
   height: 1.5em;
-  font-weight: 700;
+  font-weight: 600;
   margin-bottom: 16px;
 `;
 

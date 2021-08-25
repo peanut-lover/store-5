@@ -31,7 +31,8 @@ const MainContainer = styled('div')`
   display: flex;
   width: 100%;
   min-width: 1280px;
-  padding: 32px;
+  padding: 5rem;
+  background-color: #eee;
 `;
 
 const LeftContainer = styled('div')`
@@ -40,24 +41,28 @@ const LeftContainer = styled('div')`
   position: relative;
   width: 60%;
   height: 100%;
+  justify-content: space-around;
+  row-gap: 2rem;
 `;
 
 const LeftTopContainer = styled('div')`
   display: flex;
   width: 100%;
-  height: 50%;
-  padding-bottom: 16px;
+  height: calc(50% - 1rem);
+  column-gap: 2rem;
 `;
 
 const LeftBottomContainer = styled('div')`
   display: flex;
   width: 100%;
-  height: 50%;
+  height: calc(50% - 1rem);
+  column-gap: 2rem;
 `;
 
 const RightContainer = styled('div')`
   width: 40%;
   height: 100%;
+  padding-left: 2rem;
 `;
 
 export default Main;

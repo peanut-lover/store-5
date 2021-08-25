@@ -19,12 +19,12 @@ const TopSellingGoodsList = () => {
   return (
     <TopSellingContainer>
       <TopSellingTitleContainer>
-        <TopSellingTitle bgcolor={theme.greenColor}>Top Selling Goods</TopSellingTitle>
-        <TopSellingTitle bgcolor={theme.greenColor}>판매량</TopSellingTitle>
+        <TopSellingTitle bgcolor={theme.black5}>Top Selling Goods</TopSellingTitle>
+        <TopSellingTitle bgcolor={theme.black5}>판매량</TopSellingTitle>
       </TopSellingTitleContainer>
       <GoodsListContainer>
         {goodsList.map((item, i) => (
-          <TopSellingGoods key={i} item={item} rank={i} />
+          <TopSellingGoods key={i} item={item} rank={i + 1} />
         ))}
       </GoodsListContainer>
     </TopSellingContainer>
@@ -38,8 +38,8 @@ const TopSellingContainer = styled('div')`
   width: 50%;
   height: 100%;
   padding: 16px;
-  background-color: whitesmoke;
-  border-radius: 16px;
+  background-color: #fff;
+  border-radius: 6px;
 `;
 const TopSellingTitleContainer = styled('div')`
   display: flex;
@@ -47,15 +47,16 @@ const TopSellingTitleContainer = styled('div')`
 `;
 const GoodsListContainer = styled('div')`
   position: relative;
-  display: flex;
+  display: grid;
   flex-direction: column;
   height: 100%;
+  row-gap: 1rem;
 `;
 
 const TopSellingTitle = styled('span')<{ bgcolor: string }>`
   color: ${(props) => props.bgcolor};
   height: 1.5em;
-  font-weight: 700;
+  font-weight: 600;
   margin-bottom: 16px;
 `;
 

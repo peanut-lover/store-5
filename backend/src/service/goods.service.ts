@@ -51,7 +51,7 @@ async function createGoods(body: CreateGoodsBody, uploadFileUrls: string[]): Pro
   if (
     !title ||
     isGreen === undefined ||
-    isNaN(body.stock) ||
+    isNumber(body.stock) ||
     !state ||
     isNaN(body.price) ||
     isNaN(body.category) ||
@@ -89,16 +89,17 @@ async function createGoods(body: CreateGoodsBody, uploadFileUrls: string[]): Pro
 
 async function updateGoods(body: UpdateGoodsBody, goodsId: number, uploadFileUrls: string[]): Promise<Goods> {
   await checkValidateCreateGoods(body);
-  const { title, category, isGreen, price, stock, state, discountRate, deliveryInfo, oldImages } = body;
+  const { title, category, isGreen, price, stock, state, discountRate, deliveryInfo, thumbnailUrl, oldImages } = body;
 
   if (
-    !title ||
+    !isString(title) ||
     isGreen === undefined ||
-    isNaN(body.stock) ||
-    !state ||
-    isNaN(body.price) ||
-    isNaN(body.category) ||
-    isNaN(body.deliveryInfo)
+    !isNumber(stock) ||
+    !isString(state) ||
+    !isNumber(price) ||
+    !isNumber(category) ||
+    !isNumber(deliveryInfo) ||
+    (thumbnailUrl && !isString(thumbnailUrl))
   ) {
     throw new BadRequestError(INVALID_DATA);
   }
@@ -118,7 +119,7 @@ async function updateGoods(body: UpdateGoodsBody, goodsId: number, uploadFileUrl
       deliveryInfo: {
         id: deliveryInfo,
       },
-      thumbnailUrl: oldImages ? oldImages[0] : uploadFileUrls[0],
+      thumbnailUrl: thumbnailUrl ?? uploadFileUrls[0],
     });
 
     if (oldImages) {
@@ -194,22 +195,30 @@ async function getGoodsByOption(
   isAdmin: boolean,
   userId?: number
 ): Promise<GoodsListResponse> {
-  const { page, limit, flag = 'latest', category: categoryName, keyword: title } = query;
-  if (!isNumber(page) || !isNumber(limit) || !flag || (categoryName && !isString(categoryName))) {
+  const { page, limit, flag = 'create', category: categoryName, keyword: title, sort } = query;
+  if (
+    !isNumber(page) ||
+    !isNumber(limit) ||
+    !flag ||
+    (categoryName && !isString(categoryName)) ||
+    (sort !== 'ASC' && sort !== 'DESC')
+  ) {
     throw new BadRequestError(INVALID_DATA);
   }
 
   const GoodsFlag: {
     [keyword: string]: keyof Goods;
   } = {
-    best: 'countOfSell',
-    low: 'price',
-    high: 'price',
-    latest: 'createdAt',
+    title: 'title',
+    price: 'price',
+    discount: 'discountRate',
+    stock: 'stock',
+    sell: 'countOfSell',
+    create: 'createdAt',
+    update: 'updatedAt',
   };
 
   const order = GoodsFlag[flag];
-  const sort = flag === 'low' ? 'ASC' : 'DESC';
   // 관리자는 재고가 0인 상품도 조회 가능
   const stock = isAdmin ? -1 : 0;
   const state = isAdmin ? GoodsStateMap.sale : null;

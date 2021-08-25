@@ -8,6 +8,7 @@ interface Props {
   handleUpdateGoods: (goods: GoodsItem) => void;
 }
 
+// TODO: 상품목록이 없는 경우 비어있음을 알리는 컴포넌트 추가 (ex: 텅)
 const GoodsTableBody: React.FC<Props> = ({ goodsList, handleUpdateGoods }) => {
   return (
     <GoodsTableBodyContainer>

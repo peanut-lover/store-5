@@ -1,8 +1,8 @@
 import PromotionAPI from '@src/apis/promotionAPI';
 import { styled } from '@src/lib/CustomStyledComponent';
 import PromotionList from '@src/pages/PromotionAdmin/PromotionList/PromotionList';
+import PromotionViewChart from '@src/pages/PromotionAdmin/PromotionViewChart/PromotionViewChart';
 import PromotionUploadModal from '@src/portal/PromotionUploadModal/PromotionUploadModal';
-import { theme } from '@src/theme/theme';
 import { Promotion } from '@src/types/Promotion';
 import React, { useCallback, useEffect, useState } from 'react';
 
@@ -12,14 +12,14 @@ const PromotionAdmin = () => {
 
   const fetchingPromotions = useCallback(async () => {
     try {
-      const { result } = await PromotionAPI.getPromotions();
+      const { result } = await PromotionAPI.getPromotionsForAdmin();
       setPromotions(result);
     } catch (err) {
       console.error(err);
     }
   }, [setPromotions]);
 
-  const handleOpenModal = useCallback(() => {
+  const onOpenModal = useCallback(() => {
     setOpenPromotionModal(true);
   }, [setOpenPromotionModal]);
 
@@ -37,31 +37,63 @@ const PromotionAdmin = () => {
   }, []);
   return (
     <PromotionAdminContainer>
-      <PromotionCounterContainer>
-        <PromotionSpan color={theme.greenColor}>{`등록된 프로모션 ${promotions.length}건`}</PromotionSpan>
-      </PromotionCounterContainer>
-      <PromotionList promotions={promotions} onDeletePromotion={handleDeletePromotion} onOpenModal={handleOpenModal} />
+      <GoodsAdminHeader>
+        <Title>프로모션 관리</Title>
+        <PromotionSpan>{`총 프로모션 ${promotions.length}건`}</PromotionSpan>
+      </GoodsAdminHeader>
+      <PromotionChartAndButtonContainer>
+        <PromotionViewChart promotions={promotions} />
+        <PromotionAddButton onClick={onOpenModal}>+</PromotionAddButton>
+      </PromotionChartAndButtonContainer>
+      <PromotionList promotions={promotions} onDeletePromotion={handleDeletePromotion} />
       {openPromotionModal && <PromotionUploadModal updatePromotions={fetchingPromotions} onClose={handleCloseModal} />}
     </PromotionAdminContainer>
   );
 };
 
 const PromotionAdminContainer = styled('div')`
-  position: relative;
   width: 100%;
+  position: relative;
+  margin: 5rem;
+  margin-bottom: 0;
+  overflow-y: auto;
   min-width: 1280px;
 `;
 
-const PromotionCounterContainer = styled('div')`
-  margin-left: 5%;
-  margin-top: 3%;
-  margin-bottom: 2%;
+const GoodsAdminHeader = styled('div')`
+  display: flex;
+  column-gap: 1rem;
+  margin-bottom: 20px;
+  align-items: flex-end;
 `;
-const PromotionSpan = styled('span')<{ color: string }>`
-  color: ${(props) => props.color};
-  font-weight: 700;
-  font-size: 1.2em;
-  margin-right: 12px;
+
+const Title = styled('h2')`
+  font-size: 24px;
+  font-weight: 600;
+`;
+
+const PromotionSpan = styled('span')`
+  font-size: 16px;
+`;
+
+const PromotionChartAndButtonContainer = styled('div')`
+  position: relative;
+  padding: 16px;
+  width: 100%;
+  height: 300px;
+  display: flex;
+  align-items: center;
+`;
+const PromotionAddButton = styled('button')`
+  position: relative;
+  font-size: 3rem;
+  width: 50%;
+  height: 250px;
+  margin: 1rem;
+  border-radius: 20px;
+  cursor: pointer;
+  border: none;
+  color: gray;
 `;
 
 export default PromotionAdmin;

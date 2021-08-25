@@ -50,9 +50,20 @@ async function increasePromotionView(promotionId: number): Promise<UpdateResult>
   }
 }
 
+async function getPromotionChartData(): Promise<Promotion[]> {
+  try {
+    const promotionRepo = getRepository(Promotion);
+    return await promotionRepo.find({ order: { createdAt: 'DESC' }, relations: ['goods'] });
+  } catch (err) {
+    console.error(err);
+    throw new DatabaseError(PROMOTION_DB_ERROR);
+  }
+}
+
 export const PromotionRepository = {
   createPromotion,
   getPromotions,
   deletePromotion,
   increasePromotionView,
+  getPromotionChartData,
 };

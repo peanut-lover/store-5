@@ -37,7 +37,9 @@ async function createGoods(req: CreateGoodsRequest, res: Response) {
 
 async function updateGoods(req: UpdateGoodsRequest, res: Response) {
   const goodsId = Number(req.params.id);
-  const { title, isGreen, stock, state, price, discountRate, category, deliveryInfo, oldImages } = req.body;
+  const { title, isGreen, stock, state, price, discountRate, category, deliveryInfo, thumbnailUrl, oldImages } =
+    req.body;
+
   const body: UpdateGoodsBody = {
     title,
     isGreen: Boolean(isGreen),
@@ -48,6 +50,7 @@ async function updateGoods(req: UpdateGoodsRequest, res: Response) {
     category: Number(category),
     deliveryInfo: Number(deliveryInfo),
     oldImages,
+    thumbnailUrl,
   };
 
   const files = req.files;
@@ -69,10 +72,11 @@ async function getGoodsDetail(req: Request, res: Response) {
 }
 
 async function getAllGoodsForClient(req: Request, res: Response) {
-  const { page, limit, flag, category, keyword } = req.query;
+  const { page, limit, flag, category, keyword, sort } = req.query;
   const query: GetAllGoodsQuery = {
     page: Number(page),
     limit: Number(limit),
+    sort: String(sort),
   };
   if (category) query.category = String(category);
   if (flag) query.flag = String(flag);
@@ -84,12 +88,14 @@ async function getAllGoodsForClient(req: Request, res: Response) {
 }
 
 async function getAllGoodsForAdmin(req: Request, res: Response) {
-  const { page, limit, keyword } = req.query;
+  const { page, limit, flag, keyword, sort } = req.query;
   const query: GetAllGoodsQuery = {
     page: Number(page),
     limit: Number(limit),
+    sort: String(sort),
   };
   if (keyword) query.keyword = String(keyword);
+  if (flag) query.flag = String(flag);
   const userId = req.session.userId;
   const isAdmin = true;
   const result = await GoodsService.getGoodsByOption(query, isAdmin, userId);

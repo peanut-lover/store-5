@@ -10,8 +10,8 @@ const createPromotion = async (formData: FormData): Promise<APIResponse<Promotio
   return res.json();
 };
 
-const getPromotions = async (): Promise<APIResponse<Promotion[]>> => {
-  const res = await checkedFetch(`/api/promotion`, {
+const getPromotionsForAdmin = async (): Promise<APIResponse<Promotion[]>> => {
+  const res = await checkedFetch(`/api/promotion/chart`, {
     method: 'GET',
     credentials: 'include',
   });
@@ -29,7 +29,7 @@ const deletePromotion = async (promotionId: number): Promise<boolean> => {
 
 const PromotionAPI = {
   createPromotion,
-  getPromotions,
+  getPromotionsForAdmin,
   deletePromotion,
 };
 

@@ -16,6 +16,8 @@ const CategoryPieChart = () => {
     theme.ChartColorOrange,
   ];
 
+  // const COLORS = ['#2F343A', '#E64A45', '#717D8C', '#BDB69C', '#80CEB9', '#41AAC4', '#462066', '#F2C249', '#E6772E'];
+
   useEffect(() => {
     async function fetchChartData() {
       try {
@@ -30,7 +32,7 @@ const CategoryPieChart = () => {
 
   return (
     <PieChartContainer>
-      <PieChartTitle color={theme.greenColor}>카테고리 비율</PieChartTitle>
+      <PieChartTitle color={theme.black5}>카테고리 비율</PieChartTitle>
       <ResponsiveContainer width='100%' height='100%'>
         <PieChart>
           <Pie
@@ -60,15 +62,14 @@ const PieChartContainer = styled.div`
   padding: 16px;
   width: 50%;
   height: 100%;
-  background-color: whitesmoke;
-  border-radius: 16px;
-  margin-right: 16px;
+  background-color: #fff;
+  border-radius: 6px;
 `;
 
 const PieChartTitle = styled.span<{ color: string }>`
   position: absolute;
   color: ${(props) => props.color};
-  font-weight: 700;
+  font-weight: 600;
 `;
 
 export default CategoryPieChart;

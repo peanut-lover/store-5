@@ -33,9 +33,9 @@ export interface GoodsPaginationResult {
 export interface GetGoodsByOptionProps {
   page: number;
   limit: number;
-  keyword?: string;
-  order?: string;
   sort?: 'ASC' | 'DESC';
+  flag?: string;
+  keyword?: string;
 }
 
 export interface Goods {
