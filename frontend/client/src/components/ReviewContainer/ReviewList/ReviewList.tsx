@@ -1,7 +1,7 @@
 import { Review } from '@src/types/Review';
 import React from 'react';
 import styled from 'styled-components';
-import ReviewCard from '../ReviewCard/ReviewCard';
+import ReviewCard from '../../ReviewCard/ReviewCard';
 
 interface Props {
   reviews: Review[];

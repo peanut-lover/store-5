@@ -1,7 +1,7 @@
 import React from 'react';
 import styled from 'styled-components';
 import { FaPencilAlt } from 'react-icons/fa';
-import AwesomeButton from '../AwesomeButton/AwesomeButton';
+import AwesomeButton from '../../AwesomeButton/AwesomeButton';
 
 interface Props {
   lengthOfReviews: number;

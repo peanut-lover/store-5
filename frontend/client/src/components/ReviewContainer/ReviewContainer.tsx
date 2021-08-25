@@ -3,11 +3,11 @@ import { Review } from '@src/types/Review';
 import React, { useEffect, useCallback, useState, useRef } from 'react';
 import styled from 'styled-components';
 import Paginator from '../Paginator/Paginator';
-import ReviewContainerHeader from '../ReviewContainerHeader/ReviewContainerHeader';
-import ReviewEmpty from '../ReviewEmpty/ReviewEmpty';
-import ReviewImageModal from '../ReviewImageModal/ReviewImageModal';
-import ReviewList from '../ReviewList/ReviewList';
-import ReviewLoading from '../ReviewLoading/ReviewLoading';
+import ReviewContainerHeader from './ReviewContainerHeader/ReviewContainerHeader';
+import ReviewEmpty from './ReviewEmpty/ReviewEmpty';
+import ReviewImageModal from './ReviewImageModal/ReviewImageModal';
+import ReviewList from './ReviewList/ReviewList';
+import ReviewLoading from './ReviewLoading/ReviewLoading';
 
 interface Props {
   initialGoodsId: number;

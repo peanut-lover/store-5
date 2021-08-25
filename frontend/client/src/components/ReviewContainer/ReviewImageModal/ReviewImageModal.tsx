@@ -3,7 +3,7 @@ import { Review } from '@src/types/Review';
 import React, { useState } from 'react';
 import Slider from 'react-slick';
 import styled from 'styled-components';
-import Dim from '../Dim/Dim';
+import Dim from '../../Dim/Dim';
 
 interface Props {
   initialReview: Review;
