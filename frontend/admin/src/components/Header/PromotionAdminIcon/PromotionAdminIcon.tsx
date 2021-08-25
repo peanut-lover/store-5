@@ -1,4 +1,4 @@
-import { RiAdvertisementLine } from 'react-icons/ri';
+import { FaRegNewspaper } from 'react-icons/fa';
 import React from 'react';
 import { styled } from '@src/lib/CustomStyledComponent';
 import { theme } from '@src/theme/theme';
@@ -10,7 +10,7 @@ const PromotionAdminIcon: React.FC<HeaderIconProps> = ({ currentPath }) => {
   const push = usePushHistory();
   return (
     <HeaderIconContainer onClick={() => push(ADMIN_PROMOTION_PATH)} disabled={currentPath !== ADMIN_PROMOTION_PATH}>
-      <RiAdvertisementLine size='2em' />
+      <FaRegNewspaper size='2em' />
       <HeaderIconTitle>프로모션</HeaderIconTitle>
     </HeaderIconContainer>
   );

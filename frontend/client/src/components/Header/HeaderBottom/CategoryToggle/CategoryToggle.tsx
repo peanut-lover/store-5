@@ -1,6 +1,6 @@
 import React, { useCallback, useEffect, useRef, useState } from 'react';
 import styled from 'styled-components';
-import { GiHamburgerMenu } from 'react-icons/gi';
+import { FaBars } from 'react-icons/fa';
 import Category from '@src/components/Header/HeaderBottom/Category/Category';
 import { Category as CategoryType } from '@src/types/Category';
 import { getAllCategory } from '@src/apis/categoryAPI';
@@ -41,7 +41,7 @@ const CategoryToggle = () => {
 
   return (
     <CategoryToggleContainer ref={categoryRef} onMouseOver={handleOpenCategory}>
-      <GiHamburgerMenu size='1.7em' />
+      <FaBars size='1.7em' />
       <CategoryToggleTitle>전체 카테고리</CategoryToggleTitle>
       {openCategory && <Category categories={categories} />}
     </CategoryToggleContainer>

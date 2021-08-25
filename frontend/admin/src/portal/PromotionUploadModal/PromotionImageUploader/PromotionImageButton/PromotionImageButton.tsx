@@ -1,12 +1,12 @@
 import { styled } from '@src/lib/CustomStyledComponent';
-import { AiOutlinePicture } from 'react-icons/ai';
+import { FaAdversal } from 'react-icons/fa';
 import React from 'react';
 import { theme } from '@src/theme/theme';
 
 const PromotionImageButton = () => {
   return (
     <Button>
-      <AiOutlinePicture size='3em' color={theme.greenColor} />
+      <FaAdversal size='3em' color={theme.greenColor} />
       <Span>프로모션 이미지</Span>
     </Button>
   );

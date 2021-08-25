@@ -1,6 +1,6 @@
 import React from 'react';
 
-import { BsCheckCircle } from 'react-icons/bs';
+import { FaCheckSquare } from 'react-icons/fa';
 import {
   GoodsUploadInputContainer,
   UploaderContainer,
@@ -24,7 +24,7 @@ const GoodsTitleUploader: React.FC<Props> = ({ title, onChangeTitle }) => {
           onInput={onChangeTitle}
           placeholder='Title'
         ></UploaderInput>
-        {title && <BsCheckCircle size='1.4em' color='#2ac1bc' />}
+        {title && <FaCheckSquare size='1.4em' color='#2ac1bc' />}
       </GoodsUploadInputContainer>
     </UploaderContainer>
   );

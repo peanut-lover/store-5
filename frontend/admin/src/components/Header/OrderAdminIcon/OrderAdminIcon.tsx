@@ -1,4 +1,4 @@
-import { BsInboxes } from 'react-icons/bs';
+import { FaCartArrowDown } from 'react-icons/fa';
 import React from 'react';
 import { styled } from '@src/lib/CustomStyledComponent';
 import { theme } from '@src/theme/theme';
@@ -10,7 +10,7 @@ const OrderAdminIcon: React.FC<HeaderIconProps> = ({ currentPath }) => {
   const push = usePushHistory();
   return (
     <HeaderIconContainer onClick={() => push(ADMIN_ORDER_PATH)} disabled={currentPath !== ADMIN_ORDER_PATH}>
-      <BsInboxes size='2em' />
+      <FaCartArrowDown size='2em' />
       <HeaderIconTitle>주문관리</HeaderIconTitle>
     </HeaderIconContainer>
   );

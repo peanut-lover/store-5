@@ -1,4 +1,4 @@
-import { MdDashboard } from 'react-icons/md';
+import { FaThLarge } from 'react-icons/fa';
 
 import React from 'react';
 import { styled } from '@src/lib/CustomStyledComponent';
@@ -12,7 +12,7 @@ const DashboardIcon: React.FC<HeaderIconProps> = ({ currentPath }) => {
 
   return (
     <HeaderIconContainer onClick={() => push(ADMIN_MAIN_PATH)} disabled={currentPath !== ADMIN_MAIN_PATH}>
-      <MdDashboard size='2em' />
+      <FaThLarge size='2em' />
       <HeaderIconTitle>대시보드</HeaderIconTitle>
     </HeaderIconContainer>
   );

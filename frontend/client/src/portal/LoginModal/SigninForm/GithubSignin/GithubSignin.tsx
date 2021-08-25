@@ -1,6 +1,6 @@
 import React, { useCallback } from 'react';
 import styled from 'styled-components';
-import { AiFillGithub } from 'react-icons/ai';
+import { FaGithub } from 'react-icons/fa';
 import { OAUTH_GITHUB_SIGN_URL } from '@src/constants/config';
 
 const GithubSignin = () => {
@@ -10,7 +10,7 @@ const GithubSignin = () => {
   return (
     <GithubSigninContainer>
       <IconContainer onClick={handleClick}>
-        <AiFillGithub size='3em' color='#fff' />
+        <FaGithub size='3em' color='#fff' />
         <Span>GitHub로 접속하기</Span>
       </IconContainer>
     </GithubSigninContainer>

@@ -1,6 +1,6 @@
 import useInput from '@src/hooks/useInput';
 import { styled } from '@src/lib/CustomStyledComponent';
-import { BsSearch } from 'react-icons/bs';
+import { FaSearch } from 'react-icons/fa';
 import React, { FormEvent, useCallback, useState } from 'react';
 import { debounce } from '@src/utils/debounce';
 import useAutoSearch from '@src/hooks/useAutoSearch';
@@ -65,7 +65,7 @@ const GoodsSearchInput: React.FC<Props> = ({ onUpdateSelectedGoods }) => {
           onClick={handleInputFocuseTrue}
           placeholder={INPUT_PLACEHOLDER}
         />
-        <BsSearch size='1.3em' cursor='pointer' />
+        <FaSearch size='1.3em' cursor='pointer' />
         {autoSearchList.length > 0 && isInputFocused && (
           <GoodsSearchList searchList={autoSearchList} onUpdateSelectedGoods={handleSelectedGoods} />
         )}

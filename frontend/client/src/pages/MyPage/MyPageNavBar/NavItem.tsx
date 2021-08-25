@@ -1,6 +1,6 @@
 import styled from 'styled-components';
 import React, { useEffect, useState } from 'react';
-import { BiChevronRight } from 'react-icons/bi';
+import { FaChevronRight } from 'react-icons/fa';
 import HighlightedText from '@src/components/HighlightedText/HighlightedText';
 import { Link } from '@src/lib/CustomRouter';
 import { useLocation } from '@src/lib/CustomRouter/CustomRouter';
@@ -19,7 +19,7 @@ const NavItem: React.FC<Props> = ({ name, to }) => {
   return (
     <Wrapper to={to}>
       {isSelect ? <HighlightedText fontSize={'0.5rem'}>{name}</HighlightedText> : name}
-      <BiChevronRight size={20} />
+      <FaChevronRight size={20} />
     </Wrapper>
   );
 };

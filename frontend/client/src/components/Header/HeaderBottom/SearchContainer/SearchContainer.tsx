@@ -1,5 +1,5 @@
 import React, { useState, useCallback, useRef, useEffect } from 'react';
-import { BsSearch } from 'react-icons/bs';
+import { FaSearch } from 'react-icons/fa';
 import styled from 'styled-components';
 import SearchHistoryEmpty from './SearchHistoryEmpty/SearchHistoryEmpty';
 import SearchHistoryList from './SearchHistoryList/SearchHistoryList';
@@ -91,7 +91,7 @@ const SearchContainer: React.FC<Props> = ({ onClose }) => {
         <Form onSubmit={handleSearch}>
           <Input ref={inputRef} value={searchInput} onChange={onChangeSearchInput} onInput={handleAutoSearch} />
           <Button>
-            <BsSearch size='1.3em' />
+            <FaSearch size='1.3em' />
           </Button>
         </Form>
         {autoSearchList.length > 0 && inputFocused && (

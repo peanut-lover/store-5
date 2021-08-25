@@ -1,5 +1,5 @@
 import React from 'react';
-import { BsStarFill } from 'react-icons/bs';
+import { FaStar } from 'react-icons/fa';
 import { useTheme } from 'styled-components';
 
 interface StarProps {
@@ -14,7 +14,7 @@ const Star: React.FC<StarProps> = ({ isFilled }) => {
   흠...
   */
 
-  return <BsStarFill color={isFilled ? theme.primary : theme.placeholder} />;
+  return <FaStar color={isFilled ? theme.primary : theme.placeholder} />;
 };
 
 export default Star;
