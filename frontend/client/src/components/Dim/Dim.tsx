@@ -12,7 +12,7 @@ const Dim: React.FC<{ onClick?: () => void }> = ({ onClick, children }) => {
   );
 
   return (
-    <Wrapper ref={dimRef} onClick={handleClick}>
+    <Wrapper ref={dimRef} onMouseDown={handleClick}>
       {children}
     </Wrapper>
   );
@@ -25,7 +25,7 @@ const Wrapper = styled.div`
   top: 0;
   bottom: 0;
   z-index: 1000;
-  background-color: #00000020;
+  background-color: #00000080;
 `;
 
 export default Dim;
