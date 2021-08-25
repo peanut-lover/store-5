@@ -5,11 +5,18 @@ import styled from 'styled-components';
 import Paginator from '../Paginator/Paginator';
 import ReviewContainerHeader from '../ReviewContainerHeader/ReviewContainerHeader';
 import ReviewEmpty from '../ReviewEmpty/ReviewEmpty';
+import ReviewImageModal from '../ReviewImageModal/ReviewImageModal';
 import ReviewList from '../ReviewList/ReviewList';
 import ReviewLoading from '../ReviewLoading/ReviewLoading';
 
 interface Props {
   initialGoodsId: number;
+}
+
+interface ReviewImageModalState {
+  initialReview?: Review;
+  initialIndex?: number;
+  isOpened: boolean;
 }
 
 const LIMIT_PER_PAGE = 3;
@@ -23,6 +30,11 @@ const ReviewContainer: React.FC<Props> = ({ initialGoodsId }) => {
   const [currentPage, setCurrentPage] = useState(1);
   const [totalPage, setTotalPage] = useState(0);
   const [totalCount, setTotalCount] = useState(0);
+
+  const [reviewImageModalState, setReviewImageModalState] = useState<ReviewImageModalState>({ isOpened: false });
+  const handleCloseReviewImageModal = () => {
+    setReviewImageModalState({ isOpened: false });
+  };
 
   const lastPromiseRef = useRef<Object | null>(null);
   const thisRef = useRef<null | HTMLDivElement>(null);
@@ -38,7 +50,11 @@ const ReviewContainer: React.FC<Props> = ({ initialGoodsId }) => {
     [totalPage]
   );
 
-  const handleClickReviewImg = (reviewId: number, reviewImgId: number) => {};
+  const handleClickReviewImg = (reviewId: number, reviewImgId: number) => {
+    const initialReview = reviews.find(({ id }) => id === reviewId)!;
+    const initialIndex = initialReview.reviewImgs.findIndex(({ id }) => id === reviewImgId)!;
+    setReviewImageModalState({ initialReview, initialIndex, isOpened: true });
+  };
   const handleDeleteReview = (reviewId: number) => {};
   const handleUpdateReview = (reviewId: number) => {};
 
@@ -80,6 +96,13 @@ const ReviewContainer: React.FC<Props> = ({ initialGoodsId }) => {
           />
           {totalPage > 1 && (
             <Paginator totalPage={totalPage} currentPage={currentPage} setPage={handlePaginatorSetPage} />
+          )}
+          {reviewImageModalState.isOpened && (
+            <ReviewImageModal
+              initialReview={reviewImageModalState.initialReview!}
+              initialIndex={reviewImageModalState.initialIndex!}
+              onClose={handleCloseReviewImageModal}
+            />
           )}
         </>
       )}
