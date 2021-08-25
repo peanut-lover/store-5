@@ -1,6 +1,6 @@
 import { styled } from '@src/lib/CustomStyledComponent';
 import { UploaderLabel } from '@src/portal/GoodsUploadModal/UploadContentLeft/style';
-import { FaCheckSquare } from 'react-icons/fa';
+import { FaCheckSquare } from '@react-icons/all-files/fa/FaCheckSquare';
 
 import React from 'react';
 

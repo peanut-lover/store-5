@@ -2,9 +2,9 @@ import { usePushHistory } from '@src/lib/CustomRouter/CustomRouter';
 import LoginModal from '@src/portal/LoginModal/LoginModal';
 import { userState } from '@src/recoil/userState';
 import React, { useCallback, useState } from 'react';
-import { FaUserCircle } from 'react-icons/fa';
 import { useRecoilValue } from 'recoil';
 import { IconContainer, IconTitle } from '../IconContainerStyle';
+import { FaUserCircle } from '@react-icons/all-files/fa/FaUserCircle';
 
 const MyPageIcon = () => {
   const userRecoil = useRecoilValue(userState);

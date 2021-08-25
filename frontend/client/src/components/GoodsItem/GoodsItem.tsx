@@ -1,13 +1,16 @@
 import { usePushHistory } from '@src/lib/CustomRouter/CustomRouter';
 import React, { useCallback, useEffect, useState } from 'react';
 import styled from 'styled-components';
-import { FaRegHeart, FaHeart, FaShoppingCart } from 'react-icons/fa';
 import { BestTag, GreenTag, NewTag, SaleTag } from '../Tag';
 import { getPriceText } from '@src/utils/price';
 import { deleteWish, postWish } from '@src/apis/wishAPI';
 import theme from '@src/theme/theme';
 import useUserState from '@src/hooks/useUserState';
 import { usePushToast } from '@src/lib/ToastProvider/ToastProvider';
+
+import { FaRegHeart } from '@react-icons/all-files/fa/FaRegHeart';
+import { FaHeart } from '@react-icons/all-files/fa/FaHeart';
+import { FaShoppingCart } from '@react-icons/all-files/fa/FaShoppingCart';
 
 export type GoodsItemSize = 'small' | 'middle' | 'big';
 

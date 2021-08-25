@@ -6,9 +6,9 @@ import { userState } from '@src/recoil/userState';
 import React, { useCallback } from 'react';
 import { useEffect } from 'react';
 import { useState } from 'react';
-import { FaShoppingCart } from 'react-icons/fa';
 import { useRecoilState, useRecoilValue } from 'recoil';
 import { IconContainer, IconNumber, IconTitle } from '../IconContainerStyle';
+import { FaShoppingCart } from '@react-icons/all-files/fa/FaShoppingCart';
 
 const ShoppingCartIcon = () => {
   const push = usePushHistory();

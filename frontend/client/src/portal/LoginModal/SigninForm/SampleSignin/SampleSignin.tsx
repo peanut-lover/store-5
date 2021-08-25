@@ -1,6 +1,6 @@
 import useUserState from '@src/hooks/useUserState';
 import React, { useCallback } from 'react';
-import { FaFlask } from 'react-icons/fa';
+import { FaFlask } from '@react-icons/all-files/fa/FaFlask';
 import styled from 'styled-components';
 
 interface Props {

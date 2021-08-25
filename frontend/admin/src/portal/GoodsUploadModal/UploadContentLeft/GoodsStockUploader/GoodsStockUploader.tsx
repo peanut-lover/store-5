@@ -1,5 +1,5 @@
 import React, { ChangeEvent, useState } from 'react';
-import { FaCheckSquare } from 'react-icons/fa';
+import { FaCheckSquare } from '@react-icons/all-files/fa/FaCheckSquare';
 import {
   GoodsUploadInputContainer,
   UploaderContainer,

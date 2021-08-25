@@ -1,7 +1,7 @@
 import React, { useCallback, useEffect, useRef, useState } from 'react';
-import { FaSearch } from 'react-icons/fa';
 import { IconContainer, IconTitle } from '../IconContainerStyle';
 import SearchContainer from '@src/components/Header/HeaderBottom/SearchContainer/SearchContainer';
+import { FaSearch } from '@react-icons/all-files/fa/FaSearch';
 
 const SearchIcon = () => {
   const searchRef = useRef<HTMLDivElement>(null);

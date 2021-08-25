@@ -1,8 +1,10 @@
 import React from 'react';
 import styled from 'styled-components';
-import { FaAngleLeft, FaAngleRight } from 'react-icons/fa';
 import { range } from '@src/utils/range';
 import { theme } from '@src/theme/theme';
+
+import { FaAngleLeft } from '@react-icons/all-files/fa/FaAngleLeft';
+import { FaAngleRight } from '@react-icons/all-files/fa/FaAngleRight';
 
 interface Props {
   totalPage: number;

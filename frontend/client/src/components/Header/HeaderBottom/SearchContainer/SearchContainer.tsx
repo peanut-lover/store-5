@@ -1,5 +1,4 @@
 import React, { useState, useCallback, useRef, useEffect } from 'react';
-import { FaSearch } from 'react-icons/fa';
 import styled from 'styled-components';
 import SearchHistoryEmpty from './SearchHistoryEmpty/SearchHistoryEmpty';
 import SearchHistoryList from './SearchHistoryList/SearchHistoryList';
@@ -9,6 +8,7 @@ import { debounce, debounceClear } from '@src/utils/debounce';
 import AutoSearchList from './AutoSearchList/AutoSearchList';
 import useAutoSearch from '@src/hooks/useAutoSearch';
 import { usePushHistory } from '@src/lib/CustomRouter';
+import { FaSearch } from '@react-icons/all-files/fa/FaSearch';
 
 interface Props {
   onClose: () => void;

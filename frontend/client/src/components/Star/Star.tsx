@@ -1,5 +1,5 @@
 import React from 'react';
-import { FaStar } from 'react-icons/fa';
+import { FaStar } from '@react-icons/all-files/fa/FaStar';
 import { useTheme } from 'styled-components';
 
 interface StarProps {

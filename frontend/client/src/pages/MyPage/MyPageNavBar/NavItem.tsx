@@ -1,9 +1,11 @@
-import styled from 'styled-components';
 import React, { useEffect, useState } from 'react';
-import { FaChevronRight } from 'react-icons/fa';
+import styled from 'styled-components';
 import HighlightedText from '@src/components/HighlightedText/HighlightedText';
 import { Link } from '@src/lib/CustomRouter';
 import { useLocation } from '@src/lib/CustomRouter/CustomRouter';
+
+import { FaChevronRight } from '@react-icons/all-files/fa/FaChevronRight';
+
 interface Props {
   name: string;
   to: string;

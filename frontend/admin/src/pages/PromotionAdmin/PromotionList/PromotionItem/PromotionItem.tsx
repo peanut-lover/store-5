@@ -1,10 +1,10 @@
+import React, { useCallback, useState } from 'react';
 import { styled } from '@src/lib/CustomStyledComponent';
 import ConfirmModal from '@src/portal/ConfirmModal/ConfirmModal';
 import { theme } from '@src/theme/theme';
 import { Promotion } from '@src/types/Promotion';
-import { FaTimes } from 'react-icons/fa';
-import React, { useCallback, useState } from 'react';
-import PromotionAPI from '@src/apis/promotionAPI';
+
+import { FaTimes } from '@react-icons/all-files/fa/FaTimes';
 
 const PROMOTION_DELETE_MESSAGE = '해당 프로모션을 삭제하시겠습니까?';
 

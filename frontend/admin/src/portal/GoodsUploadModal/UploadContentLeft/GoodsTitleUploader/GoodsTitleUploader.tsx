@@ -1,12 +1,11 @@
 import React from 'react';
-
-import { FaCheckSquare } from 'react-icons/fa';
 import {
   GoodsUploadInputContainer,
   UploaderContainer,
   UploaderInput,
   UploaderLabel,
 } from '@src/portal/GoodsUploadModal/UploadContentLeft/style';
+import { FaCheckSquare } from '@react-icons/all-files/fa/FaCheckSquare';
 
 interface Props {
   title: string;

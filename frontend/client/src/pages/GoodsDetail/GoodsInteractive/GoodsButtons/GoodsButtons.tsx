@@ -1,9 +1,11 @@
-import React, { RefObject, useCallback, useRef } from 'react';
+import React from 'react';
 import styled from 'styled-components';
-import { FaRegHeart, FaHeart } from 'react-icons/fa';
 import theme from '@src/theme/theme';
 import useUserState from '@src/hooks/useUserState';
 import { usePushToast } from '@src/lib/ToastProvider/ToastProvider';
+
+import { FaRegHeart } from '@react-icons/all-files/fa/FaRegHeart';
+import { FaHeart } from '@react-icons/all-files/fa/FaHeart';
 
 interface Props {
   isWish: boolean;

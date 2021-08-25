@@ -3,7 +3,7 @@ import OrderCard from '@src/portal/OrderModal/OrderCard';
 import Portal from '@src/portal/portal';
 import { Order } from '@src/types/Order';
 import React from 'react';
-import { FaTimes } from 'react-icons/fa';
+import { FaTimes } from '@react-icons/all-files/fa/FaTimes';
 
 interface OrderModalInterface {
   order: Order;

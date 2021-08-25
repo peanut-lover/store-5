@@ -1,6 +1,9 @@
 import React, { useEffect, useState } from 'react';
 import styled from 'styled-components';
-import { FaArrowUp, FaArrowDown, FaTimesCircle } from 'react-icons/fa';
+import { FaArrowUp } from '@react-icons/all-files/fa/FaArrowUp';
+import { FaArrowDown } from '@react-icons/all-files/fa/FaArrowDown';
+import { FaTimesCircle } from '@react-icons/all-files/fa/FaTimesCircle';
+
 import { Goods } from '@src/types/Goods';
 
 interface SideBarProps {

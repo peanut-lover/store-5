@@ -1,6 +1,7 @@
 import React from 'react';
 import styled from 'styled-components';
-import { FaChevronDown, FaChevronUp } from 'react-icons/fa';
+import { FaChevronDown } from '@react-icons/all-files/fa/FaChevronDown';
+import { FaChevronUp } from '@react-icons/all-files/fa/FaChevronUp';
 
 interface Props {
   value: number;

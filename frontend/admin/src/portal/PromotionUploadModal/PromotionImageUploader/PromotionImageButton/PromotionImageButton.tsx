@@ -1,7 +1,7 @@
-import { styled } from '@src/lib/CustomStyledComponent';
-import { FaAdversal } from 'react-icons/fa';
 import React from 'react';
+import { styled } from '@src/lib/CustomStyledComponent';
 import { theme } from '@src/theme/theme';
+import { FaAdversal } from '@react-icons/all-files/fa/FaAdversal';
 
 const PromotionImageButton = () => {
   return (

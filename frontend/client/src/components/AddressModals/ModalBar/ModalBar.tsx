@@ -1,5 +1,5 @@
 import React from 'react';
-import { FaTimes } from 'react-icons/fa';
+import { FaTimes } from '@react-icons/all-files/fa/FaTimes';
 import styled from 'styled-components';
 
 interface Props {

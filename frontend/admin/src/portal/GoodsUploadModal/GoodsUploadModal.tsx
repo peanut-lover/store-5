@@ -1,5 +1,5 @@
-import React, { ChangeEvent, MouseEvent, useEffect, useState } from 'react';
-import { useCallback } from 'react';
+import React, { ChangeEvent, MouseEvent, useEffect, useState, useCallback } from 'react';
+
 import Portal from '../portal';
 import ProductImageUploader from './GoodsImageUploader/GoodsImageUploader';
 import { styled } from '@src/lib/CustomStyledComponent';
@@ -10,7 +10,8 @@ import { GoodsAPI } from '@src/apis/goodsAPI';
 import convertGoodsState from '@src/utils/convertGoodsState';
 import { GoodsItem } from '@src/types/Goods';
 import { GoodsImg } from '@src/types/GoodsImg';
-import { FaTimes } from 'react-icons/fa';
+
+import { FaTimes } from '@react-icons/all-files/fa/FaTimes';
 
 interface Props {
   onClose: () => void;

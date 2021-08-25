@@ -1,7 +1,10 @@
 import React from 'react';
 import styled from 'styled-components';
-import { FaRegStar, FaStar } from 'react-icons/fa';
 import theme from '@src/theme/theme';
+
+import { FaStar } from '@react-icons/all-files/fa/FaStar';
+import { FaRegStar } from '@react-icons/all-files/fa/FaRegStar';
+
 interface Props {
   value: number;
   rate: number;

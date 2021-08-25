@@ -1,6 +1,6 @@
 import React from 'react';
 import styled from 'styled-components';
-import { FaPlus } from 'react-icons/fa';
+import { FaPlus } from '@react-icons/all-files/fa/FaPlus';
 
 const MAX_IMAGE_LEN = 5;
 

@@ -4,7 +4,7 @@ import { theme } from '@src/theme/theme';
 import { HeaderIconProps } from '@src/types/Header';
 import { usePushHistory } from '@src/lib/CustomRouter';
 import { ADMIN_GOODS_PATH } from '@src/constants/adminPath';
-import { FaBoxes } from 'react-icons/fa';
+import { FaBoxes } from '@react-icons/all-files/fa/FaBoxes';
 
 const GoodsAdminIcon: React.FC<HeaderIconProps> = ({ currentPath }) => {
   const push = usePushHistory();

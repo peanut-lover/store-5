@@ -1,9 +1,12 @@
+import React from 'react';
 import { styled } from '@src/lib/CustomStyledComponent';
 import OrderItemCard from '@src/portal/OrderModal/OrderGoods';
 import { Order } from '@src/types/Order';
 import { convertYYYYMMDDHHMMSS } from '@src/utils/dateHelper';
-import React from 'react';
-import { FaHome, FaBoxes, FaTruck, FaMoneyCheck } from 'react-icons/fa';
+import { FaHome } from '@react-icons/all-files/fa/FaHome';
+import { FaBoxes } from '@react-icons/all-files/fa/FaBoxes';
+import { FaTruck } from '@react-icons/all-files/fa/FaTruck';
+import { FaMoneyCheck } from '@react-icons/all-files/fa/FaMoneyCheck';
 
 interface OrderCard {
   order: Order;

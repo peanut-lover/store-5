@@ -1,5 +1,4 @@
 import React from 'react';
-import { FaAngleDown } from 'react-icons/fa';
 import { styled } from '@src/lib/CustomStyledComponent';
 import GoodsTableHeadData from '@src/pages/GoodsAdmin/GoodsTable/GoodsTableHead/GoodsTableHeadData/GoodsTableHeadData';
 import { GetGoodsByOptionProps } from '@src/types/Goods';

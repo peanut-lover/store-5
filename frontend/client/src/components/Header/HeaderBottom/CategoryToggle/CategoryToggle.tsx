@@ -1,9 +1,9 @@
 import React, { useCallback, useEffect, useRef, useState } from 'react';
 import styled from 'styled-components';
-import { FaBars } from 'react-icons/fa';
 import Category from '@src/components/Header/HeaderBottom/Category/Category';
 import { Category as CategoryType } from '@src/types/Category';
 import { getAllCategory } from '@src/apis/categoryAPI';
+import { FaBars } from '@react-icons/all-files/fa/FaBars';
 
 const CategoryToggle = () => {
   const categoryRef = useRef<HTMLDivElement>(null);

@@ -1,6 +1,6 @@
 import useInput from '@src/hooks/useInput';
 import { styled } from '@src/lib/CustomStyledComponent';
-import { FaSearch } from 'react-icons/fa';
+import { FaSearch } from '@react-icons/all-files/fa/FaSearch';
 import React, { FormEvent, useCallback, useState } from 'react';
 import { debounce } from '@src/utils/debounce';
 import useAutoSearch from '@src/hooks/useAutoSearch';

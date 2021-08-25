@@ -1,7 +1,7 @@
 import React from 'react';
 import { useCallback } from 'react';
 import styled from 'styled-components';
-import { FaTrashAlt } from 'react-icons/fa';
+import { FaTrashAlt } from '@react-icons/all-files/fa/FaTrashAlt';
 import { CartGoods } from '@src/types/Goods';
 import CheckButton from '@src/components/CheckButton/CheckButton';
 import CartGoodsAmountInput from './CartGoodsAmountInput/CartGoodsAmountInput';

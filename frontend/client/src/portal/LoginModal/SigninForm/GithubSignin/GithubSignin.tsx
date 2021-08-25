@@ -1,6 +1,6 @@
 import React, { useCallback } from 'react';
 import styled from 'styled-components';
-import { FaGithub } from 'react-icons/fa';
+import { FaGithub } from '@react-icons/all-files/fa/FaGithub';
 import { OAUTH_GITHUB_SIGN_URL } from '@src/constants/config';
 
 const GithubSignin = () => {

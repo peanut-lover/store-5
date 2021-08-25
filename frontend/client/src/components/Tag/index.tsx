@@ -1,6 +1,9 @@
 import React from 'react';
 import styled from 'styled-components';
-import { FaLeaf, FaThumbsUp, FaRegLightbulb, FaDollarSign } from 'react-icons/fa';
+import { FaLeaf } from '@react-icons/all-files/fa/FaLeaf';
+import { FaThumbsUp } from '@react-icons/all-files/fa/FaThumbsUp';
+import { FaRegLightbulb } from '@react-icons/all-files/fa/FaRegLightbulb';
+import { FaDollarSign } from '@react-icons/all-files/fa/FaDollarSign';
 
 export const GreenTag: React.FC = () => (
   <TagWrapper fontColor={tagColors.white} bgColor={tagColors.naturalGreen}>

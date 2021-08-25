@@ -1,10 +1,11 @@
-import { FaCartArrowDown } from 'react-icons/fa';
 import React from 'react';
 import { styled } from '@src/lib/CustomStyledComponent';
 import { theme } from '@src/theme/theme';
 import { HeaderIconProps } from '@src/types/Header';
 import { usePushHistory } from '@src/lib/CustomRouter';
 import { ADMIN_ORDER_PATH } from '@src/constants/adminPath';
+
+import { FaCartArrowDown } from '@react-icons/all-files/fa/FaCartArrowDown';
 
 const OrderAdminIcon: React.FC<HeaderIconProps> = ({ currentPath }) => {
   const push = usePushHistory();
