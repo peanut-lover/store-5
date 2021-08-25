@@ -5,6 +5,8 @@ import PromotionUploadModal from '@src/portal/PromotionUploadModal/PromotionUplo
 import { Promotion } from '@src/types/Promotion';
 import React, { useCallback, useEffect, useState } from 'react';
 
+const PROMOTION_ITEM_LIMIT = 10;
+
 const PromotionAdmin = () => {
   const [promotions, setPromotions] = useState<Promotion[]>([]);
 
@@ -24,7 +26,9 @@ const PromotionAdmin = () => {
   }, [setOpenPromotionModal]);
 
   const onOpenModal = useCallback(() => {
-    setOpenPromotionModal(true);
+    if (PROMOTION_ITEM_LIMIT !== promotions.length) {
+      setOpenPromotionModal(true);
+    }
   }, [setOpenPromotionModal]);
 
   const handleDeletePromotion = useCallback(async (promotionId: number) => {
@@ -41,7 +45,12 @@ const PromotionAdmin = () => {
         <Title>프로모션 관리</Title>
         <PromotionSpan>{`총 프로모션 ${promotions.length}건`}</PromotionSpan>
       </PromotionAdminHeader>
-      <PromotionList promotions={promotions} onDeletePromotion={handleDeletePromotion} onOpenModal={onOpenModal} />
+      <PromotionList
+        promotions={promotions}
+        onDeletePromotion={handleDeletePromotion}
+        onOpenModal={onOpenModal}
+        limitCount={PROMOTION_ITEM_LIMIT}
+      />
       {openPromotionModal && <PromotionUploadModal updatePromotions={fetchingPromotions} onClose={handleCloseModal} />}
     </PromotionAdminContainer>
   );

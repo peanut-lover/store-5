@@ -86,7 +86,6 @@ const SearchInputForm = styled('form')`
   padding: 16px;
   border: 1px solid rgb(221, 221, 221);
   border-radius: 4px;
-  box-shadow: rgb(0 0 0 / 10%) 0 -2px 10px 1px;
 `;
 
 const SearchInput = styled('input')`
