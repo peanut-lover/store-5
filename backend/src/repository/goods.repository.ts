@@ -199,22 +199,6 @@ async function decrementStock(id: number, amount: number) {
   return await getRepository(Goods).decrement({ id }, 'stock', amount);
 }
 
-async function updateGoodsState(goodsId: number, state: string): Promise<UpdateResult> {
-  try {
-    return await getRepository(Goods).update(
-      {
-        id: goodsId,
-      },
-      {
-        state,
-      }
-    );
-  } catch (err) {
-    console.error(err);
-    throw new DatabaseError(GOODS_DB_ERROR);
-  }
-}
-
 export const GoodsRepository = {
   findGoodsById,
   findGoodsDetailById,
@@ -228,5 +212,4 @@ export const GoodsRepository = {
   searchGoodsFromKeyword,
   increaseGoodsViewById,
   decrementStock,
-  updateGoodsState,
 };
