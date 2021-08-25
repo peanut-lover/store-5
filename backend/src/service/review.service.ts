@@ -41,27 +41,30 @@ async function createReview(userId: number, body: CreateReviewBody, uploadFileUr
 async function updateReview(userId: number, body: UpdateReviewBody, reviewId: number, uploadFileUrls: string[]) {
   await Promise.all([checkValidateCreateReview(body), checkIsMineReview(userId, reviewId)]);
   const { contents, rate, deletedImages } = body;
-  // console.log(deletedImages.);
-  // return await getConnection().transaction(async (transactionalEntityManager) => {
-  //   const updatedReview = await transactionalEntityManager.update(
-  //     Review,
-  //     {
-  //       id: reviewId,
-  //       user: {
-  //         id: userId,
-  //       },
-  //     },
-  //     {
-  //       rate,
-  //       contents,
-  //     }
-  //   );
-  // await Promise.all(deletedImages.map((url) => transactionalEntityManager.delete(ReviewImg, { url })));
-  //   await Promise.all(
-  //     uploadFileUrls.map((url) => transactionalEntityManager.save(ReviewImg, { review: { id: reviewId }, url }))
-  //   );
-  //   return updatedReview;
-  // });
+  return await getConnection().transaction(async (transactionalEntityManager) => {
+    const updatedReview = await transactionalEntityManager.update(
+      Review,
+      {
+        id: reviewId,
+        user: {
+          id: userId,
+        },
+      },
+      {
+        rate,
+        contents,
+      }
+    );
+    if (deletedImages) {
+      Array.isArray(deletedImages)
+        ? await Promise.all(deletedImages.map((url) => transactionalEntityManager.delete(ReviewImg, { url })))
+        : transactionalEntityManager.delete(ReviewImg, { url: deletedImages });
+    }
+    await Promise.all(
+      uploadFileUrls.map((url) => transactionalEntityManager.save(ReviewImg, { review: { id: reviewId }, url }))
+    );
+    return updatedReview;
+  });
 }
 
 async function checkValidateCreateReview(body: CreateReviewBody): Promise<void> {

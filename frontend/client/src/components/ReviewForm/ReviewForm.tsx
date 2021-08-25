@@ -52,6 +52,7 @@ const ReviewForm: React.FC<Props> = ({ thumbnail, goodsId, title, onClose, onSub
   const handleSubmit = useCallback(async () => {
     const formData = new FormData();
     files.forEach((file: File) => formData.append('files', file));
+    formData.append('goodsId', String(goodsId));
     formData.append('rate', String(rate));
     formData.append('contents', contents);
     deletedImages.length > 0 && deletedImages.forEach((url) => formData.append('deletedImages', url));

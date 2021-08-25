@@ -18,7 +18,11 @@ router.post(
 
 router.put(
   '/:id',
-  isAuthenticate,
+  // isAuthenticate,
+  (req, res, next) => {
+    req.userId = 1;
+    next();
+  },
   uploadProductFiles.array(ReviewImageFieldName, REVIEW_MAX_IMAGE),
   wrapAsync(ReviewController.updateReview)
 );

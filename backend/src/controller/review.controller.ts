@@ -41,6 +41,7 @@ async function updateReview(req: UpdateReviewRequest, res: Response) {
   if (files && Array.isArray(files)) {
     uploadFileUrls = await uploadProductImages(files);
   }
+
   const result = await ReviewService.updateReview(userId, body, reviewId, uploadFileUrls);
   res.status(200).json({ result });
 }
