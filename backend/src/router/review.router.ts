@@ -17,7 +17,7 @@ router.post(
 );
 
 router.put(
-  '/',
+  '/:id',
   isAuthenticate,
   uploadProductFiles.array(ReviewImageFieldName, REVIEW_MAX_IMAGE),
   wrapAsync(ReviewController.updateReview)

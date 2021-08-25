@@ -14,8 +14,10 @@ const MIN_RATE = 1;
 const ALREADY_REVIEW_CREATED = '이미 리뷰를 등록하셨습니다.';
 
 async function createReview(userId: number, body: CreateReviewBody, uploadFileUrls: string[]): Promise<Review> {
-  await checkValidateCreateReview(userId, body);
+  await checkValidateCreateReview(body);
   const { goodsId, contents, rate } = body;
+  const review = await ReviewRepository.getReviewByIds(userId, goodsId);
+  if (review) throw new BadRequestError(ALREADY_REVIEW_CREATED);
   return await getConnection().transaction(async (transactionalEntityManager) => {
     const review = await transactionalEntityManager.save(Review, {
       rate,
@@ -37,38 +39,37 @@ async function createReview(userId: number, body: CreateReviewBody, uploadFileUr
 }
 
 async function updateReview(userId: number, body: UpdateReviewBody, reviewId: number, uploadFileUrls: string[]) {
-  await Promise.all([checkValidateCreateReview(userId, body), checkIsMineReview(userId, reviewId)]);
+  await Promise.all([checkValidateCreateReview(body), checkIsMineReview(userId, reviewId)]);
   const { contents, rate, deletedImages } = body;
-  return await getConnection().transaction(async (transactionalEntityManager) => {
-    const updatedReview = await transactionalEntityManager.update(
-      Review,
-      {
-        id: reviewId,
-        user: {
-          id: userId,
-        },
-      },
-      {
-        rate,
-        contents,
-      }
-    );
-    await Promise.all(deletedImages.map((imageId) => transactionalEntityManager.delete(ReviewImg, { id: imageId })));
-    await Promise.all(
-      uploadFileUrls.map((url) => transactionalEntityManager.save(ReviewImg, { review: { id: reviewId }, url }))
-    );
-    return updatedReview;
-  });
+  // console.log(deletedImages.);
+  // return await getConnection().transaction(async (transactionalEntityManager) => {
+  //   const updatedReview = await transactionalEntityManager.update(
+  //     Review,
+  //     {
+  //       id: reviewId,
+  //       user: {
+  //         id: userId,
+  //       },
+  //     },
+  //     {
+  //       rate,
+  //       contents,
+  //     }
+  //   );
+  // await Promise.all(deletedImages.map((url) => transactionalEntityManager.delete(ReviewImg, { url })));
+  //   await Promise.all(
+  //     uploadFileUrls.map((url) => transactionalEntityManager.save(ReviewImg, { review: { id: reviewId }, url }))
+  //   );
+  //   return updatedReview;
+  // });
 }
 
-async function checkValidateCreateReview(userId: number, body: CreateReviewBody): Promise<void> {
+async function checkValidateCreateReview(body: CreateReviewBody): Promise<void> {
   const { goodsId, contents, rate } = body;
   if (!isNumber(goodsId) || !isString(contents) || !isNumber(rate)) throw new BadRequestError(INVALID_DATA);
   if (rate < MIN_RATE || rate > MAX_RATE || contents.length < 1) throw new BadRequestError(INVALID_DATA);
   const goods = await GoodsRepository.findGoodsById(goodsId);
   if (!goods) throw new BadRequestError(INVALID_DATA);
-  const review = await ReviewRepository.getReviewByIds(userId, goodsId);
-  if (review) throw new BadRequestError(ALREADY_REVIEW_CREATED);
 }
 
 async function checkIsMineReview(userId: number, reviewId: number) {

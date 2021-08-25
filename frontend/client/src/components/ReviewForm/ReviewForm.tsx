@@ -13,14 +13,13 @@ interface Props {
   title: string;
   onClose: () => void;
   onSubmit: () => void;
-  // TODO: Content 내용 Type화
   prevContents?: ReviewContent;
 }
 
 const ReviewForm: React.FC<Props> = ({ thumbnail, goodsId, title, onClose, onSubmit, prevContents }) => {
-  const [contents, setContents] = useState<string>('');
+  const [contents, setContents] = useState<string>(prevContents ? prevContents.contents : '');
   const [files, setFiles] = useState<File[]>([]); // 이미지 file 저장
-  const [rate, setRate] = useState<number>(5);
+  const [rate, setRate] = useState<number>(prevContents ? prevContents.rate : 5);
   const [activeSubmit, setActiveSubmit] = useState<boolean>(false);
 
   const handleSubmit = useCallback(() => {
@@ -66,9 +65,18 @@ const ReviewForm: React.FC<Props> = ({ thumbnail, goodsId, title, onClose, onSub
     <ReviewFormContainer>
       <ReviewFormHeader onClose={onClose} />
       <ReviewFormRate rate={rate} thumbnail={thumbnail} title={title} onHandleRate={handleChangeRate} />
-      <ReviewFormImage onUpdateFiles={handleUpdateFiles} onDeleteFile={handleDeleteFile} />
+      <ReviewFormImage
+        onUpdateFiles={handleUpdateFiles}
+        onDeleteFile={handleDeleteFile}
+        prevImages={prevContents?.images}
+      />
       <ReviewFormContents contents={contents} onHandleContents={handleChangeContents} />
-      <ReviewFormFooter activeSubmit={activeSubmit} onClose={onClose} onSubmit={handleSubmit} />
+      <ReviewFormFooter
+        activeSubmit={activeSubmit}
+        onClose={onClose}
+        onSubmit={handleSubmit}
+        isEdit={prevContents ? true : false}
+      />
     </ReviewFormContainer>
   );
 };

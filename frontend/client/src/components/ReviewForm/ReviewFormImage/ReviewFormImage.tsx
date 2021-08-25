@@ -1,17 +1,19 @@
 import ReviewImageList from '@src/components/ReviewForm/ReviewFormImage/ReviewImageList/ReviewImageList';
 import ReviewImageUploadButton from '@src/components/ReviewForm/ReviewFormImage/ReviewImageUploadButton/ReviewImageUploadButton';
+import { ReviewImage } from '@src/types/Review';
 import React, { useCallback, useRef, useState } from 'react';
 import styled from 'styled-components';
 
 interface Props {
   onDeleteFile: (index: number) => void;
   onUpdateFiles: (newFiles: File[]) => void;
+  prevImages?: ReviewImage[];
 }
 
-const ReviewFormImage: React.FC<Props> = ({ onUpdateFiles, onDeleteFile }) => {
+const ReviewFormImage: React.FC<Props> = ({ onUpdateFiles, onDeleteFile, prevImages }) => {
   const imageInputRef = useRef<HTMLInputElement>(null);
 
-  const [previewImages, setPreviewImages] = useState<string[]>([]);
+  const [previewImages, setPreviewImages] = useState<string[]>(prevImages ? prevImages.map((img) => img.url) : []);
 
   const handleImageUpload = useCallback(() => {
     imageInputRef.current && imageInputRef.current.click();

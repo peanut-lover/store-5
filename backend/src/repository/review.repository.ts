@@ -6,6 +6,7 @@ import { DatabaseError } from '../errors/base.error';
 async function getReviewById(reviewId: number) {
   try {
     return getRepository(Review).findOne({
+      relations: ['user'],
       where: {
         id: reviewId,
       },
