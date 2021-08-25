@@ -10,9 +10,9 @@ export interface Review {
   user: {
     id: number;
     name: string;
-    profileImgUrl: string;
+    profileImgUrl?: string | null;
   };
-  goods: Goods;
+  goods?: Goods;
   rate: number;
   contents: string;
   reviewImgs: ReviewImg[];
