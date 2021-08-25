@@ -6,7 +6,7 @@ import ReviewFormImage from '@src/components/ReviewForm/ReviewFormImage/ReviewFo
 import ReviewFormRate from '@src/components/ReviewForm/ReviewFormRate/ReviewFormRate';
 import { usePushToast } from '@src/lib/ToastProvider/ToastProvider';
 import theme from '@src/theme/theme';
-import { Review } from '@src/types/Review';
+import { ReviewEdit } from '@src/types/Review';
 import React, { ChangeEvent, useCallback, useEffect, useState } from 'react';
 import styled from 'styled-components';
 
@@ -19,7 +19,7 @@ interface Props {
   title: string;
   onClose: () => void;
   onSubmit: () => void;
-  prevContents?: Review;
+  prevContents?: ReviewEdit;
 }
 
 const ReviewForm: React.FC<Props> = ({ thumbnail, goodsId, title, onClose, onSubmit, prevContents }) => {

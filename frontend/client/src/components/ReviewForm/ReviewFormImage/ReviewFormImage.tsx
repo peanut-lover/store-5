@@ -1,6 +1,6 @@
 import ReviewImageList from '@src/components/ReviewForm/ReviewFormImage/ReviewImageList/ReviewImageList';
 import ReviewImageUploadButton from '@src/components/ReviewForm/ReviewFormImage/ReviewImageUploadButton/ReviewImageUploadButton';
-import { ReviewImage } from '@src/types/Review';
+import { ReviewImg } from '@src/types/Review';
 import React, { useCallback, useRef, useState } from 'react';
 import styled from 'styled-components';
 
@@ -8,7 +8,7 @@ interface Props {
   onHandlePrevImage: (url: string) => void;
   onDeleteFile: (index: number) => void;
   onUpdateFiles: (newFiles: File[]) => void;
-  prevImages?: ReviewImage[];
+  prevImages?: ReviewImg[];
 }
 
 const ReviewFormImage: React.FC<Props> = ({ onHandlePrevImage, onUpdateFiles, onDeleteFile, prevImages }) => {

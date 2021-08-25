@@ -1,6 +1,6 @@
 import { Goods } from '@src/types/Goods';
 
-interface ReviewImg {
+export interface ReviewImg {
   id: number;
   url: string;
 }
@@ -25,4 +25,8 @@ export interface ReviewContent {
   images: ReviewImg[];
   rate: number;
   contents: string;
+}
+
+export interface ReviewEdit extends ReviewContent {
+  id: number;
 }
