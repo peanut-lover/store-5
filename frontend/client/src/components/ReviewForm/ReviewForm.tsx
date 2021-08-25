@@ -13,6 +13,9 @@ import styled from 'styled-components';
 const CREATE_ERROR = '리뷰 생성에 실패했습니다.';
 const UPDATE_ERROR = '리뷰 수정에 실패했습니다.';
 
+const MAX_RATE = 5;
+const MIN_IMAGE_OFFSET = 0;
+
 interface Props {
   goodsId: number;
   thumbnail?: string;
@@ -23,11 +26,11 @@ interface Props {
 }
 
 const ReviewForm: React.FC<Props> = ({ thumbnail, goodsId, title, onClose, onSubmit, prevContents }) => {
-  const [prevImageOffset, setPrevImageOffset] = useState(prevContents ? prevContents.images.length : 0);
+  const [prevImageOffset, setPrevImageOffset] = useState(prevContents ? prevContents.images.length : MIN_IMAGE_OFFSET);
   const [deletedImages, setDeletedImages] = useState<string[]>([]);
   const [contents, setContents] = useState<string>(prevContents ? prevContents.contents : '');
   const [files, setFiles] = useState<File[]>([]); // 이미지 file 저장
-  const [rate, setRate] = useState<number>(prevContents ? prevContents.rate : 5);
+  const [rate, setRate] = useState<number>(prevContents ? prevContents.rate : MAX_RATE);
   const [activeSubmit, setActiveSubmit] = useState<boolean>(false);
   const pushToast = usePushToast();
 
