@@ -25,7 +25,7 @@ for (let i = 0; i < 12; i++) {
     ],
     createdAt: new Date(),
     updatedAt: new Date(),
-    isYours: i % 4 === 1,
+    isMine: i % 4 === 1,
   });
 }
 

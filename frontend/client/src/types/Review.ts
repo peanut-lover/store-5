@@ -18,5 +18,5 @@ export interface Review {
   reviewImgs: ReviewImg[];
   createdAt: string | Date;
   updatedAt: string | Date;
-  isYours?: boolean;
+  isMine?: boolean;
 }

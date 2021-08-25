@@ -14,7 +14,7 @@ interface Props {
 }
 
 const ReviewCard: React.FC<Props> = ({ review, onDeleteReview, onUpdateReview, onClickReviewImg }) => {
-  const { id, user, rate, contents, reviewImgs, createdAt, isYours } = review;
+  const { id, user, rate, contents, reviewImgs, createdAt, isMine } = review;
 
   return (
     <Wrapper>
@@ -29,7 +29,7 @@ const ReviewCard: React.FC<Props> = ({ review, onDeleteReview, onUpdateReview, o
             </RateAndDateBox>
           </NameAndRateBox>
         </TopLeftBox>
-        {isYours && (
+        {isMine && (
           <TopRightBox>
             <AwesomeButton
               onClick={() => {
