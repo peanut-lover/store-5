@@ -15,7 +15,6 @@ import { userState } from '@src/recoil/userState';
 import { useRecoilValue } from 'recoil';
 import useScrollToTop from '@src/hooks/useScrollToTop';
 import Loading from '@src/components/Loading/Loading';
-import ReviewFormModal from '@src/portal/ReviewFormModal/ReviewFormModal';
 import ReviewContainer from '@src/components/ReviewContainer/ReviewContainer';
 
 const ERROR_SERVER = '서버 문제로 상품 정보 조회에 실패하였습니다!';
@@ -25,7 +24,6 @@ const delay = (time: number) => new Promise((resolve) => setTimeout(resolve, tim
 
 const GoodsDetailPage = () => {
   const [recentGoodsList, setRecentGoodsList] = useRecentGoodsHistory();
-  const [openReviewForm, setOpenReviewForm] = useState<boolean>(false);
   const { id } = useParams();
   const { isLoggedIn } = useRecoilValue(userState);
   const pushToast = usePushToast();
@@ -69,16 +67,7 @@ const GoodsDetailPage = () => {
             </GoodsContentContainer>
           </GoodsMainContainer>
           <RelationSection categoryName={goods.category.name} />
-          <ReviewContainer key={goods.id} initialGoodsId={goods.id} />
-          {openReviewForm && (
-            <ReviewFormModal
-              goodsId={goods.id}
-              thumbnail={goods?.thumbnailUrl}
-              title={goods.title}
-              onClose={() => {}}
-              onSubmit={() => {}}
-            />
-          )}
+          <ReviewContainer key={goods.id} initialGoodsId={goods.id} initialGoods={goods} />
         </>
       ) : (
         <Loading />

@@ -9,7 +9,7 @@ import { convertYYYYMMDD } from '@src/utils/dateHelper';
 interface Props {
   review: Review;
   onDeleteReview?: (reviewId: number) => void;
-  onUpdateReview?: (reviewId: number) => void;
+  onUpdateReview?: (review: Review) => void;
   onClickReviewImg?: (reviewId: number, reviewImgId: number) => void;
 }
 
@@ -33,7 +33,7 @@ const ReviewCard: React.FC<Props> = ({ review, onDeleteReview, onUpdateReview, o
           <TopRightBox>
             <AwesomeButton
               onClick={() => {
-                onUpdateReview?.(id);
+                onUpdateReview?.(review);
               }}
             >
               수정

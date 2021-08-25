@@ -14,7 +14,7 @@ const ReviewFormFooter: React.FC<Props> = ({ activeSubmit, onClose, onSubmit, is
     <ReviewFormFooterContainer>
       <CloseButton onClick={onClose}>닫기</CloseButton>
       <SubmitButton active={activeSubmit} onClick={onSubmit} bgcolor={theme.primary}>
-        {isEdit ? '작성' : '수정'}
+        {isEdit ? '수정' : '작성'}
       </SubmitButton>
     </ReviewFormFooterContainer>
   );

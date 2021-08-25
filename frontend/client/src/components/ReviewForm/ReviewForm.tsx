@@ -6,11 +6,10 @@ import ReviewFormImage from '@src/components/ReviewForm/ReviewFormImage/ReviewFo
 import ReviewFormRate from '@src/components/ReviewForm/ReviewFormRate/ReviewFormRate';
 import { usePushToast } from '@src/lib/ToastProvider/ToastProvider';
 import theme from '@src/theme/theme';
-import { ReviewEdit } from '@src/types/Review';
+import { Review, ReviewEdit } from '@src/types/Review';
 import React, { ChangeEvent, useCallback, useEffect, useState } from 'react';
 import styled from 'styled-components';
 
-const CREATE_ERROR = '리뷰 생성에 실패했습니다.';
 const UPDATE_ERROR = '리뷰 수정에 실패했습니다.';
 
 const MAX_RATE = 5;
@@ -21,12 +20,13 @@ interface Props {
   thumbnail?: string;
   title: string;
   onClose: () => void;
-  onSubmit: () => void;
-  prevContents?: ReviewEdit;
+  prevContents?: Review;
 }
 
-const ReviewForm: React.FC<Props> = ({ thumbnail, goodsId, title, onClose, onSubmit, prevContents }) => {
-  const [prevImageOffset, setPrevImageOffset] = useState(prevContents ? prevContents.images.length : MIN_IMAGE_OFFSET);
+const ReviewForm: React.FC<Props> = ({ thumbnail, goodsId, title, onClose, prevContents }) => {
+  const [prevImageOffset, setPrevImageOffset] = useState(
+    prevContents ? prevContents.reviewImgs.length : MIN_IMAGE_OFFSET
+  );
   const [deletedImages, setDeletedImages] = useState<string[]>([]);
   const [contents, setContents] = useState<string>(prevContents ? prevContents.contents : '');
   const [files, setFiles] = useState<File[]>([]); // 이미지 file 저장
@@ -38,8 +38,7 @@ const ReviewForm: React.FC<Props> = ({ thumbnail, goodsId, title, onClose, onSub
     try {
       await ReviewAPI.createReview(formData);
     } catch (err) {
-      console.error(err);
-      pushToast({ text: CREATE_ERROR, color: theme.error });
+      pushToast({ text: err.message, color: theme.error });
     }
   }, []);
 
@@ -101,7 +100,7 @@ const ReviewForm: React.FC<Props> = ({ thumbnail, goodsId, title, onClose, onSub
   }, []);
 
   useEffect(() => {
-    if (prevContents && prevContents.images.length + files.length === deletedImages.length) {
+    if (prevContents && prevContents.reviewImgs.length + files.length === deletedImages.length) {
       setActiveSubmit(false);
     } else if ((prevContents || files.length > 0) && rate > 0 && contents.length > 0) {
       setActiveSubmit(true);
@@ -116,7 +115,7 @@ const ReviewForm: React.FC<Props> = ({ thumbnail, goodsId, title, onClose, onSub
         onHandlePrevImage={handlePrevImage}
         onUpdateFiles={handleUpdateFiles}
         onDeleteFile={handleDeleteFile}
-        prevImages={prevContents?.images}
+        prevImages={prevContents?.reviewImgs}
       />
       <ReviewFormContents contents={contents} onHandleContents={handleChangeContents} />
       <ReviewFormFooter
