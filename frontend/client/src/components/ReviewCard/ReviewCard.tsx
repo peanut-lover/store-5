@@ -8,9 +8,12 @@ import { convertYYYYMMDD } from '@src/utils/dateHelper';
 
 interface Props {
   review: Review;
+  onDeleteReview?: (reviewId: number) => void;
+  onUpdateReview?: (reviewId: number) => void;
+  onClickReviewImg?: (reviewId: number, reviewImgId: number) => void;
 }
 
-const ReviewCard: React.FC<Props> = ({ review }) => {
+const ReviewCard: React.FC<Props> = ({ review, onDeleteReview, onUpdateReview, onClickReviewImg }) => {
   const { id, user, rate, contents, reviewImgs, createdAt, isYours } = review;
 
   return (
@@ -28,15 +31,35 @@ const ReviewCard: React.FC<Props> = ({ review }) => {
         </TopLeftBox>
         {isYours && (
           <TopRightBox>
-            <AwesomeButton>수정</AwesomeButton>
-            <AwesomeButton>삭제</AwesomeButton>
+            <AwesomeButton
+              onClick={() => {
+                onUpdateReview?.(id);
+              }}
+            >
+              수정
+            </AwesomeButton>
+            <AwesomeButton
+              onClick={() => {
+                onDeleteReview?.(id);
+              }}
+            >
+              삭제
+            </AwesomeButton>
           </TopRightBox>
         )}
       </TopBox>
       {reviewImgs.length > 0 && (
         <IamgesWrapper>
           {reviewImgs.map((reviewImg) => (
-            <Image key={reviewImg.id} src={reviewImg.url} />
+            <li key={reviewImg.id}>
+              <Image
+                src={reviewImg.url}
+                onClick={() => {
+                  onClickReviewImg?.(id, reviewImg.id);
+                }}
+                hover={!!onClickReviewImg}
+              />
+            </li>
           ))}
         </IamgesWrapper>
       )}
@@ -61,6 +84,7 @@ const TopLeftBox = styled.div`
   display: flex;
   gap: 0.5rem;
   align-items: center;
+  height: 2.5rem;
 `;
 
 const NameAndRateBox = styled.div`
@@ -86,18 +110,26 @@ const DateText = styled.div`
 
 const TopRightBox = styled.div`
   display: flex;
-  gap: 0.25rem;
+  gap: 0.5rem;
 `;
 
-const IamgesWrapper = styled.div`
+const IamgesWrapper = styled.ul`
   display: flex;
   gap: 0.5rem;
 `;
 
-const Image = styled.img`
+const Image = styled.img<{ hover?: boolean }>`
   object-fit: cover;
   width: 4rem;
   height: 4rem;
+
+  border: 1px solid ${({ theme }) => theme.line};
+  transition: 0.2s;
+
+  cursor: ${({ hover }) => (hover ? 'pointer' : 'initial')};
+  :hover {
+    border: 1px solid ${({ hover, theme }) => (hover ? theme.primary : theme.line)};
+  }
 `;
 
 const ReviewContents = styled.div`
