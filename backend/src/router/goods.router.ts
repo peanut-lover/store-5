@@ -32,6 +32,9 @@ router.get('/:id/stock', checkNumberInParams, wrapAsync(GoodsController.getGoods
 router.get('/:id/img', checkNumberInParams, wrapAsync(GoodsController.getGoodsImgById));
 router.get('/:id', checkNumberInParams, wrapAsync(GoodsController.getGoodsDetail));
 
+// TODO: 연동 작업 마무리 되면 isAuthenticate 추가
+router.delete('/:id', checkNumberInParams, wrapAsync(GoodsController.deleteGoods));
+
 // TODO: dashboard admin?
 router.get('/dashboard/best', wrapAsync(GoodsController.getBestGoodsForDashboard));
 

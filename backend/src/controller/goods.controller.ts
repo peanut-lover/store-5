@@ -125,6 +125,12 @@ async function getBestGoodsForDashboard(req: Request, res: Response) {
   res.status(200).json({ result });
 }
 
+async function deleteGoods(req: Request, res: Response) {
+  const goodsId = Number(req.params.id);
+  const result = await GoodsService.deleteGoods(goodsId);
+  res.status(200).json({ result });
+}
+
 export const GoodsController = {
   createGoods,
   updateGoods,
@@ -135,4 +141,5 @@ export const GoodsController = {
   getAllGoodsForAdmin,
   getGoodsImgById,
   getBestGoodsForDashboard,
+  deleteGoods,
 };

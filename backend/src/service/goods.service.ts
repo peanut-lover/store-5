@@ -335,6 +335,11 @@ async function getGoodsImgById(goodsId: number): Promise<
   }));
 }
 
+async function deleteGoods(goodsId: number): Promise<Goods> {
+  const data = await GoodsRepository.updateGoodsState(goodsId, GoodsStateMap.destroy);
+  return data;
+}
+
 function isNewGoods(date: Date): boolean {
   const DAY_DIVIDE = 1000 / 60 / 60 / 24;
   const NEW_PRODUCT_BASE_DAY = 7;
@@ -377,4 +382,5 @@ export const GoodsService = {
   getGoodsStockById,
   getGoodsImgById,
   getBestSellingGoodsForDashboard,
+  deleteGoods,
 };
