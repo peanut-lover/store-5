@@ -1,5 +1,6 @@
 import { Review } from '@src/types/Review';
 
+import TempImg from '@src/assets/empty-kim.gif';
 const mock: Review[] = [];
 
 for (let i = 0; i < 12; i++) {
@@ -15,11 +16,11 @@ for (let i = 0; i < 12; i++) {
     reviewImgs: [
       {
         id: 1,
-        url: '',
+        url: TempImg,
       },
       {
         id: 2,
-        url: '',
+        url: TempImg,
       },
     ],
     createdAt: new Date(),
