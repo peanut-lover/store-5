@@ -1,9 +1,9 @@
 import React, { useCallback, useState } from 'react';
 import { styled } from '@src/lib/CustomStyledComponent';
+import originStyled from 'styled-components';
 import ConfirmModal from '@src/portal/ConfirmModal/ConfirmModal';
 import { theme } from '@src/theme/theme';
 import { Promotion } from '@src/types/Promotion';
-
 import { FaTimes } from '@react-icons/all-files/fa/FaTimes';
 
 const PROMOTION_DELETE_MESSAGE = '해당 프로모션을 삭제하시겠습니까?';
@@ -35,7 +35,9 @@ const PromotionItem: React.FC<Props> = ({ promotion, onDeletePromotion }) => {
 
   return (
     <PromotionContainer>
-      <PromotionTitle color={theme.black6}>{promotion.title}</PromotionTitle>
+      <PromotionHoverContent>
+        <PromotionTitle color={theme.black6}>{promotion.title}</PromotionTitle>
+      </PromotionHoverContent>
       <PromotionImage src={promotion.imgUrl} />
       <PromotionDeleteButton onClick={handleOpenDeleteModal} bgcolor={theme.greenColor}>
         <FaTimes />
@@ -51,11 +53,24 @@ const PromotionItem: React.FC<Props> = ({ promotion, onDeletePromotion }) => {
   );
 };
 
-const PromotionContainer = styled('div')`
+const PromotionContainer = originStyled.div`
   position: relative;
+  width: 50%;
+  margin: 1rem;
+  :hover > *:first-child {
+    opacity: 1;
+  }
+`;
+
+const PromotionHoverContent = styled('div')`
+  position: absolute;
   width: 100%;
-  padding: 1rem;
-  margin-bottom: 1rem;
+  height: 100%;
+  display: flex;
+  align-items: center;
+  background-color: rgba(0, 0, 0, 0.2);
+  transition: opacity 0.25s linear;
+  opacity: 0;
 `;
 
 const PromotionTitle = styled('div')<{ color: string }>`
