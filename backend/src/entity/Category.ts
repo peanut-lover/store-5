@@ -1,4 +1,5 @@
-import { Column, CreateDateColumn, Entity, PrimaryGeneratedColumn, UpdateDateColumn } from 'typeorm';
+import { Column, CreateDateColumn, Entity, OneToMany, PrimaryGeneratedColumn, UpdateDateColumn } from 'typeorm';
+import { Goods } from './Goods';
 
 @Entity()
 export class Category {
@@ -16,4 +17,7 @@ export class Category {
 
   @Column({ nullable: true })
   parent: number;
+
+  @OneToMany(() => Goods, (goods) => goods.category)
+  goodsList: Goods[];
 }
