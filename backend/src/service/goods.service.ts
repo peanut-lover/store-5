@@ -48,18 +48,6 @@ async function createGoods(body: CreateGoodsBody, uploadFileUrls: string[]): Pro
   await checkValidateCreateGoods(body);
   const { title, category, isGreen, price, stock, state, discountRate, deliveryInfo } = body;
 
-  if (
-    !title ||
-    isGreen === undefined ||
-    isNumber(body.stock) ||
-    !state ||
-    isNaN(body.price) ||
-    isNaN(body.category) ||
-    isNaN(body.deliveryInfo)
-  ) {
-    throw new BadRequestError(INVALID_DATA);
-  }
-
   return await getConnection().transaction(async (transactionalEntityManager) => {
     const goods = await transactionalEntityManager.save(Goods, {
       title,

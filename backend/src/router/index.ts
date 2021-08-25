@@ -11,6 +11,7 @@ import searchRouter from './search.router';
 import promotionRouter from './promotion.router';
 import cartRouter from './cart.router';
 import deliveryRouter from './delivery.router';
+import reviewRouter from './review.router';
 
 const router = express.Router();
 
@@ -25,5 +26,6 @@ router.use('/search', searchRouter);
 router.use('/promotion', promotionRouter);
 router.use('/cart', cartRouter);
 router.use('/delivery', deliveryRouter);
+router.use('/review', reviewRouter);
 
 export default router;

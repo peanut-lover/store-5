@@ -1,17 +1,20 @@
 import ReviewImageList from '@src/components/ReviewForm/ReviewFormImage/ReviewImageList/ReviewImageList';
 import ReviewImageUploadButton from '@src/components/ReviewForm/ReviewFormImage/ReviewImageUploadButton/ReviewImageUploadButton';
+import { ReviewImg } from '@src/types/Review';
 import React, { useCallback, useRef, useState } from 'react';
 import styled from 'styled-components';
 
 interface Props {
+  onHandlePrevImage: (url: string) => void;
   onDeleteFile: (index: number) => void;
   onUpdateFiles: (newFiles: File[]) => void;
+  prevImages?: ReviewImg[];
 }
 
-const ReviewFormImage: React.FC<Props> = ({ onUpdateFiles, onDeleteFile }) => {
+const ReviewFormImage: React.FC<Props> = ({ onHandlePrevImage, onUpdateFiles, onDeleteFile, prevImages }) => {
   const imageInputRef = useRef<HTMLInputElement>(null);
 
-  const [previewImages, setPreviewImages] = useState<string[]>([]);
+  const [previewImages, setPreviewImages] = useState<string[]>(prevImages ? prevImages.map((img) => img.url) : []);
 
   const handleImageUpload = useCallback(() => {
     imageInputRef.current && imageInputRef.current.click();
@@ -34,10 +37,11 @@ const ReviewFormImage: React.FC<Props> = ({ onUpdateFiles, onDeleteFile }) => {
 
   const handleDeleteImage = useCallback(
     (index: number) => {
+      if (previewImages[index][0] !== 'b') onHandlePrevImage(previewImages[index]);
       setPreviewImages((prev) => prev.filter((url, i) => i !== index));
       onDeleteFile(index);
     },
-    [onDeleteFile, setPreviewImages]
+    [previewImages, onDeleteFile, setPreviewImages, onHandlePrevImage]
   );
 
   return (

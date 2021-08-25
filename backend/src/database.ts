@@ -22,6 +22,8 @@ import { PaymentRepository } from './repository/payment.repository';
 import { OrderListRepository } from './repository/order.list.repository';
 import { OrderItemRepository } from './repository/order.item.repository';
 import { GoodsRepository } from './repository/goods.repository';
+import { Review } from './entity/Review';
+import { ReviewImg } from './entity/ReviewImg';
 
 export default async function () {
   await createConnection({
@@ -40,6 +42,8 @@ export default async function () {
       Payment,
       Promotion,
       Wish,
+      Review,
+      ReviewImg,
     ], // TODO: add entities
   });
   await populate();

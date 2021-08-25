@@ -6,14 +6,15 @@ interface Props {
   activeSubmit: boolean;
   onClose: () => void;
   onSubmit: () => void;
+  isEdit: boolean;
 }
 
-const ReviewFormFooter: React.FC<Props> = ({ activeSubmit, onClose, onSubmit }) => {
+const ReviewFormFooter: React.FC<Props> = ({ activeSubmit, onClose, onSubmit, isEdit }) => {
   return (
     <ReviewFormFooterContainer>
       <CloseButton onClick={onClose}>닫기</CloseButton>
       <SubmitButton active={activeSubmit} onClick={onSubmit} bgcolor={theme.primary}>
-        작성
+        {isEdit ? '작성' : '수정'}
       </SubmitButton>
     </ReviewFormFooterContainer>
   );

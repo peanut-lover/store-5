@@ -9,4 +9,5 @@ export const PAYMENT_DB_ERROR = 'Payment database에 접근이 올바르지 않�
 export const PROMOTION_DB_ERROR = 'Promotion database에 접근이 올바르지 않습니다.';
 export const USER_ADDRESS_DB_ERROR = 'UserAddress database에 접근이 올바르지 않습니다.';
 export const WISH_DB_ERROR = 'Wish database에 접근이 올바르지 않습니다.';
-export const USER_DB_ERROR = 'user database에 접근이 올바르지 않습니다.';
+export const USER_DB_ERROR = 'User database에 접근이 올바르지 않습니다.';
+export const REVIEW_DB_ERROR = 'Review database에 접근이 올바르지 않습니다.';
