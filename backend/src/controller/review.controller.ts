@@ -21,13 +21,15 @@ async function getReviews(req: Request, res: Response) {
     throw new BadRequestError(INVALID_DATA);
   }
 
-  const result = await ReviewService.getReviews({
+  const option = {
     limit,
     page,
     requestUserId,
-    ...(!isNaN(goodsId) && { goodsId }),
-    ...(!isNaN(userId) && { userId }),
-  });
+  };
+  if (!isNaN(goodsId)) Object.assign(option, { goodsId });
+  if (!isNaN(userId)) Object.assign(option, { userId });
+
+  const result = await ReviewService.getReviews(option);
   res.status(200).json({ result });
 }
 

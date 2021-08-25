@@ -6,13 +6,14 @@ import { getReviewsOption } from '../types/Review';
 
 async function getReviews({ limit, page, goodsId, userId }: getReviewsOption) {
   try {
+    const where = new Object();
+    if (goodsId) Object.assign(where, { goodsId });
+    if (userId) Object.assign(where, { userId });
+
     return await getRepository(Review).find({
       skip: limit * (page - 1),
       take: limit,
-      where: {
-        ...(goodsId && { goods: { id: goodsId } }),
-        ...(userId && { user: { id: userId } }),
-      },
+      where,
       order: {
         id: 'DESC',
       },
@@ -26,10 +27,11 @@ async function getReviews({ limit, page, goodsId, userId }: getReviewsOption) {
 
 async function getReviewsCount({ limit, page, goodsId, userId }: getReviewsOption) {
   try {
-    return await getRepository(Review).count({
-      ...(goodsId && { goods: { id: goodsId } }),
-      ...(userId && { user: { id: userId } }),
-    });
+    const where = new Object();
+    if (goodsId) Object.assign(where, { goodsId });
+    if (userId) Object.assign(where, { userId });
+
+    return await getRepository(Review).count(where);
   } catch (err) {
     console.error(err);
     throw new DatabaseError(REVIEW_DB_ERROR);
