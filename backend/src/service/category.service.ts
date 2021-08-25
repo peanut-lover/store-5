@@ -90,17 +90,16 @@ async function getCategoryViews(): Promise<CategoryViewCountResponse> {
   const goods = await GoodsRepository.findAllWithCategory();
   // category parentId를 key로 조회 수 총합을 구합니다.
   goods.forEach((item) => {
-    if (categories[item.category.parent]) {
-      categories[item.category.parent] += item.view;
+    let parent;
+    if (!item.category.parent && item.category) parent = item.category.id;
+    else parent = item.category.parent;
+    if (categories[parent]) {
+      categories[parent] += item.view;
     } else {
-      categories[item.category.parent] = item.view;
+      categories[parent] = item.view;
     }
   });
-  await Promise.all(
-    Object.keys(categories)
-      .filter((key) => isNumber(key))
-      .map((key) => pushCategoryViewToList(Number(key), categories[key], result))
-  );
+  await Promise.all(Object.keys(categories).map((key) => pushCategoryViewToList(Number(key), categories[key], result)));
   return result;
 }
 
