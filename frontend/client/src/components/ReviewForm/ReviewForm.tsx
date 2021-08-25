@@ -1,11 +1,17 @@
+import ReviewAPI from '@src/apis/reviewAPI';
 import ReviewFormContents from '@src/components/ReviewForm/ReviewFormContents/ReviewFormContents';
 import ReviewFormFooter from '@src/components/ReviewForm/ReviewFormFooter/ReviewFormFooter';
 import ReviewFormHeader from '@src/components/ReviewForm/ReviewFormHeader/ReviewFormHeader';
 import ReviewFormImage from '@src/components/ReviewForm/ReviewFormImage/ReviewFormImage';
 import ReviewFormRate from '@src/components/ReviewForm/ReviewFormRate/ReviewFormRate';
-import { ReviewContent } from '@src/types/Review';
+import { usePushToast } from '@src/lib/ToastProvider/ToastProvider';
+import theme from '@src/theme/theme';
+import { Review } from '@src/types/Review';
 import React, { ChangeEvent, useCallback, useEffect, useState } from 'react';
 import styled from 'styled-components';
+
+const CREATE_ERROR = '리뷰 생성에 실패했습니다.';
+const UPDATE_ERROR = '리뷰 수정에 실패했습니다.';
 
 interface Props {
   goodsId: number;
@@ -13,7 +19,7 @@ interface Props {
   title: string;
   onClose: () => void;
   onSubmit: () => void;
-  prevContents?: ReviewContent;
+  prevContents?: Review;
 }
 
 const ReviewForm: React.FC<Props> = ({ thumbnail, goodsId, title, onClose, onSubmit, prevContents }) => {
@@ -23,13 +29,38 @@ const ReviewForm: React.FC<Props> = ({ thumbnail, goodsId, title, onClose, onSub
   const [files, setFiles] = useState<File[]>([]); // 이미지 file 저장
   const [rate, setRate] = useState<number>(prevContents ? prevContents.rate : 5);
   const [activeSubmit, setActiveSubmit] = useState<boolean>(false);
+  const pushToast = usePushToast();
 
-  const handleSubmit = useCallback(() => {
+  const handleCreateReview = useCallback(async (formData: FormData) => {
+    try {
+      await ReviewAPI.createReview(formData);
+    } catch (err) {
+      console.error(err);
+      pushToast({ text: CREATE_ERROR, color: theme.error });
+    }
+  }, []);
+
+  const handleUpdateReview = useCallback(async (reviewId: number, formData: FormData) => {
+    try {
+      await ReviewAPI.updateReview(reviewId, formData);
+    } catch (err) {
+      console.error(err);
+      pushToast({ text: UPDATE_ERROR, color: theme.error });
+    }
+  }, []);
+
+  const handleSubmit = useCallback(async () => {
     const formData = new FormData();
     files.forEach((file: File) => formData.append('files', file));
     formData.append('rate', String(rate));
     formData.append('contents', contents);
     deletedImages.length > 0 && deletedImages.forEach((url) => formData.append('deletedImages', url));
+    if (prevContents) {
+      await handleUpdateReview(prevContents.id, formData);
+    } else {
+      await handleCreateReview(formData);
+    }
+    onClose();
   }, [files, rate, contents, deletedImages]);
 
   const handleChangeContents = useCallback((e: ChangeEvent<HTMLTextAreaElement>) => {

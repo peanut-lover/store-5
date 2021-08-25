@@ -1,6 +1,6 @@
 import ReviewForm from '@src/components/ReviewForm/ReviewForm';
 import Portal from '@src/portal/portal';
-import { ReviewContent } from '@src/types/Review';
+import { Review } from '@src/types/Review';
 import React from 'react';
 import styled from 'styled-components';
 
@@ -10,11 +10,12 @@ interface Props {
   title: string;
   onClose: () => void;
   onSubmit: () => void;
-  prevContents?: ReviewContent;
+  prevContents?: Review;
 }
 // , prevContents
 const ReviewFormModal: React.FC<Props> = ({ goodsId, thumbnail, title, onClose, onSubmit }) => {
   const prevContents = {
+    id: 1,
     rate: 4,
     contents: '이전 prev',
     images: [

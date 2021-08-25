@@ -1,4 +1,5 @@
 import { Review } from '@src/types/Review';
+import { checkedFetch } from '@src/apis/base';
 
 import TempImg from '@src/assets/empty-kim.gif';
 const mock: Review[] = [];
@@ -48,6 +49,28 @@ function getReviewsOfGoods(goodsId: number, limit: number, page: number): Promis
   });
 }
 
-const ReviewAPI = { getReviewsOfGoods };
+async function createReview(formData: FormData) {
+  const res = await checkedFetch(`/api/review`, {
+    method: 'POST',
+    credentials: 'include',
+    body: formData,
+  });
+  return res.json();
+}
+
+async function updateReview(reviewId: number, formData: FormData) {
+  const res = await checkedFetch(`/api/review/${reviewId}`, {
+    method: 'PUT',
+    credentials: 'include',
+    body: formData,
+  });
+  return res.json();
+}
+
+const ReviewAPI = {
+  getReviewsOfGoods,
+  createReview,
+  updateReview,
+};
 
 export default ReviewAPI;
