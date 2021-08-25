@@ -10,6 +10,27 @@ import {
   UpdateReviewRequest,
 } from '../types/request/review.request';
 
+async function getReviews(req: Request, res: Response) {
+  const limit = Number(req.query.limit);
+  const page = Number(req.query.page);
+  const goodsId = Number(req.query.goodsId);
+  const userId = Number(req.query.userId);
+  const requestUserId = req.session.userId;
+
+  if (isNaN(limit) || isNaN(page)) {
+    throw new BadRequestError(INVALID_DATA);
+  }
+
+  const result = await ReviewService.getReviews({
+    limit,
+    page,
+    requestUserId,
+    ...(!isNaN(goodsId) && { goodsId }),
+    ...(!isNaN(userId) && { userId }),
+  });
+  res.status(200).json({ result });
+}
+
 async function createReview(req: CreateReviewRequest, res: Response) {
   const { goodsId, rate, contents } = req.body;
   const userId = req.userId;
@@ -46,7 +67,21 @@ async function updateReview(req: UpdateReviewRequest, res: Response) {
   res.status(200).json({ result });
 }
 
+async function deleteReview(req: Request, res: Response) {
+  const reviewId = Number(req.params.id);
+  const userId = req.userId;
+
+  if (isNaN(reviewId)) {
+    throw new BadRequestError(INVALID_DATA);
+  }
+
+  await ReviewService.deleteReview(userId, reviewId);
+  res.sendStatus(204);
+}
+
 export const ReviewController = {
+  getReviews,
   createReview,
   updateReview,
+  deleteReview,
 };

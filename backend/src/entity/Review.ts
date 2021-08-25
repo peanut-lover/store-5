@@ -35,5 +35,5 @@ export class Review {
   user: User;
 
   @OneToMany(() => ReviewImg, (reviewImg) => reviewImg.review)
-  reviewImg: ReviewImg;
+  reviewImgs: ReviewImg;
 }
