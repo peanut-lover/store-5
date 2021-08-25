@@ -47,14 +47,6 @@ const getBestSellingGoodsForDashboard = async (): Promise<APIResponse<GoodsItem[
   return await res.json();
 };
 
-const deleteGoods = async (goodsId: number): Promise<APIResponse<CreatedGoods>> => {
-  const res = await checkedFetch(`/api/goods/${goodsId}`, {
-    method: 'DELETE',
-    credentials: 'include',
-  });
-  return await res.json();
-};
-
 const getGoodsOptionURL = ({
   page,
   limit = DEFAULT_LIMIT,
@@ -74,5 +66,4 @@ export const GoodsAPI = {
   getGoodsByOption,
   getGoodsImgById,
   getBestSellingGoodsForDashboard,
-  deleteGoods,
 };

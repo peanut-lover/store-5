@@ -1,13 +1,10 @@
-import React, { useCallback, useState } from 'react';
+import React from 'react';
 import { styled } from '@src/lib/CustomStyledComponent';
 import originStyled from 'styled-components';
 import { GoodsItem } from '@src/types/Goods';
-import { getDiscountedPrice, getPriceText } from '@src/utils/price';
+import { getPriceText } from '@src/utils/price';
 import { convertYYYYMMDD } from '@src/utils/dateHelper';
 import { FaTimes } from '@react-icons/all-files/fa/FaTimes';
-import { theme } from '@src/theme/theme';
-import { GoodsAPI } from '@src/apis/goodsAPI';
-import ConfirmModal from '@src/portal/ConfirmModal/ConfirmModal';
 
 interface Props {
   goods: GoodsItem;
@@ -24,16 +21,8 @@ const STATE_MAP: StateMap = {
   D: '삭제',
 };
 
-const PROMOTION_DELETE_MESSAGE = '해당 상품을 삭제하시겠습니까?';
-
 const GoodsTableRow: React.FC<Props> = ({ goods, handleUpdateGoods }) => {
   const { thumbnailUrl, title, price, discountRate, stock, countOfSell, createdAt, updatedAt, state, category } = goods;
-  const [openDeleteModal, setOpenDeleteModal] = useState<boolean>(false);
-
-  const handleDelete = (e: React.MouseEvent) => {
-    e.stopPropagation();
-    setOpenDeleteModal(true);
-  };
 
   return (
     <GoodsTableRowContainer onClick={() => handleUpdateGoods(goods)}>
@@ -50,15 +39,8 @@ const GoodsTableRow: React.FC<Props> = ({ goods, handleUpdateGoods }) => {
       <TableData>{convertYYYYMMDD(new Date(updatedAt))}</TableData>
       <TableData>{STATE_MAP[state]}</TableData>
       <TableData>{category.name}</TableData>
-      <TableData onClick={handleDelete}>
+      <TableData>
         <FaTimes />
-        {openDeleteModal && (
-          <ConfirmModal
-            title={PROMOTION_DELETE_MESSAGE}
-            onConfirm={() => GoodsAPI.deleteGoods(goods.id)}
-            onClose={() => setOpenDeleteModal(false)}
-          />
-        )}
       </TableData>
     </GoodsTableRowContainer>
   );
