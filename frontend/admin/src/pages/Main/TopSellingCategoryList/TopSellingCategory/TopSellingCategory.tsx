@@ -33,7 +33,7 @@ const TopSellingCategoryContainer = styled.div`
 const TopSellingInfoContainer = styled.div`
   display: flex;
   font-size: 14px;
-  grid-gap: 1.5rem;
+  column-gap: 1.5rem;
   align-items: center;
 `;
 

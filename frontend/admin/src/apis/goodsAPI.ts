@@ -54,9 +54,10 @@ const getGoodsOptionURL = ({
   flag = 'create',
   sort = 'DESC',
 }: GetGoodsByOptionProps): string => {
-  return `/api/goods/admin?page=${page}&limit=${limit}${keyword ? `&keyword=${keyword}` : ''}${
-    flag ? `&flag=${flag}` : ''
-  }${sort ? `&sort=${sort}` : ''}`;
+  const keywordQuery = keyword ? `&keyword=${keyword}` : '';
+  const flagQuery = flag ? `&flag=${flag}` : '';
+  const sortQuery = sort ? `&sort=${sort}` : '';
+  return `/api/goods/admin?page=${page}&limit=${limit}${keywordQuery + flagQuery + sortQuery}`;
 };
 
 export const GoodsAPI = {
