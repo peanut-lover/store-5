@@ -31,6 +31,7 @@ const PromotionListContainer = styled('ul')`
   margin: auto;
   flex-wrap: wrap;
   overflow: auto;
+  height: calc(100vh - 5rem);
   padding: 16px;
 `;
 

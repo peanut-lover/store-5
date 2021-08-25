@@ -4,7 +4,6 @@ import originStyled from 'styled-components';
 import { GoodsItem } from '@src/types/Goods';
 import { getPriceText } from '@src/utils/price';
 import { convertYYYYMMDD } from '@src/utils/dateHelper';
-import { FaTimes } from '@react-icons/all-files/fa/FaTimes';
 
 interface Props {
   goods: GoodsItem;

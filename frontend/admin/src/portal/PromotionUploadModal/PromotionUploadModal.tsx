@@ -108,12 +108,13 @@ const PositionContainer = styled('div')`
 
 const UploadButton = styled('button')<{ disabled: boolean }>`
   position: absolute;
-  left: 25%;
+  left: 15%;
   bottom: 50px;
-  width: 50%;
-  height: 8%;
-  font-size: 1.6em;
-  border-radius: 12px;
+  width: 70%;
+  height: 50px;
+  border-radius: 4px;
+  font-size: 1.2rem;
+  font-weight: 600;
   color: white;
   border: none;
   background-color: ${(props) => (props.disabled ? 'lightgray' : '#2ac1bc')};
@@ -132,6 +133,8 @@ const CloseButton = styled('button')<{ bgcolor: string }>`
   background-color: ${(props) => props.bgcolor};
   color: white;
   border: none;
+  display: flex;
+  align-items: center;
   cursor: pointer;
 `;
 

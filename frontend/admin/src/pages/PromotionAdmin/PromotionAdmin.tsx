@@ -59,6 +59,7 @@ const PromotionAdminContainer = styled('div')`
   margin: 5rem;
   margin-bottom: 0;
   min-width: 1280px;
+  overflow: hidden;
 `;
 
 const PromotionAdminHeader = styled('div')`
