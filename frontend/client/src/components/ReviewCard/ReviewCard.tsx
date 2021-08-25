@@ -2,13 +2,19 @@ import React from 'react';
 import styled from 'styled-components';
 import Avatar from '../Avatar/Avatar';
 import Rate from '../Rate/Rate';
-import TempImg from '@src/assets/empty-img.png';
 import AwesomeButton from '../AwesomeButton/AwesomeButton';
+import { Review } from '@src/types/Review';
+import { convertYYYYMMDD } from '@src/utils/dateHelper';
 
-interface Props {}
+interface Props {
+  review: Review;
+  onDeleteReview?: (reviewId: number) => void;
+  onUpdateReview?: (reviewId: number) => void;
+  onClickReviewImg?: (reviewId: number, reviewImgId: number) => void;
+}
 
-const ReviewCard: React.FC<Props> = ({}) => {
-  // props: id, userName, rate, createAt, 상품 정보, 이미지 리스트, 리뷰 내용
+const ReviewCard: React.FC<Props> = ({ review, onDeleteReview, onUpdateReview, onClickReviewImg }) => {
+  const { id, user, rate, contents, reviewImgs, createdAt, isMine } = review;
 
   return (
     <Wrapper>
@@ -16,27 +22,48 @@ const ReviewCard: React.FC<Props> = ({}) => {
         <TopLeftBox>
           <Avatar />
           <NameAndRateBox>
-            <NameText>사용자명</NameText>
+            <NameText>{user.name}</NameText>
             <RateAndDateBox>
-              <Rate rate={3} />
-              <DateText>2020.12.12.</DateText>
+              <Rate rate={rate} />
+              <DateText>{convertYYYYMMDD(new Date(createdAt))}</DateText>
             </RateAndDateBox>
           </NameAndRateBox>
         </TopLeftBox>
-        {/* 자기 것이면 렌더링한다! */}
-        <TopRightBox>
-          <AwesomeButton>수정</AwesomeButton>
-          <AwesomeButton disabled>삭제</AwesomeButton>
-        </TopRightBox>
+        {isMine && (
+          <TopRightBox>
+            <AwesomeButton
+              onClick={() => {
+                onUpdateReview?.(id);
+              }}
+            >
+              수정
+            </AwesomeButton>
+            <AwesomeButton
+              onClick={() => {
+                onDeleteReview?.(id);
+              }}
+            >
+              삭제
+            </AwesomeButton>
+          </TopRightBox>
+        )}
       </TopBox>
-      <GoodsInfoText>상품 정보</GoodsInfoText>
-      {/* 이미지가 있다면 렌더링한다! */}
-      <IamgesWrapper>
-        <Image src={TempImg} />
-        <Image src={TempImg} />
-        <Image src={TempImg} />
-      </IamgesWrapper>
-      <ReviewContents>리뷰 내용</ReviewContents>
+      {reviewImgs.length > 0 && (
+        <IamgesWrapper>
+          {reviewImgs.map((reviewImg) => (
+            <li key={reviewImg.id}>
+              <Image
+                src={reviewImg.url}
+                onClick={() => {
+                  onClickReviewImg?.(id, reviewImg.id);
+                }}
+                hover={!!onClickReviewImg}
+              />
+            </li>
+          ))}
+        </IamgesWrapper>
+      )}
+      <ReviewContents>{contents}</ReviewContents>
     </Wrapper>
   );
 };
@@ -57,6 +84,7 @@ const TopLeftBox = styled.div`
   display: flex;
   gap: 0.5rem;
   align-items: center;
+  height: 2.5rem;
 `;
 
 const NameAndRateBox = styled.div`
@@ -82,22 +110,26 @@ const DateText = styled.div`
 
 const TopRightBox = styled.div`
   display: flex;
-  gap: 0.25rem;
+  gap: 0.5rem;
 `;
 
-const GoodsInfoText = styled.div`
-  color: ${(props) => props.theme.label};
-`;
-
-const IamgesWrapper = styled.div`
+const IamgesWrapper = styled.ul`
   display: flex;
   gap: 0.5rem;
 `;
 
-const Image = styled.img`
+const Image = styled.img<{ hover?: boolean }>`
   object-fit: cover;
   width: 4rem;
   height: 4rem;
+
+  border: 1px solid ${({ theme }) => theme.line};
+  transition: 0.2s;
+
+  cursor: ${({ hover }) => (hover ? 'pointer' : 'initial')};
+  :hover {
+    border: 1px solid ${({ hover, theme }) => (hover ? theme.primary : theme.line)};
+  }
 `;
 
 const ReviewContents = styled.div`
