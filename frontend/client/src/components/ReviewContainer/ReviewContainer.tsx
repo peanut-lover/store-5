@@ -10,6 +10,7 @@ import ReviewList from './ReviewList/ReviewList';
 import ReviewLoading from './ReviewLoading/ReviewLoading';
 import ReviewFormModal from '@src/portal/ReviewFormModal/ReviewFormModal';
 import { DetailGoods } from '@src/types/Goods';
+import useUserState from '@src/hooks/useUserState';
 
 interface Props {
   initialGoods: DetailGoods;
@@ -27,6 +28,7 @@ const SCROLL_MARGIN = 128;
 
 const ReviewContainer: React.FC<Props> = ({ initialGoodsId, initialGoods }) => {
   const [goodsId] = useState(initialGoodsId);
+  const [user] = useUserState();
 
   const [reviews, setReviews] = useState<Review[]>([]);
   const [selectedReview, setSelectedReview] = useState<Review>();
@@ -60,7 +62,10 @@ const ReviewContainer: React.FC<Props> = ({ initialGoodsId, initialGoods }) => {
     const initialIndex = initialReview.reviewImgs.findIndex(({ id }) => id === reviewImgId)!;
     setReviewImageModalState({ initialReview, initialIndex, isOpened: true });
   };
-  const handleDeleteReview = (reviewId: number) => {};
+  const handleDeleteReview = async (reviewId: number) => {
+    await ReviewAPI.deleteReview(reviewId);
+    setReviews((currentReviews) => currentReviews.filter(({ id }) => id !== reviewId));
+  };
   const handleUpdateReview = (review: Review) => {
     setOpenReviewForm(true);
     setSelectedReview(review);
@@ -88,10 +93,12 @@ const ReviewContainer: React.FC<Props> = ({ initialGoodsId, initialGoods }) => {
 
   const handleCloseReviewForm = useCallback(() => {
     setOpenReviewForm(false);
-  }, []);
-  useEffect(() => {
     fetchReviews(currentPage);
   }, []);
+
+  useEffect(() => {
+    fetchReviews(currentPage);
+  }, [user]);
 
   return (
     <Wrapper ref={thisRef}>
@@ -118,16 +125,16 @@ const ReviewContainer: React.FC<Props> = ({ initialGoodsId, initialGoods }) => {
               onClose={handleCloseReviewImageModal}
             />
           )}
-          {openReviewForm && (
-            <ReviewFormModal
-              goodsId={initialGoods.id}
-              thumbnail={initialGoods.thumbnailUrl}
-              title={initialGoods.title}
-              onClose={handleCloseReviewForm}
-              prevContents={selectedReview}
-            />
-          )}
         </>
+      )}
+      {openReviewForm && (
+        <ReviewFormModal
+          goodsId={initialGoods.id}
+          thumbnail={initialGoods.thumbnailUrl}
+          title={initialGoods.title}
+          onClose={handleCloseReviewForm}
+          prevContents={selectedReview}
+        />
       )}
     </Wrapper>
   );
