@@ -51,7 +51,7 @@ const GoodsTableRowContainer = originStyled.tr`
     background-color: rgba(0, 0, 0, 0.15);
   }
 `;
-const TableData = originStyled.td`
+const TableData = styled('td')`
   vertical-align: middle;
 `;
 const ThumbnailImg = styled('img')`

@@ -1,4 +1,4 @@
-import { FindOperator, getRepository, Like, MoreThan } from 'typeorm';
+import { FindOperator, getRepository, Like, MoreThan, UpdateResult } from 'typeorm';
 import { GOODS_DB_ERROR } from '../constants/database.error.name';
 import { DatabaseError } from '../errors/base.error';
 import { Goods } from '../entity/Goods';
@@ -199,12 +199,16 @@ async function decrementStock(id: number, amount: number) {
   return await getRepository(Goods).decrement({ id }, 'stock', amount);
 }
 
-async function updateGoodsState(goodsId: number, state: string): Promise<Goods> {
+async function updateGoodsState(goodsId: number, state: string): Promise<UpdateResult> {
   try {
-    return await getRepository(Goods).save({
-      id: goodsId,
-      state,
-    });
+    return await getRepository(Goods).update(
+      {
+        id: goodsId,
+      },
+      {
+        state,
+      }
+    );
   } catch (err) {
     console.error(err);
     throw new DatabaseError(GOODS_DB_ERROR);
