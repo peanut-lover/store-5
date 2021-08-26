@@ -50,13 +50,13 @@ interface TagWrapperProps {
 const TagWrapper = styled.div<TagWrapperProps>`
   display: flex;
   border-radius: 0.25rem;
-  padding: 0.25rem 0.5rem;
+  padding: 0rem 0.25rem;
+  font-size: 12px;
   column-gap: 0.25rem;
   align-items: center;
   height: 1.5rem;
   color: ${(props) => props.fontColor ?? 'white'};
   background-color: ${(props) => props.bgColor ?? 'black'};
-  font-size: 14px;
   font-weight: 300;
   user-select: none;
 `;

@@ -143,11 +143,10 @@ const TagContainer = styled.div`
   top: 0;
   margin: 0.5rem;
   width: 100%;
+  column-gap: 0.25rem;
+  row-gap: 0.25rem;
   pointer-events: none;
   z-index: 1;
-  & > *:not(:last-child) {
-    margin-right: 10px;
-  }
 `;
 
 const GoodsItemContainer = styled.div`
