@@ -7,6 +7,8 @@ import { usePushToast } from '@src/lib/ToastProvider/ToastProvider';
 import { getMyWishGoods } from '@src/apis/goodsAPI';
 import { getOrders } from '@src/apis/orderAPI';
 import { usePushHistory } from '@src/lib/CustomRouter';
+import Avatar from '@src/components/Avatar/Avatar';
+import { convertYYYYMMDD } from '@src/utils/dateHelper';
 
 const MyProfileView = () => {
   const [userState] = useUserState();
@@ -60,9 +62,13 @@ const MyProfileView = () => {
   return (
     <MyProfileViewContainer>
       <Topic>{userState.name}님의 정보</Topic>
-      <div>
-        <p>여기에 사용자 정보를 나타낼 수 있으면 좋을 듯합니다. 현재 데이터가 없어서 보여 줄게 없습니다.</p>
-      </div>
+      <MyInfoSection>
+        <Avatar size='big' imgUrl={userState.profileImgUrl} />
+        <div>
+          <MyNameText>소중한 {userState.name} 님,</MyNameText>
+          <MyCreatedAtText>{convertYYYYMMDD(new Date(userState.createdAt))}에 가입하셨습니다.</MyCreatedAtText>
+        </div>
+      </MyInfoSection>
       <Topic>상품관련 활동</Topic>
       <SummarySection>
         <SummaryCard onClick={() => pushLocation('/cart')}>
@@ -85,6 +91,7 @@ const MyProfileView = () => {
 const MyProfileViewContainer = styled.div`
   display: flex;
   flex-direction: column;
+  gap: 2rem;
   animation: fadeInEffect 0.5s 0s;
   @keyframes fadeInEffect {
     from {
@@ -94,6 +101,22 @@ const MyProfileViewContainer = styled.div`
       opacity: 1;
     }
   }
+`;
+
+const MyNameText = styled.div`
+  font-size: 1.5rem;
+`;
+
+const MyCreatedAtText = styled.div`
+  font-size: 1.25rem;
+  color: ${(props) => props.theme.label};
+`;
+
+const MyInfoSection = styled.div`
+  display: flex;
+  align-items: center;
+  margin-left: 1rem;
+  gap: 1rem;
 `;
 
 const SummarySection = styled.div`
@@ -113,6 +136,7 @@ const SummaryCard = styled.div`
   height: 150px;
   margin-left: 1rem;
   font-size: 1.5rem;
+  border-radius: 0.25rem;
 `;
 
 export default MyProfileView;
