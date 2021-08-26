@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from 'react';
+import React, { useEffect, useState, useCallback } from 'react';
 import { styled } from '@src/lib/CustomStyledComponent';
 import { GetGoodsByOptionProps, GoodsItem, GoodsPaginationResult } from '@src/types/Goods';
 import GoodsTableHead from '@src/pages/GoodsAdmin/GoodsTable/GoodsTableHead/GoodsTableHead';
@@ -7,8 +7,8 @@ import Paginator from '@src/components/Paginator/Paginator';
 import Search from '@src/pages/GoodsAdmin/GoodsTable/Search/Search';
 import GoodsUpdateModal from '@src/portal/GoodsUploadModal/GoodsUploadModal';
 import { getGoodsByOption } from '@src/apis/goodsAPI';
-import { useCallback } from 'react';
 import Loading from '@src/components/Loading/Loading';
+import emptyImgUrl from '@src/assets/empty-img.png';
 
 interface Props {
   openUploadModal: boolean;
@@ -77,24 +77,36 @@ const GoodsTable: React.FC<Props> = ({ openUploadModal }) => {
     if (!openUpdateModal) setUpdateGoods(null);
   }, [openUpdateModal]);
 
-  return goodsListMap ? (
+  if (!goodsListMap) {
+    return <Loading />;
+  }
+  return (
     <>
       <Search setKeyword={setKeyword} />
       <GoodsTableContainer>
-        <GoodsTableHead handleOrderAndSortGoods={handleOrderAndSortGoods} searchQuery={searchQuery} />
-        <GoodsTableBody goodsList={goodsListMap.goodsList} handleUpdateGoods={handleUpdateGoods} />
+        {goodsListMap.goodsList.length === 0 ? (
+          <EmptyImage src={emptyImgUrl} />
+        ) : (
+          <>
+            <GoodsTableHead handleOrderAndSortGoods={handleOrderAndSortGoods} searchQuery={searchQuery} />
+            <GoodsTableBody goodsList={goodsListMap.goodsList} handleUpdateGoods={handleUpdateGoods} />
+          </>
+        )}
       </GoodsTableContainer>
       <Paginator totalPage={goodsListMap.meta.totalPage} currentPage={goodsListMap.meta.page} setPage={setPage} />
       {openUpdateModal && <GoodsUpdateModal onClose={() => setOpenUpdateModal(false)} goods={updateGoods} />}
     </>
-  ) : (
-    <Loading />
   );
 };
 
 const GoodsTableContainer = styled('table')`
   width: 100%;
   text-align: center;
+`;
+
+const EmptyImage = styled('img')`
+  width: 200px;
+  margin-top: 10vh;
 `;
 
 export default GoodsTable;

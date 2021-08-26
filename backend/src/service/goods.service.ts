@@ -40,6 +40,7 @@ const GoodsFlag: {
 
 const INVALID_DISCOUNT_RATE = '할인율은 0~99% 범위 내에서 가능합니다.';
 const INVALID_DELIVERY_INFO = '해당 배송 정보는 없는 정보입니다.';
+const INVALID_CATEGORY = '유효한 카테고리가 존재하지 않습니다.';
 const MIN_DISCOUNT_RATE = 0;
 const MAX_DISCOUNT_RATE = 99;
 const BEST_SELLING_GOODS_LIMIT = 5;
@@ -301,6 +302,33 @@ async function getMainGoodsListMap(userId?: number): Promise<{
   };
 }
 
+async function getRandomGoodsList(goodsId: number, categoryName: string, limit: number, userId?: number) {
+  if (!isNumber(goodsId) || !isNumber(limit) || !isString(categoryName) || categoryName === 'undefined') {
+    throw new BadRequestError(INVALID_DATA);
+  }
+
+  const category = await CategoryRepository.getCategoryByName(categoryName);
+  if (!category) {
+    throw new BadRequestError(INVALID_CATEGORY);
+  }
+
+  const wishSet = userId && new Set(await WishRepository.findWishByUserId(userId));
+  const goodsSellCountAverage = await GoodsRepository.findSellCountAverage();
+  const goodsList = await GoodsRepository.findRandomGoods(goodsId, category.id, limit);
+
+  if (!goodsList) throw new BadRequestError(GOODS_DB_ERROR);
+
+  goodsList.forEach((goods) => {
+    if (wishSet) goods.isWish = wishSet.has(goods.id);
+    goods.isBest = goodsSellCountAverage < goods.countOfSell;
+    goods.isNew = isNewGoods(goods.createdAt);
+  });
+
+  return {
+    goodsList,
+  };
+}
+
 async function getBestSellingGoodsForDashboard(): Promise<Goods[]> {
   return GoodsRepository.findBestSellingGoods(BEST_SELLING_GOODS_LIMIT);
 }
@@ -364,4 +392,5 @@ export const GoodsService = {
   getGoodsStockById,
   getGoodsImgById,
   getBestSellingGoodsForDashboard,
+  getRandomGoodsList,
 };

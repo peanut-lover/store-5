@@ -28,6 +28,7 @@ router.get('/admin', wrapAsync(GoodsController.getAllGoodsForAdmin));
 router.get('/category', wrapAsync(GoodsController.getAllGoodsForClient));
 router.get('/keyword', wrapAsync(GoodsController.getAllGoodsForClient));
 router.get('/main', wrapAsync(GoodsController.getMainGoodsListMap));
+router.get('/random', wrapAsync(GoodsController.getRandomGoodsList));
 router.get('/:id/stock', checkNumberInParams, wrapAsync(GoodsController.getGoodsStockById));
 router.get('/:id/img', checkNumberInParams, wrapAsync(GoodsController.getGoodsImgById));
 router.get('/:id', checkNumberInParams, wrapAsync(GoodsController.getGoodsDetail));

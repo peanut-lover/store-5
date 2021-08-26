@@ -65,7 +65,6 @@ const ModalContainer = styled.div`
 const FormContainer = styled.div`
   position: relative;
   width: 50vw;
-  max-height: 60vh;
   overflow: auto;
   margin: auto;
   background-color: transparent;
