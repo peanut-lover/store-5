@@ -10,10 +10,10 @@ async function checkLoggedIn(req: Request, res: Response) {
       return res.status(200).json({ result: { isLoggedIn: false, name: '' } });
     }
 
-    const { name, profileImgUrl } = userInfo;
-    res.status(200).json({ result: { isLoggedIn: true, profileImgUrl, name } });
+    const { name, profileImgUrl, id, createdAt } = userInfo;
+    res.status(200).json({ result: { isLoggedIn: true, profileImgUrl, name, id, createdAt } });
   } else {
-    res.status(200).json({ result: { isLoggedIn: false, name: '' } });
+    res.status(200).json({ result: { isLoggedIn: false, name: '', id: 0, createdAt: '' } });
   }
 }
 
@@ -26,8 +26,8 @@ async function getSampleLogin(req: Request, res: Response) {
     return res.status(200).json({ result: { isLoggedIn: false, name: '' } });
   }
 
-  const { name, profileImgUrl } = userInfo;
-  res.status(200).json({ result: { name, profileImgUrl, isLoggedIn: true } });
+  const { name, profileImgUrl, id, createdAt } = userInfo;
+  res.status(200).json({ result: { name, profileImgUrl, isLoggedIn: true, id, createdAt } });
 }
 
 async function getOAuthGitHubCb(req: Request, res: Response) {
