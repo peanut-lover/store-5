@@ -20,7 +20,7 @@ const BackIconContainer = styled.div`
   align-items: center;
   border-radius: 8px;
   margin-top: 10rem;
-  padding: 12px;
+  padding: 0 12px;
   cursor: pointer;
   :hover {
     opacity: 0.7;

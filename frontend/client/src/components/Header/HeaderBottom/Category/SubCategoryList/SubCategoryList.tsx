@@ -44,7 +44,7 @@ export const SubCategories = styled.ul`
   align-items: center;
   width: 100%;
   height: 100%;
-  font-size: 14px;
+  font-size: 16px;
   border-right: 1px solid rgb(238, 238, 238);
 `;
 
@@ -60,7 +60,7 @@ export const SubCategory = styled.li`
   cursor: pointer;
   color: rgb(51, 51, 51);
   padding: 0px;
-  font-size: 14px;
+  font-size: 16px;
   background: rgb(255, 255, 255);
   font-weight: 500;
   border-top: none;

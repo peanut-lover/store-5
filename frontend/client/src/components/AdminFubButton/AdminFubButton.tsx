@@ -42,7 +42,7 @@ const FubButtonContainer = styled.div<{ color: string }>`
   right: 3%;
   border-radius: 8px;
   border: 2px solid ${(props) => props.color};
-  padding: 12px;
+  padding: 0 12px;
   cursor: pointer;
   :hover {
     opacity: 0.7;
