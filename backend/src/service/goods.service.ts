@@ -370,8 +370,7 @@ function isNewGoods(date: Date): boolean {
   const nowTime = new Date().getTime();
   return (nowTime - date.getTime()) / DAY_DIVIDE < NEW_PRODUCT_BASE_DAY;
 }
-1629953735565;
-1629948085974;
+
 function getListGoodsMeta(page: number, limit: number, totalCount: number): GoodsListMetaData {
   return {
     page,

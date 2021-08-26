@@ -42,11 +42,15 @@ const GoodsCategoryUploader: React.FC<Props> = ({ onHandleCategory }) => {
         result: { categories },
       } = await CategoryAPI.getAllCategory();
       if (categories.length > 0) {
-        setMainCategory(categories[0].name);
-        if (categories[0].categories) {
-          onHandleCategory(categories[0].categories[0].id);
+        const parentCategories = categories;
+        // 최초에는 맨 앞의 부모 카테고리의 자식 카테고리가 기본으로 선택되어야 합니다 :)
+        const defaultParentCategory = parentCategories[0];
+        setMainCategory(defaultParentCategory.name);
+        if (defaultParentCategory.categories) {
+          const defaultChildCategory = defaultParentCategory.categories[0];
+          onHandleCategory(defaultChildCategory.id);
         } else {
-          onHandleCategory(categories[0].id);
+          onHandleCategory(defaultParentCategory.id);
         }
       }
       setCategories(categories);
