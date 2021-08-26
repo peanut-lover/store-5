@@ -1,6 +1,6 @@
 import React, { useEffect, useRef } from 'react';
 import styled from 'styled-components';
-import ImageZoom, { ZoomImageReturnType } from './ZoomImage';
+import ImageZoom, { ZoomImageReturnType } from '@src/lib/ZoomImage/ZoomImage';
 
 const MainImage: React.FC<{ src: string }> = ({ src }) => {
   let imageZoom: ZoomImageReturnType;

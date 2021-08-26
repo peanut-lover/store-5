@@ -7,26 +7,30 @@ import { FaDollarSign } from '@react-icons/all-files/fa/FaDollarSign';
 
 export const GreenTag: React.FC = () => (
   <TagWrapper fontColor={tagColors.white} bgColor={tagColors.naturalGreen}>
-    GREEN <FaLeaf />
+    <span>GREEN</span>
+    <FaLeaf />
   </TagWrapper>
 );
 
 export const NewTag: React.FC = () => (
   <TagWrapper fontColor={tagColors.white} bgColor={tagColors.splashBlue}>
-    NEW <FaRegLightbulb />
+    <span>NEW</span>
+    <FaRegLightbulb />
   </TagWrapper>
 );
 
 // TODO: icon
 export const BestTag: React.FC = () => (
   <TagWrapper fontColor={tagColors.white} bgColor={tagColors.originalBlack}>
-    BEST <FaThumbsUp />
+    <span>BEST</span>
+    <FaThumbsUp />
   </TagWrapper>
 );
 
 export const SaleTag: React.FC = () => (
   <TagWrapper fontColor={tagColors.white} bgColor={tagColors.originalRed}>
-    SALE <FaDollarSign />
+    <span>SALE</span>
+    <FaDollarSign />
   </TagWrapper>
 );
 
@@ -45,12 +49,14 @@ interface TagWrapperProps {
 
 const TagWrapper = styled.div<TagWrapperProps>`
   display: flex;
+  border-radius: 0.25rem;
+  padding: 0.25rem 0.5rem;
+  column-gap: 0.25rem;
   align-items: center;
-  border-radius: 0.4rem;
-  padding: 0.2rem;
+  height: 1.5rem;
   color: ${(props) => props.fontColor ?? 'white'};
   background-color: ${(props) => props.bgColor ?? 'black'};
-  font-size: 0.8rem;
+  font-size: 14px;
   font-weight: 300;
   user-select: none;
 `;
