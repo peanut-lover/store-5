@@ -85,7 +85,8 @@ async function createDefaultCategory() {
     { parent: '평가', name: '장점' },
     { parent: '평가', name: '단점' },
     { name: '코로나' },
-    { parent: '코로나', name: '는 코로 걸려요' },
+    { parent: '코로나', name: '조심세트' },
+    { parent: '코로나', name: '극복세트' },
   ];
   for (const category of categories) {
     await createCategory(category.name, category.parent);
