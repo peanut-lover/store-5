@@ -199,6 +199,22 @@ async function decrementStock(id: number, amount: number) {
   return await getRepository(Goods).decrement({ id }, 'stock', amount);
 }
 
+async function findRandomGoods(goodsId: number, category: number, limit: number): Promise<TaggedGoodsType[]> {
+  try {
+    return await getRepository(Goods)
+      .createQueryBuilder('goods')
+      .leftJoinAndSelect('category', 'c', `c.id = ${category}`)
+      .where('c.id = goods.category')
+      .andWhere(`goods.id != ${goodsId}`)
+      .orderBy('RAND()')
+      .limit(limit)
+      .getMany();
+  } catch (err) {
+    console.error(err);
+    throw new DatabaseError(GOODS_DB_ERROR);
+  }
+}
+
 export const GoodsRepository = {
   findGoodsById,
   findGoodsDetailById,
@@ -212,4 +228,5 @@ export const GoodsRepository = {
   searchGoodsFromKeyword,
   increaseGoodsViewById,
   decrementStock,
+  findRandomGoods,
 };
