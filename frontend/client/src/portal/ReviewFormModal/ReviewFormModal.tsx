@@ -1,7 +1,11 @@
 import ReviewForm from '@src/components/ReviewForm/ReviewForm';
+
 import Portal from '@src/portal/portal';
+
 import { Review } from '@src/types/Review';
+
 import React, { useCallback, useEffect, useRef } from 'react';
+
 import styled from 'styled-components';
 
 interface Props {
@@ -14,24 +18,18 @@ interface Props {
 
 const ReviewFormModal: React.FC<Props> = ({ goodsId, thumbnail, title, onClose, prevContents }) => {
   const modalRef = useRef<HTMLDivElement>(null);
-
-  const handleClose = useCallback((e) => {
-    const el = e.target;
-    if (modalRef.current && modalRef.current.contains(el)) return;
-    onClose();
-  }, []);
-
-  useEffect(() => {
-    document.addEventListener('click', handleClose);
-    return () => {
-      document.removeEventListener('click', handleClose);
-    };
-  }, []);
+  const handleClose = useCallback(
+    (e: React.MouseEvent<Element, MouseEvent>) => {
+      const el = e.target;
+      if (modalRef.current === el) onClose();
+    },
+    [onClose, modalRef.current]
+  );
 
   return (
     <Portal>
-      <ReviewFormContainer>
-        <ReviewFormContent ref={modalRef}>
+      <ReviewFormContainer ref={modalRef} onMouseDown={handleClose}>
+        <ReviewFormContent>
           <ReviewForm
             goodsId={goodsId}
             thumbnail={thumbnail}
