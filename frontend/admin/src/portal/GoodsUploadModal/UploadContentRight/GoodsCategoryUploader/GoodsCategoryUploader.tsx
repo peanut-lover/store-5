@@ -43,7 +43,11 @@ const GoodsCategoryUploader: React.FC<Props> = ({ onHandleCategory }) => {
       } = await CategoryAPI.getAllCategory();
       if (categories.length > 0) {
         setMainCategory(categories[0].name);
-        onHandleCategory(categories[0].id);
+        if (categories[0].categories) {
+          onHandleCategory(categories[0].categories[0].id);
+        } else {
+          onHandleCategory(categories[0].id);
+        }
       }
       setCategories(categories);
     };
