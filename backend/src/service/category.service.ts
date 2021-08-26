@@ -90,7 +90,7 @@ async function getCategoryViews(): Promise<CategoryViewCountResponse> {
       categoriesMap.set(categoryName, goods.view);
     }
   });
-  console.log(Array.from(categoriesMap.keys()).join(','));
+
   return Array.from(categoriesMap).map(([key, value]) => {
     return { name: key, view: value };
   });
