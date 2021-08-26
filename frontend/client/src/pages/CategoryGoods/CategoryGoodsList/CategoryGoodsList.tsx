@@ -6,6 +6,7 @@ import Paginator from '@src/components/Paginator/Paginator';
 import { GoodsPaginationResult } from '@src/types/Goods';
 import { getGoodsByCategory, GetGoodsByCategoryProps } from '@src/apis/goodsAPI';
 import useScrollToTop from '@src/hooks/useScrollToTop';
+import useUserState from '@src/hooks/useUserState';
 
 interface Props {
   category: string;
@@ -33,6 +34,8 @@ const getOrderByOption = (flag: string) => (flag === 'low_price' ? 'ASC' : 'DESC
 const convertAPIFlag = (flag: string) => (flag === 'low_price' || flag === 'high_price' ? 'price' : flag);
 
 const CategoryGoodsList: React.FC<Props> = ({ category }) => {
+  const [user] = useUserState();
+
   const [goodsListMap, setGoodsListMap] = useState<GoodsPaginationResult | null>(null);
   const [searchQuery, setSearchQuery] = useScrollToTop<GetGoodsByCategoryProps>({
     categoryName: category,
@@ -79,7 +82,7 @@ const CategoryGoodsList: React.FC<Props> = ({ category }) => {
 
   useEffect(() => {
     fetchGoodsList();
-  }, [searchQuery]);
+  }, [searchQuery, user]);
 
   useEffect(() => {
     setCategory(category);
