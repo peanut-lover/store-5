@@ -46,13 +46,13 @@ const OrderCard: React.FC<OrderCard> = ({ order }) => {
             </TitleLabel>
             <DeliveryInfo>
               <DeliveryInfoLabel>받는 사람</DeliveryInfoLabel>
-              <p>{order.receiver}</p>
+              <p>{order.receiver ? order.receiver : <DeliveryEmptyText>미입력</DeliveryEmptyText>}</p>
               <DeliveryInfoLabel>주소</DeliveryInfoLabel>
-              <p>{order.address}</p>
+              <p>{order.address ? order.address : <DeliveryEmptyText>미입력</DeliveryEmptyText>}</p>
               <DeliveryInfoLabel>상세 주소</DeliveryInfoLabel>
-              <p>{order.subAddress}</p>
+              <p>{order.subAddress ? order.subAddress : <DeliveryEmptyText>미입력</DeliveryEmptyText>}</p>
               <DeliveryInfoLabel>ZIP Code</DeliveryInfoLabel>
-              <p>{order.zipCode}</p>
+              <p>{order.zipCode ? order.zipCode : <DeliveryEmptyText>미입력</DeliveryEmptyText>}</p>
             </DeliveryInfo>
           </DeliverySection>
           <OrderStateSection>
@@ -152,6 +152,10 @@ const DeliveryInfoLabel = styled('label')`
   font-size: 1rem;
   font-weight: 600;
   padding: 0.5rem;
+`;
+
+const DeliveryEmptyText = styled('p')`
+  color: #c0c0c0;
 `;
 
 const OrderStateSection = styled('div')`

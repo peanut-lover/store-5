@@ -19,9 +19,6 @@ import { UserAddressRepository } from './repository/user.address.repository';
 import { GoodsStateMap } from './service/goods.service';
 import { PromotionRepository } from './repository/promotion.repository';
 import { PaymentRepository } from './repository/payment.repository';
-import { OrderListRepository } from './repository/order.list.repository';
-import { OrderItemRepository } from './repository/order.item.repository';
-import { GoodsRepository } from './repository/goods.repository';
 import { Review } from './entity/Review';
 import { ReviewImg } from './entity/ReviewImg';
 
@@ -72,21 +69,23 @@ async function createDefaultUser(name: string) {
 
 async function createDefaultCategory() {
   const categories = [
-    { name: '완전 랜덤 카테고리' },
-    { parent: '완전 랜덤 카테고리', name: 'A1' },
-    { parent: '완전 랜덤 카테고리', name: 'A2' },
-    { parent: '완전 랜덤 카테고리', name: 'A3' },
-    { name: '그냥 랜덤 카테고리' },
-    { parent: '그냥 랜덤 카테고리', name: 'B1' },
-    { parent: '그냥 랜덤 카테고리', name: 'B2' },
+    { name: '문구' },
+    { parent: '문구', name: '노트' },
+    { parent: '문구', name: '필기도구' },
+    { parent: '문구', name: '테이프' },
+    { name: '리빙' },
+    { parent: '리빙', name: '가구' },
+    { parent: '리빙', name: '장식' },
+    { parent: '리빙', name: '이벤트성' },
     { name: 'ㅋㅋ 모음' },
-    { parent: 'ㅋㅋ 모음', name: '영화' },
     { parent: 'ㅋㅋ 모음', name: '영화' },
     { parent: 'ㅋㅋ 모음', name: '장난감' },
     { name: '평가' },
     { parent: '평가', name: '엄격' },
     { parent: '평가', name: '장점' },
-    { parent: '평가', name: '쾌활' },
+    { parent: '평가', name: '단점' },
+    { name: '코로나' },
+    { parent: '코로나', name: '는 코로 걸려요' },
   ];
   for (const category of categories) {
     await createCategory(category.name, category.parent);
@@ -143,8 +142,9 @@ async function createDefaultDeliveryInfo() {
 async function createDefaultPayment() {
   const res = await PaymentRepository.getPayments();
   if (res.length > 0) return;
-  await PaymentRepository.createPayment('네이버페이', '네이버페이');
-  await PaymentRepository.createPayment('카카오페이', '카카오페이');
+  await PaymentRepository.createPayment('우아한 페이', '현금');
+  await PaymentRepository.createPayment('네이버 페이', '신용카드');
+  await PaymentRepository.createPayment('카카오 페이', '신용카드');
   await PaymentRepository.createPayment('신용카드', '신용카드');
 }
 

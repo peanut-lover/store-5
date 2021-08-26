@@ -8,7 +8,7 @@ import { Order } from '@src/types/Order';
 import { convertYYYYMMDDHHMMSS } from '@src/utils/dateHelper';
 import React, { useCallback, useEffect, useState } from 'react';
 
-const DEFAULT_LIVE_ORDER_LIMIT = 7;
+const DEFAULT_LIVE_ORDER_LIMIT = 20;
 const DEFAULT_START_PAGE = 0;
 const POLLING_INTERVAL_MILLISECONDS = 2000;
 
@@ -44,7 +44,7 @@ const LiveOrderList = () => {
 
   return (
     <LiveOrderListContainer>
-      <LiveOrderListTitle color={theme.black5}>주문 현황</LiveOrderListTitle>
+      <LiveOrderListTitle color={theme.black5}>최신 주문 현황</LiveOrderListTitle>
       <LatestUpdateTime color={theme.black5}>
         (최근 업데이트 시간: {convertYYYYMMDDHHMMSS(updateTime)})
       </LatestUpdateTime>
@@ -73,13 +73,16 @@ const LiveOrderListTitle = styled('span')<{ color: string }>`
 `;
 
 const LatestUpdateTime = styled('span')<{ color: string }>`
+  padding-left: 5px;
   color: ${(props) => props.color};
   font-size: 10px;
 `;
 
 const LiveOrderItemContainer = styled('div')`
   margin-top: 20px;
-  overflow: scroll;
+  height: 100%;
+  overflow-y: scroll;
+  overflow-x: visible;
 `;
 
 export default LiveOrderList;
