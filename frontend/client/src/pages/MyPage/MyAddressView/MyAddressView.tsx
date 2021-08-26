@@ -8,6 +8,7 @@ import styled from 'styled-components';
 import AddressCreateModal from '@src/components/AddressModals/AddressCreateModal/AddressCreateModal';
 import AddressManageModal from '@src/components/AddressModals/AddressManageModal/AddressManageModal';
 import { usePushToast } from '@src/lib/ToastProvider/ToastProvider';
+import emptyImgUrl from '@src/assets/empty-img.png';
 
 const MyAddressView = () => {
   const [addresses, setAddresses] = useState<AddressInfo[]>([]);
@@ -33,22 +34,33 @@ const MyAddressView = () => {
     fetchAddresses();
   }, []);
 
-  const defaultAddress = addresses.find((address) => address.isDefault);
-  const optionalAddress = addresses.filter((address) => !address.isDefault);
+  const defaultAddress = addresses.find((addressInfo) => addressInfo.isDefault) || addresses[0];
 
   return (
     <AddressInfoList>
       <Topic>배송지 정보</Topic>
 
-      <AddressControlButtonContainer>
-        <PrimaryButton onClick={toggleManageModal}>배송지 수정하기</PrimaryButton>
-      </AddressControlButtonContainer>
-
-      {isOpenManageModal && <AddressManageModal onClose={toggleManageModal} />}
-
-      <AddressInfoListItem isPrimary>
-        {defaultAddress ? <AddressCard address={defaultAddress} /> : '기본 주소가 없습니다.'}
-      </AddressInfoListItem>
+      {addresses.length === 0 ? (
+        <>
+          <EmptyContainer>
+            <EmptyImg src={emptyImgUrl} />
+            <EmptyTitle>등록된 배송지가 없습니다.</EmptyTitle>
+            <PrimaryButton onClick={toggleManageModal}>배송지 등록하기</PrimaryButton>
+          </EmptyContainer>
+          <AddressControlButtonContainer></AddressControlButtonContainer>
+          {isOpenManageModal && <AddressCreateModal onClose={toggleManageModal} />}
+        </>
+      ) : (
+        <>
+          <AddressInfoListItem isPrimary>
+            <AddressCard address={defaultAddress} />
+          </AddressInfoListItem>
+          <AddressControlButtonContainer>
+            <PrimaryButton onClick={toggleManageModal}>배송지 수정하기</PrimaryButton>
+          </AddressControlButtonContainer>
+          {isOpenManageModal && <AddressManageModal onClose={toggleManageModal} />}
+        </>
+      )}
     </AddressInfoList>
   );
 };
@@ -82,6 +94,32 @@ interface AddressInfoListItem {
 const AddressInfoListItem = styled.li<AddressInfoListItem>`
   display: flex;
   margin-top: 1rem;
+  margin-bottom: 1rem;
+  width: 32rem;
+  border: 1px solid black;
+`;
+
+const EmptyImg = styled.img`
+  height: 8rem;
+`;
+
+const EmptyTitle = styled.h2`
+  margin: 0;
+  padding: 0;
+  color: #666;
+  font-size: 1.25rem;
+  font-weight: normal;
+`;
+
+const EmptyContainer = styled.div`
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 1rem;
+
+  margin-top: 4rem;
+  margin-bottom: 4rem;
+  margin-right: 8rem;
 `;
 
 export default MyAddressView;
