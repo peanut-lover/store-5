@@ -108,6 +108,16 @@ async function getMainGoodsListMap(req: Request, res: Response) {
   res.status(200).json({ result });
 }
 
+async function getRandomGoodsList(req: Request, res: Response) {
+  const { goods, category, limit } = req.query;
+  const goodsId = Number(goods);
+  const categorytoString = String(category);
+  const limitToNumber = Number(limit);
+  const userId = req.session.userId;
+  const result = await GoodsService.getRandomGoodsList(goodsId, categorytoString, limitToNumber, userId);
+  res.status(200).json({ result });
+}
+
 async function getGoodsStockById(req: Request, res: Response) {
   const goodsId = Number(req.params.id);
   const result = await GoodsService.getGoodsStockById(goodsId);
@@ -135,4 +145,5 @@ export const GoodsController = {
   getAllGoodsForAdmin,
   getGoodsImgById,
   getBestGoodsForDashboard,
+  getRandomGoodsList,
 };
