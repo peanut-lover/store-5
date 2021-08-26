@@ -5,7 +5,7 @@ import styled from 'styled-components';
 
 interface Props {
   address: AddressInfo;
-  onClick?: () => void;
+  onClick?: (address: AddressInfo) => void;
   onDelete?: () => void;
   onEdit?: () => void;
   disabled?: boolean;
@@ -18,7 +18,7 @@ const AddressCard: React.FC<Props> = ({ address: addressProp, onClick, onDelete,
     <Wrapper
       clickable={!!onClick && !disabled}
       onClick={() => {
-        !disabled && onClick?.();
+        !disabled && onClick?.(addressProp);
       }}
     >
       <InfoGroup>

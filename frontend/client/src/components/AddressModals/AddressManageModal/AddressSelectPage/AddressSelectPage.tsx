@@ -31,9 +31,7 @@ const AddressSelectPage: React.FC<Props> = ({
           <AddressCard
             key={address.id}
             address={address}
-            onClick={() => {
-              onSelect?.(address);
-            }}
+            onClick={onSelect}
             onDelete={() => {
               setDeleteTargetId(address.id);
             }}

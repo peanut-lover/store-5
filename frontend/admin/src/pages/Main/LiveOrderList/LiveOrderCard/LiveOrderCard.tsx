@@ -1,3 +1,4 @@
+import { theme } from '@src/theme/theme';
 import { Order } from '@src/types/Order';
 import { convertYYYYMMDDHHMMSS } from '@src/utils/dateHelper';
 import React from 'react';
@@ -26,10 +27,8 @@ const LiveOrderCard: React.FC<LiveOrderCardProps> = ({ order, onClickOrder }) =>
           {firstOrderItems.goods.title}
           {orderItems.length > 1 && <span>외 {orderItems.length} 개</span>}
         </div>
-        <LiveOrderCardUser>
-          <LiveOrderCardUserImg src={user.profileImgUrl} />
-          <LiveOrderCardUserName> {user.name} </LiveOrderCardUserName>
-        </LiveOrderCardUser>
+        <LiveOrderCardUserImg src={user.profileImgUrl} />
+        <LiveOrderCardUserName> {user.name} </LiveOrderCardUserName>
       </LiveOrderCardContent>
     </LiveOrderCardContainer>
   );
@@ -37,34 +36,43 @@ const LiveOrderCard: React.FC<LiveOrderCardProps> = ({ order, onClickOrder }) =>
 
 const LiveOrderCardContainer = styled('div')`
   padding: 0.5rem;
+  min-height: 80px;
   background-color: white;
   border-radius: 8px;
+  border: 1px solid transparent;
   margin-bottom: 1rem;
+  will-change: transform;
+  will-change: opacity;
+  animation-name: orderCardShowEffect;
+  animation-duration: 1s;
+
+  :hover {
+    border: 1px solid ${theme.primary};
+  }
+
+  @keyframes orderCardShowEffect {
+    from {
+      opacity: 0;
+      transform: translateX(50px);
+    }
+
+    to {
+      opacity: 1;
+      transform: translateX(0px);
+    }
+  }
 `;
 
 const LiveOrderCardContent = styled('div')`
   display: grid;
   align-items: center;
   justify-content: space-between;
-  grid-template-columns: 1fr 3fr 1fr;
-  column-gap: 1rem;
-  padding: 0;
+  grid-template-columns: 1fr 2fr 1fr 1fr;
+
   border-radius: 0px 14px 14px 14px;
   background-color: transparent;
   font-size: 14px;
-  padding: 1rem;
-
-  animation-name: orderCardShowEffect;
-  animation-duration: 0.3s;
-
-  @keyframes orderCardShowEffect {
-    from {
-      opacity: 0;
-    }
-    to {
-      opacity: 1;
-    }
-  }
+  padding: 0.5rem;
 `;
 
 const LiveOrderTitle = styled('p')`
@@ -73,16 +81,13 @@ const LiveOrderTitle = styled('p')`
   width: fit-content;
   padding: 5px 0;
 `;
-const LiveOrderCardUser = styled('div')`
-  display: flex;
-`;
 
 const LiveOrderCardUserImg = styled('img')`
   border-radius: 50%;
   border: 1px solid #c0c0c0;
   width: 30px;
   height: 30px;
-  margin-right: 1rem;
+  justify-self: center;
   object-fit: contain;
 `;
 

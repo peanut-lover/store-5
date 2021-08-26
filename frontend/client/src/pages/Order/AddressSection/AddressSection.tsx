@@ -32,8 +32,7 @@ const AddressInfo: React.FC<Prop> = ({ onChangeSelectedAddress }) => {
     async function fetchAddress() {
       try {
         const { result } = await AddressAPI.getAddresses();
-        let targetAddress = result.find((addressInfo) => addressInfo.isDefault);
-        if (!targetAddress) targetAddress = result[0];
+        const targetAddress = result.find((addressInfo) => addressInfo.isDefault) || result[0];
         handleSelectedAddress(targetAddress);
         setIsAddressFetched(true);
       } catch (err) {

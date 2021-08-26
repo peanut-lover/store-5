@@ -7,6 +7,7 @@ import { usePushToast } from '@src/lib/ToastProvider/ToastProvider';
 import { GoodsPaginationResult } from '@src/types/Goods';
 import React, { useEffect, useState } from 'react';
 import styled from 'styled-components';
+import emptyCartImgUrl from '@src/assets/empty-cart.png';
 
 const DEFAULT_START_PAGE = 1;
 const LIMIT_COUNT_ITEMS_IN_PAGE = 4;
@@ -30,28 +31,32 @@ const MyWishListView = () => {
     fetchWishGoodsList();
   }, [currentPage]);
 
+  if (!goodsPaginationResult) return null;
+
   return (
     <MyWishListViewContainer>
       <Topic>관심 상품 리스트</Topic>
-      {goodsPaginationResult ? (
-        <>
+      {goodsPaginationResult.goodsList.length > 0 ? (
+        <div>
           <GoodsSection goodsList={goodsPaginationResult.goodsList} itemBoxSize='small' />
           <Paginator
             totalPage={goodsPaginationResult.meta.totalPage}
             currentPage={goodsPaginationResult.meta.page}
             setPage={setCurrentPage}
           />
-        </>
+        </div>
       ) : (
-        <>
-          <HighlightedText> 찜 리스트가 비어있습니다! </HighlightedText>
-        </>
+        <EmptyContainer>
+          <EmptyImg src={emptyCartImgUrl} />
+          <EmptyTitle>관심 상품이 없습니다.</EmptyTitle>
+        </EmptyContainer>
       )}
     </MyWishListViewContainer>
   );
 };
 
 const MyWishListViewContainer = styled.div`
+  width: 900px;
   display: flex;
   flex-direction: column;
   animation: fadeInEffect 0.5s 0s;
@@ -63,6 +68,29 @@ const MyWishListViewContainer = styled.div`
       opacity: 1;
     }
   }
+`;
+
+const EmptyImg = styled.img`
+  height: 8rem;
+`;
+
+const EmptyTitle = styled.h2`
+  margin: 0;
+  padding: 0;
+  color: #666;
+  font-size: 1.25rem;
+  font-weight: normal;
+`;
+
+const EmptyContainer = styled.div`
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 1rem;
+
+  margin-top: 4rem;
+  margin-bottom: 4rem;
+  margin-right: 8rem;
 `;
 
 export default MyWishListView;

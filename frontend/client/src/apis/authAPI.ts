@@ -4,6 +4,8 @@ interface LoginUserInfo {
   isLoggedIn: boolean;
   name: string;
   profileImgUrl: string | null;
+  id: number;
+  createdAt: string;
 }
 
 async function getCheckLoggedIn(): Promise<APIResponse<LoginUserInfo>> {
