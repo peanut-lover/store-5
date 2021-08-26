@@ -15,7 +15,6 @@ const ReviewImageModal: React.FC<Props> = ({ initialReview, initialIndex, onClos
   const [review] = useState(initialReview);
 
   const sliderSettings = {
-    dots: true,
     infinite: true,
     speed: 500,
     slidesToShow: 1,
@@ -43,6 +42,12 @@ const SliderWrapper = styled.div`
   left: 50%;
   top: 50%;
   transform: translate(-50%, -50%);
+  .slick-prev {
+    left: -70px;
+  }
+  .slick-next {
+    right: -70px;
+  }
 `;
 
 const StyledSlider = styled(Slider)`
