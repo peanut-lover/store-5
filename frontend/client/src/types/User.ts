@@ -1,6 +1,6 @@
 export interface User {
   id: number;
-  createdAt: string | Date;
+  createdAt: string;
   isLoggedIn: boolean;
   name: string;
   profileImgUrl: string | null;
