@@ -68,7 +68,7 @@ const GoodsDetailPage = () => {
             </GoodsContentContainer>
           </GoodsMainContainer>
           <GoodsDetailBottomInfoContainer>
-            <RelationSection categoryName={goods.category.name} />
+            <RelationSection goodsId={goods.id} categoryName={goods.category.name} />
             <Divider />
             <ReviewContainer key={goods.id} initialGoodsId={goods.id} initialGoods={goods} />
           </GoodsDetailBottomInfoContainer>
