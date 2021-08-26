@@ -1,3 +1,4 @@
+import BackIcon from '@src/components/Header/BackIcon/BackIcon';
 import DashboardIcon from '@src/components/Header/DashboardIcon/DashboardIcon';
 import GoodsAdminIcon from '@src/components/Header/GoodsAdminIcon/GoodsAdminIcon';
 import LogoIcon from '@src/components/Header/LogoIcon/LogoIcon';
@@ -13,7 +14,6 @@ const Header = () => {
   useEffect(() => {
     setCurrentPath(path);
   }, [path]);
-
   return (
     <HeaderContainer>
       <LogoContainer>
@@ -23,6 +23,7 @@ const Header = () => {
       <GoodsAdminIcon currentPath={currentPath} />
       <OrderAdminIcon currentPath={currentPath} />
       <PromotionAdminIcon currentPath={currentPath} />
+      <BackIcon />
     </HeaderContainer>
   );
 };
