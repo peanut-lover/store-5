@@ -20,7 +20,7 @@ const ReviewCard: React.FC<Props> = ({ review, onDeleteReview, onUpdateReview, o
     <Wrapper>
       <TopBox>
         <TopLeftBox>
-          <Avatar />
+          <Avatar imgUrl={user.profileImgUrl} />
           <NameAndRateBox>
             <NameText>{user.name}</NameText>
             <RateAndDateBox>
