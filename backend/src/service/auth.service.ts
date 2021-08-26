@@ -34,11 +34,11 @@ async function signInGithub(code: string): Promise<number> {
 
 async function getUserNameAndProfileImgUrlById(
   userId: number
-): Promise<{ name: string; profileImgUrl: string } | null> {
+): Promise<{ name: string; profileImgUrl: string; id: number; createdAt: string | Date } | null> {
   const user = await UserRepository.findById(userId);
   if (!user) return null;
-  const { name, profileImgUrl } = user;
-  return { name, profileImgUrl };
+  const { name, profileImgUrl, id, createdAt } = user;
+  return { name, profileImgUrl, id, createdAt };
 }
 
 async function logout(session: Session): Promise<void> {

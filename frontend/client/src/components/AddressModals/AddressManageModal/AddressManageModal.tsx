@@ -119,7 +119,7 @@ const AddressManageModal: React.FC<Props> = ({ onClose, onSelect }) => {
         addressList={resortedAddress}
         address={targetAddress}
         disabled={disabled}
-        onSelect={handleSelect}
+        onSelect={onSelect && handleSelect}
         onCreate={handleCreate}
         onUpdate={handleUpdate}
         onDelete={handleDelete}

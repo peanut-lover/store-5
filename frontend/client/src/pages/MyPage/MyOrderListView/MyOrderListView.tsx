@@ -7,6 +7,7 @@ import Topic from '@src/components/Topic/Topic';
 import Paginator from '@src/components/Paginator/Paginator';
 import OrderCard from '@src/pages/MyPage/MyOrderListView/OrderCard';
 import { usePushToast } from '@src/lib/ToastProvider/ToastProvider';
+import emptyKimImgUrl from '@src/assets/empty-kim.gif';
 
 const DEFAULT_START_PAGE = 1; // 초기 페이지네이션 페이지.
 const LIMIT_COUNT_ORDER = 4; // 화면 사이즈를 생각했을 때 4 개가 적당합니다.
@@ -37,25 +38,34 @@ const MyOrderListView = () => {
     fetchOrderList();
   }, [currentPage]);
 
+  if (!orderPaginationResult) return null;
+
   return (
     <MyOrderListViewContainer>
       <Topic>반가워요! 고객님의 주문 내역입니다.</Topic>
-      <OrderCountLabel>주문 조회 내역 총 {orderPaginationResult?.meta.totalCount} 건</OrderCountLabel>
-      {orderPaginationResult && (
-        <OrderPaginationContainer>
-          <OrderCardList>
-            {orderPaginationResult?.orderList.map((order) => {
-              const showDetail = order.id === focusOrderId;
-              return <OrderCard key={order.id} order={order} detail={showDetail} onClick={handleClickOrder} />;
-            })}
-          </OrderCardList>
+      {orderPaginationResult.orderList.length > 0 ? (
+        <>
+          <OrderCountLabel>주문 조회 내역 총 {orderPaginationResult.meta.totalCount} 건</OrderCountLabel>
+          <OrderPaginationContainer>
+            <OrderCardList>
+              {orderPaginationResult.orderList.map((order) => {
+                const showDetail = order.id === focusOrderId;
+                return <OrderCard key={order.id} order={order} detail={showDetail} onClick={handleClickOrder} />;
+              })}
+            </OrderCardList>
 
-          <Paginator
-            totalPage={orderPaginationResult?.meta.totalPage}
-            currentPage={orderPaginationResult?.meta.page}
-            setPage={setCurrentPage}
-          />
-        </OrderPaginationContainer>
+            <Paginator
+              totalPage={orderPaginationResult.meta.totalPage}
+              currentPage={orderPaginationResult.meta.page}
+              setPage={setCurrentPage}
+            />
+          </OrderPaginationContainer>
+        </>
+      ) : (
+        <EmptyContainer>
+          <EmptyImg src={emptyKimImgUrl} />
+          <EmptyTitle>주문 상품이 없습니다.</EmptyTitle>
+        </EmptyContainer>
       )}
     </MyOrderListViewContainer>
   );
@@ -91,6 +101,29 @@ const OrderCardList = styled.ul`
   flex-wrap: wrap;
   flex-direction: column;
   min-height: 500px;
+`;
+
+const EmptyImg = styled.img`
+  height: 8rem;
+`;
+
+const EmptyTitle = styled.h2`
+  margin: 0;
+  padding: 0;
+  color: #666;
+  font-size: 1.25rem;
+  font-weight: normal;
+`;
+
+const EmptyContainer = styled.div`
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 1rem;
+
+  margin-top: 4rem;
+  margin-bottom: 4rem;
+  margin-right: 8rem;
 `;
 
 export default MyOrderListView;

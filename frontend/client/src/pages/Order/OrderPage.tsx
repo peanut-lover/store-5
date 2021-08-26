@@ -23,6 +23,7 @@ import { usePushToast } from '@src/lib/ToastProvider/ToastProvider';
 import withLoggedIn from '@src/utils/withLoggedIn';
 import withScrollToTopOnMount from '@src/utils/withScrollToTopOnMount';
 import composeComponent from '@src/utils/composeComponent';
+import theme from '@src/theme/theme';
 
 const NEED_ADDRESS_MESSAGE = '배송지를 입력해주세요!';
 const NEED_PAYMENT_MESSAGE = '결제수단을 선택해주세요!';
@@ -55,9 +56,9 @@ const OrderPage: React.FC = () => {
   const totalPrice = reducedPrice + deliveryPrice;
 
   const handleSubmit = async () => {
-    if (!selectedAddress) return pushToast({ text: NEED_ADDRESS_MESSAGE, color: '#FF0000' });
-    if (!selectedPaymentId) return pushToast({ text: NEED_PAYMENT_MESSAGE, color: '#FF0000' });
-    if (!isAgreementChecked) return pushToast({ text: NEED_AGREEMENT_MESSAGE, color: '#FF0000' });
+    if (!selectedAddress) return pushToast({ text: NEED_ADDRESS_MESSAGE, color: theme.error });
+    if (!selectedPaymentId) return pushToast({ text: NEED_PAYMENT_MESSAGE, color: theme.error });
+    if (!isAgreementChecked) return pushToast({ text: NEED_AGREEMENT_MESSAGE, color: theme.error });
 
     const { receiver, zipCode, address, subAddress } = selectedAddress;
     const submitOrderBody = {

@@ -3,17 +3,18 @@ import styled from 'styled-components';
 import EmptyAvatarImg from '@src/assets/empty-kim.gif';
 
 interface AvatarProps {
+  size?: 'big' | 'small';
   imgUrl?: string | null;
 }
 
-const Avatar: React.FC<AvatarProps> = ({ imgUrl }) => {
-  return <Image src={imgUrl ?? EmptyAvatarImg} />;
+const Avatar: React.FC<AvatarProps> = ({ imgUrl, size }) => {
+  return <Image size={size} src={imgUrl ?? EmptyAvatarImg} />;
 };
 
-const Image = styled.img`
+const Image = styled.img<{ size?: 'big' | 'small' }>`
   object-fit: cover;
-  width: 2rem;
-  height: 2rem;
+  width: ${(props) => (props.size === 'big' ? '8rem' : '2rem')};
+  height: ${(props) => (props.size === 'big' ? '8rem' : '2rem')};
   border-radius: 50%;
 `;
 

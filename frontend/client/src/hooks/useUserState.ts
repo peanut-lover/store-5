@@ -11,8 +11,8 @@ const useUserState = () => {
         {
           const { result } = await AuthAPI.getSampleLogin();
           if (result && result.isLoggedIn) {
-            const { isLoggedIn, name, profileImgUrl } = result;
-            setUserRecoil({ isLoggedIn, name, profileImgUrl });
+            const { id, createdAt, isLoggedIn, name, profileImgUrl } = result;
+            setUserRecoil({ id, createdAt, isLoggedIn, name, profileImgUrl });
           }
         }
         break;
@@ -20,8 +20,8 @@ const useUserState = () => {
         {
           const { result } = await AuthAPI.getCheckLoggedIn();
           if (result && result.isLoggedIn) {
-            const { isLoggedIn, name, profileImgUrl } = result;
-            setUserRecoil({ isLoggedIn, name, profileImgUrl });
+            const { id, createdAt, isLoggedIn, name, profileImgUrl } = result;
+            setUserRecoil({ id, createdAt, isLoggedIn, name, profileImgUrl });
           }
         }
         break;
@@ -29,7 +29,7 @@ const useUserState = () => {
         {
           const result = await AuthAPI.logout();
           if (result) {
-            setUserRecoil({ isLoggedIn: false, name: '', profileImgUrl: null });
+            setUserRecoil({ id: -1, createdAt: '', isLoggedIn: false, name: '', profileImgUrl: null });
           }
         }
         break;

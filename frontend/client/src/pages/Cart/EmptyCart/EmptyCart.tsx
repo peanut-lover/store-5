@@ -1,7 +1,7 @@
 import { usePushHistory } from '@src/lib/CustomRouter/CustomRouter';
 import React from 'react';
 import styled from 'styled-components';
-import emptyCartImgUrl from './asset/empty-cart.png';
+import emptyCartImgUrl from '@src/assets/empty-cart.png';
 
 const EmptyCart: React.FC = () => {
   const pushHistory = usePushHistory();
