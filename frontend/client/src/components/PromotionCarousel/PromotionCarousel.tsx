@@ -28,7 +28,6 @@ const PromotionCarousel: React.FC<Props> = ({ promotions }) => {
   const push = usePushHistory();
   const pushToast = usePushToast();
   const handleClickGoodsItem = (promotionId: number, goodsId: number) => {
-    console.log('GOOD id : ' + goodsId);
     try {
       PromotionAPI.increasePromotionView(promotionId);
     } catch (err) {
