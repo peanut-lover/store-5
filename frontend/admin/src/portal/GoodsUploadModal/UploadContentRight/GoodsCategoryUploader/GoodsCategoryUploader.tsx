@@ -86,14 +86,18 @@ const GoodsCategoryUploader: React.FC<Props> = ({ onHandleCategory }) => {
 const SelectContainer = styled('div')`
   display: flex;
   width: 100%;
-  margin-bottom: 24px;
+  height: 3rem;
+  justify-content: space-between;
 `;
 const MainCategorySelect = styled('select')`
-  width: 40%;
-  margin-right: 12px;
+  width: 48%;
+  padding: 0.5rem;
+  border-color: lightgray;
 `;
 
 const SubCategorySelect = styled('select')`
-  width: 40%;
+  width: 48%;
+  padding: 0.5rem;
+  border-color: lightgray;
 `;
 export default GoodsCategoryUploader;

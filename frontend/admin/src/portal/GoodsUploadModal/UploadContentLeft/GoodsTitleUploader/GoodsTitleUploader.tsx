@@ -5,7 +5,7 @@ import {
   UploaderInput,
   UploaderLabel,
 } from '@src/portal/GoodsUploadModal/UploadContentLeft/style';
-import { FaCheckSquare } from '@react-icons/all-files/fa/FaCheckSquare';
+import { FaCheck } from '@react-icons/all-files/fa/FaCheck';
 
 interface Props {
   title: string;
@@ -23,7 +23,7 @@ const GoodsTitleUploader: React.FC<Props> = ({ title, onChangeTitle }) => {
           onInput={onChangeTitle}
           placeholder='Title'
         ></UploaderInput>
-        {title && <FaCheckSquare size='1.4em' color='#2ac1bc' />}
+        {title && <FaCheck size='1rem' color='#2ac1bc' />}
       </GoodsUploadInputContainer>
     </UploaderContainer>
   );
