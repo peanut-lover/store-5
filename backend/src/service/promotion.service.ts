@@ -24,7 +24,11 @@ async function createPromotion(body: CreatePromotionBody, imgUrl: string): Promi
 }
 
 async function getPromotions(): Promise<PromotionResponse[]> {
-  return await PromotionRepository.getPromotions();
+  const promotions = await PromotionRepository.getPromotions();
+  const result = promotions.map((promotion) => {
+    return { id: promotion.id, imgUrl: promotion.imgUrl, goodsId: promotion.goods.id };
+  });
+  return result;
 }
 
 async function deletePromotion(promotionId: number): Promise<DeleteResult> {

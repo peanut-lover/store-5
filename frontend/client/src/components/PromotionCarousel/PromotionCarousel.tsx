@@ -24,16 +24,16 @@ const SLIDE_SETTING: Settings = {
 
 const PromotionCarousel: React.FC<Props> = ({ promotions }) => {
   const push = usePushHistory();
-  const handleClickGoodsItem = (promotionId: number) => {
+  const handleClickGoodsItem = (promotionId: number, goodsId: number) => {
     PromotionAPI.increasePromotionView(promotionId);
-    push('/detail/' + promotionId);
+    push('/detail/' + goodsId);
   };
 
   return (
     <PromotionCarouselContainer>
       <Slider {...SLIDE_SETTING}>
-        {promotions.map(({ id, imgUrl }) => (
-          <PromotionImage key={id} src={imgUrl} data-id={id} onClick={() => handleClickGoodsItem(id)} />
+        {promotions.map(({ id, imgUrl, goodsId }) => (
+          <PromotionImage key={id} src={imgUrl} data-id={id} onClick={() => handleClickGoodsItem(id, goodsId)} />
         ))}
       </Slider>
     </PromotionCarouselContainer>
