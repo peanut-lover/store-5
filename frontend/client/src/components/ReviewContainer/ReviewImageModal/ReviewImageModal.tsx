@@ -20,6 +20,7 @@ const ReviewImageModal: React.FC<Props> = ({ initialReview, initialIndex, onClos
     slidesToShow: 1,
     slidesToScroll: 1,
     initialSlide: initialIndex,
+    dots: true,
   };
 
   return (
@@ -43,19 +44,24 @@ const SliderWrapper = styled.div`
   top: 50%;
   transform: translate(-50%, -50%);
   .slick-prev {
+    transform: scale(2);
     left: -70px;
   }
   .slick-next {
+    transform: scale(2);
     right: -70px;
   }
 `;
 
 const StyledSlider = styled(Slider)`
-  width: 50vmin;
-  height: 50vmin;
+  position: relative;
+  width: 32rem;
+  height: 32rem;
 `;
 
 const Image = styled.img`
+  width: 32rem;
+  height: 32rem;
   object-fit: contain;
   background-color: black;
 `;
