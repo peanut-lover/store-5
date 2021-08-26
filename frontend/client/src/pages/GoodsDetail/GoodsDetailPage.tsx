@@ -1,7 +1,7 @@
 import React, { useEffect, useState } from 'react';
 import styled from 'styled-components';
 import { DetailGoods } from '@src/types/Goods';
-import { useParams } from '@src/lib/CustomRouter/CustomRouter';
+import { useParams, usePushHistory } from '@src/lib/CustomRouter/CustomRouter';
 import GoodsInfo from './GoodsInfo/GoodsInfo';
 import GoodsInteractive from './GoodsInteractive/GoodsInteractive';
 import GoodsImageSection from './GoodsImageSection/GoodsImageSection';
@@ -27,8 +27,9 @@ const GoodsDetailPage = () => {
   const [recentGoodsList, setRecentGoodsList] = useRecentGoodsHistory();
   const { id } = useParams();
   const { isLoggedIn } = useRecoilValue(userState);
-  const pushToast = usePushToast();
   const [goods, setGoods] = useScrollToTop<DetailGoods | null>(null);
+  const pushHistory = usePushHistory();
+  const pushToast = usePushToast();
 
   const fetchDetailGoods = async (goodsId: number) => {
     try {
@@ -46,9 +47,11 @@ const GoodsDetailPage = () => {
     setGoods(null);
     const idAsNumber = Number(id);
     if (isNaN(idAsNumber)) {
-      throw new Error('올바르지 않은 상품 id입니다.');
+      pushToast({ text: '존재하지 않는 상품입니다.', positionRow: 'center', positionColumn: 'top' });
+      pushHistory('/'); // Main 화면으로 강제 이동.
+    } else {
+      fetchDetailGoods(idAsNumber);
     }
-    fetchDetailGoods(idAsNumber);
   }, [id]);
 
   return (
