@@ -63,6 +63,7 @@ const PaginationButton = styled.button`
   background: transparent;
   cursor: pointer;
   padding: 1rem;
+  display: flex;
   &:hover {
     transform: scale(1.5);
   }
