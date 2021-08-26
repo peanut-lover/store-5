@@ -7,6 +7,7 @@ import Paginator from '@src/components/Paginator/Paginator';
 import { GoodsPaginationResult } from '@src/types/Goods';
 import Loading from '@src/components/Loading/Loading';
 import emptyImgUrl from '@src/assets/empty-kim.gif';
+import useUserState from '@src/hooks/useUserState';
 const LIMIT_COUNT_ITEMS_IN_PAGE = 8;
 const DEFAULT_START_PAGE = 1;
 
@@ -15,6 +16,8 @@ const appendQuotationMarks = (text: string) => `"${text}"`;
 // 상태: 1 로드 중, 2 로드 이후 상품이 있는지 없는지
 
 const KeywordGoods: React.FC = () => {
+  const [user] = useUserState();
+
   const { keyword = '' } = useParams();
   const [goodsPaginationResult, setGoodsPaginationResult] = useState<GoodsPaginationResult | null>(null);
   const [currentPage, setCurrentPage] = useState(DEFAULT_START_PAGE);
@@ -34,7 +37,7 @@ const KeywordGoods: React.FC = () => {
 
   useEffect(() => {
     fetchGoodsList();
-  }, [keyword, currentPage]);
+  }, [keyword, currentPage, user]);
 
   const decodeKeyword = decodeURI(keyword);
 
