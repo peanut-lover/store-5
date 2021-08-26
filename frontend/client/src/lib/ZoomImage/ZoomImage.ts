@@ -176,6 +176,7 @@ export default function ImageZoom(
   }
 
   function setup() {
+    const DEFAULT_LEFT_MARGIN = '32px';
     // 소스이미지 생성
     const imageTag = document.createElement('img');
     imageTag.src = src;
@@ -198,6 +199,7 @@ export default function ImageZoom(
     data.zoomedImg.element.style.zIndex = '1';
     data.zoomedImg.element.style.position = 'absolute';
     data.zoomedImg.element.style.top = data.zoomedImgOffset.vertical + 'px';
+    data.zoomedImg.element.style.left = DEFAULT_LEFT_MARGIN;
     data.zoomedImg.element.style.right = data.zoomedImgOffset.horizontal - data.zoomedImgOffset.horizontal * 2 + 'px';
     data.zoomedImg.element.style.transform = 'translateX(100%)';
 
