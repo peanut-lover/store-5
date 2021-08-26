@@ -25,6 +25,7 @@ const MainImage: React.FC<{ src: string }> = ({ src }) => {
 const MainImageContainer = styled.div`
   width: 100%;
   height: 100%;
+  max-height: 50vh;
   position: relative;
   cursor: pointer;
 `;
