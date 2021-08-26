@@ -53,11 +53,11 @@ const ImageDeleteButton = styled('button')<{ bgcolor: string }>`
 
 const PreviewOldImageItem = styled('img')`
   box-sizing: border-box;
-  height: 280px;
-  width: 280px;
-  min-height: 280px;
-  min-width: 280px;
-  padding: 24px;
+  height: 240px;
+  width: 240px;
+  min-height: 240px;
+  min-width: 240px;
+  padding: 12px;
   object-fit: cover;
 `;
 
