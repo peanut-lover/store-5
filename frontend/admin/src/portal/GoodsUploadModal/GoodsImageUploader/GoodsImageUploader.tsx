@@ -63,7 +63,7 @@ const GoodsImageUploader: React.FC<Props> = ({
 
 const ImageUploaderContainer = styled('div')`
   display: flex;
-  height: 35%;
+  height: 280px;
   align-items: center;
   padding-left: 24px;
 `;

@@ -9,7 +9,7 @@ interface Props {
 const ImageIconButton: React.FC<Props> = ({ onClick }) => {
   return (
     <Button onClick={onClick}>
-      <FaPlus size='6em' cursor='pointer' />
+      <FaPlus size='3rem' cursor='pointer' />
       <Span>이미지 업로드</Span>
     </Button>
   );

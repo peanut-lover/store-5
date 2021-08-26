@@ -23,20 +23,29 @@ const UploadContentRight: React.FC<Props> = ({
   goodsStates,
 }) => {
   return (
-    <UploadContentRightContainer>
-      <GoodsCategoryUploader onHandleCategory={onHandleCategory} />
-      <GoodsStateUploader onHandleProductState={onHandleProductState} goodsStates={goodsStates} />
-      <GoodsDeliveryUploader onHandleDeliveryInfo={onHandleDeliveryInfo} />
-      <GoodsGreenUploader checkGreen={checkGreen} onHandleCheckGreen={onHandleCheckGreen} />
-    </UploadContentRightContainer>
+    <>
+      <ContentContainer>
+        <GoodsCategoryUploader onHandleCategory={onHandleCategory} />
+      </ContentContainer>
+      <ContentContainer>
+        <GoodsStateUploader onHandleProductState={onHandleProductState} goodsStates={goodsStates} />
+      </ContentContainer>
+      <ContentContainer>
+        <GoodsDeliveryUploader onHandleDeliveryInfo={onHandleDeliveryInfo} />
+      </ContentContainer>
+      <ContentContainer>
+        <GoodsGreenUploader checkGreen={checkGreen} onHandleCheckGreen={onHandleCheckGreen} />
+      </ContentContainer>
+    </>
   );
 };
 
-const UploadContentRightContainer = styled('div')`
+const ContentContainer = styled('div')`
   display: flex;
   flex-direction: column;
   align-items: flex-start;
-  height: 70%;
+  height: 76px;
+  margin-bottom: 24px;
 `;
 
 export default UploadContentRight;

@@ -284,17 +284,31 @@ async function getMainGoodsListMap(userId?: number): Promise<{
     stock: 0,
   };
 
+  const goodsSellCountAverage = await GoodsRepository.findSellCountAverage();
   const bestGoodsList = await GoodsRepository.findAllByOption(bestProps);
   const latestGoodsList = await GoodsRepository.findAllByOption(latestProps);
   const discountGoodsList = await GoodsRepository.findAllByOption(discountProps);
-  if (userId) {
-    const wishSet = new Set(await WishRepository.findWishByUserId(userId));
-    if (wishSet) {
-      bestGoodsList.forEach((goods) => (goods.isWish = wishSet.has(goods.id)));
-      latestGoodsList.forEach((goods) => (goods.isWish = wishSet.has(goods.id)));
-      discountGoodsList.forEach((goods) => (goods.isWish = wishSet.has(goods.id)));
-    }
-  }
+
+  const wishSet = userId && new Set(await WishRepository.findWishByUserId(userId));
+
+  bestGoodsList.forEach((goods) => {
+    if (wishSet) goods.isWish = wishSet.has(goods.id);
+    goods.isBest = goodsSellCountAverage < goods.countOfSell;
+    goods.isNew = isNewGoods(goods.createdAt);
+  });
+
+  latestGoodsList.forEach((goods) => {
+    if (wishSet) goods.isWish = wishSet.has(goods.id);
+    goods.isBest = goodsSellCountAverage < goods.countOfSell;
+    goods.isNew = isNewGoods(goods.createdAt);
+  });
+
+  discountGoodsList.forEach((goods) => {
+    if (wishSet) goods.isWish = wishSet.has(goods.id);
+    goods.isBest = goodsSellCountAverage < goods.countOfSell;
+    goods.isNew = isNewGoods(goods.createdAt);
+  });
+
   return {
     bestGoodsList,
     latestGoodsList,
@@ -351,7 +365,7 @@ async function getGoodsImgById(goodsId: number): Promise<
 }
 
 function isNewGoods(date: Date): boolean {
-  const DAY_DIVIDE = 1000 / 60 / 60 / 24;
+  const DAY_DIVIDE = 1000 * 60 * 60 * 24;
   const NEW_PRODUCT_BASE_DAY = 7;
   const nowTime = new Date().getTime();
   return (nowTime - date.getTime()) / DAY_DIVIDE < NEW_PRODUCT_BASE_DAY;

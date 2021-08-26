@@ -41,7 +41,9 @@ const GoodsDeliveryUploader: React.FC<Props> = ({ onHandleDeliveryInfo }) => {
 };
 
 const DeliveryInfoSelect = styled('select')`
-  width: 60%;
-  margin-bottom: 24px;
+  width: 50%;
+  border-color: lightgray;
+  padding: 0.5rem;
+  height: 3rem;
 `;
 export default GoodsDeliveryUploader;

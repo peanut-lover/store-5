@@ -11,7 +11,6 @@ import convertGoodsState from '@src/utils/convertGoodsState';
 import { GoodsItem } from '@src/types/Goods';
 import { GoodsImg } from '@src/types/GoodsImg';
 
-import { FaTimes } from '@react-icons/all-files/fa/FaTimes';
 import CloseButton from '@src/components/CloseButton/CloseButton';
 
 const GOODS_STATES = ['판매중', '임시저장', '삭제'];
@@ -184,11 +183,11 @@ const GoodsUploadModal: React.FC<Props> = ({ onClose, goods }) => {
                 onHandleProductState={handleProductState}
                 goodsStates={getUploadGoodsState()}
               />
-              <SubmitButton onClick={handleSubmit} active={submitActive}>
-                {goods ? '상품 수정' : '상품 등록'}
-              </SubmitButton>
             </UploadContentRightContainer>
           </UploadContentContainer>
+          <SubmitButton onClick={handleSubmit} active={submitActive}>
+            {goods ? '상품 수정' : '상품 등록'}
+          </SubmitButton>
           <CloseButton onClick={onClose} />
         </ProductUploadContainer>
       </ModalContainer>
@@ -215,6 +214,7 @@ const ProductUploadContainer = styled('div')`
   width: 860px;
   height: 800px;
   margin: auto;
+  padding: 0 28px;
   background-color: white;
   border-radius: 12px;
 `;
@@ -223,10 +223,8 @@ const UploadContentContainer = styled('div')`
   box-sizing: border-box;
   position: relative;
   display: flex;
-  width: calc(100% - 56px);
-  height: calc(812px - 35%);
-  padding: 28px 0;
-  margin: 0 28px 0 28px;
+  width: 100%;
+  padding: 1rem 0;
   border-top: 1px solid lightgray;
 `;
 
@@ -235,15 +233,17 @@ const UploadContentRightContainer = styled('div')`
 `;
 
 const SubmitButton = styled('button')<{ active: string }>`
-  width: 80%;
-  height: 13%;
-  font-size: 1.6em;
-  border-radius: 12px;
+  width: 100%;
+  height: 50px;
+  font-size: 1.2rem;
+  font-weight: 600;
+  border-radius: 4px;
   color: white;
   border: none;
   background-color: ${(props) => (props.active ? '#2ac1bc' : 'lightgray')};
   pointer-events: ${(props) => (props.active ? 'auto' : 'none')};
   cursor: ${(props) => (props.active ? 'pointer' : 'none')};
+  opacity: ${(props) => (props.active ? '1' : '0.8')};
 `;
 
 export default GoodsUploadModal;

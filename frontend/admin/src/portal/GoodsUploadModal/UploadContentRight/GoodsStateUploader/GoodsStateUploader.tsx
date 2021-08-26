@@ -32,7 +32,9 @@ const GoodsStateUploader: React.FC<Props> = ({ onHandleProductState, goodsStates
 };
 
 const ProductStateSelect = styled('select')`
-  width: 60%;
-  margin-bottom: 24px;
+  width: 50%;
+  border-color: lightgray;
+  padding: 0.5rem;
+  height: 3rem;
 `;
 export default GoodsStateUploader;

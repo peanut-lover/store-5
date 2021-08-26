@@ -3,6 +3,7 @@ import GoodsTable from './GoodsTable/GoodsTable';
 import GoodsUploadModal from '@src/portal/GoodsUploadModal/GoodsUploadModal';
 import { theme } from '@src/theme/theme';
 import { styled } from '@src/lib/CustomStyledComponent';
+import originStyled from 'styled-components';
 
 const GoodsAdmin = () => {
   const [openUploadModal, setOpenUploadModal] = useState(false);
@@ -42,16 +43,21 @@ const Title = styled('h2')`
   font-weight: 600;
 `;
 
-const AddButton = styled('button')`
+// hover 효과를 위해 originStyled을 적용하였습니다.
+const AddButton = originStyled.button`
   cursor: pointer;
-  border: 1px solid #aaa;
+  border: 1px solid #999;
   border-radius: 4px;
   color: #000;
   background-color: #fff;
   margin: 0;
-  padding: 0.5rem 1rem;
-  font-size: 1.125rem;
+  padding: 0.25rem 1rem;
+  font-size: 1rem;
   font-weight: bolder;
+  opacity: 0.8;
+  :hover {
+    opacity: 1;
+  }
 `;
 
 export default GoodsAdmin;

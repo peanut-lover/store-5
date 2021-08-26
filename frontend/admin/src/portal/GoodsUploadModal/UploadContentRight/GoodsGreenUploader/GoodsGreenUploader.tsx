@@ -26,6 +26,7 @@ const CheckBoxContainer = styled('div')`
   justify-content: space-between;
   width: 80%;
   cursor: pointer;
+  height: 3rem;
 `;
 const CheckTitle = styled('div')`
   text-align: start;

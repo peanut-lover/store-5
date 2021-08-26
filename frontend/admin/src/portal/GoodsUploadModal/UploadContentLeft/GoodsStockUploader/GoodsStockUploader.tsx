@@ -1,12 +1,11 @@
 import React, { ChangeEvent, useState } from 'react';
-import { FaCheckSquare } from '@react-icons/all-files/fa/FaCheckSquare';
+import { FaCheck } from '@react-icons/all-files/fa/FaCheck';
 import {
   GoodsUploadInputContainer,
   UploaderContainer,
   UploaderInput,
   UploaderLabel,
 } from '@src/portal/GoodsUploadModal/UploadContentLeft/style';
-import formatNumber from '@src/utils/formatToNumber';
 interface Props {
   stock: number;
   onChangeStock: (e: ChangeEvent<HTMLInputElement>) => void;
@@ -40,7 +39,7 @@ const GoodsStockUploader: React.FC<Props> = ({ stock, onChangeStock }) => {
           <UploaderInput type='text' readOnly value={`${stock} 개`} onFocus={toggleEditing} placeholder='Stock' />
         )}
 
-        {stock > 0 && <FaCheckSquare size='1.4em' color='#2ac1bc' />}
+        {stock > 0 && <FaCheck size='1rem' color='#2ac1bc' />}
       </GoodsUploadInputContainer>
     </UploaderContainer>
   );

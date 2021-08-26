@@ -42,8 +42,16 @@ const GoodsCategoryUploader: React.FC<Props> = ({ onHandleCategory }) => {
         result: { categories },
       } = await CategoryAPI.getAllCategory();
       if (categories.length > 0) {
-        setMainCategory(categories[0].name);
-        onHandleCategory(categories[0].id);
+        const parentCategories = categories;
+        // 최초에는 맨 앞의 부모 카테고리의 자식 카테고리가 기본으로 선택되어야 합니다 :)
+        const defaultParentCategory = parentCategories[0];
+        setMainCategory(defaultParentCategory.name);
+        if (defaultParentCategory.categories) {
+          const defaultChildCategory = defaultParentCategory.categories[0];
+          onHandleCategory(defaultChildCategory.id);
+        } else {
+          onHandleCategory(defaultParentCategory.id);
+        }
       }
       setCategories(categories);
     };
@@ -82,14 +90,18 @@ const GoodsCategoryUploader: React.FC<Props> = ({ onHandleCategory }) => {
 const SelectContainer = styled('div')`
   display: flex;
   width: 100%;
-  margin-bottom: 24px;
+  height: 3rem;
+  justify-content: space-between;
 `;
 const MainCategorySelect = styled('select')`
-  width: 40%;
-  margin-right: 12px;
+  width: 48%;
+  padding: 0.5rem;
+  border-color: lightgray;
 `;
 
 const SubCategorySelect = styled('select')`
-  width: 40%;
+  width: 48%;
+  padding: 0.5rem;
+  border-color: lightgray;
 `;
 export default GoodsCategoryUploader;

@@ -7,8 +7,8 @@ export const UploaderContainer = styled('div')`
   margin-bottom: 24px;
 `;
 export const UploaderLabel = styled('label')`
-  font-size: 1.2em;
-  margin-bottom: 8px;
+  font-size: 1rem;
+  margin-bottom: 0.75rem;
   font-weight: 700;
   color: #2ac1bc;
 `;
@@ -26,6 +26,6 @@ export const UploaderInput = styled('input')`
   border: none;
   width: 85%;
   line-height: 1.2em;
-  font-size: 1.1em;
+  font-size: 1rem;
   outline: none;
 `;

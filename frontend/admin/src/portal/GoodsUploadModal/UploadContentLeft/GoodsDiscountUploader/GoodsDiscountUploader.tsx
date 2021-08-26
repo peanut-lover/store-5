@@ -20,14 +20,17 @@ const GoodsDiscountUploader: React.FC<Props> = ({ discountRate, onChangeDiscount
 };
 export const UploaderInputContainer = styled('div')`
   display: flex;
-  width: 15%;
-  border-bottom: 1px solid lightgray;
+  width: 60px;
+  height: 48px;
+  font-weight: 600;
+  align-items: center;
 `;
 export const UploaderInput = styled('input')`
   border: none;
   width: 100%;
   line-height: 1.2em;
-  font-size: 1.1em;
+  font-size: 1rem;
   outline: none;
+  font-weight: 400;
 `;
 export default GoodsDiscountUploader;
