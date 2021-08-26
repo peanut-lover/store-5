@@ -74,6 +74,7 @@ module.exports = {
     new HtmlWebpackPlugin({
       filename: 'admin_index.html',
       template: './public/index.html',
+      favicon: './public/images/favicon.png',
     }),
   ],
 };
