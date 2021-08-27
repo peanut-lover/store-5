@@ -38,6 +38,8 @@ const GoodsFlag: {
   latest: 'createdAt',
 };
 
+const DEFAULT_START_PAGE = 1;
+
 const INVALID_DISCOUNT_RATE = '할인율은 0~99% 범위 내에서 가능합니다.';
 const INVALID_DELIVERY_INFO = '해당 배송 정보는 없는 정보입니다.';
 const INVALID_CATEGORY = '유효한 카테고리가 존재하지 않습니다.';
@@ -150,10 +152,10 @@ async function getAllGoodsByUserId(page: number, limit: number, userId: number):
   }
 
   const totalCount = await WishRepository.findWishCountByUserId(userId);
-  page = Math.min(getTotalPage(totalCount, limit), page);
+  const newPage = page > 0 ? Math.min(getTotalPage(totalCount, limit), page) : DEFAULT_START_PAGE;
 
   const option: FindAllProps = {
-    offset: pagination.calculateOffset(page, limit),
+    offset: pagination.calculateOffset(newPage, limit),
     limit,
     userId,
     order: 'createdAt',
@@ -174,7 +176,7 @@ async function getAllGoodsByUserId(page: number, limit: number, userId: number):
   });
 
   return {
-    meta: getListGoodsMeta(page, limit, totalCount),
+    meta: getListGoodsMeta(newPage, limit, totalCount),
     goodsList,
   };
 }
@@ -225,7 +227,7 @@ async function getGoodsByOption(
   }
 
   const totalCount = await GoodsRepository.findTotalCountByOption(totalCountOption);
-  const newPage = Math.min(getTotalPage(totalCount, limit), page);
+  const newPage = page > 0 ? Math.min(getTotalPage(totalCount, limit), page) : DEFAULT_START_PAGE;
 
   const option: FindAllProps = {
     offset: pagination.calculateOffset(newPage, limit),
@@ -251,7 +253,7 @@ async function getGoodsByOption(
   });
 
   return {
-    meta: getListGoodsMeta(page, limit, totalCount),
+    meta: getListGoodsMeta(newPage, limit, totalCount),
     goodsList,
   };
 }
