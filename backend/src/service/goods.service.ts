@@ -71,7 +71,6 @@ async function createGoods(body: CreateGoodsBody, uploadFileUrls: string[]): Pro
 async function updateGoods(body: UpdateGoodsBody, goodsId: number, uploadFileUrls: string[]): Promise<Goods> {
   await checkValidateCreateGoods(body);
   const { title, category, isGreen, price, stock, state, discountRate, deliveryInfo, thumbnailUrl, oldImages } = body;
-
   if (
     !isString(title) ||
     isGreen === undefined ||
