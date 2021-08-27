@@ -3,19 +3,29 @@ import styled from 'styled-components';
 import { range } from '@src/utils/range';
 import { theme } from '@src/theme/theme';
 
-import { FaAngleLeft } from '@react-icons/all-files/fa/FaAngleLeft';
 import { FaAngleRight } from '@react-icons/all-files/fa/FaAngleRight';
+import { FaAngleLeft } from '@react-icons/all-files/fa/FaAngleLeft';
 
 interface Props {
   totalPage: number;
   currentPage: number;
   rangeOfPage?: number;
-  setPage: (page: number) => void;
+  setPage?: (page: number) => void;
 }
 const DEFAULT_PAGE_RANGE = 5;
-const Paginator: React.FC<Props> = ({ totalPage, currentPage, rangeOfPage = DEFAULT_PAGE_RANGE, setPage }) => {
-  const startPage = Math.floor(currentPage / rangeOfPage) * rangeOfPage + 1;
-  const endPage = startPage + rangeOfPage < totalPage ? startPage + rangeOfPage - 1 : totalPage;
+const Paginator: React.FC<Props> = ({
+  totalPage,
+  currentPage,
+  rangeOfPage = DEFAULT_PAGE_RANGE,
+  setPage = () => {},
+}) => {
+  if (currentPage <= 0 || totalPage < currentPage || rangeOfPage <= 0) {
+    // TODO: (jiho) 컴포넌트에서 발생하는 에러를 어떻게 처리해야할까?
+    return <p>paginator error</p>;
+  }
+
+  const startPage = Math.floor((currentPage - 1) / rangeOfPage) * rangeOfPage + 1;
+  const endPage = Math.min(startPage + rangeOfPage - 1, totalPage);
 
   const pages = range(startPage, endPage);
 
