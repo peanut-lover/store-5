@@ -1,19 +1,25 @@
 import { DetailGoods } from '@src/types/Goods';
 import { atom } from 'recoil';
 
-const RecentGoodsStorageKey = 'recentGoodsHistory';
+export const RECENT_GOODS_STORAGE_KEY = 'recentGoodsHistory';
 
-const makeUniqueDetailGoodsList = (goodsList: DetailGoods[]) => {
-  const idSet = new Set<number>();
-  goodsList.forEach((goods) => idSet.add(goods.id));
-  return Array.from(idSet.keys()).map((id) => goodsList.find((goods) => goods.id === id)!);
+export const makeUniqueDetailGoodsList = (goodsList: DetailGoods[]) =>
+  goodsList
+    .map((goods) => goods.id)
+    .filter((v, i, self) => self.indexOf(v) === i) // number 중복 제거
+    .map((id) => goodsList.find((goods) => goods.id === id)!);
+
+const initDetailGoodsInLocalStorage = (): DetailGoods[] => {
+  const originStorageValues = localStorage.getItem(RECENT_GOODS_STORAGE_KEY);
+  try {
+    const initDetailGoods: DetailGoods[] = originStorageValues ? JSON.parse(originStorageValues) : [];
+    return makeUniqueDetailGoodsList(initDetailGoods);
+  } catch (err) {
+    return [];
+  }
 };
-
-const originStorageValues = localStorage.getItem(RecentGoodsStorageKey);
-const initDetailGoods: DetailGoods[] = originStorageValues ? JSON.parse(originStorageValues) : [];
-const initState = makeUniqueDetailGoodsList(initDetailGoods);
 
 export const recentlyGoodsState = atom<DetailGoods[]>({
   key: 'recentlyGoodsState',
-  default: initState,
+  default: initDetailGoodsInLocalStorage(),
 });
