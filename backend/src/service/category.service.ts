@@ -7,6 +7,9 @@ import {
   CategoryViewCountResponse,
 } from '../types/response/category.response';
 import { CategoryRepository } from '../repository/category.repository';
+import { BadRequestError } from '../errors/client.error';
+
+const NOT_FOUND_ERROR = '데이터가 존재하지 않습니다.';
 
 const BEST_LIST_LENGTH = 5;
 
@@ -96,10 +99,18 @@ async function getCategoryViews(): Promise<CategoryViewCountResponse> {
   });
 }
 
+async function getCategoryByGoodsId(goodsId: number): Promise<Category> {
+  const goods = await GoodsRepository.getGoodsDetailById(goodsId);
+  if (!goods) throw new BadRequestError(NOT_FOUND_ERROR);
+  console.log(goods.category);
+  return goods.category;
+}
+
 export default {
   createCategory,
   getAllCategory,
   getCategoryGoodsCount,
   getTopSellingCategory,
   getCategoryViews,
+  getCategoryByGoodsId,
 };
