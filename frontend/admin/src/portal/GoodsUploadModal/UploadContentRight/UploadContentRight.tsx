@@ -1,9 +1,10 @@
+import React from 'react';
 import { styled } from '@src/lib/CustomStyledComponent';
 import GoodsCategoryUploader from './GoodsCategoryUploader/GoodsCategoryUploader';
 import GoodsDeliveryUploader from './GoodsDeliveryUploader/GoodsDeliveryUploader';
 import GoodsGreenUploader from './GoodsGreenUploader/GoodsGreenUploader';
 import GoodsStateUploader from './GoodsStateUploader/GoodsStateUploader';
-import React from 'react';
+import convertGoodsState from '@src/utils/convertGoodsState';
 import { GoodsItem } from '@src/types/Goods';
 
 interface Props {
@@ -11,9 +12,10 @@ interface Props {
   onHandleCheckGreen: () => void;
   onHandleDeliveryInfo: (id: number) => void;
   onHandleCategory: (id: number) => void;
-  onHandleProductState: (productState: string) => void;
+  onHandleGoodsState: (goodsState: string) => void;
   goodsStates: string[];
   goods?: GoodsItem | null;
+  selectedGoodsState: string;
 }
 
 const UploadContentRight: React.FC<Props> = ({
@@ -21,9 +23,10 @@ const UploadContentRight: React.FC<Props> = ({
   onHandleCheckGreen,
   onHandleCategory,
   onHandleDeliveryInfo,
-  onHandleProductState,
+  onHandleGoodsState,
   goodsStates,
   goods,
+  selectedGoodsState,
 }) => {
   return (
     <>
@@ -31,7 +34,11 @@ const UploadContentRight: React.FC<Props> = ({
         <GoodsCategoryUploader onHandleCategory={onHandleCategory} goodsId={goods?.id} />
       </ContentContainer>
       <ContentContainer>
-        <GoodsStateUploader onHandleProductState={onHandleProductState} goodsStates={goodsStates} />
+        <GoodsStateUploader
+          onHandleGoodsState={onHandleGoodsState}
+          goodsStates={goodsStates}
+          selectedGoodsState={selectedGoodsState}
+        />
       </ContentContainer>
       <ContentContainer>
         <GoodsDeliveryUploader onHandleDeliveryInfo={onHandleDeliveryInfo} />

@@ -1,37 +1,35 @@
 import { styled } from '@src/lib/CustomStyledComponent';
 import { UploaderLabel } from '@src/portal/GoodsUploadModal/UploadContentLeft/style';
-import React, { ChangeEvent, useCallback, useEffect } from 'react';
+import React, { ChangeEvent, useCallback } from 'react';
 
 interface Props {
-  onHandleProductState: (productState: string) => void;
+  onHandleGoodsState: (goodsState: string) => void;
   goodsStates: string[];
+  selectedGoodsState: string;
 }
 
-const GoodsStateUploader: React.FC<Props> = ({ onHandleProductState, goodsStates }) => {
-  const handleProductState = useCallback(
+const GoodsStateUploader: React.FC<Props> = ({ onHandleGoodsState, goodsStates, selectedGoodsState }) => {
+  const handleGoodsState = useCallback(
     (e: ChangeEvent<HTMLSelectElement>) => {
-      onHandleProductState(e.target.value);
+      onHandleGoodsState(e.target.value);
     },
-    [onHandleProductState]
+    [onHandleGoodsState]
   );
-  useEffect(() => {
-    onHandleProductState(goodsStates[0]);
-  }, []);
   return (
     <>
       <UploaderLabel>상품 상태</UploaderLabel>
-      <ProductStateSelect onChange={handleProductState}>
+      <GoodsStateSelect onChange={handleGoodsState} value={selectedGoodsState}>
         {goodsStates.map((name, i) => (
           <option key={i} value={name}>
             {name}
           </option>
         ))}
-      </ProductStateSelect>
+      </GoodsStateSelect>
     </>
   );
 };
 
-const ProductStateSelect = styled('select')`
+const GoodsStateSelect = styled('select')`
   width: 50%;
   border-color: lightgray;
   padding: 0.5rem;
