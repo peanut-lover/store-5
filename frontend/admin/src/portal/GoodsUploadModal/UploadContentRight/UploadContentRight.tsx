@@ -4,6 +4,7 @@ import GoodsDeliveryUploader from './GoodsDeliveryUploader/GoodsDeliveryUploader
 import GoodsGreenUploader from './GoodsGreenUploader/GoodsGreenUploader';
 import GoodsStateUploader from './GoodsStateUploader/GoodsStateUploader';
 import React from 'react';
+import { GoodsItem } from '@src/types/Goods';
 
 interface Props {
   checkGreen: boolean;
@@ -12,6 +13,7 @@ interface Props {
   onHandleCategory: (id: number) => void;
   onHandleProductState: (productState: string) => void;
   goodsStates: string[];
+  goods?: GoodsItem | null;
 }
 
 const UploadContentRight: React.FC<Props> = ({
@@ -21,11 +23,12 @@ const UploadContentRight: React.FC<Props> = ({
   onHandleDeliveryInfo,
   onHandleProductState,
   goodsStates,
+  goods,
 }) => {
   return (
     <>
       <ContentContainer>
-        <GoodsCategoryUploader onHandleCategory={onHandleCategory} />
+        <GoodsCategoryUploader onHandleCategory={onHandleCategory} goodsId={goods?.id} />
       </ContentContainer>
       <ContentContainer>
         <GoodsStateUploader onHandleProductState={onHandleProductState} goodsStates={goodsStates} />

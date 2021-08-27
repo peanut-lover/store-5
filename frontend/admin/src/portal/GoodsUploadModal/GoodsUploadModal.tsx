@@ -181,6 +181,7 @@ const GoodsUploadModal: React.FC<Props> = ({ onClose, goods }) => {
                 onHandleDeliveryInfo={handleDeliveryInfo}
                 onHandleCategory={handleCategory}
                 onHandleProductState={handleProductState}
+                goods={goods}
                 goodsStates={getUploadGoodsState()}
               />
             </UploadContentRightContainer>
