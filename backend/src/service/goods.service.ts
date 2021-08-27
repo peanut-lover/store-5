@@ -214,6 +214,8 @@ async function getGoodsByOption(
     const category = await CategoryRepository.getCategoryByName(categoryName);
     if (category) {
       totalCountOption.category = category.id;
+    } else {
+      throw new BadRequestError(INVALID_CATEGORY);
     }
   }
 
@@ -264,7 +266,7 @@ async function getMainGoodsListMap(userId?: number): Promise<{
   const latestProps: FindAllProps = {
     order: 'createdAt',
     offset: 0,
-    sort: 'ASC',
+    sort: 'DESC',
     limit: 8,
     stock: 0,
   };

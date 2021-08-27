@@ -11,18 +11,21 @@ import useUserState from '@src/hooks/useUserState';
 const LIMIT_COUNT_ITEMS_IN_PAGE = 8;
 const DEFAULT_START_PAGE = 1;
 
-const appendQuotationMarks = (text: string) => `"${text}"`;
+const EMPTY_LIST = '상품이 존재하지 않습니다!';
 
-// 상태: 1 로드 중, 2 로드 이후 상품이 있는지 없는지
+const appendQuotationMarks = (text: string) => `"${text}"`;
 
 const KeywordGoods: React.FC = () => {
   const [user] = useUserState();
 
+  const [isLoading, setIsLoading] = useState<boolean>(true);
   const { keyword = '' } = useParams();
   const [goodsPaginationResult, setGoodsPaginationResult] = useState<GoodsPaginationResult | null>(null);
   const [currentPage, setCurrentPage] = useState(DEFAULT_START_PAGE);
+  const decodeKeyword = decodeURI(keyword);
 
   const fetchGoodsList = async () => {
+    setIsLoading(true);
     try {
       const data = await getGoodsByKeyword({
         keyword,
@@ -32,6 +35,8 @@ const KeywordGoods: React.FC = () => {
       setGoodsPaginationResult(data.result);
     } catch (e) {
       setGoodsPaginationResult(null);
+    } finally {
+      setIsLoading(false);
     }
   };
 
@@ -39,9 +44,11 @@ const KeywordGoods: React.FC = () => {
     fetchGoodsList();
   }, [keyword, currentPage, user]);
 
-  const decodeKeyword = decodeURI(keyword);
+  if (isLoading || !goodsPaginationResult) {
+    return <Loading />;
+  }
 
-  return goodsPaginationResult ? (
+  return (
     <CategoryGoodsListContainer>
       <CategoryGoodsListHeader>
         <CategoryGoodsListCount>
@@ -62,12 +69,10 @@ const KeywordGoods: React.FC = () => {
       ) : (
         <EmptyImageContainer>
           <img src={emptyImgUrl} />
-          <EmptyText>상품이 존재하지 않습니다!</EmptyText>
+          <EmptyText>{EMPTY_LIST}</EmptyText>
         </EmptyImageContainer>
       )}
     </CategoryGoodsListContainer>
-  ) : (
-    <Loading />
   );
 };
 
