@@ -350,7 +350,7 @@ async function getGoodsImgById(goodsId: number): Promise<
     id: number;
   }[]
 > {
-  const goodsImgs = await GoodsImgRepository.findGoodsImgById(goodsId);
+  const goodsImgs = await GoodsImgRepository.getGoodsImgById(goodsId);
   return goodsImgs.map((goodsImg) => ({
     id: goodsImg.id,
     url: goodsImg.url,
