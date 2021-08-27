@@ -14,7 +14,9 @@ interface Props {
 const GoodsStockUploader: React.FC<Props> = ({ stock, onChangeStock }) => {
   const [isEditing, setIsEditing] = useState<boolean>(false);
 
-  const handleChnageStock = (e: React.ChangeEvent<HTMLInputElement>) => {
+  const handleChangeStock = (e: React.ChangeEvent<HTMLInputElement>) => {
+    const value = Number(e.target.value);
+    if (isNaN(value) || !Number.isInteger(value)) return;
     onChangeStock(e);
   };
 
@@ -29,9 +31,8 @@ const GoodsStockUploader: React.FC<Props> = ({ stock, onChangeStock }) => {
         {isEditing ? (
           <UploaderInput
             type='number'
-            min={0}
             value={stock}
-            onChange={handleChnageStock}
+            onChange={handleChangeStock}
             onBlur={toggleEditing}
             placeholder='Stock'
           />
