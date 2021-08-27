@@ -108,11 +108,11 @@ const GoodsUploadModal: React.FC<Props> = ({ onClose, goods }) => {
 
   const handleChangeDiscountRate = useCallback(
     (e: ChangeEvent<HTMLInputElement>) => {
-      const tmpNumber = Number(e.target.value);
-      if (isNaN(tmpNumber)) {
-        return;
-      }
-      setDiscountRate(tmpNumber);
+      const value = Number(e.target.value);
+      if (isNaN(value)) return;
+      if (value > 99 || value < 0) return;
+      if (!Number.isInteger(value)) return;
+      setDiscountRate(value);
     },
     [setDiscountRate]
   );

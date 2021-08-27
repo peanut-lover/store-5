@@ -12,7 +12,7 @@ const GoodsDiscountUploader: React.FC<Props> = ({ discountRate, onChangeDiscount
     <UploaderContainer>
       <UploaderLabel>할인율</UploaderLabel>
       <UploaderInputContainer>
-        <UploaderInput type='number' max='99' min='0' value={discountRate} onInput={onChangeDiscountRate} />
+        <UploaderInput value={discountRate} onChange={onChangeDiscountRate} />
         <span>%</span>
       </UploaderInputContainer>
     </UploaderContainer>
@@ -20,7 +20,7 @@ const GoodsDiscountUploader: React.FC<Props> = ({ discountRate, onChangeDiscount
 };
 export const UploaderInputContainer = styled('div')`
   display: flex;
-  width: 60px;
+  width: 100px;
   height: 48px;
   font-weight: 600;
   align-items: center;

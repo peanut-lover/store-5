@@ -1,5 +1,5 @@
-import React, { useCallback, useEffect, useRef, useState } from 'react';
-import styled, { keyframes } from 'styled-components';
+import React from 'react';
+import styled from 'styled-components';
 import Portal from '@src/portal/portal';
 import CartForm from './CartForm/CartForm';
 import { FaTimes } from '@react-icons/all-files/fa/FaTimes';

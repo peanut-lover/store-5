@@ -45,7 +45,6 @@ const PromotionUploadModal: React.FC<Props> = ({ updatePromotions, onClose }) =>
       await updatePromotions();
       onClose();
     } catch (err) {
-      // TODO: alert 추후에 수정해야함
       console.error(err);
     } finally {
       setDisabled(false);
