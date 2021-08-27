@@ -8,7 +8,7 @@ import { Order, OrderPaginationResult } from '@src/types/Order';
 import React, { useEffect, useState } from 'react';
 import styled from 'styled-components';
 
-const DEFAULT_START_PAGE = 0;
+const DEFAULT_START_PAGE = 1;
 const DEFAULT_LIMIT_ORDER = 10;
 
 const OrderAdmin = () => {

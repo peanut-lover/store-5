@@ -11,11 +11,11 @@ async function getOwnOrdersPagination(req: Request, res: Response) {
     throw new BadRequestError(INVALID_DATA);
   }
   const userId = req.userId;
-  const OrderListQueryParams: GetAllOrderByUserIdProps = {
+  const orderListQueryParams: GetAllOrderByUserIdProps = {
     page: Number(page),
     limit: Number(limit),
   };
-  const result = await OrderService.getOwnOrdersPagination(OrderListQueryParams, userId);
+  const result = await OrderService.getOwnOrdersPagination(orderListQueryParams, userId);
   res.status(200).send({ result });
 }
 
@@ -25,11 +25,12 @@ async function getAllOrdersPagination(req: Request, res: Response) {
     throw new BadRequestError(INVALID_DATA);
   }
 
-  const OrderListQueryParams: GetAllOrderByUserIdProps = {
+  const orderListQueryParams: GetAllOrderByUserIdProps = {
     page: Number(page),
     limit: Number(limit),
   };
-  const result = await OrderService.getAllOrdersPagination(OrderListQueryParams);
+
+  const result = await OrderService.getAllOrdersPagination(orderListQueryParams);
   res.status(200).send({ result });
 }
 
