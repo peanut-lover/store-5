@@ -102,7 +102,6 @@ async function getCategoryViews(): Promise<CategoryViewCountResponse> {
 async function getCategoryByGoodsId(goodsId: number): Promise<Category> {
   const goods = await GoodsRepository.getGoodsDetailById(goodsId);
   if (!goods) throw new BadRequestError(NOT_FOUND_ERROR);
-  console.log(goods.category);
   return goods.category;
 }
 

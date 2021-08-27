@@ -13,3 +13,9 @@ export interface CategoryView {
   name: string;
   view: number;
 }
+
+export interface CategoryWithParent {
+  id: number;
+  name: string;
+  parent: number;
+}
