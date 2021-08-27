@@ -15,7 +15,7 @@ interface Props {
 const GoodsPriceUploader: React.FC<Props> = ({ price, onChangePrice }) => {
   const [isEditing, setIsEditing] = useState<boolean>(false);
 
-  const handleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
+  const handleChangePrice = (e: React.ChangeEvent<HTMLInputElement>) => {
     const value = Number(e.target.value);
     if (isNaN(value) || !Number.isInteger(value)) return;
     onChangePrice(e);
@@ -34,7 +34,7 @@ const GoodsPriceUploader: React.FC<Props> = ({ price, onChangePrice }) => {
             type='number'
             min={0}
             value={price}
-            onChange={handleChange}
+            onChange={handleChangePrice}
             onBlur={toggleEditing}
             placeholder='Price'
           />
