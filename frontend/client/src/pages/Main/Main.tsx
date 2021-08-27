@@ -9,21 +9,33 @@ import PromotionAPI from '@src/apis/promotionAPI';
 import { useRecoilValue } from 'recoil';
 import { userState } from '@src/recoil/userState';
 import AdminFubButton from '@src/components/AdminFubButton/AdminFubButton';
+import { usePushToast } from '@src/lib/ToastProvider/ToastProvider';
+
+const MAIN_PAGE_FETCH_FAIL = '상품 정보를 읽어보는데 실패했습니다.';
 
 const Main = () => {
   const [promotions, setPromotions] = useState<Promotion[]>([]);
   const userRecoil = useRecoilValue(userState);
+  const pushToast = usePushToast();
 
   const fetchPromotions = async () => {
-    const { result } = await PromotionAPI.getPromotions();
-    setPromotions(result);
+    try {
+      const { result } = await PromotionAPI.getPromotions();
+      setPromotions(result);
+    } catch (err) {
+      pushToast({ text: MAIN_PAGE_FETCH_FAIL, positionRow: 'center', positionColumn: 'top' });
+    }
   };
 
   const [mainGoodsListMap, setMainGoodsListMap] = useState<MainGoodsListResult | null>(null);
 
   const fetchMainGoodsListMap = async () => {
-    const data = await getMainGoodsListMap();
-    setMainGoodsListMap(data.result);
+    try {
+      const data = await getMainGoodsListMap();
+      setMainGoodsListMap(data.result);
+    } catch (err) {
+      pushToast({ text: MAIN_PAGE_FETCH_FAIL, positionRow: 'center', positionColumn: 'top' });
+    }
   };
 
   useEffect(() => {
