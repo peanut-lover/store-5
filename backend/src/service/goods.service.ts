@@ -135,12 +135,12 @@ async function updateGoods(body: UpdateGoodsBody, goodsId: number, uploadFileUrl
 
 // 비회원은 isWish를 확인하지 않습니다.
 async function getDetailById(goodsId: number, userId?: number): Promise<DetailGoodsResponse> {
-  const data = await GoodsRepository.findGoodsDetailById(goodsId);
+  const data = await GoodsRepository.getGoodsDetailById(goodsId);
   const imgs = data?.goodsImgs.map((goodsImg) => goodsImg.url);
   const res = JSON.parse(JSON.stringify(data));
   delete res.goodsImgs;
   if (data && userId) {
-    res.isWish = (await WishRepository.findWishCountByGoodsIdAndUserId(goodsId, userId)) > 0;
+    res.isWish = (await WishRepository.getWishCountByGoodsIdAndUserId(goodsId, userId)) > 0;
   }
   await GoodsRepository.increaseGoodsViewById(goodsId);
   return { ...res, goodsImgs: imgs };
@@ -151,8 +151,9 @@ async function getAllGoodsByUserId(page: number, limit: number, userId: number):
     throw new BadRequestError(INVALID_DATA);
   }
 
-  const totalCount = await WishRepository.findWishCountByUserId(userId);
+  const totalCount = await WishRepository.getWishCountByUserId(userId);
   const newPage = page > 0 ? Math.min(getTotalPage(totalCount, limit), page) : DEFAULT_START_PAGE;
+  page = Math.min(getTotalPage(totalCount, limit), page);
 
   const option: FindAllProps = {
     offset: pagination.calculateOffset(newPage, limit),
@@ -164,9 +165,9 @@ async function getAllGoodsByUserId(page: number, limit: number, userId: number):
     stock: -1,
   };
 
-  const wishSet = new Set(await WishRepository.findWishByUserId(userId));
-  const goodsSellCountAverage = await GoodsRepository.findSellCountAverage();
-  const goodsList = await GoodsRepository.findAllWishByUserId(option);
+  const wishSet = new Set(await WishRepository.getWishByUserId(userId));
+  const goodsSellCountAverage = await GoodsRepository.getSellCountAverage();
+  const goodsList = await GoodsRepository.getAllWishByUserId(option);
   if (!goodsList) throw new BadRequestError(GOODS_DB_ERROR);
 
   goodsList.forEach((goods) => {
@@ -226,7 +227,7 @@ async function getGoodsByOption(
     }
   }
 
-  const totalCount = await GoodsRepository.findTotalCountByOption(totalCountOption);
+  const totalCount = await GoodsRepository.getTotalCountByOption(totalCountOption);
   const newPage = page > 0 ? Math.min(getTotalPage(totalCount, limit), page) : DEFAULT_START_PAGE;
 
   const option: FindAllProps = {
@@ -240,9 +241,9 @@ async function getGoodsByOption(
     category: totalCountOption.category,
   };
 
-  const wishSet = userId && new Set(await WishRepository.findWishByUserId(userId));
-  const goodsSellCountAverage = await GoodsRepository.findSellCountAverage();
-  const goodsList = await GoodsRepository.findAllByOption(option);
+  const wishSet = userId && new Set(await WishRepository.getWishByUserId(userId));
+  const goodsSellCountAverage = await GoodsRepository.getSellCountAverage();
+  const goodsList = await GoodsRepository.getAllByOption(option);
 
   if (!goodsList) throw new BadRequestError(GOODS_DB_ERROR);
 
@@ -286,12 +287,12 @@ async function getMainGoodsListMap(userId?: number): Promise<{
     stock: 0,
   };
 
-  const goodsSellCountAverage = await GoodsRepository.findSellCountAverage();
-  const bestGoodsList = await GoodsRepository.findAllByOption(bestProps);
-  const latestGoodsList = await GoodsRepository.findAllByOption(latestProps);
-  const discountGoodsList = await GoodsRepository.findAllByOption(discountProps);
+  const goodsSellCountAverage = await GoodsRepository.getSellCountAverage();
+  const bestGoodsList = await GoodsRepository.getAllByOption(bestProps);
+  const latestGoodsList = await GoodsRepository.getAllByOption(latestProps);
+  const discountGoodsList = await GoodsRepository.getAllByOption(discountProps);
 
-  const wishSet = userId && new Set(await WishRepository.findWishByUserId(userId));
+  const wishSet = userId && new Set(await WishRepository.getWishByUserId(userId));
 
   bestGoodsList.forEach((goods) => {
     if (wishSet) goods.isWish = wishSet.has(goods.id);
@@ -328,9 +329,9 @@ async function getRandomGoodsList(goodsId: number, categoryName: string, limit: 
     throw new BadRequestError(INVALID_CATEGORY);
   }
 
-  const wishSet = userId && new Set(await WishRepository.findWishByUserId(userId));
-  const goodsSellCountAverage = await GoodsRepository.findSellCountAverage();
-  const goodsList = await GoodsRepository.findRandomGoods(goodsId, category.id, limit);
+  const wishSet = userId && new Set(await WishRepository.getWishByUserId(userId));
+  const goodsSellCountAverage = await GoodsRepository.getSellCountAverage();
+  const goodsList = await GoodsRepository.getRandomGoods(goodsId, category.id, limit);
 
   if (!goodsList) throw new BadRequestError(GOODS_DB_ERROR);
 
@@ -346,11 +347,11 @@ async function getRandomGoodsList(goodsId: number, categoryName: string, limit: 
 }
 
 async function getBestSellingGoodsForDashboard(): Promise<Goods[]> {
-  return GoodsRepository.findBestSellingGoods(BEST_SELLING_GOODS_LIMIT);
+  return GoodsRepository.getBestSellingGoods(BEST_SELLING_GOODS_LIMIT);
 }
 
 async function getGoodsStockById(goodsId: number): Promise<number> {
-  return await GoodsRepository.findStockById(goodsId);
+  return await GoodsRepository.getStockById(goodsId);
 }
 
 async function getGoodsImgById(goodsId: number): Promise<
