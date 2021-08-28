@@ -1,7 +1,7 @@
 export interface Category {
   id: number;
   name: string;
-  categories?: Category[];
+  categories: Category[];
 }
 
 export interface BestSelledCategory {
@@ -12,4 +12,10 @@ export interface BestSelledCategory {
 export interface CategoryView {
   name: string;
   view: number;
+}
+
+export interface CategoryWithParent {
+  id: number;
+  name: string;
+  parent: number;
 }

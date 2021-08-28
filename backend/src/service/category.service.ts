@@ -7,6 +7,9 @@ import {
   CategoryViewCountResponse,
 } from '../types/response/category.response';
 import { CategoryRepository } from '../repository/category.repository';
+import { BadRequestError } from '../errors/client.error';
+
+const NOT_FOUND_ERROR = '데이터가 존재하지 않습니다.';
 
 const BEST_LIST_LENGTH = 5;
 
@@ -61,7 +64,7 @@ async function getTopSellingCategory(): Promise<CategorySellCountResponse> {
   const categories: {
     [key: string]: number;
   } = {};
-  const goods = await GoodsRepository.findAllWithCategory();
+  const goods = await GoodsRepository.getAllWithCategory();
   goods.forEach((item) => {
     if (categories[item.category.name]) {
       categories[item.category.name] += item.countOfSell;
@@ -79,7 +82,7 @@ async function getTopSellingCategory(): Promise<CategorySellCountResponse> {
 
 async function getCategoryViews(): Promise<CategoryViewCountResponse> {
   const categoriesMap = new Map<string, number>();
-  const goodsList = await GoodsRepository.findAllWithCategory();
+  const goodsList = await GoodsRepository.getAllWithCategory();
 
   goodsList.forEach((goods) => {
     const categoryName = goods.category.name;
@@ -96,10 +99,17 @@ async function getCategoryViews(): Promise<CategoryViewCountResponse> {
   });
 }
 
+async function getCategoryByGoodsId(goodsId: number): Promise<Category> {
+  const goods = await GoodsRepository.getGoodsDetailById(goodsId);
+  if (!goods) throw new BadRequestError(NOT_FOUND_ERROR);
+  return goods.category;
+}
+
 export default {
   createCategory,
   getAllCategory,
   getCategoryGoodsCount,
   getTopSellingCategory,
   getCategoryViews,
+  getCategoryByGoodsId,
 };

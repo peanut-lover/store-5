@@ -1,3 +1,5 @@
+export type GoodsState = 'S' | 'T' | 'D';
+
 export interface CreatedGoods {
   id: number;
   title: string;
@@ -7,7 +9,7 @@ export interface CreatedGoods {
   countOfSell: number;
   isGreen: boolean;
   deliveryInfo: number;
-  state: string;
+  state: GoodsState;
   thumbnailUrl: string;
 }
 

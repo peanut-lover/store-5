@@ -1,7 +1,7 @@
 import { EntityManager, getRepository, In, Not } from 'typeorm';
 import { GoodsImg } from '../entity/GoodsImg';
 
-async function findGoodsImgById(goodsId: number): Promise<GoodsImg[]> {
+async function getGoodsImgById(goodsId: number): Promise<GoodsImg[]> {
   const goodsImgRepo = getRepository(GoodsImg);
   return await goodsImgRepo.find({
     where: { goods: goodsId },
@@ -26,7 +26,7 @@ async function deleteGoodsImgByGoodsId(transactionalEntityManager: EntityManager
 }
 
 export const GoodsImgRepository = {
-  findGoodsImgById,
+  getGoodsImgById,
   deleteGoodsImgByNotInImgIds,
   deleteGoodsImgByGoodsId,
 };
