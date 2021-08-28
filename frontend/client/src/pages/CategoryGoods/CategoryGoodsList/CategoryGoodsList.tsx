@@ -132,7 +132,7 @@ const CategoryGoodsList: React.FC<Props> = ({ category }) => {
             totalPage={goodsPaginationResult.meta.totalPage}
             currentPage={goodsPaginationResult.meta.page}
             setPage={setPage}
-          />{' '}
+          />
         </>
       ) : (
         <EmptyImageContainer>

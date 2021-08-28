@@ -123,6 +123,7 @@ const GoodsUploadModal: React.FC<Props> = ({ onClose, goods }) => {
 
   const getUploadGoodsState = (): string[] => {
     const newGoodsStates = [...Object.values(STATE_MAP)];
+    // goods가 없는 경우 신규 상품 등록이므로 상태 선택에 '삭제'가 없어야 합니다!
     if (!goods) {
       newGoodsStates.pop();
     }
