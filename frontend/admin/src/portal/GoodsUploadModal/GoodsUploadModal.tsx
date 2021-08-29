@@ -45,7 +45,7 @@ const GoodsUploadModal: React.FC<Props> = ({ onClose, goods }) => {
     formData.append('price', String(price));
     formData.append('stock', String(stock));
     formData.append('discountRate', String(discountRate));
-    formData.append('isGreen', checkGreen ? '1' : '0');
+    formData.append('isGreen', String(checkGreen));
     formData.append('deliveryInfo', `${deliveryInfo}`);
     formData.append('category', `${category}`);
     formData.append('state', convertGoodsState(goodsState));
