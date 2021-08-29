@@ -10,15 +10,14 @@ import {
   UpdateGoodsRequest,
 } from '../types/request/goods.request';
 import { uploadProductImages } from '../utils/aws.upload';
+import convertStringBooleanToBoolean from '../utils/convertStringBooleanToBoolean';
 
 async function createGoods(req: CreateGoodsRequest, res: Response) {
-  const { title, isGreen, stock, state, price, discountRate, category, deliveryInfo } = JSON.parse(
-    JSON.stringify(req.body)
-  );
+  const { title, isGreen, stock, state, price, discountRate, category, deliveryInfo } = req.body;
 
   const body: CreateGoodsBody = {
     title,
-    isGreen,
+    isGreen: convertStringBooleanToBoolean(isGreen),
     stock: Number(stock),
     state,
     price: Number(price),
@@ -41,11 +40,11 @@ async function createGoods(req: CreateGoodsRequest, res: Response) {
 async function updateGoods(req: UpdateGoodsRequest, res: Response) {
   const goodsId = Number(req.params.id);
   const { title, isGreen, stock, state, price, discountRate, category, deliveryInfo, thumbnailUrl, oldImages } =
-    JSON.parse(JSON.stringify(req.body));
+    req.body;
 
   const body: UpdateGoodsBody = {
     title,
-    isGreen,
+    isGreen: convertStringBooleanToBoolean(isGreen),
     stock: Number(stock),
     state,
     price: Number(price),
