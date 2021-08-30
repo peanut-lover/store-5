@@ -102,7 +102,11 @@ const GoodsItem: React.FC<Props> = ({
           {isNew && <NewTag />}
           {isSale && <SaleTag />}
         </TagContainer>
-        {thumbnailUrl ? <GoodsImage src={thumbnailUrl} /> : <GoodsEmptyImage />}
+        {thumbnailUrl ? (
+          <GoodsImage src={thumbnailUrl} />
+        ) : (
+          <GoodsEmptyImage> 이미지를 찾을 수 없습니다. </GoodsEmptyImage>
+        )}
 
         {isHoverGoodsImage && <></>}
         <GoodsImageOverlay />
@@ -182,7 +186,6 @@ const GoodsEmptyImage = styled.div<GoodsEmptyImageProps>`
   height: 350px;
   opacity: 0.8;
   background-color: ${(props) => props.theme.label};
-  // TODO: add backgrond-img;
 `;
 
 interface GoodsImageContainerProps {
@@ -239,8 +242,8 @@ const GoodsImage = styled.img`
   height: 100%;
   object-fit: cover;
   transform: scale(1);
-  filter: blur(1px);
-  -webkit-filter: blur(1px);
+  filter: blur(0.5px);
+  -webkit-filter: blur(0.5px);
   will-change: filter;
   will-change: transform;
   will-change: opacity;
