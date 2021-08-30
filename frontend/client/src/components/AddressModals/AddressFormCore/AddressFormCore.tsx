@@ -58,7 +58,9 @@ const AddressFormCore: React.FC<Props> = ({ address, onChangeAddress, disabled }
               value={zipCode}
               disabled={disabled}
               onChange={(event) => {
-                onChangeAddress?.({ ...address, zipCode: event.target.value });
+                const inputtedZipCode = event.target.value;
+                const trimmedZipCode = inputtedZipCode.replace(/[^0-9]/g, '');
+                onChangeAddress?.({ ...address, zipCode: trimmedZipCode });
               }}
             />
             <Input
