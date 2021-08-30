@@ -258,7 +258,7 @@ async function getMainGoodsListMap(userId?: number): Promise<{
   const bestProps: FindAllProps = {
     order: 'countOfSell',
     offset: 0,
-    sort: 'ASC',
+    sort: 'DESC',
     limit: 4,
     stock: 0,
   };
@@ -272,7 +272,7 @@ async function getMainGoodsListMap(userId?: number): Promise<{
   const discountProps: FindAllProps = {
     order: 'discountRate',
     offset: 0,
-    sort: 'ASC',
+    sort: 'DESC',
     limit: 8,
     stock: 0,
   };
