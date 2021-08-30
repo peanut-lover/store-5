@@ -1,6 +1,6 @@
 import React from 'react';
-import theme from '@src/theme/theme';
 import styled from 'styled-components';
+import theme from '@src/theme/theme';
 
 interface Props {
   flagLabel: string;

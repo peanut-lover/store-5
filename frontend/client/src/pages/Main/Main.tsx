@@ -1,15 +1,16 @@
 import React, { useEffect, useState } from 'react';
-import styled from 'styled-components';
-import { MainGoodsListResult } from '@src/types/Goods';
-import GoodsSection from '@src/components/GoodsSection/GoodsSection';
-import PromotionCarousel from '@src/components/PromotionCarousel/PromotionCarousel';
-import { Promotion } from '@src/types/Promotion';
-import { getMainGoodsListMap } from '@src/apis/goodsAPI';
-import PromotionAPI from '@src/apis/promotionAPI';
 import { useRecoilValue } from 'recoil';
 import { userState } from '@src/recoil/userState';
-import AdminFubButton from '@src/components/AdminFubButton/AdminFubButton';
+import styled from 'styled-components';
 import { usePushToast } from '@src/lib/ToastProvider/ToastProvider';
+import GoodsSection from '@src/components/GoodsSection/GoodsSection';
+import PromotionCarousel from '@src/components/PromotionCarousel/PromotionCarousel';
+import AdminFubButton from '@src/components/AdminFubButton/AdminFubButton';
+
+import { Promotion } from '@src/types/Promotion';
+import { MainGoodsListResult } from '@src/types/Goods';
+import PromotionAPI from '@src/apis/promotionAPI';
+import { getMainGoodsListMap } from '@src/apis/goodsAPI';
 
 const MAIN_PAGE_FETCH_FAIL = '상품 정보를 읽어보는데 실패했습니다.';
 

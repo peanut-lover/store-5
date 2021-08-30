@@ -1,8 +1,9 @@
+import React from 'react';
+import styled from 'styled-components';
+
 import Dim from '@src/components/Dim/Dim';
 import SigninForm from '@src/portal/LoginModal/SigninForm/SigninForm';
 import Portal from '@src/portal/portal';
-import React from 'react';
-import styled from 'styled-components';
 
 interface Props {
   onClose: () => void;

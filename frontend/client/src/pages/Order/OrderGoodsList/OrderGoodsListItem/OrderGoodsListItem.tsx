@@ -1,7 +1,7 @@
-import { GoodsBeforeOrder } from '@src/types/Goods';
-import { getDiscountedPrice, getPriceText } from '@src/utils/price';
 import React from 'react';
 import styled from 'styled-components';
+import { GoodsBeforeOrder } from '@src/types/Goods';
+import { getDiscountedPrice, getPriceText } from '@src/utils/price';
 
 interface Props {
   orderGoods: GoodsBeforeOrder;

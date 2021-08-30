@@ -1,9 +1,8 @@
-import HighlightedText from '@src/components/HighlightedText/HighlightedText';
-import useUserState from '@src/hooks/useUserState';
-import NavItem from '@src/pages/MyPage/MyPageNavBar/NavItem';
-import SubNav from '@src/pages/MyPage/MyPageNavBar/SubNav';
 import React from 'react';
 import styled from 'styled-components';
+
+import NavItem from '@src/pages/MyPage/MyPageNavBar/NavItem';
+import SubNav from '@src/pages/MyPage/MyPageNavBar/SubNav';
 
 const MyPageNavBar = () => {
   return (

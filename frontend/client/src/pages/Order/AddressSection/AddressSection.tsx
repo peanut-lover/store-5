@@ -8,6 +8,9 @@ import AddressCreateModal from '@src/components/AddressModals/AddressCreateModal
 import AddressManageModal from '@src/components/AddressModals/AddressManageModal/AddressManageModal';
 import { useEffect } from 'react';
 import { AddressAPI } from '@src/apis/addressAPI';
+import { usePushToast } from '@src/lib/ToastProvider/ToastProvider';
+
+const SERVER_MSG_MSG = '사용자의 주소정보를 가져오는데 실패했습니다.';
 
 interface Prop {
   onChangeSelectedAddress: (selectedAddress: AddressInfo | null) => void;
@@ -15,10 +18,11 @@ interface Prop {
 
 const AddressInfo: React.FC<Prop> = ({ onChangeSelectedAddress }) => {
   const [selectedAddress, setSelectedAddress] = useState<AddressInfo | null>(null);
-
   const [isAddressFetched, setIsAddressFetched] = useState(false);
-
   const [isModalOpened, setIsModalOpened] = useState(false);
+
+  const pushToast = usePushToast();
+
   const toggleIsSelectModalOpened = () => {
     setIsModalOpened(!isModalOpened);
   };
@@ -36,7 +40,7 @@ const AddressInfo: React.FC<Prop> = ({ onChangeSelectedAddress }) => {
         handleSelectedAddress(targetAddress);
         setIsAddressFetched(true);
       } catch (err) {
-        alert('서버 문제로 정보업데이트에 실패했습니다.');
+        pushToast({ text: SERVER_MSG_MSG });
         console.error(err);
       }
     }

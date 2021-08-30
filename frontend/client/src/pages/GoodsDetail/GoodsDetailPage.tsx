@@ -1,22 +1,23 @@
 import React, { useEffect, useState } from 'react';
 import styled from 'styled-components';
-import { DetailGoods } from '@src/types/Goods';
+import { useRecoilValue } from 'recoil';
 import { useParams, usePushHistory } from '@src/lib/CustomRouter/CustomRouter';
+
 import GoodsInfo from './GoodsInfo/GoodsInfo';
 import GoodsInteractive from './GoodsInteractive/GoodsInteractive';
 import GoodsImageSection from './GoodsImageSection/GoodsImageSection';
 import RelationSection from './RelationSection/RelationSection';
-import { getGoodsDetail } from '@src/apis/goodsAPI';
-import { usePushToast } from '@src/lib/ToastProvider/ToastProvider';
-import useRecentGoodsHistory from '@src/hooks/useRecentGoodsHistory';
-
-import theme from '@src/theme/theme';
-import { userState } from '@src/recoil/userState';
-import { useRecoilValue } from 'recoil';
-import useScrollToTop from '@src/hooks/useScrollToTop';
 import Loading from '@src/components/Loading/Loading';
 import ReviewContainer from '@src/components/ReviewContainer/ReviewContainer';
 import Divider from '@src/components/Divider/Divider';
+import { usePushToast } from '@src/lib/ToastProvider/ToastProvider';
+
+import { userState } from '@src/recoil/userState';
+import useRecentGoodsHistory from '@src/hooks/useRecentGoodsHistory';
+import useScrollToTop from '@src/hooks/useScrollToTop';
+import theme from '@src/theme/theme';
+import { DetailGoods } from '@src/types/Goods';
+import { getGoodsDetail } from '@src/apis/goodsAPI';
 
 const ERROR_SERVER = '서버 문제로 상품 정보 조회에 실패하였습니다!';
 

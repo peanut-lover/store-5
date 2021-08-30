@@ -74,7 +74,7 @@ const OrderItemImg = styled('img')`
 const OrderUserRowCell = styled('div')`
   display: flex;
   flex-direction: row;
-  justify-content: center;
+  justify-content: flex-start;
   align-items: center;
 `;
 

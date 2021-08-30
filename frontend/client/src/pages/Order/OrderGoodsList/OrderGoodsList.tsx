@@ -1,5 +1,5 @@
-import { GoodsBeforeOrder } from '@src/types/Goods';
 import React from 'react';
+import { GoodsBeforeOrder } from '@src/types/Goods';
 import OrderGoodsListItem from './OrderGoodsListItem/OrderGoodsListItem';
 
 interface Props {

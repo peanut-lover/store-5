@@ -1,16 +1,16 @@
 import React from 'react';
-import GlobalStyles from './GlobalStyles';
 import { Routes, Route, Router } from './lib/CustomRouter';
-import Header from '@src/components/Header/Header';
+import GlobalStyles from './GlobalStyles';
+import Header from './components/Header/Header';
+import CategoryGoods from './pages/CategoryGoods/CategoryGoods';
+import SideBar from './components/SideBar/SideBar';
+import Footer from './components/Footer/Footer';
 import Cart from './pages/Cart/CartPage';
 import Order from './pages/Order/OrderPage';
 import Main from './pages/Main/Main';
 import Goods from './pages/GoodsDetail/GoodsDetailPage';
 import MyPage from './pages/MyPage/MyPage';
-import CategoryGoods from '@src/pages/CategoryGoods/CategoryGoods';
 import KeywordGoods from './pages/KeywordGoods/KeywordGoods';
-import SideBar from '@src/components/SideBar/SideBar';
-import Footer from '@src/components/Footer/Footer';
 
 import styled from 'styled-components';
 

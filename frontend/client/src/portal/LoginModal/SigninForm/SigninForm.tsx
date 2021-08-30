@@ -1,7 +1,8 @@
-import GithubSignin from './GithubSignin/GithubSignin';
-import SampleSignin from './SampleSignin/SampleSignin';
 import React from 'react';
 import styled from 'styled-components';
+
+import GithubSignin from './GithubSignin/GithubSignin';
+import SampleSignin from './SampleSignin/SampleSignin';
 
 interface Props {
   onClose: () => void;
