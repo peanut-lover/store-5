@@ -23,7 +23,7 @@ async function signInGithub(code: string): Promise<number> {
     },
   });
 
-  user = await UserRepository.findByGitHubId(id);
+  user = await UserRepository.getByGitHubId(id);
 
   if (!user) {
     user = await UserRepository.create(id, removeBlank(name), profileImgUrl);
@@ -35,7 +35,7 @@ async function signInGithub(code: string): Promise<number> {
 async function getUserNameAndProfileImgUrlById(
   userId: number
 ): Promise<{ name: string; profileImgUrl: string; id: number; createdAt: string | Date } | null> {
-  const user = await UserRepository.findById(userId);
+  const user = await UserRepository.getById(userId);
   if (!user) return null;
   const { name, profileImgUrl, id, createdAt } = user;
   return { name, profileImgUrl, id, createdAt };
@@ -51,7 +51,7 @@ async function logout(session: Session): Promise<void> {
 
 async function validateForLogout(userId: SessionUserId): Promise<void> {
   if (userId) {
-    const user = await UserRepository.findById(+userId);
+    const user = await UserRepository.getById(+userId);
     if (!user) {
       throw new BadRequestError(INVALID_ACCESS);
     }

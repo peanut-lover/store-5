@@ -1,15 +1,18 @@
-import { createCart } from '@src/apis/cartAPI';
-import { getGoodsDetail, getGoodsStockCount } from '@src/apis/goodsAPI';
-import useUserState from '@src/hooks/useUserState';
+import React, { useCallback, useEffect, useState } from 'react';
+import styled from 'styled-components';
 import { usePushHistory } from '@src/lib/CustomRouter';
+
+import useUserState from '@src/hooks/useUserState';
 import { usePushToast } from '@src/lib/ToastProvider/ToastProvider';
 import MainImage from '@src/pages/GoodsDetail/GoodsImageSection/Mainimage/MainImage';
 import GoodsInfo from '@src/pages/GoodsDetail/GoodsInfo/GoodsInfo';
 import GoodsAmount from '@src/pages/GoodsDetail/GoodsInteractive/GoodsAmount/GoodsAmount';
+
 import theme from '@src/theme/theme';
+
 import { DetailGoods } from '@src/types/Goods';
-import React, { useCallback, useEffect, useState } from 'react';
-import styled from 'styled-components';
+import { getGoodsDetail, getGoodsStockCount } from '@src/apis/goodsAPI';
+import { createCart } from '@src/apis/cartAPI';
 
 interface Props {
   goodsId: number;

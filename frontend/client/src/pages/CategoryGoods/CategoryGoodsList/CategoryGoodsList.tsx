@@ -1,12 +1,16 @@
 import React, { useEffect, useState } from 'react';
 import styled from 'styled-components';
-import GoodsSection from '@src/components/GoodsSection/GoodsSection';
 import CategoryFlag from '@src/pages/CategoryGoods/CategoryGoodsList/CategoryFlag';
+import GoodsSection from '@src/components/GoodsSection/GoodsSection';
 import Paginator from '@src/components/Paginator/Paginator';
-import { GoodsPaginationResult } from '@src/types/Goods';
-import { getGoodsByCategory, GetGoodsByCategoryProps } from '@src/apis/goodsAPI';
 import useScrollToTop from '@src/hooks/useScrollToTop';
 import useUserState from '@src/hooks/useUserState';
+import Loading from '@src/components/AddressModals/Loading/Loading';
+
+import { GoodsPaginationResult } from '@src/types/Goods';
+import { getGoodsByCategory, GetGoodsByCategoryProps } from '@src/apis/goodsAPI';
+
+import emptyImgUrl from '@src/assets/empty-kim.gif';
 
 interface Props {
   category: string;
@@ -26,6 +30,9 @@ const flags = [
   { label: GoodsFlag.high, text: '높은 가격순' },
 ];
 
+const INVALID_CATEGORY = '존재하지 않는 카테고리 입니다!';
+const EMPTY_LIST = '상품이 존재하지 않습니다!';
+
 const LIMIT_COUNT_ITEMS_IN_PAGE = 8;
 const DEFAULT_START_PAGE = 1;
 
@@ -36,7 +43,8 @@ const convertAPIFlag = (flag: string) => (flag === 'low_price' || flag === 'high
 const CategoryGoodsList: React.FC<Props> = ({ category }) => {
   const [user] = useUserState();
 
-  const [goodsListMap, setGoodsListMap] = useState<GoodsPaginationResult | null>(null);
+  const [isLoading, setIsLoading] = useState<boolean>(true);
+  const [goodsPaginationResult, setgoodsPaginationResult] = useState<GoodsPaginationResult | null>(null);
   const [searchQuery, setSearchQuery] = useScrollToTop<GetGoodsByCategoryProps>({
     categoryName: category,
     page: DEFAULT_START_PAGE,
@@ -44,6 +52,7 @@ const CategoryGoodsList: React.FC<Props> = ({ category }) => {
   });
 
   const fetchGoodsList = async () => {
+    setIsLoading(true);
     try {
       const data = await getGoodsByCategory({
         ...searchQuery,
@@ -51,9 +60,11 @@ const CategoryGoodsList: React.FC<Props> = ({ category }) => {
         sort: getOrderByOption(searchQuery.flag),
         flag: convertAPIFlag(searchQuery.flag),
       });
-      setGoodsListMap(data.result);
+      setgoodsPaginationResult(data.result);
     } catch (e) {
-      setGoodsListMap(null);
+      setgoodsPaginationResult(null);
+    } finally {
+      setIsLoading(false);
     }
   };
 
@@ -88,28 +99,50 @@ const CategoryGoodsList: React.FC<Props> = ({ category }) => {
     setCategory(category);
   }, [category]);
 
+  if (isLoading) {
+    return <Loading />;
+  }
+  if (!goodsPaginationResult) {
+    return (
+      <EmptyImageContainer>
+        <img src={emptyImgUrl} />
+        <EmptyText>{INVALID_CATEGORY}</EmptyText>
+      </EmptyImageContainer>
+    );
+  }
+
   return (
-    // TODO: Empty UI 필요
-    goodsListMap && (
-      <CategoryGoodsListContainer>
-        <CategoryGoodsListHeader>
-          <CategoryGoodsListCount>총 {goodsListMap.meta.totalCount}개</CategoryGoodsListCount>
-          <CategoryFlagContainer>
-            {flags.map((flag) => (
-              <CategoryFlag
-                key={flag.label}
-                flagLabel={flag.label}
-                flagText={flag.text}
-                active={flag.label === searchQuery.flag}
-                setSearchFlag={setSearchFlag}
-              />
-            ))}
-          </CategoryFlagContainer>
-        </CategoryGoodsListHeader>
-        <GoodsSection goodsList={goodsListMap.goodsList} itemBoxSize='big' />
-        <Paginator totalPage={goodsListMap.meta.totalPage} currentPage={goodsListMap.meta.page} setPage={setPage} />
-      </CategoryGoodsListContainer>
-    )
+    <CategoryGoodsListContainer>
+      <CategoryGoodsListHeader>
+        <CategoryGoodsListCount>총 {goodsPaginationResult.meta.totalCount}개</CategoryGoodsListCount>
+        <CategoryFlagContainer>
+          {flags.map((flag) => (
+            <CategoryFlag
+              key={flag.label}
+              flagLabel={flag.label}
+              flagText={flag.text}
+              active={flag.label === searchQuery.flag}
+              setSearchFlag={setSearchFlag}
+            />
+          ))}
+        </CategoryFlagContainer>
+      </CategoryGoodsListHeader>
+      {goodsPaginationResult?.meta?.totalCount > 0 ? (
+        <>
+          <GoodsSection goodsList={goodsPaginationResult.goodsList} itemBoxSize='big' />
+          <Paginator
+            totalPage={goodsPaginationResult.meta.totalPage}
+            currentPage={goodsPaginationResult.meta.page}
+            setPage={setPage}
+          />
+        </>
+      ) : (
+        <EmptyImageContainer>
+          <img src={emptyImgUrl} />
+          <EmptyText>{EMPTY_LIST}</EmptyText>
+        </EmptyImageContainer>
+      )}
+    </CategoryGoodsListContainer>
   );
 };
 
@@ -122,6 +155,17 @@ const CategoryGoodsListHeader = styled.div`
   width: 100%;
   justify-content: space-between;
   font-size: 16px;
+`;
+
+const EmptyImageContainer = styled.div`
+  width: 100%;
+  margin: 10vh 0;
+  text-align: center;
+`;
+
+const EmptyText = styled.p`
+  font-size: 24px;
+  margin-top: 24px;
 `;
 
 const CategoryGoodsListCount = styled.div`

@@ -1,12 +1,11 @@
+import React from 'react';
+import styled from 'styled-components';
+
+import Dim from '@src/components/Dim/Dim';
 import ReviewForm from '@src/components/ReviewForm/ReviewForm';
 
 import Portal from '@src/portal/portal';
-
 import { Review } from '@src/types/Review';
-
-import React, { useCallback, useEffect, useRef } from 'react';
-
-import styled from 'styled-components';
 
 interface Props {
   goodsId: number;
@@ -17,18 +16,9 @@ interface Props {
 }
 
 const ReviewFormModal: React.FC<Props> = ({ goodsId, thumbnail, title, onClose, prevContents }) => {
-  const modalRef = useRef<HTMLDivElement>(null);
-  const handleClose = useCallback(
-    (e: React.MouseEvent<Element, MouseEvent>) => {
-      const el = e.target;
-      if (modalRef.current === el) onClose();
-    },
-    [onClose, modalRef.current]
-  );
-
   return (
     <Portal>
-      <ReviewFormContainer ref={modalRef} onMouseDown={handleClose}>
+      <Dim onClick={onClose}>
         <ReviewFormContent>
           <ReviewForm
             goodsId={goodsId}
@@ -38,21 +28,10 @@ const ReviewFormModal: React.FC<Props> = ({ goodsId, thumbnail, title, onClose, 
             prevContents={prevContents}
           />
         </ReviewFormContent>
-      </ReviewFormContainer>
+      </Dim>
     </Portal>
   );
 };
-
-const ReviewFormContainer = styled.div`
-  position: fixed;
-  z-index: 1000;
-  text-align: center;
-  background-color: #00000020;
-  top: 0;
-  left: 0;
-  right: 0;
-  bottom: 0;
-`;
 
 const ReviewFormContent = styled.div`
   position: absolute;

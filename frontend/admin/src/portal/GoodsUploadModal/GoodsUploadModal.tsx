@@ -1,24 +1,28 @@
 import React, { ChangeEvent, MouseEvent, useEffect, useState, useCallback } from 'react';
 
 import Portal from '../portal';
-import ProductImageUploader from './GoodsImageUploader/GoodsImageUploader';
+import GoodsImageUploader from './GoodsImageUploader/GoodsImageUploader';
 import { styled } from '@src/lib/CustomStyledComponent';
 import useInput from '../../hooks/useInput';
 import UploadContentLeft from '@src/portal/GoodsUploadModal/UploadContentLeft/UploadContentLeft';
 import UploadContentRight from '@src/portal/GoodsUploadModal/UploadContentRight/UploadContentRight';
 import { GoodsAPI } from '@src/apis/goodsAPI';
-import convertGoodsState from '@src/utils/convertGoodsState';
 import { GoodsItem } from '@src/types/Goods';
 import { GoodsImg } from '@src/types/GoodsImg';
 
 import CloseButton from '@src/components/CloseButton/CloseButton';
-
-const GOODS_STATES = ['판매중', '임시저장', '삭제'];
+import convertGoodsState from '@src/utils/convertGoodsState';
 
 interface Props {
   onClose: () => void;
   goods?: GoodsItem | null;
 }
+
+const STATE_MAP = {
+  S: '판매중',
+  T: '임시저장',
+  D: '삭제',
+};
 
 const GoodsUploadModal: React.FC<Props> = ({ onClose, goods }) => {
   const [files, setFiles] = useState<File[]>([]); // 이미지 file 저장
@@ -30,7 +34,7 @@ const GoodsUploadModal: React.FC<Props> = ({ onClose, goods }) => {
   const [discountRate, setDiscountRate] = useState<number>(goods?.discountRate ?? 0);
   const [checkGreen, setCheckGreen] = useState<boolean>(goods?.isGreen ?? false);
   const [category, setCategory] = useState<number>(goods?.category.id ?? 0);
-  const [productState, setProductState] = useState<string>(goods?.state ?? '');
+  const [goodsState, setGoodsState] = useState<string>(goods?.state ? STATE_MAP[goods.state] : STATE_MAP.S);
   const [deliveryInfo, setDeliveryInfo] = useState<number>(goods?.deliveryInfo ?? 0);
   const [submitActive, setSubmitActive] = useState<string>('');
 
@@ -41,10 +45,10 @@ const GoodsUploadModal: React.FC<Props> = ({ onClose, goods }) => {
     formData.append('price', String(price));
     formData.append('stock', String(stock));
     formData.append('discountRate', String(discountRate));
-    formData.append('isGreen', checkGreen ? '1' : '0');
+    formData.append('isGreen', String(checkGreen));
     formData.append('deliveryInfo', `${deliveryInfo}`);
     formData.append('category', `${category}`);
-    formData.append('state', convertGoodsState(productState));
+    formData.append('state', convertGoodsState(goodsState));
     if (oldImages.length > 0) {
       formData.append('oldImages', oldImages.map((image) => image.id).join());
       formData.append('thumbnailUrl', oldImages[0].url);
@@ -92,11 +96,11 @@ const GoodsUploadModal: React.FC<Props> = ({ onClose, goods }) => {
     [setCategory]
   );
 
-  const handleProductState = useCallback(
-    (productState: string) => {
-      setProductState(productState);
+  const handleGoodsState = useCallback(
+    (goodsState: string) => {
+      setGoodsState(goodsState);
     },
-    [setProductState]
+    [setGoodsState]
   );
 
   const handleDeliveryInfo = useCallback(
@@ -108,17 +112,18 @@ const GoodsUploadModal: React.FC<Props> = ({ onClose, goods }) => {
 
   const handleChangeDiscountRate = useCallback(
     (e: ChangeEvent<HTMLInputElement>) => {
-      const tmpNumber = Number(e.target.value);
-      if (isNaN(tmpNumber)) {
-        return;
-      }
-      setDiscountRate(tmpNumber);
+      const value = Number(e.target.value);
+      if (isNaN(value)) return;
+      if (value > 99 || value < 0) return;
+      if (!Number.isInteger(value)) return;
+      setDiscountRate(value);
     },
     [setDiscountRate]
   );
 
   const getUploadGoodsState = (): string[] => {
-    const newGoodsStates = [...GOODS_STATES];
+    const newGoodsStates = [...Object.values(STATE_MAP)];
+    // goods가 없는 경우 신규 상품 등록이므로 상태 선택에 '삭제'가 없어야 합니다!
     if (!goods) {
       newGoodsStates.pop();
     }
@@ -131,13 +136,13 @@ const GoodsUploadModal: React.FC<Props> = ({ onClose, goods }) => {
     };
     const checkFormIsValidated = () => {
       if (!(title.length > 0 && price > 0 && stock > 0)) return updateSubmitActiveFalse();
-      if (!productState) return updateSubmitActiveFalse();
+      if (!goodsState) return updateSubmitActiveFalse();
       if (deliveryInfo === 0 || category === 0) return updateSubmitActiveFalse();
       if (files.length === 0 && oldImages.length === 0) return updateSubmitActiveFalse();
       return setSubmitActive('true');
     };
     checkFormIsValidated();
-  }, [title, price, stock, category, productState, deliveryInfo, files, oldImages]);
+  }, [title, price, stock, category, goodsState, deliveryInfo, files, oldImages]);
 
   const fetchGoodsImgs = async (goodsId: number) => {
     try {
@@ -153,11 +158,12 @@ const GoodsUploadModal: React.FC<Props> = ({ onClose, goods }) => {
       fetchGoodsImgs(goods.id);
     }
   }, []);
+
   return (
     <Portal>
       <ModalContainer onClick={() => onClose()}>
-        <ProductUploadContainer onClick={(e) => e.stopPropagation()}>
-          <ProductImageUploader
+        <GoodsUploadContainer onClick={(e) => e.stopPropagation()}>
+          <GoodsImageUploader
             onHandleUpdateFiles={handleUpdateFiles}
             onHandleDeleteFile={handleDeleteFile}
             oldImages={oldImages}
@@ -180,8 +186,10 @@ const GoodsUploadModal: React.FC<Props> = ({ onClose, goods }) => {
                 onHandleCheckGreen={handleCheckGreen}
                 onHandleDeliveryInfo={handleDeliveryInfo}
                 onHandleCategory={handleCategory}
-                onHandleProductState={handleProductState}
+                onHandleGoodsState={handleGoodsState}
+                goods={goods}
                 goodsStates={getUploadGoodsState()}
+                selectedGoodsState={goodsState}
               />
             </UploadContentRightContainer>
           </UploadContentContainer>
@@ -189,7 +197,7 @@ const GoodsUploadModal: React.FC<Props> = ({ onClose, goods }) => {
             {goods ? '상품 수정' : '상품 등록'}
           </SubmitButton>
           <CloseButton onClick={onClose} />
-        </ProductUploadContainer>
+        </GoodsUploadContainer>
       </ModalContainer>
     </Portal>
   );
@@ -206,7 +214,7 @@ const ModalContainer = styled('div')`
   bottom: 0;
 `;
 
-const ProductUploadContainer = styled('div')`
+const GoodsUploadContainer = styled('div')`
   position: absolute;
   top: 50%;
   left: 50%;

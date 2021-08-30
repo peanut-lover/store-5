@@ -1,11 +1,11 @@
 import React, { useCallback } from 'react';
 import styled from 'styled-components';
-import theme from '@src/theme/theme';
+import RollingNumberMaker from '@src/components/RollingNumberMaker/RollingNumberMaker';
 import { getDiscountedPrice, getPriceText } from '@src/utils/price';
+
 import { FaAngleUp } from '@react-icons/all-files/fa/FaAngleUp';
 import { FaAngleDown } from '@react-icons/all-files/fa/FaAngleDown';
-import RollingNumber from '@src/components/RollingNumberMaker/RollingNumberMaker';
-import RollingNumberMaker from '@src/components/RollingNumberMaker/RollingNumberMaker';
+import theme from '@src/theme/theme';
 
 function getTotalPrice(amount: number, price: number, deliveryFee: number, discountRate: number) {
   if (amount === 0) return 0;

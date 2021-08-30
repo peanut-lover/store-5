@@ -1,6 +1,7 @@
-import theme from '@src/theme/theme';
-import React, { useState } from 'react';
+import React from 'react';
 import styled from 'styled-components';
+
+import theme from '@src/theme/theme';
 import ImageItem from './ImageItem/ImageItem';
 
 interface Props {

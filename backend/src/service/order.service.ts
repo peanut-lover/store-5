@@ -3,7 +3,6 @@ import { OrderItem } from './../entity/OrderItem';
 import { CreateOrderBody } from './../types/request/order.request';
 import { Order } from '../entity/Order';
 import { OrderListRepository } from '../repository/order.list.repository';
-import { OrderItemRepository } from '../repository/order.item.repository';
 import { GoodsRepository } from '../repository/goods.repository';
 import { BadRequestError } from '../errors/client.error';
 import { INVALID_DATA } from '../constants/client.error.name';
@@ -12,10 +11,11 @@ import { OrderListPaginationResponse } from '../types/response/order.response';
 import { getTotalPage, pagination } from '../utils/pagination';
 import { PaginationProps } from '../types/Pagination';
 import { PaymentRepository } from '../repository/payment.repository';
-import CartService from './cart.service';
 import { GoodsService } from './goods.service';
 import { getConnection, EntityManager } from 'typeorm';
 import { Cart } from '../entity/Cart';
+
+const DEFAULT_START_PAGE = 1;
 
 async function getOwnOrdersPagination(
   { page, limit }: GetAllOrderByUserIdProps,
@@ -23,7 +23,7 @@ async function getOwnOrdersPagination(
 ): Promise<OrderListPaginationResponse> {
   const totalCount = await OrderListRepository.getOwnOrderTotalCount(userId);
 
-  const newPage = Math.min(getTotalPage(totalCount, limit), page);
+  const newPage = page > 0 ? Math.min(getTotalPage(totalCount, limit), page) : DEFAULT_START_PAGE;
 
   const option: PaginationProps = {
     offset: pagination.calculateOffset(newPage, limit),
@@ -46,7 +46,7 @@ async function getOwnOrdersPagination(
 async function getAllOrdersPagination({ page, limit }: GetAllOrderByUserIdProps): Promise<OrderListPaginationResponse> {
   const totalCount = await OrderListRepository.getAllOrderTotalCount();
 
-  const newPage = Math.min(getTotalPage(totalCount, limit), page);
+  const newPage = page > 0 ? Math.min(getTotalPage(totalCount, limit), page) : DEFAULT_START_PAGE;
 
   const option: PaginationProps = {
     offset: pagination.calculateOffset(newPage, limit),
@@ -104,7 +104,7 @@ async function createOrderItem(
   orderedItem: OrderGoods,
   orderId: number
 ): Promise<void> {
-  const goods = await GoodsRepository.findGoodsDetailById(orderedItem.id);
+  const goods = await GoodsRepository.getGoodsDetailById(orderedItem.id);
   if (!goods) throw new BadRequestError(INVALID_DATA + `(id:${orderId}는 존재하지않는 상품입니다.)`);
 
   const { price, discountRate, state } = goods;

@@ -1,13 +1,15 @@
 import React, { useEffect, useState } from 'react';
-import Topic from '@src/components/Topic/Topic';
 import styled from 'styled-components';
+
+import Topic from '@src/components/Topic/Topic';
+import Avatar from '@src/components/Avatar/Avatar';
+
 import useUserState from '@src/hooks/useUserState';
 import { getCarts } from '@src/apis/cartAPI';
 import { usePushToast } from '@src/lib/ToastProvider/ToastProvider';
 import { getMyWishGoods } from '@src/apis/goodsAPI';
 import { getOrders } from '@src/apis/orderAPI';
 import { usePushHistory } from '@src/lib/CustomRouter';
-import Avatar from '@src/components/Avatar/Avatar';
 import { convertYYYYMMDD } from '@src/utils/dateHelper';
 
 const MyProfileView = () => {

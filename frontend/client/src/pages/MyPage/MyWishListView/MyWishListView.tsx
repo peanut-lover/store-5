@@ -1,12 +1,14 @@
-import { getMyWishGoods } from '@src/apis/goodsAPI';
-import GoodsSection from '@src/components/GoodsSection/GoodsSection';
-import HighlightedText from '@src/components/HighlightedText/HighlightedText';
-import Paginator from '@src/components/Paginator/Paginator';
-import Topic from '@src/components/Topic/Topic';
-import { usePushToast } from '@src/lib/ToastProvider/ToastProvider';
-import { GoodsPaginationResult } from '@src/types/Goods';
 import React, { useEffect, useState } from 'react';
 import styled from 'styled-components';
+
+import GoodsSection from '@src/components/GoodsSection/GoodsSection';
+import Paginator from '@src/components/Paginator/Paginator';
+import Topic from '@src/components/Topic/Topic';
+
+import { usePushToast } from '@src/lib/ToastProvider/ToastProvider';
+import { GoodsPaginationResult } from '@src/types/Goods';
+import { getMyWishGoods } from '@src/apis/goodsAPI';
+
 import emptyCartImgUrl from '@src/assets/empty-cart.png';
 
 const DEFAULT_START_PAGE = 1;

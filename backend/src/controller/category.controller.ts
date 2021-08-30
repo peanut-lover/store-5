@@ -34,10 +34,17 @@ async function getCategoryViews(req: Request, res: Response) {
   res.status(200).json({ result });
 }
 
+async function getCategoryByGoodsId(req: Request, res: Response) {
+  const goodsId = Number(req.params.id);
+  const result = await CategoryService.getCategoryByGoodsId(goodsId);
+  res.status(200).json({ result });
+}
+
 export default {
   createCategory,
   getAllCategory,
   getCategoryGoodsCounts,
   getTopSellingCategory,
   getCategoryViews,
+  getCategoryByGoodsId,
 };

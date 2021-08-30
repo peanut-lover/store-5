@@ -1,8 +1,10 @@
+import React from 'react';
+import styled from 'styled-components';
+
 import HighlightedText from '@src/components/HighlightedText/HighlightedText';
 import { Order } from '@src/types/Order';
 import { convertYYYYMMDD } from '@src/utils/dateHelper';
-import React, { useState } from 'react';
-import styled from 'styled-components';
+
 import OrderItemCard from './OrderItemCard';
 
 interface Props {

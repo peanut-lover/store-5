@@ -15,12 +15,20 @@ export type UpdateGoodsBody = CreateGoodsBody & {
   thumbnailUrl?: string;
 };
 
+type CreateGoodsRequestBody = CreateGoodsBody & {
+  isGreen: 'true' | 'false';
+};
+
+type UpdateGoodsRequestBody = UpdateGoodsBody & {
+  isGreen: 'true' | 'false';
+};
+
 export interface CreateGoodsRequest extends Request {
-  body: CreateGoodsBody;
+  body: CreateGoodsRequestBody;
 }
 
 export interface UpdateGoodsRequest extends Request {
-  body: UpdateGoodsBody;
+  body: UpdateGoodsRequestBody;
 }
 
 export type GetAllGoodsQuery = {

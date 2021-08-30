@@ -1,6 +1,6 @@
-import { usePushHistory } from '@src/lib/CustomRouter/CustomRouter';
 import React from 'react';
 import styled from 'styled-components';
+import { usePushHistory } from '@src/lib/CustomRouter/CustomRouter';
 import emptyCartImgUrl from '@src/assets/empty-cart.png';
 
 const EmptyCart: React.FC = () => {

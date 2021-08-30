@@ -1,29 +1,42 @@
 import React, { useEffect, useState } from 'react';
-import styled from 'styled-components';
-import { MainGoodsListResult } from '@src/types/Goods';
-import GoodsSection from '@src/components/GoodsSection/GoodsSection';
-import PromotionCarousel from '@src/components/PromotionCarousel/PromotionCarousel';
-import { Promotion } from '@src/types/Promotion';
-import { getMainGoodsListMap } from '@src/apis/goodsAPI';
-import PromotionAPI from '@src/apis/promotionAPI';
 import { useRecoilValue } from 'recoil';
 import { userState } from '@src/recoil/userState';
+import styled from 'styled-components';
+import { usePushToast } from '@src/lib/ToastProvider/ToastProvider';
+import GoodsSection from '@src/components/GoodsSection/GoodsSection';
+import PromotionCarousel from '@src/components/PromotionCarousel/PromotionCarousel';
 import AdminFubButton from '@src/components/AdminFubButton/AdminFubButton';
+
+import { Promotion } from '@src/types/Promotion';
+import { MainGoodsListResult } from '@src/types/Goods';
+import PromotionAPI from '@src/apis/promotionAPI';
+import { getMainGoodsListMap } from '@src/apis/goodsAPI';
+
+const MAIN_PAGE_FETCH_FAIL = '상품 정보를 읽어보는데 실패했습니다.';
 
 const Main = () => {
   const [promotions, setPromotions] = useState<Promotion[]>([]);
   const userRecoil = useRecoilValue(userState);
+  const pushToast = usePushToast();
 
   const fetchPromotions = async () => {
-    const { result } = await PromotionAPI.getPromotions();
-    setPromotions(result);
+    try {
+      const { result } = await PromotionAPI.getPromotions();
+      setPromotions(result);
+    } catch (err) {
+      pushToast({ text: MAIN_PAGE_FETCH_FAIL, positionRow: 'center', positionColumn: 'top' });
+    }
   };
 
   const [mainGoodsListMap, setMainGoodsListMap] = useState<MainGoodsListResult | null>(null);
 
   const fetchMainGoodsListMap = async () => {
-    const data = await getMainGoodsListMap();
-    setMainGoodsListMap(data.result);
+    try {
+      const data = await getMainGoodsListMap();
+      setMainGoodsListMap(data.result);
+    } catch (err) {
+      pushToast({ text: MAIN_PAGE_FETCH_FAIL, positionRow: 'center', positionColumn: 'top' });
+    }
   };
 
   useEffect(() => {
@@ -39,8 +52,8 @@ const Main = () => {
         </PromotionContainer>
         <MainContentContainer>
           <GoodsSection sectionTitle='잘나가요' goodsList={mainGoodsListMap.bestGoodsList} itemBoxSize='big' />
-          <GoodsSection sectionTitle='새로 나왔어요' goodsList={mainGoodsListMap.discountGoodsList} itemBoxSize='big' />
-          <GoodsSection sectionTitle='지금 할인 중' goodsList={mainGoodsListMap.latestGoodsList} itemBoxSize='big' />
+          <GoodsSection sectionTitle='새로 나왔어요' goodsList={mainGoodsListMap.latestGoodsList} itemBoxSize='big' />
+          <GoodsSection sectionTitle='지금 할인 중' goodsList={mainGoodsListMap.discountGoodsList} itemBoxSize='big' />
         </MainContentContainer>
         <AdminFubButton />
       </>

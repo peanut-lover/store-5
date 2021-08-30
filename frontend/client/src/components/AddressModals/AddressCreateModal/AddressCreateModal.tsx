@@ -4,6 +4,7 @@ import React, { useState } from 'react';
 import AddressForm from '../AddressForm/AddressForm';
 import Loading from '../Loading/Loading';
 import Modal from '../Modal/Modal';
+import { usePushToast } from '@src/lib/ToastProvider/ToastProvider';
 
 interface Props {
   onClose?: () => void;
@@ -12,6 +13,7 @@ interface Props {
 
 const AddressCreateModal: React.FC<Props> = ({ onClose, onSelect }) => {
   const [disabled, setDisabled] = useState(false);
+  const pushToast = usePushToast();
 
   const handleSubmit = async (address: AddressCore) => {
     setDisabled(true);
@@ -19,7 +21,8 @@ const AddressCreateModal: React.FC<Props> = ({ onClose, onSelect }) => {
       const { result } = await AddressAPI.createAddress(address);
       onSelect?.(result);
     } catch (err) {
-      alert('서버 문제로 정보업데이트에 실패했습니다.');
+      pushToast({ text: '정보 업데이트에 실패했습니다.' });
+
       console.error(err);
     } finally {
       setDisabled(false);

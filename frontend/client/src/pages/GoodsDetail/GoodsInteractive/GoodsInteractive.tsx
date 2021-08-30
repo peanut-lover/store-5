@@ -1,14 +1,15 @@
+import React, { useState, useCallback, useEffect } from 'react';
 import GoodsButtons from './GoodsButtons/GoodsButtons';
 import GoodsAmount from './GoodsAmount/GoodsAmount';
+
 import { DetailGoods, GoodsBeforeOrder } from '@src/types/Goods';
-import React, { useState, useCallback, useEffect } from 'react';
 import { deleteWish, postWish } from '@src/apis/wishAPI';
 import { getGoodsStockCount } from '@src/apis/goodsAPI';
 import { createCart } from '@src/apis/cartAPI';
 import usePushToOrderPage from '@src/hooks/usePushToOrderPage';
 import { usePushHistory } from '@src/lib/CustomRouter';
-import theme from '@src/theme/theme';
 import { usePushToast } from '@src/lib/ToastProvider/ToastProvider';
+import theme from '@src/theme/theme';
 
 interface Props {
   goods: DetailGoods;

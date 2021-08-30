@@ -1,7 +1,7 @@
 import React, { useState, useEffect } from 'react';
+import GoodsSection from '@src/components/GoodsSection/GoodsSection';
 import { ThumbnailGoods } from '@src/types/Goods';
 import { getRelationGoods } from '@src/apis/goodsAPI';
-import GoodsSection from '@src/components/GoodsSection/GoodsSection';
 
 interface Props {
   goodsId: number;

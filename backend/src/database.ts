@@ -57,7 +57,7 @@ async function populate() {
 }
 
 async function createDefaultUser(name: string) {
-  const result = await UserRepository.findByGitHubId('1');
+  const result = await UserRepository.getByGitHubId('1');
   if (!result) {
     await UserRepository.create(
       '1',
