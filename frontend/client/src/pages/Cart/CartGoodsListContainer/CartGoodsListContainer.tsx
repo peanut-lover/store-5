@@ -1,10 +1,9 @@
-import React, { useMemo, useCallback } from 'react';
+import React, { useMemo, useCallback, useState } from 'react';
 import styled from 'styled-components';
 
 import { CartGoods } from '@src/types/Goods';
 import CheckButtonWithLabel from '@src/components/CheckButtonWithLabel/CheckButtonWithLabel';
 import CartGoodsListItem from './CartGoodsListItem/CartGoodsListItem';
-import { useState } from 'react';
 import ConfirmModal from '@src/components/ConfirmModal/ConfirmModal';
 
 const LABEL_TEXT_CLEAR_ALL = '선택해제';

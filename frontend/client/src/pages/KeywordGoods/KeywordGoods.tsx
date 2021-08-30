@@ -1,13 +1,17 @@
 import React, { useEffect, useState } from 'react';
 import styled from 'styled-components';
 import { useParams } from '@src/lib/CustomRouter';
-import { getGoodsByKeyword } from '@src/apis/goodsAPI';
+
 import GoodsSection from '@src/components/GoodsSection/GoodsSection';
 import Paginator from '@src/components/Paginator/Paginator';
-import { GoodsPaginationResult } from '@src/types/Goods';
 import Loading from '@src/components/Loading/Loading';
-import emptyImgUrl from '@src/assets/empty-kim.gif';
+
 import useUserState from '@src/hooks/useUserState';
+import { GoodsPaginationResult } from '@src/types/Goods';
+import { getGoodsByKeyword } from '@src/apis/goodsAPI';
+
+import emptyImgUrl from '@src/assets/empty-kim.gif';
+
 const LIMIT_COUNT_ITEMS_IN_PAGE = 8;
 const DEFAULT_START_PAGE = 1;
 

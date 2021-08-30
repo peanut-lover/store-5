@@ -1,8 +1,8 @@
 import React from 'react';
-import GoodsItemList from '@src/components/GoodsItemList/GoodsItemList';
-import { ThumbnailGoods } from '@src/types/Goods';
 import styled from 'styled-components';
+import { ThumbnailGoods } from '@src/types/Goods';
 import { GoodsItemSize } from '@src/components/GoodsItem/GoodsItem';
+import GoodsItemList from '@src/components/GoodsItemList/GoodsItemList';
 
 interface Props {
   sectionTitle?: string;

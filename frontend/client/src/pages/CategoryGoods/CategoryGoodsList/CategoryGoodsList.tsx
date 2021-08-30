@@ -1,14 +1,16 @@
 import React, { useEffect, useState } from 'react';
 import styled from 'styled-components';
-import GoodsSection from '@src/components/GoodsSection/GoodsSection';
 import CategoryFlag from '@src/pages/CategoryGoods/CategoryGoodsList/CategoryFlag';
+import GoodsSection from '@src/components/GoodsSection/GoodsSection';
 import Paginator from '@src/components/Paginator/Paginator';
-import { GoodsPaginationResult } from '@src/types/Goods';
-import { getGoodsByCategory, GetGoodsByCategoryProps } from '@src/apis/goodsAPI';
 import useScrollToTop from '@src/hooks/useScrollToTop';
 import useUserState from '@src/hooks/useUserState';
-import emptyImgUrl from '@src/assets/empty-kim.gif';
 import Loading from '@src/components/AddressModals/Loading/Loading';
+
+import { GoodsPaginationResult } from '@src/types/Goods';
+import { getGoodsByCategory, GetGoodsByCategoryProps } from '@src/apis/goodsAPI';
+
+import emptyImgUrl from '@src/assets/empty-kim.gif';
 
 interface Props {
   category: string;

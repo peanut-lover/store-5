@@ -1,12 +1,13 @@
-import { usePushHistory } from '@src/lib/CustomRouter/CustomRouter';
 import React, { useCallback, useEffect, useState } from 'react';
 import styled from 'styled-components';
 import { BestTag, GreenTag, NewTag, SaleTag } from '../Tag';
+
+import { usePushHistory } from '@src/lib/CustomRouter/CustomRouter';
 import { getPriceText } from '@src/utils/price';
 import { deleteWish, postWish } from '@src/apis/wishAPI';
-import theme from '@src/theme/theme';
-import useUserState from '@src/hooks/useUserState';
 import { usePushToast } from '@src/lib/ToastProvider/ToastProvider';
+import useUserState from '@src/hooks/useUserState';
+import theme from '@src/theme/theme';
 
 import { FaRegHeart } from '@react-icons/all-files/fa/FaRegHeart';
 import { FaHeart } from '@react-icons/all-files/fa/FaHeart';

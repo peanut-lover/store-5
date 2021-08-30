@@ -1,9 +1,8 @@
+import React, { useState, useEffect } from 'react';
 import { getPayments } from '@src/apis/paymentAPI';
 import CheckButtonWithLabel from '@src/components/CheckButtonWithLabel/CheckButtonWithLabel';
 import { usePushToast } from '@src/lib/ToastProvider/ToastProvider';
 import { Payment } from '@src/types/Payment';
-import React, { useState } from 'react';
-import { useEffect } from 'react';
 
 const SERVER_ERROR_MSG = '결제 수단 리스트를 가져오는데 실패했습니다.';
 

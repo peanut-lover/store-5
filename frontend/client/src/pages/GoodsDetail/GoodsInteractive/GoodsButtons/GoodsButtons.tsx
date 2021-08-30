@@ -1,8 +1,8 @@
 import React from 'react';
 import styled from 'styled-components';
-import theme from '@src/theme/theme';
-import useUserState from '@src/hooks/useUserState';
 import { usePushToast } from '@src/lib/ToastProvider/ToastProvider';
+import useUserState from '@src/hooks/useUserState';
+import theme from '@src/theme/theme';
 
 import { FaRegHeart } from '@react-icons/all-files/fa/FaRegHeart';
 import { FaHeart } from '@react-icons/all-files/fa/FaHeart';

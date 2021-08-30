@@ -1,13 +1,11 @@
+import React from 'react';
+import styled from 'styled-components';
+
 import Dim from '@src/components/Dim/Dim';
 import ReviewForm from '@src/components/ReviewForm/ReviewForm';
 
 import Portal from '@src/portal/portal';
-
 import { Review } from '@src/types/Review';
-
-import React from 'react';
-
-import styled from 'styled-components';
 
 interface Props {
   goodsId: number;

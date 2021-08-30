@@ -1,7 +1,7 @@
 import React, { useCallback, useState } from 'react';
+import styled from 'styled-components';
 import GoodsItem, { GoodsItemSize } from '@src/components/GoodsItem/GoodsItem';
 import { Goods } from '@src/types/Goods';
-import styled from 'styled-components';
 import CartModal from '@src/portal/CartModal/CartModal';
 
 interface Props {
