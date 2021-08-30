@@ -1,8 +1,11 @@
 import { getPayments } from '@src/apis/paymentAPI';
 import CheckButtonWithLabel from '@src/components/CheckButtonWithLabel/CheckButtonWithLabel';
+import { usePushToast } from '@src/lib/ToastProvider/ToastProvider';
 import { Payment } from '@src/types/Payment';
 import React, { useState } from 'react';
 import { useEffect } from 'react';
+
+const SERVER_ERROR_MSG = '결제 수단 리스트를 가져오는데 실패했습니다.';
 
 interface Props {
   selectedPaymentId: number | null;
@@ -12,6 +15,7 @@ interface Props {
 const PaymentRadioSelector: React.FC<Props> = ({ selectedPaymentId, onSelectPayment }) => {
   const [payments, setPayments] = useState<Payment[]>([]);
   const [isFetched, setIsFetched] = useState(false);
+  const pushToast = usePushToast();
 
   useEffect(() => {
     async function fetchPayments() {
@@ -20,7 +24,7 @@ const PaymentRadioSelector: React.FC<Props> = ({ selectedPaymentId, onSelectPaym
         setPayments(result);
         setIsFetched(true);
       } catch (err) {
-        alert('서버 문제로 정보업데이트에 실패했습니다.');
+        pushToast({ text: SERVER_ERROR_MSG });
         console.error(err);
       }
     }

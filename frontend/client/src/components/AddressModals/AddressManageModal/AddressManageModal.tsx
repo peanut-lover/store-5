@@ -6,6 +6,9 @@ import AddressSelectPage from './AddressSelectPage/AddressSelectPage';
 import AddressUpdatePage from './AddressUpdatePage/AddressUpdatePage';
 import Loading from '../Loading/Loading';
 import Modal from '../Modal/Modal';
+import { usePushToast } from '@src/lib/ToastProvider/ToastProvider';
+
+const SERVER_ERROR_MSG = '서버 문제로 주소 정보 업데이트에 실패했습니다.';
 
 interface Props {
   onClose?: () => void;
@@ -29,6 +32,7 @@ const AddressManageModal: React.FC<Props> = ({ onClose, onSelect }) => {
   const [disabled, setDisabled] = useState(false);
   const [page, setPage] = useState<AddressModalPage>(defaultPage);
   const [addresses, setAddresses] = useState<AddressInfo[]>([]);
+  const pushToast = usePushToast();
 
   const handleSelect = (address: AddressInfo) => {
     onSelect?.(address);
@@ -42,7 +46,7 @@ const AddressManageModal: React.FC<Props> = ({ onClose, onSelect }) => {
       setDisabled(false);
       handleGoToSelectPage();
     } catch (err) {
-      alert('서버 문제로 정보업데이트에 실패했습니다.');
+      pushToast({ text: SERVER_ERROR_MSG });
       console.error(err);
     }
   };
@@ -55,7 +59,7 @@ const AddressManageModal: React.FC<Props> = ({ onClose, onSelect }) => {
       handleGoToSelectPage();
     } catch (err) {
       console.error(err);
-      alert('서버에서 Address를 업데이트하는데 실패했습니다.');
+      pushToast({ text: SERVER_ERROR_MSG });
       onClose?.();
     }
   };
@@ -68,7 +72,7 @@ const AddressManageModal: React.FC<Props> = ({ onClose, onSelect }) => {
       handleGoToSelectPage();
     } catch (err) {
       console.error(err);
-      alert('서버에서 Address를 삭제하는데 실패했습니다.');
+      pushToast({ text: SERVER_ERROR_MSG });
       onClose?.();
     }
   };
@@ -82,7 +86,7 @@ const AddressManageModal: React.FC<Props> = ({ onClose, onSelect }) => {
       setDisabled(false);
     } catch (err) {
       console.error(err);
-      alert('서버에서 Address를 가져오는데 실패했습니다.');
+      pushToast({ text: SERVER_ERROR_MSG });
       onClose?.();
     }
   };
@@ -99,7 +103,7 @@ const AddressManageModal: React.FC<Props> = ({ onClose, onSelect }) => {
       setPage({ title: '배송지 수정', component: AddressUpdatePage, address: result });
     } catch (err) {
       console.error(err);
-      alert('서버에서 Address를 가져오는데 실패했습니다.');
+      pushToast({ text: SERVER_ERROR_MSG });
       onClose?.();
     }
   };
