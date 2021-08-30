@@ -52,8 +52,8 @@ const Main = () => {
         </PromotionContainer>
         <MainContentContainer>
           <GoodsSection sectionTitle='잘나가요' goodsList={mainGoodsListMap.bestGoodsList} itemBoxSize='big' />
-          <GoodsSection sectionTitle='새로 나왔어요' goodsList={mainGoodsListMap.discountGoodsList} itemBoxSize='big' />
-          <GoodsSection sectionTitle='지금 할인 중' goodsList={mainGoodsListMap.latestGoodsList} itemBoxSize='big' />
+          <GoodsSection sectionTitle='새로 나왔어요' goodsList={mainGoodsListMap.latestGoodsList} itemBoxSize='big' />
+          <GoodsSection sectionTitle='지금 할인 중' goodsList={mainGoodsListMap.discountGoodsList} itemBoxSize='big' />
         </MainContentContainer>
         <AdminFubButton />
       </>
