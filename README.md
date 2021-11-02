@@ -51,13 +51,13 @@ node ./dist/bundle.js
 
 ### 환경설정 파일 양식
 
-```json
-FE `dotenv` template
-
+- FE `dotenv` template
+```
 OAUTH_GITHUB_SIGN_URL=
+```
+- BE `dotenv` template
 
-BE `dotenv` template
-
+```
 DATABASE_NAME=
 DATABASE_HOST=
 DATABASE_PORT=
@@ -140,8 +140,9 @@ AWS_S3_UPLOAD_FILE_URL=
 
 ### package 명령어
 
+- client/package.json
 ```json
-// frontend
+...
 "scripts": {
   "dev": "webpack serve --config webpack.dev.js --progress", // 개발용 서버 실행
   "build": "webpack --config webpack.prod.js", // 웹팩 번들링 실행
@@ -149,8 +150,11 @@ AWS_S3_UPLOAD_FILE_URL=
   "test": "jest", // 테스트 코드 실행
   "test:coverage": "jest --coverage" // 테스트 커버리지 실행
 }
+```
 
-// backend
+- server/package.json
+```
+...
 "scripts": {
   "dev": "nodemon --watch 'src/**/*.ts' --exec ts-node src/server.ts", // 개발용 서버 실행
   "build": "webpack --config ./webpack.config.js" // 웹팩 번들링 실행
